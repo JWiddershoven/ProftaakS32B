@@ -33,12 +33,17 @@ public class Lobby {
     private List<User> joinedPlayers;
     
     /**
-     *
-     * @param name
-     * @param password
-     * @param owner
-     * @param maxPlayer
-     * @param host
+     * The name of the lobby will be checked that it is not empty
+     * There will be checked if there is a password for the lobby
+     * The owner can't be empty
+     * The maxPlayer byte cannot be greater then 4 or lower than 1
+     * THe host can't be empty
+     * 
+     * @param name The name of the lobby
+     * @param password The password of the lobby
+     * @param owner The owner of the lobby
+     * @param maxPlayer The amount of maximum available players
+     * @param host The host of the game
      */
     public Lobby(String name , String password, User owner,  byte maxPlayer, Server host){
                
@@ -46,41 +51,49 @@ public class Lobby {
     }
     
     /**
-     *
+     * The player cannot be empty or null
+     * The player leaves the lobby and will be removed from joinedPlayers
+     * 
+     * @param player The player that leaves the lobby
      */
-    public void LeaveLobby(){
+    public void leaveLobby(User player){
     
     }
     
     /**
-     *
-     * @param player
+     * Player can't be null or empty
+     * The player will be kicked
+     * The player will be removed from joinedPlayers
+     * @param player The player that will be kicked
      */
-    public void KickPlayer(User player){
+    public void kickPlayer(User player){
         
     }
     
     /**
-     *
-     * @param message
+     * Message can't be null or empty or have a length of 0
+     * The message will be send to the GUI
+     * @param message The message of the player
      */
-    public void SendChat(String message){
+    public void sendChat(String message){
         
     }
     
     /**
-     *
-     * @param username
+     * Username can't be empty or null
+     * Username should exist in the database
+     * The found user will be invited for the lobby
+     * @param username The username of the player that will be invited
      */
-    public void InviteUser(String username){
+    public void inviteUser(String username){
         
     }
     
     /**
-     *
+     * 
      * @param game
      */
-    public void JoinGame(Game game){
+    public void joinGame(Game game){
         
     }
     
