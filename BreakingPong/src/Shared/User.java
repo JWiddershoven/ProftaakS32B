@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Shared;
 
 import Server.Server;
@@ -13,29 +12,38 @@ import Server.Server;
  * @author Mnesymne
  */
 public class User {
-    
+
     //--------------------------------------------//
-    private String username , password , email;
+    private String username, password, email;
     private Paddle paddle;
     private Server selectedServer;
     //-------------------------------------------//
 
     /**
      * Constructor
+     *
      * @param username as String minimal of 6 letters
      * @param password as String minimal of 6 symbols
-     * @param email as String , must be a valid email meaning it contains a @ and f.ex  .com
-     * @param selectedServer as Server, this is the server the user is currently in.
+     * @param email as String , must be a valid email meaning it contains a @
+     * and f.ex .com
+     * @param selectedServer as Server, this is the server the user is currently
+     * in.
      */
     public User(String username, String password, String email, Server selectedServer) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.selectedServer = selectedServer;
+        if (!username.isEmpty() && username != null && !password.isEmpty() && password != null && !email.isEmpty() && email != null
+                && selectedServer != null) {
+            if (username.length() >= 6 && password.length() >= 6 && email.contains("@") && email.contains(".")) {
+                this.username = username;
+                this.password = password;
+                this.email = email;
+                this.selectedServer = selectedServer;
+            }
+        }
     }
 
     /**
      * Getter of Paddle
+     *
      * @return a Paddle
      */
     public Paddle getPaddle() {
@@ -44,6 +52,7 @@ public class User {
 
     /**
      * Getter of selectedServer
+     *
      * @return the selectedServer
      */
     public Server getSelectedServer() {
@@ -52,31 +61,39 @@ public class User {
 
     /**
      * Setter of selectedServer
+     *
      * @param selectedServer as Server
      */
     public void setSelectedServer(Server selectedServer) {
-        this.selectedServer = selectedServer;
+        if (selectedServer != null && selectedServer != this.selectedServer) {
+            this.selectedServer = selectedServer;
+        }
     }
 
     /**
      * Getter of Username
-     * @return  username as String
+     *
+     * @return username as String
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Setter of Username
-     * username must contain more then 6 symbols, and must be different than current username.
-     * @param username  as String
+     * Setter of Username username must contain more then 6 symbols, and must be
+     * different than current username.
+     *
+     * @param username as String
      */
     public void setUsername(String username) {
-        this.username = username;
+        if (!username.isEmpty() && username != null && username.length() > 6) {
+            this.username = username;
+        }
     }
 
     /**
      * Getter of Password
+     *
      * @return password as String
      */
     public String getPassword() {
@@ -84,16 +101,20 @@ public class User {
     }
 
     /**
-     * Setter of Password
-     * password must contain more then 6 symbols , and must be different than current password.
-     * @param password 
+     * Setter of Password password must contain more then 6 symbols , and must
+     * be different than current password.
+     *
+     * @param password
      */
     public void setPassword(String password) {
-        this.password = password;
+        if (!password.isEmpty() && password.length() > 6 && password != null) {
+            this.password = password;
+        }
     }
 
     /**
      * Getter of email
+     *
      * @return email as String.
      */
     public String getEmail() {
@@ -101,13 +122,14 @@ public class User {
     }
 
     /**
-     * Setter of email
-     * Must be a valid email, containing a @ and f.ex 
-     * @param email 
+     * Setter of email Must be a valid email, containing a @ and f.ex
+     *
+     * @param email
      */
     public void setEmail(String email) {
-        this.email = email;
+        if (!email.isEmpty() && email != null && email.contains("@")) {
+            this.email = email;
+        }
     }
-    
-    
+
 }
