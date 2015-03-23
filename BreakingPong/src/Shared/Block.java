@@ -5,6 +5,7 @@
  */
 
 package Shared;
+
 /**
  *
  * @author Mnesymne
@@ -44,25 +45,54 @@ public class Block extends GameObject {
         this.powerUp = powerUp;
     }
 
+    /**
+     * Is this block destructable;
+     */
     public boolean isDestructable() {
         return isDestructable;
     }
+    /**
+     * Is this block destructable;
+     */
     public void setDestructable(boolean isDestructable) {
         this.isDestructable = isDestructable;
     }
 
+    /**
+     * The amount of points this block gives when it is destroyed.
+     * @return The amount of points this block gives when it is destroyed.
+     */
     public int getPoints() {
         return points;
     }
-
+    /**
+     * The amount of points this block gives when it is destroyed.
+     * @param points The amount of points this block gives when it is destroyed.
+     */
     public void setPoints(int points) {
         this.points = points;
     }
-
+    
+    /**
+     * The Powerup of this Block - See PowerUp class. Can be null.
+     * @return The Powerup of this Block - See PowerUp class. Can be null.
+     */
     public PowerUp getPowerUp() {
         return powerUp;
     }
+    /**
+     * Powerup - See PowerUp class. Can be null.
+     * @param powerUp The Powerup of this Block - See PowerUp class. Can be null.
+     */
     public void setPowerUp(PowerUp powerUp) {
         this.powerUp = powerUp;
+    }
+
+    /**
+     * Destroys this object.
+     */
+    public void destroyObject()
+    {
+        
     }
 }

@@ -12,16 +12,53 @@ package Shared;
  */
 public class PowerUp {
 
+    /**
+     * PowerUpType - see PowerUpType enumeration
+     */
     private PowerUpType type;
+    /**
+     * The value of the PowerUp. Can be negative.
+     */
     private int value;
 
+
     /**
-     *
-     * @param value
-     * @param type
+     * Constructor for PowerUp
+     * @param value as int. Value can be negative.
+     * @param type as PowerUpType.
      */
     public PowerUp(int value, PowerUpType type) {
         this.value = value;
         this.type = type;
+    }
+    
+    /**
+     * The PowerUpType of this PowerUp - see PowerUpType enumeration
+     * @return The PowerUpType of this PowerUp - see PowerUpType enumeration
+     */
+    public PowerUpType getType() {
+        return type;
+    }
+    /**
+     * The PowerUpType of this PowerUp - see PowerUpType enumeration
+     * @param type The PowerUpType of this PowerUp - see PowerUpType enumeration
+     */
+    public void setType(PowerUpType type) {
+        this.type = type;
+    }
+
+    /**
+     * The value of the PowerUp. Can be negative.
+     * @return The value of the PowerUp. Can be negative.
+     */
+    public int getValue() {
+        return value;
+    }
+    /**
+     * The value of the PowerUp. Can be negative.
+     * @param value The value of the PowerUp. Can be negative.
+     */
+    public void setValue(int value) {
+        this.value = value;
     }
 }
