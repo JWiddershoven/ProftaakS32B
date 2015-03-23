@@ -11,5 +11,21 @@ package Shared;
  * @author Mnesymne
  */
 public class CPU {
+    private final String name;
+    private final Byte difficulty;
+
+    public CPU(String name, Byte difficulty) {
+        this.name = name;
+        this.difficulty = difficulty;
+    }
+    
+    /**
+     * Makes the CPU start his AI
+     */
+    public void startCPU()
+    {
+        
+    }
+    
     
 }
