@@ -43,13 +43,30 @@ public class Server {
      */
     public void JoinLobby(Lobby lobby){
         
+        if(lobby == null)
+            throw new IllegalArgumentException("Lobby is null!");
+        
+        if(!this.lobbys.contains(lobby)){
+            this.lobbys.add(lobby);
+            System.out.println("Joined lobby!");
+        }
+        
     }
     
     /**
      * Logs the current user off 
+     * @param user The user
      */
-    public void LogOut(){
+    public void LogOut(User user){
         
+        if(user == null){
+            throw new IllegalArgumentException("User is null!");
+        }
+        
+        if(this.users.contains(user)){
+            this.users.remove(user);
+            System.out.println(user.getUsername() + " logged out!");
+        }
     }
     
 }

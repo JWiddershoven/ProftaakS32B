@@ -8,7 +8,7 @@ package Server;
 
 import Shared.Game;
 import Shared.User;
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  *
@@ -30,7 +30,7 @@ public class Lobby {
     
     private Game game;
     
-    private List<User> joinedPlayers;
+    private ArrayList<User> joinedPlayers;
     
     /**
      * The name of the lobby will be checked that it is not empty
@@ -45,19 +45,57 @@ public class Lobby {
      * @param maxPlayer The amount of maximum available players
      * @param host The host of the game
      */
-    public Lobby(String name , String password, User owner,  byte maxPlayer, Server host){
-               
+    public Lobby(int id, String name , String password, User owner,  byte maxPlayer, Server host){
         
+       if(name == null || name.contentEquals("")){
+           throw new IllegalArgumentException("Name is null or empty!");
+       }
+             
+       if(owner == null){
+           throw new IllegalArgumentException("Owner is null!");
+       }
+       
+       if(maxPlayer == 0 || maxPlayer > 4){
+           throw new IllegalArgumentException("maxPlayer(s) is out of range!");
+       }
+       
+       if(host == null){
+           throw new IllegalArgumentException("Host is null!");
+       }
+               
+       if(password == null || !password.contentEquals("")){
+           this.password = null;
+       }
+       else{
+           //there is a password
+           this.password = password;
+       }
+       
+       this.id = id;
+       this.name = name;
+       this.owner = owner;
+       this.maxPlayers = maxPlayer;
+       this.host = host;
+       this.joinedPlayers = new ArrayList<>();
     }
     
     /**
      * The player cannot be empty or null
-     * The player leaves the lobby and will be removed from joinedPlayers
-     * 
+     * The player leaves the lobby and will be removed from joinedPlayers 
      * @param player The player that leaves the lobby
      */
     public void leaveLobby(User player){
-    
+        if(player == null)
+            throw new IllegalArgumentException("Player is null!");
+        
+        //Check if user does exist in the lobby!
+        for(User user : this.joinedPlayers){            
+            if(user == player){
+                this.joinedPlayers.remove(player);
+                System.out.println(player.getUsername() + " left the lobby!");
+            }
+            
+        }
     }
     
     /**
@@ -68,6 +106,12 @@ public class Lobby {
      */
     public void kickPlayer(User player){
         
+        if(player == null)
+            throw new IllegalArgumentException("Player is null!");
+        
+        joinedPlayers.remove(player);
+        
+        System.out.println("Kicked player : " + player.getUsername());           
     }
     
     /**
@@ -76,7 +120,10 @@ public class Lobby {
      * @param message The message of the player
      */
     public void sendChat(String message){
+        if(message == null || message.equals(""))
+            throw new IllegalArgumentException("Message empty or null!");
         
+        //To be filled in...
     }
     
     /**
@@ -86,15 +133,32 @@ public class Lobby {
      * @param username The username of the player that will be invited
      */
     public void inviteUser(String username){
+        if(username == null || username.contentEquals(""))
+            throw new IllegalArgumentException("Username is null or empty!");
+        
+        for(User user : this.joinedPlayers){
+            if(user.getUsername().toLowerCase().contentEquals(username.toLowerCase()))
+            {
+                throw new IllegalArgumentException("User is already in the lobby!");
+            }
+        }
+        
+        //To be filled in...
         
     }
     
     /**
-     * 
-     * @param game
+     * Game can't be empty or null
+     * The user can join the chosen game
+     * @param game The selected game that will be joined
      */
     public void joinGame(Game game){
         
+        if(game == null)
+            throw new IllegalArgumentException("The game is null!");
+        
+        //To be filled in...
+            
     }
     
 }
