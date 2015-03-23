@@ -7,8 +7,7 @@
 package Shared;
 
 /**
- *
- * @author Mnesymne
+ * @author Jelle
  */
 public class Map {
     
