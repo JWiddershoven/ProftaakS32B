@@ -11,5 +11,9 @@ package Shared;
  * @author Mnesymne
  */
 public enum PowerUpType {
-    
+    IncreasePaddleSize,
+    IncreaseBallSize,
+    DecreasePaddleSize,
+    DecreaseBallSize,
+    SplitBall
 }

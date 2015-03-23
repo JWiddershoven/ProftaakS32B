@@ -11,5 +11,17 @@ package Shared;
  * @author Mnesymne
  */
 public class PowerUp {
-    
+
+    private PowerType type;
+    private Int value;
+
+    /**
+     *
+     * @param value
+     * @param type
+     */
+    public PowerUp(Int value, PowerType type) {
+        this.value = value;
+        this.type = type;
+    }
 }
