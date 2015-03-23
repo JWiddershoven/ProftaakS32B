@@ -12,15 +12,15 @@ package Shared;
  */
 public class PowerUp {
 
-    private PowerType type;
-    private Int value;
+    private PowerUpType type;
+    private int value;
 
     /**
      *
      * @param value
      * @param type
      */
-    public PowerUp(Int value, PowerType type) {
+    public PowerUp(int value, PowerUpType type) {
         this.value = value;
         this.type = type;
     }

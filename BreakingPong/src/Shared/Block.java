@@ -5,8 +5,6 @@
  */
 
 package Shared;
-import GameObject;
-import PowerUp;
 /**
  *
  * @author Mnesymne
@@ -31,7 +29,7 @@ public class Block extends GameObject {
     /**
      * The Block constructor.
      * Calls the super constructor of GameObject.
-     * @param points as int. The amount of points this blocks gives when it is destroyed.
+     * @param points as integer, The amount of points this blocks gives when it is destroyed.
      * @param isDestructable as boolean. Whether this block can be destroyed by the ball or not.
      * @param powerUp as PowerUp. Can be empty.
      * @param position as TVector2. The position of the GameObject in the game.
