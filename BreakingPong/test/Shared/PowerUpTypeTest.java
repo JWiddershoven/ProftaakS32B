@@ -23,7 +23,7 @@ public class PowerUpTypeTest {
      */
     @Test
     public void testValues() {
-        System.out.println("values");
+        System.out.println("PowerUpTypeTest - testValues");
         ArrayList<PowerUpType> types = new ArrayList<PowerUpType>();
         types.add(PowerUpType.IncreasePaddleSize);
         types.add(PowerUpType.IncreaseBallSize);
@@ -44,7 +44,7 @@ public class PowerUpTypeTest {
      */
     @Test
     public void testValueOf() {
-        System.out.println("valueOf");
+        System.out.println("PowerUpTypeTest - testValueOf");
         String name = "SplitBall";
         PowerUpType expResult = PowerUpType.SplitBall;
         PowerUpType result = PowerUpType.valueOf(name);
