@@ -38,6 +38,10 @@ public class User {
                 this.email = email;
                 this.selectedServer = selectedServer;
             }
+            else
+            {
+                throw new IllegalArgumentException();
+            }
         }
     }
 
@@ -86,8 +90,12 @@ public class User {
      * @param username as String
      */
     public void setUsername(String username) {
-        if (!username.isEmpty() && username != null && username.length() > 6) {
+        if (!username.isEmpty() && username != null && username.length() >= 6) {
             this.username = username;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -107,8 +115,12 @@ public class User {
      * @param password
      */
     public void setPassword(String password) {
-        if (!password.isEmpty() && password.length() > 6 && password != null) {
+        if (!password.isEmpty() && password.length() >= 6 && password != null) {
             this.password = password;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
         }
     }
 
@@ -129,6 +141,10 @@ public class User {
     public void setEmail(String email) {
         if (!email.isEmpty() && email != null && email.contains("@")) {
             this.email = email;
+        }
+        else
+        {
+            throw new IllegalArgumentException();
         }
     }
 
