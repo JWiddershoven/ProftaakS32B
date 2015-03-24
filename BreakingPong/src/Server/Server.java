@@ -49,7 +49,10 @@ public class Server {
         if(!this.lobbys.contains(lobby)){
             this.lobbys.add(lobby);
             System.out.println("Joined lobby!");
+            
         }
+        
+        //GUI action
         
     }
     
