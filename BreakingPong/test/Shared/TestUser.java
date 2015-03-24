@@ -34,6 +34,9 @@ public class TestUser {
      * in.
      */
        Server s = new Server();
+       
+       
+       //Valid User
        try
        {
        ValidUser = new User("Tester","tester","test@test.nl",s);
@@ -42,6 +45,8 @@ public class TestUser {
        {
            
        }
+       
+       //Invalid User
         try
        {
        ValidUser = new User("Test","tester","test@test.nl",s);
@@ -51,6 +56,7 @@ public class TestUser {
        {
            
        }
+        //Invalid Password
          try
        {
        ValidUser = new User("Tester","test","test@test.nl",s);
@@ -60,6 +66,7 @@ public class TestUser {
        {
            
        }
+        //Invalid Email
           try
        {
        ValidUser = new User("Tester","tester","testtest.nl",s);
@@ -69,10 +76,13 @@ public class TestUser {
        {
            
        }
+       
+       // Checks
        assertEquals("Tester",ValidUser.getUsername());
        assertEquals("tester",ValidUser.getPassword());
        assertEquals("test@test.nl",ValidUser.getEmail());
        
+       //Valid Setter
        try
        {
            ValidUser.setUsername("MyTest");
@@ -82,6 +92,8 @@ public class TestUser {
        {
            
        }
+       
+       //Valid Setter
        try
        {
            ValidUser.setPassword("myTest");
@@ -92,6 +104,7 @@ public class TestUser {
            
        }
        
+       //Valid Setter
        try
        {
            ValidUser.setEmail("MyTest@Test.test");
@@ -102,6 +115,7 @@ public class TestUser {
            
        }
        
+       //Invalid Setter
           try
        {
            ValidUser.setUsername("Test");
@@ -111,6 +125,8 @@ public class TestUser {
        {
            
        }
+          
+       //Invalid Setter   
        try
        {
            ValidUser.setPassword("Test");
@@ -121,6 +137,7 @@ public class TestUser {
            
        }
        
+       //Invalid Setter
        try
        {
            ValidUser.setEmail("MyTestest.test");

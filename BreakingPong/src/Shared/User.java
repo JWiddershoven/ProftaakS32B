@@ -17,6 +17,7 @@ public class User {
     private String username, password, email;
     private Paddle paddle;
     private Server selectedServer;
+    private int Rating;
     //-------------------------------------------//
 
     /**
@@ -37,11 +38,31 @@ public class User {
                 this.password = password;
                 this.email = email;
                 this.selectedServer = selectedServer;
-            }
-            else
-            {
+                this.Rating = 0;
+            } else {
                 throw new IllegalArgumentException();
             }
+        }
+    }
+
+    /**
+     * Getter of Rating
+     * @return  rating as int.
+     */
+    public int getRating() {
+        return Rating;
+    }
+
+    /**
+     * Setter of Rating
+     * If end Rating is lower then 0, become 0. Else new Rating is old Rating - rating.
+     * @param Change 
+     */
+    public void setRating(int Change) {
+        if (this.Rating - Change > 0) {
+            this.Rating -= Change;
+        } else {
+            this.Rating = 0;
         }
     }
 
@@ -92,9 +113,7 @@ public class User {
     public void setUsername(String username) {
         if (!username.isEmpty() && username != null && username.length() >= 6) {
             this.username = username;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException();
         }
     }
@@ -117,9 +136,7 @@ public class User {
     public void setPassword(String password) {
         if (!password.isEmpty() && password.length() >= 6 && password != null) {
             this.password = password;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException();
         }
     }
@@ -141,9 +158,7 @@ public class User {
     public void setEmail(String email) {
         if (!email.isEmpty() && email != null && email.contains("@")) {
             this.email = email;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException();
         }
     }
