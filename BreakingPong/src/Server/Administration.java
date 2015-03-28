@@ -35,12 +35,12 @@ public class Administration {
      * @param password The password of the user
      */
     public void login(String userName, String password) {
-
-        if (userName == null || userName.isEmpty() || userName.equals("")) {
+        
+        if (userName == null || userName.isEmpty() || userName.trim().equals("")) {
             throw new IllegalArgumentException("Username is not correct!");
         }
 
-        if (password == null || password.isEmpty() || userName.equals("")) {
+        if (password == null || password.isEmpty() || password.trim().equals("")) {
             throw new IllegalArgumentException("Password is not correct!");
         }
 
