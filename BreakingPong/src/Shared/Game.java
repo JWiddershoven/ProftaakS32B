@@ -5,11 +5,103 @@
  */
 
 package Shared;
-
+import java.util.ArrayList;
 /**
  *
  * @author Mnesymne
  */
-public class Game {
-    
+public class Game
+{
+    private int id;
+    private int gameTime;
+    private boolean powerUps;
+    private ArrayList<User> userList;
+    private ArrayList<CPU> botList;
+    /**
+     * Getter of id
+     * @return id as int
+     */
+    public int getId() {
+        return id;
+    }
+    /**
+     * Setter of id
+     * @param id value of id as int
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
+    /**
+     * Getter of gameTime
+     * @return gameTime as int
+     */
+    public int getGameTime() {
+        return gameTime;
+    }
+    /**
+     * Setter of gameTime
+     * @param gameTime  value of gameTime as int
+     */
+    public void setGameTime(int gameTime) {
+        this.gameTime = gameTime;
+    }
+    /**
+     * Getter of powerUps
+     * @return powerUps as boolean
+     */
+    public boolean isPowerUps() {
+        return powerUps;
+    }
+    /**
+     * Setter of powerUps
+     * @param powerUps value of powerUps as boolean
+     */
+    public void setPowerUps(boolean powerUps) {
+        this.powerUps = powerUps;
+    }
+    /**
+     * Constructor of game
+     * @param id value of id as int
+     * @param gameTime value of gameTime as int
+     * @param powerUps value of powerUps as int
+     */
+    public Game(int id, int gameTime, boolean powerUps) {
+        this.id = id;
+        this.gameTime = gameTime;
+        this.powerUps = powerUps;
+    }
+    /**
+     * Adds a CPU player to the game
+     * @param botName value of botName as String
+     * @param botDifficulty value of Difficulty as Byte
+     */
+    public void addBot(String botName, Byte botDifficulty)
+    {
+        
+    }
+    /**
+     * Removes a CPU player from the game
+     * @param botName value of botName as String
+     */
+    public void removeBot(String botName)
+    {
+        
+    }
+    /**
+     * Start a game if it isn't in progress.
+     * A game shouldn't be able to start if the total players in game is below 2.
+     * A game shouldn't be able to start if gameTime is below 120 seconds.
+     */
+    public void startGame()
+    {
+        
+    }
+    /**
+     * Ends a game that currently is in progress.
+     * A game can't be ended if it isn't in progress.
+     */
+    public void endGame()
+    {
+        
+    }
 }
