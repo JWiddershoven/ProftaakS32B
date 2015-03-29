@@ -114,29 +114,68 @@ public class BallTest {
 
     @Test
     public void testSetLastPaddleTouched() {
-        
+
         Ball b;
         TVector2 tvector2 = new TVector2(10, 10);
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
         TVector2 size = new TVector2(5, 5);
         Paddle p = new Paddle(33, position, velocity, size);
-        
+
         try {
             Paddle p2 = new Paddle(100, position, velocity, size);
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());
         } catch (IllegalArgumentException exc) {
-            
+
         }
-        
+
         try {
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(null);
             fail();
         } catch (IllegalArgumentException exc) {
-            
+
+        }
+    }
+
+    @Test
+    public void testMoveBall() {
+
+        Ball b;
+        TVector2 tvector2 = new TVector2(10, 10);
+        TVector2 position = new TVector2(50, 30);
+        TVector2 velocity = new TVector2(15, 40);
+        TVector2 size = new TVector2(5, 5);
+        Paddle p = new Paddle(33, position, velocity, size);
+
+        try {
+            TVector2 vector = new TVector2(100, 100);
+            b = new Ball(tvector2, p, position, velocity, size);
+            b.move(vector);
+            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
+            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
+        } catch (IllegalArgumentException exc) {
+
+        }
+
+        try {
+            TVector2 vector = new TVector2(-10, -10);
+            b = new Ball(tvector2, p, position, velocity, size);
+            b.move(vector);
+            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
+            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
+        } catch (IllegalArgumentException exc) {
+
+        }
+        
+        try {
+            b = new Ball(tvector2, p, position, velocity, size);
+            b.move(null);
+            fail("Vector cannot be null.");
+        } catch (IllegalArgumentException exc) {
+
         }
     }
 

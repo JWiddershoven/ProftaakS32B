@@ -64,7 +64,11 @@ public class Ball extends GameObject {
      * @param tvector2 The TVector2 of the ball.
      */
     public void move(TVector2 tvector2) {
-
+        if (tvector2 != null) {
+            this.tvector2 = tvector2;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
