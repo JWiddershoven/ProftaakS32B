@@ -18,6 +18,10 @@ public class CPU {
         this.name = name;
         this.difficulty = difficulty;
     }
+
+    public String getName() {
+        return name;
+    }
     
     /**
      * Makes the CPU start his AI

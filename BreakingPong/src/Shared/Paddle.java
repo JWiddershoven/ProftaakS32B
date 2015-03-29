@@ -33,7 +33,10 @@ public class Paddle extends GameObject{
      * @param score value of score as int 
      */
     public void setScore(int score) {
-        this.score = score;
+        if(score >= 0)
+        {
+            this.score = score;
+        }
     }
     /**
      * Consturctor for CPU Paddle
@@ -43,7 +46,7 @@ public class Paddle extends GameObject{
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu) 
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size) 
     { 
         super(position,velocity,size);
         this.score = score;
@@ -70,19 +73,20 @@ public class Paddle extends GameObject{
     {
          switch (direction) {
             case UP:
-                TVector2 newPositionUp = new TVector2(this.getPosition().getX(), this.getPosition().getY() + 1);
+                TVector2 newPositionUp = new TVector2(this.getPosition().getX(), this.getPosition().getY()+1);
                 this.setPosition(newPositionUp);
                      break;
             case DOWN:
-                TVector2 newPositionDown = new TVector2(this.getPosition().getX(), this.getPosition().getY() - 1);
+                TVector2 newPositionDown = new TVector2(this.getPosition().getX(), this.getPosition().getY()-1);
                 this.setPosition(newPositionDown);
                      break;
             case LEFT:
-                TVector2 newPositionLeft = new TVector2(this.getPosition().getX() -1, this.getPosition().getY());
+                
+                TVector2 newPositionLeft = new TVector2(this.getPosition().getX()-1, this.getPosition().getY());
                 this.setPosition(newPositionLeft);
                      break;
             case RIGHT:
-                TVector2 newPosition = new TVector2(this.getPosition().getX() +1, this.getPosition().getY());
+                TVector2 newPosition = new TVector2(this.getPosition().getX()+1, this.getPosition().getY());
                 this.setPosition(newPosition);
                      break;
          }

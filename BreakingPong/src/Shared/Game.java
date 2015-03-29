@@ -49,7 +49,7 @@ public class Game
      * Getter of powerUps
      * @return powerUps as boolean
      */
-    public boolean isPowerUps() {
+    public boolean getPowerUps() {
         return powerUps;
     }
     /**
@@ -69,6 +69,9 @@ public class Game
         this.id = id;
         this.gameTime = gameTime;
         this.powerUps = powerUps;
+        
+        this.botList = new ArrayList<CPU>();
+        this.userList = new ArrayList<User>();
     }
     /**
      * Adds a CPU player to the game
@@ -77,7 +80,8 @@ public class Game
      */
     public void addBot(String botName, Byte botDifficulty)
     {
-        
+        CPU newBot = new CPU(botName,botDifficulty);
+        botList.add(newBot);
     }
     /**
      * Removes a CPU player from the game
@@ -85,7 +89,13 @@ public class Game
      */
     public void removeBot(String botName)
     {
-        
+        for(CPU bot : botList)
+        {
+            if(bot.getName().equals(botName))
+            {
+                botList.remove(bot);
+            }
+        }
     }
     /**
      * Start a game if it isn't in progress.
