@@ -39,6 +39,7 @@ public class Lobby {
      * The maxPlayer byte cannot be greater then 4 or lower than 1
      * THe host can't be empty
      * 
+     * @param id
      * @param name The name of the lobby
      * @param password The password of the lobby
      * @param owner The owner of the lobby
@@ -47,7 +48,7 @@ public class Lobby {
      */
     public Lobby(int id, String name , String password, User owner,  byte maxPlayer, Server host){
         
-       if(name == null || name.contentEquals("")){
+       if(name == null || name.trim().contentEquals("")){
            throw new IllegalArgumentException("Name is null or empty!");
        }
              
@@ -63,7 +64,7 @@ public class Lobby {
            throw new IllegalArgumentException("Host is null!");
        }
                
-       if(password == null || !password.contentEquals("")){
+       if(password == null || !password.trim().contentEquals("")){
            this.password = null;
        }
        else{
