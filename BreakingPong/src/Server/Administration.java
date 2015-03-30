@@ -44,6 +44,14 @@ public class Administration {
             throw new IllegalArgumentException("Password is not correct!");
         }
 
+        
+        String checkUsername = "";
+        String checkPassword = "";
+        
+        if(userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)){
+            //logged in
+        }
+        
         //Check in the database if the user exists
         //check the username with the password
         //Create a User
