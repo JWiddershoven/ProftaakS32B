@@ -99,10 +99,145 @@ public class LobbyTest {
         //Success
         try {
             lobby = new Lobby(id, name, password, owner, maxPlayers, server);
+
         } catch (IllegalArgumentException ex) {
             fail();
         }
 
     }
+    
+       @Test
+    public void testJoinLobby(){
+        byte maxPlayers = 4;
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+
+        try {
+            lobby.joinLobby(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+
+        }
+
+        try {
+            User user1 = new User("Testtest","Testtest","test@test.test",new Server());
+            
+            lobby.joinLobby(user1);
+            lobby.joinLobby(user1);
+            
+            fail();
+        } catch (IllegalArgumentException ex) {
+
+        }
+    }
+
+    @Test
+    public void testLeaveLobby() {
+        byte maxPlayers = 4;
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+
+        try {
+            lobby.leaveLobby(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+
+        }
+        
+        User user = new User("Testtest","Testtest","Test@test.test",new Server());
+        
+        try{
+            lobby.leaveLobby(user);
+            fail();
+        }
+        catch(IllegalArgumentException ex){
+            
+        }
+        
+        try{
+            lobby.joinLobby(user);
+            lobby.leaveLobby(user);
+        }
+        catch(IllegalArgumentException ex){
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testKickLobby() {
+        byte maxPlayers = 4;
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+
+        try {
+            lobby.kickPlayer(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+
+        }
+        
+        try{
+            User user = new User("Testtest","Testtest","Test@test.test",new Server());
+            
+            lobby.joinLobby(user);
+            lobby.kickPlayer(user);           
+            
+        }
+        catch(Exception ex){
+            fail();
+        }
+
+    }
+
+    @Test
+    public void testSendChat() {
+        byte maxPlayers = 4;
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+
+        try {
+            lobby.sendChat(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+
+        }
+
+        try {
+            lobby.sendChat(" ");
+            fail();
+        } catch (IllegalArgumentException ex) {
+
+        }
+
+    }
+    
+     @Test
+    public void testInviteUser() {
+        byte maxPlayers = 4;
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+
+        try {
+            lobby.inviteUser(null);
+            fail();
+        } catch (IllegalArgumentException ex) {
+
+        }
+
+    }
+    
+ 
+    
+    @Test
+    public void testJoinGame(){
+        byte maxPlayers = 4;
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+
+        try{
+            lobby.joinGame(null);
+            fail();
+        }
+        catch(IllegalArgumentException ex){
+            
+        }
+    }
+    
+    
 
 }
