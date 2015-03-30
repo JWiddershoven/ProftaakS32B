@@ -40,11 +40,9 @@ public class Paddle extends GameObject{
      * Setter of score
      * @param score value of score as int 
      */
-    public void setScore(int score) {
-        if(score >= 0)
-        {
-            this.score = score;
-        }
+    public void addScore(int score) 
+    {
+        this.score = this.score + score;
     }
     
     public windowLocation getWindowLocation()

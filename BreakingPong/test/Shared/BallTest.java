@@ -29,7 +29,7 @@ public class BallTest {
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
         TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size, cpu);
+        Paddle p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH);
 
         try {
             b = new Ball(tvector2, p, position, velocity, size);
@@ -122,10 +122,10 @@ public class BallTest {
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
         TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size, cpu);
+        Paddle p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH);
 
         try {
-            Paddle p2 = new Paddle(100, position, velocity, size, cpu);
+            Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH);
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());
@@ -151,7 +151,7 @@ public class BallTest {
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
         TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size, cpu);
+        Paddle p = new Paddle(33, position, velocity, size, cpu,Paddle.windowLocation.NORTH);
 
         try {
             TVector2 vector = new TVector2(100, 100);

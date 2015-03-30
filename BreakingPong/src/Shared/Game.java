@@ -137,7 +137,22 @@ public class Game
      */
     public void startGame()
     {
-        
+        if(userList.size() + botList.size() >= 2)
+        {
+            if(gameTime >= 120)
+            {
+                this.inProgress = true;
+                // Open ingame and move players
+            }
+            else
+            {
+                this.inProgress = false;
+            }
+        }
+        else
+        {
+            this.inProgress = false;
+        }
     }
     /**
      * Ends a game that currently is in progress.
@@ -145,7 +160,7 @@ public class Game
      */
     public void endGame()
     {
-        
+        this.inProgress = false;
     }
     
     public ArrayList<Ball> getBallList()
