@@ -17,12 +17,15 @@ import javafx.stage.Stage;
  */
 public class ClientGUI extends Application {
 
+    public static Stage MainStage;
+    
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LoginGUi.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        MainStage = primaryStage;
+        MainStage.setScene(scene);
+        MainStage.show();
         //LoginGUiFXController controller = new LoginGUiFXController();
     }
 

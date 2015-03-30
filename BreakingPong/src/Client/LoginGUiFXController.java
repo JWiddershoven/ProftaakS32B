@@ -5,6 +5,7 @@
  */
 package Client;
 
+import static Client.ClientGUI.MainStage;
 import Server.Administration;
 import java.awt.TrayIcon;
 import java.net.URL;
@@ -19,7 +20,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
-import javafx.stage.Stage;
 
 /**
  *
@@ -99,8 +99,11 @@ public class LoginGUiFXController implements Initializable {
                 System.out.println("succesfully logged in.");
                 // succesvol ingelogd.
                 // TODO: Open LobbySelect.fxml
-                clearLogin();
                 Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
+                Scene scene = new Scene(root);
+                MainStage.setScene(scene);
+                MainStage.show();
+                clearLogin();
 
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(),
