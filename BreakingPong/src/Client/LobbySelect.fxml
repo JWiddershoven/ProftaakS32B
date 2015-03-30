@@ -9,37 +9,37 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <children>
-    <SplitPane dividerPositions="" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+    <SplitPane focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <items>
         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
           <children>
-            <ListView layoutX="213.0" layoutY="325.0" prefHeight="183.0" prefWidth="402.0" />
-            <TextField layoutX="212.0" layoutY="519.0" prefWidth="306.0" />
-            <Button layoutX="568.0" layoutY="520.0" mnemonicParsing="false" text="Send" />
-            <Button layoutX="637.0" layoutY="417.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="231.0" text="Create Lobby" />
+            <ListView fx:id="lvChat" layoutX="213.0" layoutY="325.0" prefHeight="183.0" prefWidth="402.0" />
+            <TextField fx:id="tfChatInput" layoutX="212.0" layoutY="519.0" prefWidth="306.0" />
+            <Button fx:id="btnChatSend" layoutX="568.0" layoutY="520.0" mnemonicParsing="false" text="Send" />
+            <Button fx:id="btnCreateLobby" layoutX="637.0" layoutY="417.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="231.0" text="Create Lobby" />
             <Label layoutX="28.0" layoutY="24.0" text="UserList" />
-            <ListView layoutX="28.0" layoutY="43.0" prefHeight="476.0" prefWidth="163.0" />
+            <ListView fx:id="lvOnlineUsers" layoutX="28.0" layoutY="43.0" prefHeight="476.0" prefWidth="163.0" />
             <Label layoutX="528.0" layoutY="24.0" text="Lobbies" />
-            <ListView layoutX="213.0" layoutY="43.0" prefHeight="253.0" prefWidth="655.0" />
+            <ListView fx:id="lvLobbies" layoutX="213.0" layoutY="43.0" prefHeight="253.0" prefWidth="655.0" />
             <Label layoutX="393.0" layoutY="309.0" text="Chat" />
-            <Button layoutX="637.0" layoutY="325.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="231.0" text="Join Lobby" />
+            <Button fx:id="btnJoinLobby" layoutX="637.0" layoutY="325.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="231.0" text="Join Lobby" />
             <MenuBar layoutX="0.0" layoutY="-3.0" prefWidth="900.0">
               <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu fx:id="miFile" mnemonicParsing="false" text="File">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Close" />
+                    <MenuItem fx:id="miFileClose" mnemonicParsing="false" text="Close" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu fx:id="miEdit" mnemonicParsing="false" text="Edit">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Delete" />
+                    <MenuItem fx:id="miEditDelete" mnemonicParsing="false" text="Delete" />
                   </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Help">
+                <Menu fx:id="miHelp" mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem fx:id="miHelpAbout" mnemonicParsing="false" text="About" />
                   </items>
                 </Menu>
               </menus>
