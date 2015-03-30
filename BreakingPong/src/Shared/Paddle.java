@@ -14,13 +14,21 @@ package Shared;
 public class Paddle extends GameObject{
     
     private int score;
+    private CPU cpuPlayer;
+    private User humanPlayer;
+    private windowLocation selectedPosition;
     /**
      * Enumerator Direction
      */
-    public enum Direction 
+    public enum direction 
     {
         LEFT, RIGHT, UP, DOWN
     };
+    
+    public enum windowLocation
+    {
+        NORTH, EAST, SOUTH, WEST
+    }
     /**
      * Getter of score
      * @return score as int
@@ -38,6 +46,11 @@ public class Paddle extends GameObject{
             this.score = score;
         }
     }
+    
+    public windowLocation getWindowLocation()
+    {
+        return selectedPosition;
+    }
     /**
      * Consturctor for CPU Paddle
      * @param score value of score as int
@@ -45,11 +58,14 @@ public class Paddle extends GameObject{
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
+     * @param selectedLocation value of selectedPosition as windowLocation
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu) 
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation) 
     { 
         super(position,velocity,size);
         this.score = score;
+        this.selectedPosition = selectedLocation;
+        this.cpuPlayer = cpu;
     }
     /**
      * Constructor for Player Paddle
@@ -58,18 +74,21 @@ public class Paddle extends GameObject{
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param user value of user as Player Object
+     * @param selectedLocation value of selectedposition as windowLocation
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user) 
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation) 
     { 
         super(position,velocity,size);
         this.score = score;
+        this.selectedPosition = selectedLocation;
+        this.humanPlayer = user;
     }
     /**
      * Move methode for a paddle
      * Moves the paddle object location into the given direction
      * @param direction value of direction as enum
      */
-    public void Move(Direction direction)
+    public void Move(direction direction)
     {
          switch (direction) {
             case UP:
@@ -81,7 +100,6 @@ public class Paddle extends GameObject{
                 this.setPosition(newPositionDown);
                      break;
             case LEFT:
-                
                 TVector2 newPositionLeft = new TVector2(this.getPosition().getX()-1, this.getPosition().getY());
                 this.setPosition(newPositionLeft);
                      break;
