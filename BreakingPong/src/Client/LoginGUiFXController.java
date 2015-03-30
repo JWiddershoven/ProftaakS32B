@@ -60,7 +60,6 @@ public class LoginGUiFXController implements Initializable {
 
     }
 
-
     @FXML
     private void onLoginClick(ActionEvent evt) {
         String username = tfLoginUsername.getText();
@@ -70,6 +69,13 @@ public class LoginGUiFXController implements Initializable {
 
     @FXML
     private void onLoginClear(ActionEvent evt) {
+        clearLogin();
+    }
+
+    /**
+     * Clears the login fields
+     */
+    private void clearLogin() {
         tfLoginPassword.clear();
         tfLoginUsername.clear();
     }
@@ -86,23 +92,31 @@ public class LoginGUiFXController implements Initializable {
         if (username.trim().isEmpty() || password.trim().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill in both fields.",
                     "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());
-            return;
-        }
-        try {
-            administration.login(username, password);
-            System.out.println("succesfully logged in.");
-            // succesvol ingelogd.
-            // TODO: Open LobbySelect.fxml
-            Parent root = FXMLLoader.load(getClass().getResource("LoginGUi.fxml"));
-            Scene scene = new Scene(root);
-            //primaryStage.setScene(scene);
 
-        } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(),
-                    "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(),
-                    "Unexpected error", TrayIcon.MessageType.INFO.ordinal());
+        } else {
+            try {
+                administration.login(username, password);
+                System.out.println("succesfully logged in.");
+                // succesvol ingelogd.
+                // TODO: Open LobbySelect.fxml
+                clearLogin();
+                Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
+
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(),
+                        "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());
+            } catch (Server.Administration.IncorrectLoginDataException ex) {
+                if (ex.getMessage().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Username and password combination is incorrect",
+                            "Login failed", TrayIcon.MessageType.INFO.ordinal());
+                } else {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(),
+                            "Login failed", TrayIcon.MessageType.INFO.ordinal());
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, ex.getMessage(),
+                        "Unexpected error", TrayIcon.MessageType.INFO.ordinal());
+            }
         }
 
     }

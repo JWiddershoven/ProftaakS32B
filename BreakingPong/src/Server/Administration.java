@@ -14,10 +14,25 @@ import java.util.ArrayList;
  */
 public class Administration {
 
-    private Server server;
+    /**
+     *
+     * @author Lorenzo
+     */
+    public class IncorrectLoginDataException extends Exception {
 
-    private ArrayList<User> users;
+        //Parameterless Constructor
+        public IncorrectLoginDataException() {
+        }
 
+        //Constructor that accepts a message
+        public IncorrectLoginDataException(String message) {
+            super(message);
+        }
+    }
+
+private Server server;
+
+private ArrayList<User> users;
     /**
      * The administration constructor. Here will the server and user list be
      * created.
@@ -33,8 +48,9 @@ public class Administration {
      *
      * @param userName The username of the user
      * @param password The password of the user
+     * @throws Server.Administration.IncorrectLoginDataException
      */
-    public void login(String userName, String password) {
+    public void login(String userName, String password) throws IncorrectLoginDataException {
         if (userName == null || userName.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null or empty!");
         }
@@ -49,6 +65,8 @@ public class Administration {
 
         if (userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)) {
             //logged in
+        } else {
+            throw new IncorrectLoginDataException("Username and password combination is incorrect.");
         }
 
         //Check in the database if the user exists
@@ -56,4 +74,5 @@ public class Administration {
         //Create a User
         //Add user to users
     }
+
 }
