@@ -16,7 +16,7 @@ public class Administration {
 
     private Server server;
 
-    private ArrayList<User> Users;
+    private ArrayList<User> users;
 
     /**
      * The administration constructor. Here will the server and user list be
@@ -24,7 +24,7 @@ public class Administration {
      */
     public Administration() {
         this.server = new Server();
-        this.Users = new ArrayList<>();
+        this.users = new ArrayList<>();
     }
 
     /**
@@ -35,23 +35,22 @@ public class Administration {
      * @param password The password of the user
      */
     public void login(String userName, String password) {
-        
-        if (userName == null || userName.isEmpty() || userName.trim().equals("")) {
-            throw new IllegalArgumentException("Username is not correct!");
+        if (userName == null || userName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be null or empty!");
         }
 
-        if (password == null || password.isEmpty() || password.trim().equals("")) {
-            throw new IllegalArgumentException("Password is not correct!");
+        if (password == null || password.trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be null or empty!");
         }
 
-        
-        String checkUsername = "";
-        String checkPassword = "";
-        
-        if(userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)){
+        // login gegevens voor eerste iteratie
+        String checkUsername = "username";
+        String checkPassword = "password";
+
+        if (userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)) {
             //logged in
         }
-        
+
         //Check in the database if the user exists
         //check the username with the password
         //Create a User

@@ -5,14 +5,10 @@
  */
 package Client;
 
-import java.io.InputStream;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -27,6 +23,7 @@ public class ClientGUI extends Application {
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
+        //LoginGUiFXController controller = new LoginGUiFXController();
     }
 
     /**
