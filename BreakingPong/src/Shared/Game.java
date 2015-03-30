@@ -15,6 +15,7 @@ public class Game
     private int id;
     private int gameTime;
     private boolean powerUps;
+    private boolean inProgress;
     private ArrayList<Map> selectedMaps;
     private ArrayList<User> userList;
     private ArrayList<CPU> botList;
@@ -63,16 +64,42 @@ public class Game
         this.powerUps = powerUps;
     }
     /**
+     * Getter of inProgress
+     * @return inProgress as boolean
+     */
+    public boolean getInProgress()
+    {
+        return this.inProgress;
+    }
+    
+    /**
+     * Setter of inProgress
+     * @param setValue value of inProgress as boolean
+     * @return value of inProgress
+     */
+    public boolean setInProgress(boolean setValue)
+    {
+        if(setValue == true)
+        {
+            this.inProgress = false;
+        }
+        else
+        {
+            this.inProgress = true;
+        }
+        return inProgress;
+    }
+    /**
      * Constructor of game
      * @param id value of id as int
      * @param gameTime value of gameTime as int
      * @param powerUps value of powerUps as int
      */
-    public Game(int id, int gameTime, boolean powerUps) {
+    public Game(int id, int gameTime, boolean powerUps, boolean inprogress) {
         this.id = id;
         this.gameTime = gameTime;
         this.powerUps = powerUps;
-        
+        this.inProgress = inprogress;
         this.botList = new ArrayList<>();
         this.userList = new ArrayList<>();
         this.objectList = new ArrayList<>();
