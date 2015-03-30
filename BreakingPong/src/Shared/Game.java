@@ -120,4 +120,9 @@ public class Game
     {
         
     }
+    
+    public ArrayList<Ball> getBallList()
+    {
+        return ballList;
+    }
 }
