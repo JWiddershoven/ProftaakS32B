@@ -6,7 +6,6 @@
 
 package Shared;
 
-import Shared.Paddle.Direction;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +20,7 @@ public class CPU {
     private Game currentGame;
     private Ball closestBall;
     private double[] points;
+    private ArrayList<Ball> currentPosBall;
 
     public CPU(String name, Byte difficulty, Paddle mypaddle, Game myGame) {
         this.name = name;
@@ -39,7 +39,7 @@ public class CPU {
     public void runCPU()
     {
         
-        ArrayList<Ball> currentPosBall = currentGame.getBallList();
+        currentPosBall = currentGame.getBallList();
         TVector2 currentPosPaddle = myPaddle.getPosition();
         float[] ClosestTo  = new float[8];
         int i = 0;
@@ -108,48 +108,48 @@ public class CPU {
     
     public void Move()
     {
-        if(this.myPaddle.getWindowLock() == South)
+        if(this.myPaddle.getWindowLocation()== Paddle.windowLocation.SOUTH)
         {
             if(closestBall.getTVector2().getX() > this.myPaddle.getPosition().getX())
             {
-                myPaddle.Move(Direction.RIGHT);
+                myPaddle.Move(Paddle.direction.RIGHT);
             }
             else
             {
-                myPaddle.Move(Direction.LEFT);
+                myPaddle.Move(Paddle.direction.LEFT);
             }
         }
-        else if(this.myPaddle.getWindowLock() == North)
+        else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH)
         {
             if(closestBall.getTVector2().getX() < this.myPaddle.getPosition().getX())
             {
-                myPaddle.Move(Direction.RIGHT);
+                myPaddle.Move(Paddle.direction.RIGHT);
             }
             else
             {
-                myPaddle.Move(Direction.LEFT);
+                myPaddle.Move(Paddle.direction.LEFT);
             }
         }
-        else if(this.myPaddle.getWindowLock() == West)
+        else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST)
         {
             if(closestBall.getTVector2().getY() > this.myPaddle.getPosition().getY())
             {
-                myPaddle.Move(Direction.UP);
+                myPaddle.Move(Paddle.direction.UP);
             }
             else
             {
-                myPaddle.Move(Direction.DOWN);
+                myPaddle.Move(Paddle.direction.DOWN);
             }
         }
-        else if(this.myPaddle.getWindowLock() == East)
+        else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST)
         {
             if(closestBall.getTVector2().getY() < this.myPaddle.getPosition().getY())
             {
-                myPaddle.Move(Direction.UP);
+                myPaddle.Move(Paddle.direction.UP);
             }
             else
             {
-                myPaddle.Move(Direction.DOWN);
+                myPaddle.Move(Paddle.direction.DOWN);
             }
         }
     }
