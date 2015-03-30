@@ -48,13 +48,16 @@ public class Server {
         
         if(!this.lobbys.contains(lobby)){
             this.lobbys.add(lobby);
-            System.out.println("Joined lobby!");
-            
+            System.out.println("Joined lobby!");            
+        }
+        else{
+            throw new IllegalArgumentException("Lobby already exists!");
         }
         
         //GUI action
         
     }
+    
     
     /**
      * Logs the current user off 
@@ -70,6 +73,10 @@ public class Server {
             this.users.remove(user);
             System.out.println(user.getUsername() + " logged out!");
         }
+        else{
+            throw new IllegalArgumentException("User does not exist!");
+        }
+              
     }
     
 }
