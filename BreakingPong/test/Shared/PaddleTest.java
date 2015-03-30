@@ -6,13 +6,11 @@ package Shared;
  * and open the template in the editor.
  */
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
 import Server.Server;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  *
@@ -37,15 +35,15 @@ public class PaddleTest {
         standardSize = new TVector2(25,10);
         position = new TVector2(50,50);
         velocity = new TVector2(10,10);
-        paddle1 = new Paddle(10, position, velocity, standardSize);
+        paddle1 = new Paddle(10, position, velocity, standardSize,player1);
         
         position = new TVector2(75,75);
         velocity = new TVector2(100,100);
-        paddle2 = new Paddle(20, position, velocity, standardSize);
+        paddle2 = new Paddle(20, position, velocity, standardSize,player2);
         
         position = new TVector2(100,100);
         velocity = new TVector2(50,50);
-        paddle3 = new Paddle(30, position, velocity, standardSize);
+        paddle3 = new Paddle(30, position, velocity, standardSize,player3);
     }
 
     // TODO add test methods here.

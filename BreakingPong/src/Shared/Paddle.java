@@ -46,7 +46,7 @@ public class Paddle extends GameObject{
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size) 
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu) 
     { 
         super(position,velocity,size);
         this.score = score;
