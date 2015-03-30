@@ -24,11 +24,12 @@ public class BallTest {
          * Creates a new ball object with a TVector2 and lastPaddleTouched.
          */
         Ball b;
+        CPU cpu = new CPU("Bot", (byte)5);
         TVector2 tvector2 = new TVector2(10, 10);
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
         TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size);
+        Paddle p = new Paddle(33, position, velocity, size, cpu);
 
         try {
             b = new Ball(tvector2, p, position, velocity, size);
@@ -116,14 +117,15 @@ public class BallTest {
     public void testSetLastPaddleTouched() {
 
         Ball b;
+        CPU cpu = new CPU("Bot", (byte)5);
         TVector2 tvector2 = new TVector2(10, 10);
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
         TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size);
+        Paddle p = new Paddle(33, position, velocity, size, cpu);
 
         try {
-            Paddle p2 = new Paddle(100, position, velocity, size);
+            Paddle p2 = new Paddle(100, position, velocity, size, cpu);
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());
@@ -144,11 +146,12 @@ public class BallTest {
     public void testMoveBall() {
 
         Ball b;
+        CPU cpu = new CPU("Bot", (byte)5);
         TVector2 tvector2 = new TVector2(10, 10);
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
         TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size);
+        Paddle p = new Paddle(33, position, velocity, size, cpu);
 
         try {
             TVector2 vector = new TVector2(100, 100);
