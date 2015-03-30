@@ -62,19 +62,19 @@ public class PaddleTest {
     @Test
     public void testSetScore()
     {
-        paddle1.setScore(50);
-        paddle2.setScore(10000);
-        paddle3.setScore(15000000);
+        paddle1.addScore(50);
+        paddle2.addScore(10000);
+        paddle3.addScore(15000000);
         
         assertEquals("Score of paddle1 isn't set correctly", 50, paddle1.getScore());
         assertEquals("Score of paddle2 isn't set correctly", 10000, paddle2.getScore());
         assertEquals("Score of paddle3 isn't set correctly", 15000000, paddle3.getScore());
         
-        paddle1.setScore(-1);
-        paddle2.setScore(-1000);
+        paddle1.addScore(-1);
+        paddle2.addScore(-1000);
         
-        assertEquals("Score of paddle1 can't be negative", 50, paddle1.getScore());
-        assertEquals("Score of paddle2 can't be nagative", 10000, paddle2.getScore());
+        assertEquals("Score of paddle1 didn't go down", 49, paddle1.getScore());
+        assertEquals("Score of paddle2 didn't go down", 9000, paddle2.getScore());
     }
     
     @Test
