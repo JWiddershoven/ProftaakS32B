@@ -15,8 +15,11 @@ public class Game
     private int id;
     private int gameTime;
     private boolean powerUps;
+    private ArrayList<Map> selectedMaps;
     private ArrayList<User> userList;
     private ArrayList<CPU> botList;
+    private ArrayList<GameObject> objectList;
+    private ArrayList<Ball> ballList;
     /**
      * Getter of id
      * @return id as int
@@ -70,8 +73,11 @@ public class Game
         this.gameTime = gameTime;
         this.powerUps = powerUps;
         
-        this.botList = new ArrayList<CPU>();
-        this.userList = new ArrayList<User>();
+        this.botList = new ArrayList<>();
+        this.userList = new ArrayList<>();
+        this.objectList = new ArrayList<>();
+        this.ballList = new ArrayList<>();
+        this.selectedMaps = new ArrayList<>();
     }
     /**
      * Adds a CPU player to the game
