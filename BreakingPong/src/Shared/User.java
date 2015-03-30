@@ -149,6 +149,14 @@ public class User {
     public String getEmail() {
         return email;
     }
+    
+    public void setPaddle(Paddle p)
+    {
+        if(this.paddle == null)
+        {
+            this.paddle = p;
+        }        
+    }
 
     /**
      * Setter of email Must be a valid email, containing a @ and f.ex
