@@ -6,12 +6,12 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GameLobbyFXController">
   <children>
     <Label layoutX="23.0" layoutY="29.0" text="Username:" />
     <ListView layoutX="14.0" layoutY="76.0" prefHeight="200.0" prefWidth="245.0" />
     <ListView layoutX="344.0" layoutY="76.0" prefHeight="200.0" prefWidth="242.0" />
-    <Button layoutX="465.0" layoutY="300.0" mnemonicParsing="false" prefWidth="121.0" text="Start" />
+    <Button layoutX="465.0" layoutY="300.0" mnemonicParsing="false" onAction="#onStartGameClick" prefWidth="121.0" text="Start" />
     <Button layoutX="465.0" layoutY="328.0" mnemonicParsing="false" prefWidth="121.0" text="Leave" />
     <Label layoutX="106.0" layoutY="52.0" text="Players in game:" />
     <Label layoutX="408.0" layoutY="55.0" text="Players in lobby:" />

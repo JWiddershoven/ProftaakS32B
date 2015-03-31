@@ -113,8 +113,8 @@ public class Game
      */
     public void addBot(String botName, Byte botDifficulty)
     {
-        CPU newBot = new CPU(botName,botDifficulty,);
-        botList.add(newBot);
+     //   CPU newBot = new CPU(botName,botDifficulty,);
+      //  botList.add(newBot);
     }
     /**
      * Removes a CPU player from the game

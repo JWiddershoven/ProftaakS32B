@@ -30,9 +30,14 @@ public class Administration {
         }
     }
 
-private Server server;
+    private Server server;
 
-private ArrayList<User> users;
+    public Server getServer() {
+        return server;
+    }
+
+    private ArrayList<User> users;
+
     /**
      * The administration constructor. Here will the server and user list be
      * created.

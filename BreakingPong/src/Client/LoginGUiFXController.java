@@ -8,6 +8,7 @@ package Client;
 import static Client.ClientGUI.MainStage;
 import Server.Administration;
 import java.awt.TrayIcon;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -107,18 +108,18 @@ public class LoginGUiFXController implements Initializable {
 
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(),
-                        "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());
+                        "Fields cannot be empty", TrayIcon.MessageType.WARNING.ordinal());
             } catch (Server.Administration.IncorrectLoginDataException ex) {
                 if (ex.getMessage().isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Username and password combination is incorrect",
-                            "Login failed", TrayIcon.MessageType.INFO.ordinal());
+                            "Login failed", TrayIcon.MessageType.WARNING.ordinal());
                 } else {
                     JOptionPane.showMessageDialog(null, ex.getMessage(),
-                            "Login failed", TrayIcon.MessageType.INFO.ordinal());
+                            "Login failed", TrayIcon.MessageType.WARNING.ordinal());
                 }
-            } catch (Exception ex) {
+            } catch (IOException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage(),
-                        "Unexpected error", TrayIcon.MessageType.INFO.ordinal());
+                        "Unexpected error in Login()", TrayIcon.MessageType.ERROR.ordinal());
             }
         }
 
