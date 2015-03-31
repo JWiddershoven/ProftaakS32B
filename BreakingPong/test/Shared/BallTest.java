@@ -24,7 +24,8 @@ public class BallTest {
          * Creates a new ball object with a TVector2 and lastPaddleTouched.
          */
         Ball b;
-        CPU cpu = new CPU("Bot", (byte)5);
+        Game testGame = new Game(1,180,false, false);
+        CPU cpu = new CPU("Bot", (byte)5, testGame);
         TVector2 tvector2 = new TVector2(10, 10);
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
@@ -117,7 +118,8 @@ public class BallTest {
     public void testSetLastPaddleTouched() {
 
         Ball b;
-        CPU cpu = new CPU("Bot", (byte)5);
+        Game testGame = new Game(1,180,false, false);
+        CPU cpu = new CPU("Bot", (byte)5, testGame );
         TVector2 tvector2 = new TVector2(10, 10);
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
@@ -146,7 +148,8 @@ public class BallTest {
     public void testMoveBall() {
 
         Ball b;
-        CPU cpu = new CPU("Bot", (byte)5);
+        Game testGame = new Game(1,180,false, false);
+        CPU cpu = new CPU("Bot", (byte)5, testGame);
         TVector2 tvector2 = new TVector2(10, 10);
         TVector2 position = new TVector2(50, 30);
         TVector2 velocity = new TVector2(15, 40);
