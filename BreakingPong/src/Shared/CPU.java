@@ -15,17 +15,16 @@ import java.util.ArrayList;
 public class CPU {
     private final String name;
     private final Byte difficulty;
-    private Paddle myPaddle;
+    private Paddle myPaddle; // CPU PADDLE KOPPLING VIA PADDLE KLASSE
     private ArrayList<Ball> allBalls;
     private Game currentGame;
     private Ball closestBall;
     private double[] points;
     private ArrayList<Ball> currentPosBall;
 
-    public CPU(String name, Byte difficulty, Paddle mypaddle, Game myGame) {
+    public CPU(String name, Byte difficulty, Game myGame) {
         this.name = name;
         this.difficulty = difficulty;
-        this.myPaddle = mypaddle;
         this.currentGame = myGame;
     }
 

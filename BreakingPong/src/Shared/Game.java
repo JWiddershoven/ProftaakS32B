@@ -113,8 +113,12 @@ public class Game
      */
     public void addBot(String botName, Byte botDifficulty)
     {
-        CPU newBot = new CPU(botName,botDifficulty,);
-        botList.add(newBot);
+        TVector2 standardSize = new TVector2(25,10);
+        TVector2 position = new TVector2(50,50);
+        TVector2 velocity = new TVector2(10,10);
+        //paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH);
+        //CPU newBot = new CPU(botName,botDifficulty,,this);
+        //botList.add(newBot);
     }
     /**
      * Removes a CPU player from the game
