@@ -87,8 +87,8 @@ public class LobbySelectFXController implements Initializable {
         lvOnlineUsers.setItems(lobbiesList);
     }
     
-    // <editor-fold defaultstate="collapsed" desc="user-description">>
-
+    // <editor-fold defaultstate="collapsed" desc="Eventhandlers">>
+    
     @FXML
     private void onJoinLobbyClick() {
         System.out.println("on lobby join click");
@@ -145,5 +145,7 @@ public class LobbySelectFXController implements Initializable {
         System.out.println("deleted");
     }
 
-    // /<editor-fold>
+    // </editor-fold>
+    
+    
 }
