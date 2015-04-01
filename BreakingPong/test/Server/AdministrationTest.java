@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Server.Administration.IncorrectLoginDataException;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -36,6 +37,8 @@ public class AdministrationTest {
             fail();
         } catch (IllegalArgumentException ex) {
 
+        } catch(IncorrectLoginDataException ex){
+            
         }
 
         try {
@@ -43,6 +46,8 @@ public class AdministrationTest {
             fail();
         } catch (IllegalArgumentException ex) {
 
+        }catch(IncorrectLoginDataException ex){
+            
         }
 
         try {
@@ -50,6 +55,8 @@ public class AdministrationTest {
             fail();
         } catch (IllegalArgumentException ex) {
 
+        }catch(IncorrectLoginDataException ex){
+            
         }
 
         try {
@@ -57,6 +64,8 @@ public class AdministrationTest {
             fail();
         } catch (IllegalArgumentException ex) {
 
+        }catch(IncorrectLoginDataException ex){
+            
         }
 
         try {
@@ -64,6 +73,8 @@ public class AdministrationTest {
             fail();
         } catch (IllegalArgumentException ex) {
 
+        }catch(IncorrectLoginDataException ex){
+            
         }
 
         try {
@@ -71,6 +82,8 @@ public class AdministrationTest {
             fail();
         } catch (IllegalArgumentException ex) {
 
+        }catch(IncorrectLoginDataException ex){
+            
         }
 
         try {
@@ -78,6 +91,8 @@ public class AdministrationTest {
             fail();
         } catch (IllegalArgumentException ex) {
 
+        }catch(IncorrectLoginDataException ex){
+            
         }
 
     }
