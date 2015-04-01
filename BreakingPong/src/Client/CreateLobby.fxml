@@ -11,9 +11,12 @@
   <children>
     <TextField fx:id="tfLobbyName" layoutX="215.0" layoutY="44.0" prefWidth="200.0" promptText="Lobby name" />
       <PasswordField fx:id="tfPassword" layoutX="213.0" layoutY="84.0" prefHeight="25.0" prefWidth="200.0" />
-    <RadioButton fx:id="rb2Players" layoutX="215.0" layoutY="124.0" mnemonicParsing="false" text="2Players" />
-    <RadioButton fx:id="rb4Players" layoutX="310.0" layoutY="124.0" mnemonicParsing="false" text="4Players" />
-    <ComboBox fx:id="cbMap" layoutX="214.0" layoutY="151.0">
+    <RadioButton fx:id="rb2Players" layoutX="215.0" layoutY="124.0" mnemonicParsing="false" selected="true" text="2Players">
+         <toggleGroup>
+            <ToggleGroup fx:id="rgroupPlayers" />
+         </toggleGroup></RadioButton>
+    <RadioButton fx:id="rb4Players" layoutX="310.0" layoutY="124.0" mnemonicParsing="false" text="4Players" toggleGroup="$rgroupPlayers" />
+    <ComboBox fx:id="cbMappen" layoutX="214.0" layoutY="151.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -22,7 +25,7 @@
         </FXCollections>
       </items>
     </ComboBox>
-    <ComboBox fx:id="cbGametime" layoutX="214.0" layoutY="181.0">
+    <ComboBox fx:id="cbGametimes" layoutX="214.0" layoutY="181.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -31,8 +34,11 @@
         </FXCollections>
       </items>
     </ComboBox>
-    <RadioButton fx:id="rbPowerupsYes" layoutX="214.0" layoutY="212.0" mnemonicParsing="false" text="Yes" />
-    <RadioButton fx:id="rbPowerupsNo" layoutX="310.0" layoutY="212.0" mnemonicParsing="false" text="No" />
+    <RadioButton fx:id="rbPowerupsYes" layoutX="214.0" layoutY="212.0" mnemonicParsing="false" selected="true" text="Yes">
+         <toggleGroup>
+            <ToggleGroup fx:id="rgroupPowerups" />
+         </toggleGroup></RadioButton>
+    <RadioButton fx:id="rbPowerupsNo" layoutX="310.0" layoutY="212.0" mnemonicParsing="false" text="No" toggleGroup="$rgroupPowerups" />
     <Label layoutX="130.0" layoutY="47.0" text="Lobby Name" textAlignment="LEFT" />
     <Label layoutX="151.0" layoutY="88.0" text="Password" />
     <Label layoutX="134.0" layoutY="124.0" text="# of Players" />

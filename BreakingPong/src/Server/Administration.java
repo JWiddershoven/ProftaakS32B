@@ -35,15 +35,23 @@ public class Administration {
     public Server getServer() {
         return server;
     }
+    
+    private Database database;
+
+    public Database getDatabase() {
+        return database;
+    }
+    
 
     private ArrayList<User> users;
 
     /**
-     * The administration constructor. Here will the server and user list be
+     * The administration constructor. Here will the server, database and user list be
      * created.
      */
     public Administration() {
         this.server = new Server();
+        this.database = new Database();
         this.users = new ArrayList<>();
     }
 

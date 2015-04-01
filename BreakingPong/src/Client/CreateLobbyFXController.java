@@ -9,7 +9,10 @@ import static Client.ClientGUI.MainStage;
 import Server.Administration;
 import java.awt.TrayIcon;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -47,9 +50,9 @@ public class CreateLobbyFXController implements Initializable {
 
     // Comboboxes
     @FXML
-    ComboBox cbMap;
+    ComboBox cbMappen;
     @FXML
-    ComboBox cbGametime;
+    ComboBox cbGametimes;
 
     // Menuitems
     @FXML
@@ -76,11 +79,25 @@ public class CreateLobbyFXController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         administration = new Administration();
+        fillComboboxes();
+    }
+
+    /**
+     * Fills comboboxes with data.
+     */
+    private void fillComboboxes() {
+        ObservableList<String> timeStamps = FXCollections.observableArrayList();
+        for (Timestamp ts : administration.getDatabase().getGameTijdsduren()) {
+            timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
+        }
+        cbGametimes.setItems(timeStamps);
+        cbGametimes.getSelectionModel().select(0);
+        cbMappen.setItems(administration.getServer().getMappenObserableList());
+        cbMappen.getSelectionModel().select(0);
+
     }
 
 // <editor-fold defaultstate="collapsed" desc="Eventhandlers">
-    
-    
     @FXML
     private void onCreateLobbyClick() {
         System.out.println("Lobby created");
@@ -101,13 +118,14 @@ public class CreateLobbyFXController implements Initializable {
 
     @FXML
     private void onHelpAboutClick() {
-        JOptionPane.showMessageDialog(null, "Breaking Pong\nBy Breaking Business",
-                "About", TrayIcon.MessageType.INFO.ordinal());
+        JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business",                "About", 
+                JOptionPane.OK_OPTION,JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
     private void onFileExitClick() {
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Warning", JOptionPane.YES_NO_CANCEL_OPTION);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?", 
+                JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
         if (dialogResult == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
@@ -119,6 +137,4 @@ public class CreateLobbyFXController implements Initializable {
     }
 
 // </editor-fold>
-    
-    
 }

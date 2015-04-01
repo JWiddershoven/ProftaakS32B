@@ -89,4 +89,11 @@ public class Map {
             throw new IllegalArgumentException();
         }
     }
+
+    @Override
+    public String toString() {
+        return getName() +  "  max players: " + getPlayerAmount();
+    }
+    
+    
 }

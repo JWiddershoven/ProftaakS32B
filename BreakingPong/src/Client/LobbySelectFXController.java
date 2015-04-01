@@ -66,9 +66,9 @@ public class LobbySelectFXController implements Initializable {
 
     private Administration administration;
 
-    private static final ObservableList onlineUsersList
+    private final ObservableList onlineUsersList
             = FXCollections.observableArrayList();
-    private static final ObservableList lobbiesList
+    private final ObservableList lobbiesList
             = FXCollections.observableArrayList();
 
     @Override

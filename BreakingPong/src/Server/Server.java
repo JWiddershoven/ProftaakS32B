@@ -5,9 +5,12 @@
  */
 package Server;
 
+import Shared.Map;
 import Shared.User;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * The server class
@@ -42,11 +45,28 @@ public class Server {
     }
 
     /**
+     * The maps that are on server
+     */
+    private final ObservableList<Map> mappenObserableList = FXCollections.observableArrayList();
+
+    /**
+     * The maps that are on server
+     *
+     * @return ObserableList of type Map
+     */
+    public ObservableList<Map> getMappenObserableList() {
+        return mappenObserableList;
+    }
+
+    /**
      * Constructor
      */
     public Server() {
         onlineUsers = new ArrayList<>();
         lobbys = new ArrayList<>();
+
+//TODO: hieronder verwijderen als mappen inlezen werkt.
+        mappenObserableList.add(new Map("testmap", 4, new int[10][10]));
     }
 
     /**
