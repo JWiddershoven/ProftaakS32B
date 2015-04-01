@@ -5,10 +5,9 @@
  */
 package Client;
 
-import static Client.ClientGUI.MainStage;
+import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import java.awt.HeadlessException;
-import java.awt.TrayIcon;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -79,8 +78,8 @@ public class GameLobbyFXController implements Initializable {
             if (dialogResult == JOptionPane.YES_OPTION) {
                 Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
                 Scene scene = new Scene(root);
-                MainStage.setScene(scene);
-                MainStage.show();
+                mainStage.setScene(scene);
+                mainStage.show();
             }
         } catch (IOException | HeadlessException ex) {
 
@@ -99,8 +98,8 @@ public class GameLobbyFXController implements Initializable {
 
     @FXML
     private void onHelpAboutClick() {
-        JOptionPane.showMessageDialog(null, "Breaking Pong\nBy Breaking Business",
-                "About", TrayIcon.MessageType.INFO.ordinal());
+        JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
+                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML

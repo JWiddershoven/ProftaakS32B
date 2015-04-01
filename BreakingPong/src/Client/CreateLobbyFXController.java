@@ -5,7 +5,7 @@
  */
 package Client;
 
-import static Client.ClientGUI.MainStage;
+import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import java.awt.TrayIcon;
 import java.net.URL;
@@ -100,7 +100,14 @@ public class CreateLobbyFXController implements Initializable {
 // <editor-fold defaultstate="collapsed" desc="Eventhandlers">
     @FXML
     private void onCreateLobbyClick() {
-        System.out.println("Lobby created");
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
+            Scene scene = new Scene(root);
+            mainStage.setScene(scene);
+            mainStage.show();
+        } catch (Exception ex) {
+
+        }
     }
 
     @FXML
@@ -109,8 +116,8 @@ public class CreateLobbyFXController implements Initializable {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
             Scene scene = new Scene(root);
-            MainStage.setScene(scene);
-            MainStage.show();
+            mainStage.setScene(scene);
+            mainStage.show();
         } catch (Exception ex) {
 
         }
@@ -118,14 +125,14 @@ public class CreateLobbyFXController implements Initializable {
 
     @FXML
     private void onHelpAboutClick() {
-        JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business",                "About", 
-                JOptionPane.OK_OPTION,JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
+                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
     private void onFileExitClick() {
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?", 
-                JOptionPane.YES_NO_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
+                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (dialogResult == JOptionPane.YES_OPTION) {
             System.exit(0);
         }

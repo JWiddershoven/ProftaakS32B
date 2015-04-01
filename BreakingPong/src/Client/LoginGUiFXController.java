@@ -5,7 +5,7 @@
  */
 package Client;
 
-import static Client.ClientGUI.MainStage;
+import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import java.awt.TrayIcon;
 import java.io.IOException;
@@ -102,8 +102,8 @@ public class LoginGUiFXController implements Initializable {
                 // TODO: Open LobbySelect.fxml
                 Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
                 Scene scene = new Scene(root);
-                MainStage.setScene(scene);
-                MainStage.show();
+                mainStage.setScene(scene);
+                mainStage.show();
                 clearLogin();
 
             } catch (IllegalArgumentException ex) {
