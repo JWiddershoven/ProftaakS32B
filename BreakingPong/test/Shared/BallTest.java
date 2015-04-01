@@ -5,10 +5,7 @@
  */
 package Shared;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,20 +15,31 @@ import static org.junit.Assert.*;
  */
 public class BallTest {
 
+    private Ball b;
+    private Game testGame; 
+    private CPU cpu;
+    private TVector2 tvector2;
+    private TVector2 position;
+    private TVector2 velocity;
+    private TVector2 size;
+    private Paddle p;
+
+    @Before
+    public void setUp() {
+        testGame = new Game(1, 180, false, false);
+        cpu = new CPU("Bot", (byte) 5, testGame);
+        tvector2 = new TVector2(10, 10);
+        position = new TVector2(50, 30);
+        velocity = new TVector2(15, 40);
+        size = new TVector2(5, 5);
+        p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH);
+    }
+
     @Test
     public void testBall() {
         /**
          * Creates a new ball object with a TVector2 and lastPaddleTouched.
          */
-        Ball b;
-        Game testGame = new Game(1,180,false, false);
-        CPU cpu = new CPU("Bot", (byte)5, testGame);
-        TVector2 tvector2 = new TVector2(10, 10);
-        TVector2 position = new TVector2(50, 30);
-        TVector2 velocity = new TVector2(15, 40);
-        TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH);
-
         try {
             b = new Ball(tvector2, p, position, velocity, size);
         } catch (IllegalArgumentException exc) {
@@ -117,15 +125,6 @@ public class BallTest {
     @Test
     public void testSetLastPaddleTouched() {
 
-        Ball b;
-        Game testGame = new Game(1,180,false, false);
-        CPU cpu = new CPU("Bot", (byte)5, testGame );
-        TVector2 tvector2 = new TVector2(10, 10);
-        TVector2 position = new TVector2(50, 30);
-        TVector2 velocity = new TVector2(15, 40);
-        TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH);
-
         try {
             Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH);
             b = new Ball(tvector2, p, position, velocity, size);
@@ -147,15 +146,6 @@ public class BallTest {
     @Test
     public void testMoveBall() {
 
-        Ball b;
-        Game testGame = new Game(1,180,false, false);
-        CPU cpu = new CPU("Bot", (byte)5, testGame);
-        TVector2 tvector2 = new TVector2(10, 10);
-        TVector2 position = new TVector2(50, 30);
-        TVector2 velocity = new TVector2(15, 40);
-        TVector2 size = new TVector2(5, 5);
-        Paddle p = new Paddle(33, position, velocity, size, cpu,Paddle.windowLocation.NORTH);
-
         try {
             TVector2 vector = new TVector2(100, 100);
             b = new Ball(tvector2, p, position, velocity, size);
@@ -175,7 +165,7 @@ public class BallTest {
         } catch (IllegalArgumentException exc) {
 
         }
-        
+
         try {
             b = new Ball(tvector2, p, position, velocity, size);
             b.move(null);
