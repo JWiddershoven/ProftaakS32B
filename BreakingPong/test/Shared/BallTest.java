@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Server.Server;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -18,16 +19,20 @@ public class BallTest {
     private Ball b;
     private Game testGame; 
     private CPU cpu;
+    private User user;
     private TVector2 tvector2;
     private TVector2 position;
     private TVector2 velocity;
     private TVector2 size;
     private Paddle p;
+    private Server server;
 
     @Before
     public void setUp() {
         testGame = new Game(1, 180, false, false);
+        server = new Server();
         cpu = new CPU("Bot", (byte) 5, testGame);
+        user = new User("Jelle123", "wachtwoord123", "jelle@gmail.com", server);
         tvector2 = new TVector2(10, 10);
         position = new TVector2(50, 30);
         velocity = new TVector2(15, 40);
@@ -49,7 +54,7 @@ public class BallTest {
         // @param tvector2 The TVector2 of the ball.
         try {
             b = new Ball(null, p, position, velocity, size);
-            fail();
+            fail("Tvector2 cannot be null.");
         } catch (IllegalArgumentException exc) {
 
         }
@@ -64,7 +69,7 @@ public class BallTest {
         // @param lastPaddleTouched The last Paddle which touched the ball.
         try {
             b = new Ball(tvector2, null, position, velocity, size);
-            fail();
+            fail("lastPaddleTouched cannot be null.");
         } catch (IllegalArgumentException exc) {
 
         }
@@ -79,7 +84,7 @@ public class BallTest {
         // @param position The position of a GameObject.
         try {
             b = new Ball(tvector2, p, null, velocity, size);
-            fail();
+            fail("Position of a GameObject cannot be null.");
         } catch (IllegalArgumentException exc) {
 
         }
@@ -94,7 +99,7 @@ public class BallTest {
         // @param velocity The velocity of a GameObject.
         try {
             b = new Ball(tvector2, p, position, null, size);
-            fail();
+            fail("Velocity of a GameObject cannot be null.");
         } catch (IllegalArgumentException exc) {
 
         }
@@ -109,7 +114,7 @@ public class BallTest {
         // @param size The size of a GameObject.
         try {
             b = new Ball(tvector2, p, position, velocity, null);
-            fail();
+            fail("Size of a GameObject cannot be null.");
         } catch (IllegalArgumentException exc) {
 
         }
@@ -135,9 +140,18 @@ public class BallTest {
         }
 
         try {
+            Paddle p2 = new Paddle(100, position, velocity, size, user, Paddle.windowLocation.EAST);
+            b = new Ball(tvector2, p, position, velocity, size);
+            b.setLastPaddleTouched(p2);
+            assertEquals(p2, b.getLastPaddleTouched());
+        } catch (IllegalArgumentException exc) {
+            
+        }
+        
+        try {
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(null);
-            fail();
+            fail("lastPaddleTouched cannot be null.");
         } catch (IllegalArgumentException exc) {
 
         }
