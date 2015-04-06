@@ -5,6 +5,8 @@
  */
 package Shared;
 
+import javafx.application.Platform;
+
 /**
  * @author Jelle
  */
@@ -12,6 +14,7 @@ public class Ball extends GameObject {
 
     private Paddle lastPaddleTouched;
     private TVector2 tvector2;
+    private float xMovement, yMovement;
 
     /**
      * Creates a new ball object with a TVector2 and lastPaddleTouched.
@@ -30,6 +33,9 @@ public class Ball extends GameObject {
         } else {
             throw new IllegalArgumentException();
         }
+
+        this.xMovement = 10;
+        this.yMovement = 10;
     }
 
     /**
@@ -45,12 +51,11 @@ public class Ball extends GameObject {
     public void setLastPaddleTouched(Paddle lastPaddleTouched) {
         if (lastPaddleTouched != null) {
             this.lastPaddleTouched = lastPaddleTouched;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException();
         }
     }
-    
+
     /**
      * @return The TVector2 of the ball.
      */
@@ -69,6 +74,32 @@ public class Ball extends GameObject {
         } else {
             throw new IllegalArgumentException();
         }
+
+        /* Radius & sceneHeight + sceneWidth aanpassen.
+        // reverse x bounce movement whenever the ball would cross the right border on its current course
+        if (xMovement > 0 && this.tvector2.getX() + xMovement + radius.get() > sceneWidth.get()) {
+            xMovement *= -1;
+        }
+        // reverses x bounce movement if ball would cross left border
+        if (xMovement < 0 && this.tvector2.getX() + xMovement - radius.get() < 0) {
+            xMovement *= -1;
+        }
+        // reverses y bounce movement if ball would cross bottom border
+        if (yMovement > 0 && this.tvector2.getY() + yMovement + radius.get() > sceneHeight.get()) {
+            yMovement *= -1;
+        }
+        // reverses y bounce movement if ball would cross top border
+        if (yMovement < 0 && this.tvector2.getY() + yMovement - radius.get() < 0) {
+            yMovement *= -1;
+        }
+        */
+
+        // Increments x/y coordinates with (positive or negative) movement.
+        // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
+        Platform.runLater(() -> {
+            this.tvector2.setX(tvector2.getX() + xMovement);
+            this.tvector2.setY(tvector2.getY() + yMovement);
+        });
     }
 
     /**
