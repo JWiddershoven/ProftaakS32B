@@ -12,9 +12,9 @@ import java.util.ArrayList;
  *
  * @author Mnesymne
  */
-public class CPU {
+public class CPU implements Runnable{
     private final String name;
-    private final Byte difficulty;
+    private final Byte difficulty; // Currently not used
     private Paddle myPaddle; // CPU PADDLE KOPPLING VIA PADDLE KLASSE
     private ArrayList<Ball> allBalls;
     private Game currentGame;
@@ -28,8 +28,19 @@ public class CPU {
         this.currentGame = myGame;
     }
 
+    @Override
+    public void run()
+    {
+        runCPU();
+    }
+    
     public String getName() {
         return name;
+    }
+    
+    public byte getDifficuly()
+    {
+        return this.difficulty;
     }
     
     /**
@@ -37,7 +48,8 @@ public class CPU {
      */
     public void runCPU()
     {
-        
+        while(this.currentGame.getInProgress())
+        {
         currentPosBall = currentGame.getBallList();
         TVector2 currentPosPaddle = myPaddle.getPosition();
         float[] ClosestTo  = new float[8];
@@ -56,8 +68,9 @@ public class CPU {
         points[3] = Math.sqrt(((ClosestTo[7] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[6] * 2 - currentPosPaddle.getX() * 2));
         
        
-        
+        calcPosition();
         Move();
+        }
     }
     
     public void calcPosition()
@@ -152,5 +165,8 @@ public class CPU {
             }
         }
     }
+
+
+    
     
 }
