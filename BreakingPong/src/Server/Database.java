@@ -22,7 +22,7 @@ public class Database {
     }
 
     /**
-     * Database contrusctor
+     * Database constructor
      */
     public Database() {
         fillGameDurations();

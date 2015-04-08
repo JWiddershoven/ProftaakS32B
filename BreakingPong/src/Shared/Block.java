@@ -8,7 +8,7 @@ package Shared;
 
 /**
  *
- * @author Mnesymne
+ * @author Lorenzo
  */
 public class Block extends GameObject {
 
@@ -47,12 +47,14 @@ public class Block extends GameObject {
 
     /**
      * Is this block destructable;
+     * @return 
      */
     public boolean isDestructable() {
         return isDestructable;
     }
     /**
      * Is this block destructable;
+     * @param isDestructable
      */
     public void setDestructable(boolean isDestructable) {
         this.isDestructable = isDestructable;

@@ -11,7 +11,8 @@ import Server.Server;
  *
  * @author Mnesymne
  */
-public class User {
+public class User
+{
 
     //--------------------------------------------//
     private String username, password, email;
@@ -30,38 +31,67 @@ public class User {
      * @param selectedServer as Server, this is the server the user is currently
      * in.
      */
-    public User(String username, String password, String email, Server selectedServer) {
-        if (!username.isEmpty() && username != null && !password.isEmpty() && password != null && !email.isEmpty() && email != null
-                && selectedServer != null) {
-            if (username.length() >= 6 && password.length() >= 6 && email.contains("@") && email.contains(".")) {
-                this.username = username;
-                this.password = password;
-                this.email = email;
-                this.selectedServer = selectedServer;
-                this.Rating = 0;
-            } else {
-                throw new IllegalArgumentException();
-            }
+    public User(String username, String password, String email, Server selectedServer)
+    {
+        if (username == null || username.trim().isEmpty())
+        {
+            throw new IllegalArgumentException("Username cannot be null or empty");
         }
+        if (password == null || password.trim().isEmpty())
+        {
+            throw new IllegalArgumentException("Password cannot be null or empty");
+        }
+        if (email == null || email.trim().isEmpty())
+        {
+            throw new IllegalArgumentException("Email cannot be null or empty");
+        }
+        if (!(email.contains("@") && email.contains(".")))
+        {
+            throw new IllegalArgumentException("Email is not of correct format");
+        }
+        if (selectedServer == null)
+        {
+            throw new IllegalArgumentException("Server cannot be null");
+        }
+        if (username.length() < 6)
+        {
+            throw new IllegalArgumentException("Username must be at least 6 characters");
+        }
+        if (password.length() < 6)
+        {
+            throw new IllegalArgumentException("Password must be at least 6 characters");
+        }
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.selectedServer = selectedServer;
+        this.Rating = 0;
+
     }
 
     /**
      * Getter of Rating
-     * @return  rating as int.
+     *
+     * @return rating as int.
      */
-    public int getRating() {
+    public int getRating()
+    {
         return Rating;
     }
 
     /**
-     * Setter of Rating
-     * If end Rating is lower then 0, become 0. Else new Rating is old Rating - rating.
-     * @param Change 
+     * Setter of Rating If end Rating is lower then 0, become 0. Else new Rating
+     * is old Rating - rating.
+     *
+     * @param Change
      */
-    public void setRating(int Change) {
-        if (this.Rating - Change > 0) {
+    public void setRating(int Change)
+    {
+        if (this.Rating - Change > 0)
+        {
             this.Rating -= Change;
-        } else {
+        } else
+        {
             this.Rating = 0;
         }
     }
@@ -71,7 +101,8 @@ public class User {
      *
      * @return a Paddle
      */
-    public Paddle getPaddle() {
+    public Paddle getPaddle()
+    {
         return paddle;
     }
 
@@ -80,7 +111,8 @@ public class User {
      *
      * @return the selectedServer
      */
-    public Server getSelectedServer() {
+    public Server getSelectedServer()
+    {
         return selectedServer;
     }
 
@@ -89,8 +121,10 @@ public class User {
      *
      * @param selectedServer as Server
      */
-    public void setSelectedServer(Server selectedServer) {
-        if (selectedServer != null && selectedServer != this.selectedServer) {
+    public void setSelectedServer(Server selectedServer)
+    {
+        if (selectedServer != null && selectedServer != this.selectedServer)
+        {
             this.selectedServer = selectedServer;
         }
     }
@@ -100,7 +134,8 @@ public class User {
      *
      * @return username as String
      */
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
@@ -110,10 +145,13 @@ public class User {
      *
      * @param username as String
      */
-    public void setUsername(String username) {
-        if (!username.isEmpty() && username != null && username.length() >= 6) {
+    public void setUsername(String username)
+    {
+        if (!username.isEmpty() && username != null && username.length() >= 6)
+        {
             this.username = username;
-        } else {
+        } else
+        {
             throw new IllegalArgumentException();
         }
     }
@@ -123,7 +161,8 @@ public class User {
      *
      * @return password as String
      */
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
@@ -133,10 +172,13 @@ public class User {
      *
      * @param password
      */
-    public void setPassword(String password) {
-        if (!password.isEmpty() && password.length() >= 6 && password != null) {
+    public void setPassword(String password)
+    {
+        if (!password.isEmpty() && password.length() >= 6 && password != null)
+        {
             this.password = password;
-        } else {
+        } else
+        {
             throw new IllegalArgumentException();
         }
     }
@@ -146,16 +188,17 @@ public class User {
      *
      * @return email as String.
      */
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
-    
+
     public void setPaddle(Paddle p)
     {
-        if(this.paddle == null)
+        if (this.paddle == null)
         {
             this.paddle = p;
-        }        
+        }
     }
 
     /**
@@ -163,10 +206,13 @@ public class User {
      *
      * @param email
      */
-    public void setEmail(String email) {
-        if (!email.isEmpty() && email != null && email.contains("@")) {
+    public void setEmail(String email)
+    {
+        if (!email.isEmpty() && email != null && email.contains("@"))
+        {
             this.email = email;
-        } else {
+        } else
+        {
             throw new IllegalArgumentException();
         }
     }

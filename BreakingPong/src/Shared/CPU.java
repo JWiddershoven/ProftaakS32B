@@ -73,6 +73,9 @@ public class CPU implements Runnable{
         }
     }
     
+    /**
+     * TODO: VUL DEZE SHIT
+     */
     public void calcPosition()
     {
          if(points[0] > points[1])
@@ -118,6 +121,9 @@ public class CPU implements Runnable{
             }
     }
     
+    /**
+     * TODO: VUL DEZE SHIT
+     */
     public void Move()
     {
         if(this.myPaddle.getWindowLocation()== Paddle.windowLocation.SOUTH)

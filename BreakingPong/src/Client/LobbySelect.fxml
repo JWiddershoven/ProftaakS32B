@@ -15,16 +15,16 @@
       <items>
         <AnchorPane id="Content" minHeight="-1.0" minWidth="-1.0" prefHeight="545.0" prefWidth="430.0">
           <children>
+            <Button fx:id="btnCreateLobby" layoutX="637.0" layoutY="417.0" mnemonicParsing="false" onAction="#onCreateLobbyClick" prefHeight="70.0" prefWidth="231.0" text="Create Lobby" />
+            <ListView fx:id="lvLobbies" layoutX="213.0" layoutY="43.0" prefHeight="253.0" prefWidth="655.0" />
+            <Button fx:id="btnJoinLobby" layoutX="637.0" layoutY="325.0" mnemonicParsing="false" onAction="#onJoinLobbyClick" prefHeight="70.0" prefWidth="231.0" text="Join Lobby" />
             <ListView fx:id="lvChat" layoutX="213.0" layoutY="325.0" prefHeight="183.0" prefWidth="402.0" />
             <TextField fx:id="tfChatInput" layoutX="212.0" layoutY="519.0" prefWidth="306.0" />
             <Button fx:id="btnChatSend" layoutX="528.0" layoutY="519.0" mnemonicParsing="false" onAction="#onSendChatClick" prefHeight="25.0" prefWidth="88.0" text="Send" />
-            <Button fx:id="btnCreateLobby" layoutX="637.0" layoutY="417.0" mnemonicParsing="false" onAction="#onCreateLobbyClick" prefHeight="70.0" prefWidth="231.0" text="Create Lobby" />
             <Label layoutX="28.0" layoutY="24.0" text="UserList" />
             <ListView fx:id="lvOnlineUsers" layoutX="28.0" layoutY="43.0" prefHeight="476.0" prefWidth="163.0" />
             <Label layoutX="528.0" layoutY="24.0" text="Lobbies" />
-            <ListView fx:id="lvLobbies" layoutX="213.0" layoutY="43.0" prefHeight="253.0" prefWidth="655.0" />
             <Label layoutX="393.0" layoutY="309.0" text="Chat" />
-            <Button fx:id="btnJoinLobby" layoutX="637.0" layoutY="325.0" mnemonicParsing="false" onAction="#onJoinLobbyClick" prefHeight="70.0" prefWidth="231.0" text="Join Lobby" />
             <MenuBar layoutX="0.0" layoutY="-3.0" prefWidth="900.0">
               <menus>
                 <Menu fx:id="miFile" mnemonicParsing="false" text="File">

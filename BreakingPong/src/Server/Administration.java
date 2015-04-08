@@ -20,30 +20,26 @@ public class Administration {
      */
     public class IncorrectLoginDataException extends Exception {
 
-        //Parameterless Constructor
-        public IncorrectLoginDataException() {
-        }
-
         //Constructor that accepts a message
         public IncorrectLoginDataException(String message) {
             super(message);
         }
     }
 
-    private Server server;
+    private final Server server;
 
     public Server getServer() {
         return server;
     }
     
-    private Database database;
+    private final Database database;
 
     public Database getDatabase() {
         return database;
     }
     
 
-    private ArrayList<User> users;
+    private final ArrayList<User> users;
 
     /**
      * The administration constructor. Here will the server, database and user list be

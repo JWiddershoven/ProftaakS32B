@@ -46,7 +46,7 @@ public class Lobby {
      */
     public Lobby(int id, String name, String password, User owner, byte maxPlayer, Server host) {
 
-        if (name == null || name.trim().contentEquals("")) {
+        if (name == null || name.trim().isEmpty()){
             throw new IllegalArgumentException("Name is null or empty!");
         }
 
@@ -62,7 +62,7 @@ public class Lobby {
             throw new IllegalArgumentException("Host is null!");
         }
 
-        if (password == null || !password.trim().contentEquals("")) {
+        if (password == null || !password.trim().isEmpty()) {
             this.password = null;
         } else {
             //there is a password
@@ -122,7 +122,7 @@ public class Lobby {
      * @param message The message of the player
      */
     public void sendChat(String message) {
-        if (message == null || message.trim().equals("")) {
+        if (message == null || message.trim().isEmpty()) {
             throw new IllegalArgumentException("Message empty or null!");
         }
 
@@ -136,7 +136,7 @@ public class Lobby {
      * @param username The username of the player that will be invited
      */
     public void inviteUser(String username) {
-        if (username == null || username.contentEquals("")) {
+        if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username is null or empty!");
         }
 
@@ -153,7 +153,7 @@ public class Lobby {
      * Player can't be null The player will be added to the joined players.
      *
      *
-     * @param player THe player that will join the lobby
+     * @param player The player that will join the lobby
      */
     public void joinLobby(User player) {
 
