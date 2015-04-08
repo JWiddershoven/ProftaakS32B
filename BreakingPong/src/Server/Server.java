@@ -25,17 +25,16 @@ public class Server {
     private List<User> onlineUsers;
 
     /*
+     List with all the current lobby's
+     */
+    private List<Lobby> lobbys;
+
+    /*
      List with all the current onlineUsers
      */
     public List<User> getOnlineUsers() {
         return onlineUsers;
     }
-
-
-    /*
-     List with all the current lobby's
-     */
-    private List<Lobby> lobbys;
 
     /*
      List with all the current lobby's
@@ -52,9 +51,9 @@ public class Server {
     /**
      * The maps that are on server
      *
-     * @return ObserableList of type Map
+     * @return ObservableList of type Map
      */
-    public ObservableList<Map> getMappenObserableList() {
+    public ObservableList<Map> getMappenObservableList() {
         return mappenObserableList;
     }
 
@@ -89,6 +88,23 @@ public class Server {
         } else {
             throw new IllegalArgumentException("Lobby already exists!");
         }
+    }
+
+    public void CreateLobby(String name, String password, User owner, byte maxPlayer, Server host) {
+        int id = lobbys.size() + 1;
+        
+        if(name == null || name.isEmpty())
+            throw new IllegalArgumentException("Name is empty or null");
+        
+        if(owner == null)
+            throw new IllegalArgumentException("Owner is null");
+        
+        if(host == null)
+            throw new IllegalArgumentException("Host is null");
+        
+        
+        Lobby lobby = new Lobby(id, name, password, owner, maxPlayer, host);
+        lobbys.add(lobby);
     }
 
     /**
