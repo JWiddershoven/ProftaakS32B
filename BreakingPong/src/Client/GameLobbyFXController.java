@@ -13,10 +13,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -73,16 +73,14 @@ public class GameLobbyFXController implements Initializable {
     @FXML
     private void onStartGameClick() {
         try {
-            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to start?", "Start game?",
-                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (dialogResult == JOptionPane.YES_OPTION) {
+         
                 Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
-            }
+            
         } catch (IOException | HeadlessException ex) {
-
+                    System.out.println("error");
         }
     }
 
