@@ -15,27 +15,27 @@ import javafx.collections.ObservableList;
  */
 public class Database {
 
-    private final ObservableList<Timestamp> gameTijdsduren = FXCollections.observableArrayList();
+    private final ObservableList<Timestamp> gameDurations = FXCollections.observableArrayList();
 
-    public ObservableList<Timestamp> getGameTijdsduren() {
-        return gameTijdsduren;
+    public ObservableList<Timestamp> getGameTimeDurations() {
+        return gameDurations;
     }
 
     /**
      * Database contrusctor
      */
     public Database() {
-        fillGametijden();
+        fillGameDurations();
     }
 
     /**
      * Moet verwijderd / aangepast worden als er een database connectie is.
      */
-    private void fillGametijden() {
+    private void fillGameDurations() {
         // 5 minuten
-        gameTijdsduren.add(new Timestamp(0, 0, 0, 0, 5, 0, 0));
-        gameTijdsduren.add(new Timestamp(0, 0, 0, 0, 10, 0, 0));
-        gameTijdsduren.add(new Timestamp(0, 0, 0, 0, 15, 0, 0));
+        gameDurations.add(new Timestamp(0, 0, 0, 0, 5, 0, 0));
+        gameDurations.add(new Timestamp(0, 0, 0, 0, 10, 0, 0));
+        gameDurations.add(new Timestamp(0, 0, 0, 0, 15, 0, 0));
     }
 
 }
