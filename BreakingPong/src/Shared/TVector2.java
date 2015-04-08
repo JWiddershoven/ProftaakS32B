@@ -51,4 +51,6 @@ public class TVector2 {
         this.x = x;
         this.y = y;
     }
+    
+    public static TVector2 zero = new TVector2(0.0f, 0.0f);
 }

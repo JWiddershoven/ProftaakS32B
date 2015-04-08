@@ -22,7 +22,7 @@ public class Server {
     /*
      List with all the current onlineUsers
      */
-    private List<User> onlineUsers;
+    private final List<User> onlineUsers;
 
     /*
      List with all the current lobby's
