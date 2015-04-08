@@ -7,7 +7,6 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import Server.Administration;
-import java.awt.TrayIcon;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
@@ -87,12 +86,12 @@ public class CreateLobbyFXController implements Initializable {
      */
     private void fillComboboxes() {
         ObservableList<String> timeStamps = FXCollections.observableArrayList();
-        for (Timestamp ts : administration.getDatabase().getGameTijdsduren()) {
+        for (Timestamp ts : administration.getDatabase().getGameTimeDurations()) {
             timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
         }
         cbGametimes.setItems(timeStamps);
         cbGametimes.getSelectionModel().select(0);
-        cbMappen.setItems(administration.getServer().getMappenObserableList());
+        cbMappen.setItems(administration.getServer().getMappenObservableList());
         cbMappen.getSelectionModel().select(0);
 
     }
