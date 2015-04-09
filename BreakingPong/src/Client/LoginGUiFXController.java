@@ -61,6 +61,10 @@ public class LoginGUiFXController implements Initializable {
 
     }
 
+    /**
+     *
+     * @param evt
+     */
     @FXML
     private void onLoginClick(ActionEvent evt) {
         String username = tfLoginUsername.getText();
@@ -68,6 +72,10 @@ public class LoginGUiFXController implements Initializable {
         login(username, password);
     }
 
+    /**
+     *
+     * @param evt
+     */
     @FXML
     private void onLoginClear(ActionEvent evt) {
         clearLogin();
@@ -83,7 +91,7 @@ public class LoginGUiFXController implements Initializable {
 
     /**
      * Checks if parameters are not empty and if so calls the login function on
-     * Administration.java. When the login is succesful will open
+     * Administration.java. When the login is successful will open
      * LobbySelect.fxml
      *
      * @param username The username of the user.
@@ -125,12 +133,32 @@ public class LoginGUiFXController implements Initializable {
 
     }
 
-    // Create User Tab
+    /**
+     *
+     * @param evt
+     */
     @FXML
     private void onCreateUserCreate(ActionEvent evt) {
-
+        
+        createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfLoginPassword.getText(),
+                tfCreateUserReEnterPassword.getText());
     }
 
+    /**
+     *
+     * @param username
+     * @param email
+     * @param password
+     * @param repassword
+     */
+    private void createUser(String username, String email, String password, String repassword){
+        
+    }
+    
+    /**
+     *
+     * @param evt
+     */
     @FXML
     private void onCreateUserClear(ActionEvent evt) {
         tfCreateUserEmail.clear();

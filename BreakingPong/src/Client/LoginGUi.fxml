@@ -29,7 +29,7 @@
             <AnchorPane id="Content" fx:id="createUserAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
               <children>
                 <Button fx:id="btnCreateUserClear" layoutX="325.0" layoutY="263.0" mnemonicParsing="false" onAction="#onCreateUserClear" text="Clear" />
-                <Button fx:id="btnCreateUserCreate" layoutX="202.0" layoutY="263.0" mnemonicParsing="false" text="Create" />
+                <Button fx:id="btnCreateUserCreate" layoutX="202.0" layoutY="263.0" mnemonicParsing="false" onAction="#onCreateUserCreate" text="Create" />
                 <TextField fx:id="tfCreateUserUsername" layoutX="186.0" layoutY="65.0" prefWidth="200.0" promptText="Preferred username" />
                 <TextField fx:id="tfCreateUserEmail" layoutX="186.0" layoutY="97.0" prefWidth="200.0" promptText="Your emailadress" />
                         <PasswordField fx:id="tfCreateUserPassword" layoutX="186.0" layoutY="131.0" prefHeight="25.0" prefWidth="200.0" />
