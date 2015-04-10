@@ -29,7 +29,6 @@ public class ClientGUI extends Application {
         mainStage.setScene(scene);
         mainStage.show();
         //LoginGUiFXController controller = new LoginGUiFXController();
-        //new GenerateMap().setVisible(true);
     }
 
     /**

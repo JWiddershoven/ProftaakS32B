@@ -73,7 +73,7 @@ public class GameLobbyFXController implements Initializable {
     @FXML
     private void onStartGameClick() {
         try {
-         
+            //new GenerateMap().setVisible(true);
                 Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);

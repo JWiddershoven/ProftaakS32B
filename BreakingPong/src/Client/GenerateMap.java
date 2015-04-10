@@ -65,6 +65,7 @@ public class GenerateMap extends JFrame {
             int code = chooser.showOpenDialog(this);
             try
             {
+                // <editor-fold defaultstate="collapsed" desc="Read and store file">
                 if (code == JFileChooser.APPROVE_OPTION)
                 {
                     File selectedFile = chooser.getSelectedFile();
@@ -95,6 +96,8 @@ public class GenerateMap extends JFrame {
                         }
                         mapLayout.add(row);
                     }
+                    // </editor-fold>
+                    // <editor-fold defaultstate="collapsed" desc="Generate positions and store blocks">
                     int rowcount = 1;
                     int y = 0;
                     int x = 0;
@@ -167,6 +170,7 @@ public class GenerateMap extends JFrame {
             {
                 System.out.println(ex.getMessage());
             }
+            // </editor-fold>
         }
         @Override
         public void paintComponent(Graphics g)
