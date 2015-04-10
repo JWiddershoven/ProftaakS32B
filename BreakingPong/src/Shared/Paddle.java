@@ -6,6 +6,8 @@
 
 package Shared;
 
+import java.awt.Color;
+
 /**
  *
  * @author Mnesymne
@@ -17,6 +19,7 @@ public class Paddle extends GameObject{
     private CPU cpuPlayer;
     private User humanPlayer;
     private windowLocation selectedPosition;
+    private Color color;
     /**
      * Enumerator Direction
      */
@@ -49,6 +52,11 @@ public class Paddle extends GameObject{
     {
         return selectedPosition;
     }
+    
+    public Color getColor()
+    {
+        return color;
+    }
     /**
      * Consturctor for CPU Paddle
      * @param score value of score as int
@@ -58,12 +66,13 @@ public class Paddle extends GameObject{
      * @param cpu value of cpu as CPU Object
      * @param selectedLocation value of selectedPosition as windowLocation
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation) 
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation, Color color) 
     { 
         super(position,velocity,size);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.cpuPlayer = cpu;
+        this.color = color;
     }
     /**
      * Constructor for Player Paddle
@@ -74,12 +83,13 @@ public class Paddle extends GameObject{
      * @param user value of user as Player Object
      * @param selectedLocation value of selectedposition as windowLocation
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation) 
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation, Color color) 
     { 
         super(position,velocity,size);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.humanPlayer = user;
+        this.color = color;
     }
     /**
      * Move methode for a paddle

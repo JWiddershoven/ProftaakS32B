@@ -6,6 +6,8 @@
 
 package Shared;
 
+import java.awt.Color;
+
 /**
  *
  * @author Lorenzo
@@ -25,6 +27,8 @@ public class Block extends GameObject {
      * Powerup - See PowerUp class
      */
     private PowerUp powerUp;
+    
+    private Color color;
 
 
     /**
@@ -37,12 +41,13 @@ public class Block extends GameObject {
      * @param velocity as TVector2. The velocity of the GameObject in the game.
      * @param size as TVector2. The size of the GameObject in the game.
      */
-    public Block(int points, boolean isDestructable, PowerUp powerUp,TVector2 position, TVector2 velocity, TVector2 size)
+    public Block(int points, boolean isDestructable, PowerUp powerUp,TVector2 position, TVector2 velocity, TVector2 size, Color color)
     {
         super(position,velocity,size);
         this.points = points;
         this.isDestructable = isDestructable;
         this.powerUp = powerUp;
+        this.color = color;
     }
 
     /**
@@ -88,6 +93,11 @@ public class Block extends GameObject {
      */
     public void setPowerUp(PowerUp powerUp) {
         this.powerUp = powerUp;
+    }
+    
+    public Color getColor()
+    {
+        return color;
     }
 
     /**

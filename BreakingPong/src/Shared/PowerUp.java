@@ -6,6 +6,11 @@
 
 package Shared;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 /**
  *
  * @author Mnesymne
@@ -60,5 +65,14 @@ public class PowerUp {
      */
     public void setValue(int value) {
         this.value = value;
+    }
+    
+    public void getRandomPowerUpType()
+    {
+        List<PowerUpType> powerUps = Collections.unmodifiableList(Arrays.asList(PowerUpType.values()));
+        int size = powerUps.size();
+        Random random = new Random();
+        
+        this.type = powerUps.get(random.nextInt(size));
     }
 }
