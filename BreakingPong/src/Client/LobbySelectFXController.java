@@ -8,6 +8,7 @@ package Client;
 import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import Server.Lobby;
+import Shared.User;
 import java.awt.TrayIcon;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,10 +16,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
@@ -64,16 +65,16 @@ public class LobbySelectFXController implements Initializable {
     @FXML
     MenuItem miHelpAbout;
 
-    private Administration administration;
+    private static Administration administration;
 
-    private final ObservableList onlineUsersList
+    private final ObservableList<User> onlineUsersList
             = FXCollections.observableArrayList();
-    private final ObservableList lobbiesList
+    private final ObservableList<Lobby> lobbiesList
             = FXCollections.observableArrayList();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        administration = new Administration();
+        administration = Administration.getInstance();
         fillListViews();
     }
 
@@ -81,10 +82,11 @@ public class LobbySelectFXController implements Initializable {
     private void fillListViews() {
         onlineUsersList.clear();
         onlineUsersList.addAll(administration.getServer().getOnlineUsers());
-        lvLobbies.setItems(onlineUsersList);
+        lvOnlineUsers.setItems(onlineUsersList);
+        
         lobbiesList.clear();
         lobbiesList.addAll(administration.getServer().getLobbys());
-        lvOnlineUsers.setItems(lobbiesList);
+        lvLobbies.setItems(lobbiesList);               
     }
     
     // <editor-fold defaultstate="collapsed" desc="Eventhandlers">>
@@ -113,6 +115,7 @@ public class LobbySelectFXController implements Initializable {
         System.out.println("on lobby create click");
         try {
             Parent root = FXMLLoader.load(getClass().getResource("CreateLobby.fxml"));
+            
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();

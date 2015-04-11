@@ -85,9 +85,14 @@ public class CreateLobbyFXController implements Initializable
     private Administration administration;
 
     @Override
+<<<<<<< Updated upstream
     public void initialize(URL location, ResourceBundle resources)
     {
         administration = new Administration();
+=======
+    public void initialize(URL location, ResourceBundle resources) {
+        administration = Administration.getInstance();
+>>>>>>> Stashed changes
         fillComboboxes();
     }
 

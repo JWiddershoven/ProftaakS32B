@@ -14,6 +14,31 @@ import java.util.ArrayList;
  */
 public class Administration {
 
+    private static Administration instance = null;
+
+    /**
+     * The administration constructor. Here will the server, database and user
+     * list be created.
+     */
+    protected Administration() {
+        this.server = new Server();
+        this.database = new Database();
+        this.users = new ArrayList<>();
+    }
+
+    /**
+     * The singleton for administration
+     *
+     * @return the administration
+     */
+    public static Administration getInstance() {
+        if (instance == null) {
+            instance = new Administration();
+        }
+
+        return instance;
+    }
+
     /**
      *
      * @author Lorenzo
@@ -31,25 +56,19 @@ public class Administration {
     public Server getServer() {
         return server;
     }
+<<<<<<< Updated upstream
     
     private final Database database;
+=======
+
+    private Database database;
+>>>>>>> Stashed changes
 
     public Database getDatabase() {
         return database;
     }
-    
 
     private final ArrayList<User> users;
-
-    /**
-     * The administration constructor. Here will the server, database and user list be
-     * created.
-     */
-    public Administration() {
-        this.server = new Server();
-        this.database = new Database();
-        this.users = new ArrayList<>();
-    }
 
     /**
      * The username will be checked in the database When the username exists and
@@ -74,7 +93,13 @@ public class Administration {
         String checkPassword = "password";
 
         if (userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)) {
+<<<<<<< Updated upstream
             return new User(checkUsername, checkPassword,"testemail@hotmail.com",getServer());
+=======
+            User user = new User(userName, password, "test@test.nl", getServer());
+            users.add(user);
+            server.addUser(user);
+>>>>>>> Stashed changes
         } else {
             throw new IncorrectLoginDataException("Username and password combination is incorrect.");
         }

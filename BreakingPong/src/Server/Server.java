@@ -126,5 +126,16 @@ public class Server {
         }
 
     }
+    
+    /**
+     * Add a user to the online user collection
+     * @param user The user that logged in
+     */
+    public void addUser(User user){
+        if(user == null)
+            throw new IllegalArgumentException();
+        
+        onlineUsers.add(user);
+    }
 
 }

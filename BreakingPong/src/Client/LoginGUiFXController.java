@@ -11,16 +11,16 @@ import java.awt.TrayIcon;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javax.swing.JOptionPane;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -53,13 +53,18 @@ public class LoginGUiFXController implements Initializable
     @FXML
     Button btnCreateUserClear;
 
-    private Administration administration;
+    Administration administration;
 
     // Login Tab
     @Override
+<<<<<<< Updated upstream
     public void initialize(URL location, ResourceBundle resources)
     {
         administration = new Administration();
+=======
+    public void initialize(URL location, ResourceBundle resources) {
+        administration = Administration.getInstance();
+>>>>>>> Stashed changes
 
     }
 
@@ -73,6 +78,7 @@ public class LoginGUiFXController implements Initializable
         String username = tfLoginUsername.getText();
         String password = tfLoginPassword.getText();
         login(username, password);
+        
     }
 
     /**
@@ -109,15 +115,25 @@ public class LoginGUiFXController implements Initializable
             JOptionPane.showMessageDialog(null, "Please fill in both fields.",
                     "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());
 
+<<<<<<< Updated upstream
         } else
         {
             try
             {
                 ClientGUI.loggedinUser = administration.login(username, password);
+=======
+        } else {
+            try {
+                administration.login(username, password);
+                
+>>>>>>> Stashed changes
                 System.out.println("succesfully logged in.");
 
                 // succesvol ingelogd.
                 // TODO: Open LobbySelect.fxml
+                
+                
+                
                 Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);

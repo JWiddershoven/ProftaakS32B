@@ -66,7 +66,7 @@ public class GameLobbyFXController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        administration = new Administration();
+        administration = Administration.getInstance();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Eventhandler">
