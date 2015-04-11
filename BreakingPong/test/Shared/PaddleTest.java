@@ -13,6 +13,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import Server.Server;
+import java.awt.Color;
 
 /**
  *
@@ -37,15 +38,15 @@ public class PaddleTest {
         standardSize = new TVector2(25,10);
         position = new TVector2(50,50);
         velocity = new TVector2(10,10);
-        paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH);
+        paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH, Color.BLUE);
         
         position = new TVector2(75,75);
         velocity = new TVector2(100,100);
-        paddle2 = new Paddle(20, position, velocity, standardSize, player2, Paddle.windowLocation.SOUTH);
+        paddle2 = new Paddle(20, position, velocity, standardSize, player2, Paddle.windowLocation.SOUTH, Color.BLUE);
         
         position = new TVector2(100,100);
         velocity = new TVector2(50,50);
-        paddle3 = new Paddle(30, position, velocity, standardSize, player3, Paddle.windowLocation.EAST);
+        paddle3 = new Paddle(30, position, velocity, standardSize, player3, Paddle.windowLocation.EAST, Color.BLUE);
     }
 
     // TODO add test methods here.
@@ -66,15 +67,15 @@ public class PaddleTest {
         paddle2.addScore(10000);
         paddle3.addScore(15000000);
         
-        assertEquals("Score of paddle1 isn't set correctly", 50, paddle1.getScore());
-        assertEquals("Score of paddle2 isn't set correctly", 10000, paddle2.getScore());
-        assertEquals("Score of paddle3 isn't set correctly", 15000000, paddle3.getScore());
+        assertEquals("Score of paddle1 isn't set correctly", 60, paddle1.getScore());
+        assertEquals("Score of paddle2 isn't set correctly", 10020, paddle2.getScore());
+        assertEquals("Score of paddle3 isn't set correctly", 15000030, paddle3.getScore());
         
         paddle1.addScore(-1);
         paddle2.addScore(-1000);
         
-        assertEquals("Score of paddle1 didn't go down", 49, paddle1.getScore());
-        assertEquals("Score of paddle2 didn't go down", 9000, paddle2.getScore());
+        assertEquals("Score of paddle1 didn't go down", 59, paddle1.getScore());
+        assertEquals("Score of paddle2 didn't go down", 9020, paddle2.getScore());
     }
     
     @Test

@@ -40,6 +40,10 @@ public class GameObjectTest {
     // TODO add test methods here.
     // The methods must be annotated with annotation @Test. For example:
     //
-    // @Test
-    // public void hello() {}
+    
+    /***
+     * Je hebt 1 methode nodig anders faalt de test
+     */
+     @Test
+     public void hello() {}
 }

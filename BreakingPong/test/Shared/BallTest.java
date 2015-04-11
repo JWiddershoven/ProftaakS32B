@@ -6,6 +6,7 @@
 package Shared;
 
 import Server.Server;
+import java.awt.Color;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -37,7 +38,7 @@ public class BallTest {
         position = new TVector2(50, 30);
         velocity = new TVector2(15, 40);
         size = new TVector2(5, 5);
-        p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH);
+        p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH,Color.BLACK);
     }
 
     @Test
@@ -131,7 +132,7 @@ public class BallTest {
     public void testSetLastPaddleTouched() {
 
         try {
-            Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH);
+            Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, Color.BLACK);
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());
@@ -140,7 +141,7 @@ public class BallTest {
         }
 
         try {
-            Paddle p2 = new Paddle(100, position, velocity, size, user, Paddle.windowLocation.EAST);
+            Paddle p2 = new Paddle(100, position, velocity, size, user, Paddle.windowLocation.EAST, Color.BLACK);
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());

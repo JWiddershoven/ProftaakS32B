@@ -7,6 +7,9 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import Server.Administration;
+import Shared.Map;
+import java.awt.HeadlessException;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
@@ -23,13 +26,15 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Lorenzo
  */
-public class CreateLobbyFXController implements Initializable {
+public class CreateLobbyFXController implements Initializable
+{
 
     // Textfields
     @FXML
@@ -46,6 +51,10 @@ public class CreateLobbyFXController implements Initializable {
     RadioButton rbPowerupsYes;
     @FXML
     RadioButton rbPowerupsNo;
+
+    // ToggleGroups
+    ToggleGroup rgroupPlayers;
+    ToggleGroup rgroupPowerups;
 
     // Comboboxes
     @FXML
@@ -76,7 +85,8 @@ public class CreateLobbyFXController implements Initializable {
     private Administration administration;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
         administration = new Administration();
         fillComboboxes();
     }
@@ -84,9 +94,11 @@ public class CreateLobbyFXController implements Initializable {
     /**
      * Fills comboboxes with data.
      */
-    private void fillComboboxes() {
+    private void fillComboboxes()
+    {
         ObservableList<String> timeStamps = FXCollections.observableArrayList();
-        for (Timestamp ts : administration.getDatabase().getGameTimeDurations()) {
+        for (Timestamp ts : administration.getDatabase().getGameTimeDurations())
+        {
             timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
         }
         cbGametimes.setItems(timeStamps);
@@ -96,49 +108,110 @@ public class CreateLobbyFXController implements Initializable {
 
     }
 
-// <editor-fold defaultstate="collapsed" desc="Eventhandlers">
+// <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">
     @FXML
-    private void onCreateLobbyClick() {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
-            Scene scene = new Scene(root);
-            mainStage.setScene(scene);
-            mainStage.show();
-        } catch (Exception ex) {
+    private void onCreateLobbyClick()
+    {
+        try
+        {
+            String errorMessage = createLobby();
+            if (errorMessage.isEmpty())
+            {
+
+                Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
+                Scene scene = new Scene(root);
+                mainStage.setScene(scene);
+                mainStage.show();
+            } else
+            {
+                JOptionPane.showConfirmDialog(null, errorMessage, "Cannot create lobby",
+                        JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            }
+        } catch (IOException | HeadlessException ex)
+        {
 
         }
     }
 
+    /**
+     * *
+     * First validates input fields then creates the lobby if fields are valid
+     *
+     * @return Error message or empty is fields are valid.
+     */
+    private String createLobby()
+    {
+        String lobbyname = tfLobbyName.getText().trim();
+        if (lobbyname.trim().isEmpty())
+        {
+            return "Lobby name cannot be empty";
+        }
+        Map map = (Map) cbMappen.getSelectionModel().getSelectedItem();
+        if (map == null)
+        {
+            return "Please select a Map";
+        }
+        Timestamp gameDuration = (Timestamp) cbGametimes.getSelectionModel().getSelectedItem();
+        if (gameDuration == null)
+        {
+            return "Please select a Game Time";
+        }
+        byte maxPlayers = 2;
+        if (rgroupPlayers.getSelectedToggle().equals(rb4Players))
+        {
+            maxPlayers = 4;
+        }
+        try
+        {
+            if (ClientGUI.loggedinUser == null)
+            {
+                throw new Exception("Dit zou niet mogen gebeuren!");
+            }
+            administration.getServer().CreateLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser, maxPlayers, administration.getServer());
+            return "";
+        } catch (Exception ex)
+        {
+            return ex.getMessage();
+        }
+    }
+
     @FXML
-    private void onCancelClick() {
+    private void onCancelClick()
+    {
         System.out.println("Cancel click");
-        try {
+        try
+        {
             Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
 
         }
     }
 
     @FXML
-    private void onHelpAboutClick() {
+    private void onHelpAboutClick()
+    {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    private void onFileExitClick() {
+    private void onFileExitClick()
+    {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION) {
+        if (dialogResult == JOptionPane.YES_OPTION)
+        {
             System.exit(0);
         }
     }
 
     @FXML
-    private void onEditDeleteClick() {
+    private void onEditDeleteClick()
+    {
         System.out.println("deleted");
     }
 

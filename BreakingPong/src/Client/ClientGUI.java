@@ -5,6 +5,7 @@
  */
 package Client;
 
+import Shared.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 public class ClientGUI extends Application {
 
     public static Stage mainStage;
+    public static User loggedinUser;
     
     @Override
     public void start(Stage primaryStage) throws Exception {

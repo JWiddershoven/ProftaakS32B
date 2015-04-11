@@ -57,9 +57,10 @@ public class Administration {
      *
      * @param userName The username of the user
      * @param password The password of the user
+     * @return User is succesfully logged in
      * @throws Server.Administration.IncorrectLoginDataException
      */
-    public void login(String userName, String password) throws IncorrectLoginDataException {
+    public User login(String userName, String password) throws IncorrectLoginDataException {
         if (userName == null || userName.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null or empty!");
         }
@@ -73,7 +74,7 @@ public class Administration {
         String checkPassword = "password";
 
         if (userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)) {
-            //logged in
+            return new User(checkUsername, checkPassword,"testemail@hotmail.com",getServer());
         } else {
             throw new IncorrectLoginDataException("Username and password combination is incorrect.");
         }
