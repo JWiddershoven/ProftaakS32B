@@ -30,7 +30,7 @@ public class ClientGUI extends Application {
         mainStage.setTitle("Breaking Pong");
         mainStage.setScene(scene);
         mainStage.show();
-        //LoginGUiFXController controller = new LoginGUiFXController();
+        
     }
 
     /**

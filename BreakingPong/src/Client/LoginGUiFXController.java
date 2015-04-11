@@ -62,7 +62,7 @@ public class LoginGUiFXController implements Initializable
         administration = Administration.getInstance();
     }
 
-        // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
+    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
     /**
      *
      * @param evt
@@ -84,6 +84,9 @@ public class LoginGUiFXController implements Initializable
     private void onLoginClear(ActionEvent evt)
     {
         clearLogin();
+
+        Shared.Game g = new Shared.Game(1, 300, false);
+        g.setupGame();
     }
 
     /**
@@ -154,24 +157,66 @@ public class LoginGUiFXController implements Initializable
      *
      * @param evt
      */
+    // WAAROM KOMT HIJ NIET IN DEZE METHODE
     @FXML
     private void onCreateUserCreate(ActionEvent evt)
     {
-
-        createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfLoginPassword.getText(),
+        String message = createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfLoginPassword.getText(),
                 tfCreateUserReEnterPassword.getText());
+        if (!message.isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, message,
+                    "Create user failed", TrayIcon.MessageType.WARNING.ordinal());
+        } else
+        {
+            JOptionPane.showMessageDialog(null, "Account created!",
+                    "Account created!", TrayIcon.MessageType.WARNING.ordinal());
+        }
     }
 
     /**
-     *
+     * Validates input fields and creates the user account if all fields are valid.
      * @param username
      * @param email
      * @param password
      * @param repassword
+     * @return Error message or empty string if account is created.
      */
-    private void createUser(String username, String email, String password, String repassword)
+    private String createUser(String username, String email, String password, String repassword)
     {
-
+        if (username == null || username.trim().isEmpty())
+        {
+            return "Username cannot be empty.";
+        }
+        if (password == null || password.isEmpty())
+        {
+            return "Password cannot be empty.";
+        }
+        if (email == null || email.trim().isEmpty())
+        {
+            return "Email address cannot be empty.";
+        }
+        if (!(email.contains("@") && email.contains(".")))
+        {
+            return "Email address is not of correct format.";
+        }
+        if (username.length() < 6)
+        {
+            return "Username must be at least 6 characters";
+        }
+        if (password.length() < 6)
+        {
+            return "Password must be at least 6 characters";
+        }
+        try
+        {
+            Shared.User newUser = new Shared.User(username, password, email, Administration.getInstance().getServer());
+            Administration.getInstance().getServer().addUser(newUser);
+        } catch (Exception ex)
+        {
+            return ex.getMessage();
+        }
+        return "";
     }
 
     /**
