@@ -382,10 +382,9 @@ public class Game extends JPanel implements Runnable, KeyListener
             else if (o instanceof Ball)
             {
                 Ball b = (Ball)o;
-                g.setColor(Color.black);
-                
+                g.fillOval((int)b.getPosition().getX(), (int)b.getPosition().getY(), (int)b.getSize().getX(), (int)b.getSize().getY());
+                g.setColor(Color.black);     
             }
-            // TODO DRAW BALL
         }
     }
     @Override

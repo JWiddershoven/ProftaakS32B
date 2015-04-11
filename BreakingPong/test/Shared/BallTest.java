@@ -158,36 +158,37 @@ public class BallTest {
         }
     }
 
-    @Test
-    public void testMoveBall() {
-
-        try {
-            TVector2 vector = new TVector2(100, 100);
-            b = new Ball(tvector2, p, position, velocity, size);
-            b.move(vector);
-            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
-            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
-        } catch (IllegalArgumentException exc) {
-
-        }
-
-        try {
-            TVector2 vector = new TVector2(-10, -10);
-            b = new Ball(tvector2, p, position, velocity, size);
-            b.move(vector);
-            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
-            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
-        } catch (IllegalArgumentException exc) {
-
-        }
-
-        try {
-            b = new Ball(tvector2, p, position, velocity, size);
-            b.move(null);
-            fail("Vector cannot be null.");
-        } catch (IllegalArgumentException exc) {
-
-        }
-    }
+// Verplaatst naar startBall() timer.
+//    @Test
+//    public void testMoveBall() {
+//
+//        try {
+//            TVector2 vector = new TVector2(100, 100);
+//            b = new Ball(tvector2, p, position, velocity, size);
+//            b.move(vector);
+//            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
+//            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
+//        } catch (IllegalArgumentException exc) {
+//
+//        }
+//
+//        try {
+//            TVector2 vector = new TVector2(-10, -10);
+//            b = new Ball(tvector2, p, position, velocity, size);
+//            b.move(vector);
+//            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
+//            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
+//        } catch (IllegalArgumentException exc) {
+//
+//        }
+//
+//        try {
+//            b = new Ball(tvector2, p, position, velocity, size);
+//            b.move(null);
+//            fail("Vector cannot be null.");
+//        } catch (IllegalArgumentException exc) {
+//
+//        }
+//    }
 
 }

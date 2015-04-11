@@ -137,5 +137,22 @@ public class Server {
         
         onlineUsers.add(user);
     }
+    
+    /**
+     * Delete the map from the list of maps.
+     * @param map The map that will be deleted from the list of maps, cannot be null.
+     */
+    public void deleteMap(Map map)
+    {
+        if (map != null && mappenObserableList.contains(map))
+        {
+            this.mappenObserableList.remove(map);
+        } 
+        else
+        {
+            throw new IllegalArgumentException("Map cannot be null and map must exist.");
+        }
+    }
+
 
 }

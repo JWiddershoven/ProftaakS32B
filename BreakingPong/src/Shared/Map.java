@@ -5,6 +5,8 @@
  */
 package Shared;
 
+import Server.Server;
+
 /**
  * @author Jelle
  */
@@ -64,14 +66,6 @@ public class Map
     public int[][] getLayout()
     {
         return this.layout;
-    }
-
-    /**
-     * Delete the map object.
-     */
-    public void deleteMap()
-    {
-
     }
 
     /**
