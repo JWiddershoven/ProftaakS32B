@@ -125,7 +125,6 @@ public class Game extends JPanel implements Runnable, KeyListener
         this.selectedMaps = new ArrayList<>();
         this.setFocusable(true);
         addKeyListener(this);
-        setupGame();
     }
     /**
      * Adds a CPU player to the game

@@ -75,6 +75,7 @@ public class GameLobbyFXController implements Initializable {
     private void onStartGameClick() {
         
         Game game = new Game(1, 300, true);
+        game.setupGame();
         /*try {
                 
                 Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
