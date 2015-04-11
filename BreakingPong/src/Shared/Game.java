@@ -185,7 +185,10 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         return ballList;
     }
-
+    
+    /**
+     * Create the window, draw the objects and start the game
+     */
     public void setupGame()
     {
         //Create the window
@@ -203,14 +206,19 @@ public class Game extends JPanel implements Runnable, KeyListener
         window.setVisible(true);
         this.startGame();
     }
-    
+    /**
+     * Method to start the game and thread that move the objects
+     */
     public void startGame()
     {
         inProgress = true;
         thread = new Thread(this);
         thread.start();
     }
-    
+    /**
+     * Opens a filedialog where the user can select a .txt file to be loaded into a ArrayList<String>
+     * @return ArrayList<String> loaded map file as ArrayList.
+     */
     public ArrayList<String> loadMap()
     {
         // Open file dialog
@@ -265,6 +273,10 @@ public class Game extends JPanel implements Runnable, KeyListener
         return mapLayout;
     }
     
+    /**
+     * Draw objects onto the panel from the ArrayList
+     * @param mapLayout ArrayList<String> with the mapLayout from the LoadMapMethod
+     */
     public void drawMap(ArrayList<String> mapLayout)
     {
         // X & Y Positions for the blocks
@@ -330,6 +342,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                             size = new TVector2(100f,20f);
                             Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.WEST, Color.green);
                             this.addObject(horizontalPaddle);
+                            playerAmount++;
                             break;
                         }
                         else // Add CPU player
