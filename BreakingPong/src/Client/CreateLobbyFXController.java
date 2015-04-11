@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -96,12 +94,14 @@ public class CreateLobbyFXController implements Initializable
      */
     private void fillComboboxes()
     {
-        ObservableList<String> timeStamps = FXCollections.observableArrayList();
-        for (Timestamp ts : administration.getDatabase().getGameTimeDurations())
-        {
-            timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
-        }
-        cbGametimes.setItems(timeStamps);
+//        ObservableList<String> timeStamps = FXCollections.observableArrayList();
+//        for (Timestamp ts : administration.getDatabase().getGameTimeDurations())
+//        {
+//            timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
+//        }
+//        
+        
+        cbGametimes.setItems(administration.getDatabase().getGameTimeDurations().sorted());
         cbGametimes.getSelectionModel().select(0);
         cbMappen.setItems(administration.getServer().getMappenObservableList());
         cbMappen.getSelectionModel().select(0);
@@ -157,10 +157,15 @@ public class CreateLobbyFXController implements Initializable
             return "Please select a Game Time";
         }
         byte maxPlayers = 2;
-        if (rgroupPlayers.getSelectedToggle().equals(rb4Players))
+        if (rb2Players.isSelected())
         {
+            maxPlayers = 2;
+        }
+        
+        if(rb4Players.isSelected()){
             maxPlayers = 4;
         }
+        
         try
         {
             if (ClientGUI.loggedinUser == null)
