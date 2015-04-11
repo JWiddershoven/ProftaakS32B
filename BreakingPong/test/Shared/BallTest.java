@@ -30,7 +30,7 @@ public class BallTest {
 
     @Before
     public void setUp() {
-        testGame = new Game(1, 180, false, false);
+        testGame = new Game(1, 180, false);
         server = new Server();
         cpu = new CPU("Bot", (byte) 5, testGame);
         user = new User("Jelle123", "wachtwoord123", "jelle@gmail.com", server);
