@@ -56,13 +56,9 @@ public class Administration {
     public Server getServer() {
         return server;
     }
-<<<<<<< Updated upstream
-    
-    private final Database database;
-=======
 
-    private Database database;
->>>>>>> Stashed changes
+    private final Database database;
+
 
     public Database getDatabase() {
         return database;
@@ -93,13 +89,12 @@ public class Administration {
         String checkPassword = "password";
 
         if (userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)) {
-<<<<<<< Updated upstream
-            return new User(checkUsername, checkPassword,"testemail@hotmail.com",getServer());
-=======
+
             User user = new User(userName, password, "test@test.nl", getServer());
             users.add(user);
             server.addUser(user);
->>>>>>> Stashed changes
+            return user;
+
         } else {
             throw new IncorrectLoginDataException("Username and password combination is incorrect.");
         }
