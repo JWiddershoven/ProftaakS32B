@@ -24,7 +24,7 @@ public class GameTest {
     @Before
     public void setUp() 
     {
-        firstGame = new Game(1,180,false, false);
+        firstGame = new Game(1,180,false);
     }
 
     // TODO add test methods here.

@@ -7,6 +7,7 @@
 package Shared;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
 
 /**
  *
@@ -20,6 +21,7 @@ public class Paddle extends GameObject{
     private User humanPlayer;
     private windowLocation selectedPosition;
     private Color color;
+    private boolean left = false, right = false;
     /**
      * Enumerator Direction
      */
@@ -51,6 +53,11 @@ public class Paddle extends GameObject{
     public windowLocation getWindowLocation()
     {
         return selectedPosition;
+    }
+    
+    public User getPlayer()
+    {
+        return humanPlayer;
     }
     
     public Color getColor()
@@ -117,4 +124,29 @@ public class Paddle extends GameObject{
                      break;
          }
     }
+    
+    public void tick()
+    {
+        if(left) this.Move(direction.LEFT);
+        if(right) this.Move(direction.RIGHT);
+    }
+    
+    public void keyPressed(int k)
+    {
+        if(this.getPlayer() != null)
+        {
+            if(k == KeyEvent.VK_LEFT) left = true;
+            if(k == KeyEvent.VK_RIGHT) right = true;
+        }
+    }
+    
+    public void keyReleased(int k)
+    {
+        if(this.getPlayer() != null)
+        {
+            if(k == KeyEvent.VK_LEFT) left = false;
+            if(k == KeyEvent.VK_RIGHT) right = false;
+        }
+    }
+    
 }

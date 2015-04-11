@@ -7,6 +7,7 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import Server.Administration;
+import Shared.Game;
 import java.awt.HeadlessException;
 import java.io.IOException;
 import java.net.URL;
@@ -72,8 +73,10 @@ public class GameLobbyFXController implements Initializable {
     // <editor-fold defaultstate="collapsed" desc="Eventhandler">
     @FXML
     private void onStartGameClick() {
-        try {
-            //new GenerateMap().setVisible(true);
+        
+        Game game = new Game(1, 300, true);
+        /*try {
+                
                 Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
@@ -81,7 +84,7 @@ public class GameLobbyFXController implements Initializable {
             
         } catch (IOException | HeadlessException ex) {
                     System.out.println("error");
-        }
+        }*/
     }
 
     @FXML
