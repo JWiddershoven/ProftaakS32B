@@ -5,18 +5,12 @@
  */
 package Client;
 
-import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import Shared.Game;
-import java.awt.HeadlessException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -70,7 +64,7 @@ public class GameLobbyFXController implements Initializable {
         administration = Administration.getInstance();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Eventhandler">
+    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
     @FXML
     private void onStartGameClick() {
         

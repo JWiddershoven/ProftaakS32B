@@ -26,7 +26,8 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class LoginGUiFXController implements Initializable {
+public class LoginGUiFXController implements Initializable
+{
 
     // Textfields
     @FXML
@@ -56,16 +57,19 @@ public class LoginGUiFXController implements Initializable {
 
     // Login Tab
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
         administration = Administration.getInstance();
     }
 
+        // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
     /**
      *
      * @param evt
      */
     @FXML
-    private void onLoginClick(ActionEvent evt) {
+    private void onLoginClick(ActionEvent evt)
+    {
         String username = tfLoginUsername.getText();
         String password = tfLoginPassword.getText();
         login(username, password);
@@ -77,14 +81,16 @@ public class LoginGUiFXController implements Initializable {
      * @param evt
      */
     @FXML
-    private void onLoginClear(ActionEvent evt) {
+    private void onLoginClear(ActionEvent evt)
+    {
         clearLogin();
     }
 
     /**
      * Clears the login fields
      */
-    private void clearLogin() {
+    private void clearLogin()
+    {
         tfLoginPassword.clear();
         tfLoginUsername.clear();
     }
@@ -97,13 +103,17 @@ public class LoginGUiFXController implements Initializable {
      * @param username The username of the user.
      * @param password The password of the user.
      */
-    private void login(String username, String password) {
-        if (username.trim().isEmpty() || password.trim().isEmpty()) {
+    private void login(String username, String password)
+    {
+        if (username.trim().isEmpty() || password.trim().isEmpty())
+        {
             JOptionPane.showMessageDialog(null, "Please fill in both fields.",
                     "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());
 
-        } else {
-            try {
+        } else
+        {
+            try
+            {
                 ClientGUI.loggedinUser = administration.login(username, password);
 
                 System.out.println("succesfully logged in.");
@@ -116,18 +126,23 @@ public class LoginGUiFXController implements Initializable {
                 mainStage.show();
                 clearLogin();
 
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalArgumentException ex)
+            {
                 JOptionPane.showMessageDialog(null, ex.getMessage(),
                         "Fields cannot be empty", TrayIcon.MessageType.WARNING.ordinal());
-            } catch (Server.Administration.IncorrectLoginDataException ex) {
-                if (ex.getMessage().isEmpty()) {
+            } catch (Server.Administration.IncorrectLoginDataException ex)
+            {
+                if (ex.getMessage().isEmpty())
+                {
                     JOptionPane.showMessageDialog(null, "Username and password combination is incorrect",
                             "Login failed", TrayIcon.MessageType.WARNING.ordinal());
-                } else {
+                } else
+                {
                     JOptionPane.showMessageDialog(null, ex.getMessage(),
                             "Login failed", TrayIcon.MessageType.WARNING.ordinal());
                 }
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
                 JOptionPane.showMessageDialog(null, ex.getMessage(),
                         "Unexpected error in Login()", TrayIcon.MessageType.ERROR.ordinal());
             }
@@ -140,7 +155,8 @@ public class LoginGUiFXController implements Initializable {
      * @param evt
      */
     @FXML
-    private void onCreateUserCreate(ActionEvent evt) {
+    private void onCreateUserCreate(ActionEvent evt)
+    {
 
         createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfLoginPassword.getText(),
                 tfCreateUserReEnterPassword.getText());
@@ -153,7 +169,8 @@ public class LoginGUiFXController implements Initializable {
      * @param password
      * @param repassword
      */
-    private void createUser(String username, String email, String password, String repassword) {
+    private void createUser(String username, String email, String password, String repassword)
+    {
 
     }
 
@@ -162,11 +179,13 @@ public class LoginGUiFXController implements Initializable {
      * @param evt
      */
     @FXML
-    private void onCreateUserClear(ActionEvent evt) {
+    private void onCreateUserClear(ActionEvent evt)
+    {
         tfCreateUserEmail.clear();
         tfCreateUserPassword.clear();
         tfCreateUserReEnterPassword.clear();
         tfCreateUserUsername.clear();
     }
 
+    // </editor-fold>
 }

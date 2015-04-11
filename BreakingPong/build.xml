@@ -50,4 +50,11 @@
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
     -->
+	<target depends="init, test" name="-do-clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}" followsymlinks="false" includeemptydirs="true"/>
+    </target>
+	<target depends="init,compile,test,-pre-jar,-do-jar-without-libraries,-do-jar-with-libraries,-post-jar" name="-do-jar"/>
+    <target depends="init,compile,test,-pre-jar,-do-jar,-post-jar" description="Build JAR." name="jar"/>
+    
 </project>

@@ -89,7 +89,7 @@ public class LobbySelectFXController implements Initializable {
         lvLobbies.setItems(lobbiesList);               
     }
     
-    // <editor-fold defaultstate="collapsed" desc="Eventhandlers">>
+    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
     
     @FXML
     private void onJoinLobbyClick() {
