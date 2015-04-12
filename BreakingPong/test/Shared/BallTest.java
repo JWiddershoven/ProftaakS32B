@@ -38,7 +38,7 @@ public class BallTest {
         position = new TVector2(50, 30);
         velocity = new TVector2(15, 40);
         size = new TVector2(5, 5);
-        p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH,Color.BLACK);
+        p = new Paddle(33, position, velocity, size, cpu, Paddle.WindowLocation.NORTH,Color.BLACK);
     }
 
     @Test
@@ -132,7 +132,7 @@ public class BallTest {
     public void testSetLastPaddleTouched() {
 
         try {
-            Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, Color.BLACK);
+            Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.WindowLocation.SOUTH, Color.BLACK);
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());
@@ -141,7 +141,7 @@ public class BallTest {
         }
 
         try {
-            Paddle p2 = new Paddle(100, position, velocity, size, user, Paddle.windowLocation.EAST, Color.BLACK);
+            Paddle p2 = new Paddle(100, position, velocity, size, user, Paddle.WindowLocation.EAST, Color.BLACK);
             b = new Ball(tvector2, p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());

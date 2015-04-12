@@ -38,15 +38,15 @@ public class PaddleTest {
         standardSize = new TVector2(25,10);
         position = new TVector2(50,50);
         velocity = new TVector2(10,10);
-        paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH, Color.BLUE);
+        paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.WindowLocation.NORTH, Color.BLUE);
         
         position = new TVector2(75,75);
         velocity = new TVector2(100,100);
-        paddle2 = new Paddle(20, position, velocity, standardSize, player2, Paddle.windowLocation.SOUTH, Color.BLUE);
+        paddle2 = new Paddle(20, position, velocity, standardSize, player2, Paddle.WindowLocation.SOUTH, Color.BLUE);
         
         position = new TVector2(100,100);
         velocity = new TVector2(50,50);
-        paddle3 = new Paddle(30, position, velocity, standardSize, player3, Paddle.windowLocation.EAST, Color.BLUE);
+        paddle3 = new Paddle(30, position, velocity, standardSize, player3, Paddle.WindowLocation.EAST, Color.BLUE);
     }
 
     // TODO add test methods here.
@@ -119,7 +119,7 @@ public class PaddleTest {
     public void testMove()
     {
         TVector2 expected = new TVector2(49,50);
-        paddle1.Move(Paddle.direction.LEFT);
+        paddle1.Move(Paddle.Direction.LEFT);
         try
         {
             assertEquals(expected.getX(),paddle1.getPosition().getX(),1);
@@ -131,7 +131,7 @@ public class PaddleTest {
         }
         
         expected = new TVector2(50,50);
-        paddle1.Move(Paddle.direction.RIGHT);
+        paddle1.Move(Paddle.Direction.RIGHT);
         try
         {
             assertEquals(expected.getX(),paddle1.getPosition().getX(),1);
@@ -143,7 +143,7 @@ public class PaddleTest {
         }
         
         expected = new TVector2(50,49);
-        paddle1.Move(Paddle.direction.DOWN);
+        paddle1.Move(Paddle.Direction.DOWN);
         try
         {
             assertEquals(expected.getX(),paddle1.getPosition().getX(),1);
@@ -155,7 +155,7 @@ public class PaddleTest {
         }
         
         expected = new TVector2(50,50);
-        paddle1.Move(Paddle.direction.UP);
+        paddle1.Move(Paddle.Direction.UP);
         try
         {
             assertEquals(expected.getX(),paddle1.getPosition().getX(),1);

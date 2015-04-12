@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Shared;
 
+import Server.ColliderChecker;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
@@ -13,140 +13,192 @@ import java.awt.event.KeyEvent;
  *
  * @author Mnesymne
  */
+public class Paddle extends GameObject
+{
 
-public class Paddle extends GameObject{
-    
     private int score;
     private CPU cpuPlayer;
     private User humanPlayer;
-    private windowLocation selectedPosition;
+    private WindowLocation selectedPosition;
     private Color color;
     private boolean left = false, right = false;
+
     /**
      * Enumerator Direction
      */
-    public enum direction 
+    public enum Direction
     {
+
         LEFT, RIGHT, UP, DOWN
     };
-    
-    public enum windowLocation
+
+    public enum WindowLocation
     {
+
         NORTH, EAST, SOUTH, WEST
     }
+
     /**
      * Getter of score
+     *
      * @return score as int
      */
-    public int getScore() {
+    public int getScore()
+    {
         return score;
     }
+
     /**
      * Setter of score
-     * @param score value of score as int 
+     *
+     * @param score value of score as int
      */
-    public void addScore(int score) 
+    public void addScore(int score)
     {
         this.score = this.score + score;
     }
-    
-    public windowLocation getWindowLocation()
+
+    public WindowLocation getWindowLocation()
     {
         return selectedPosition;
     }
-    
+
     public User getPlayer()
     {
         return humanPlayer;
     }
-    
+
     public Color getColor()
     {
         return color;
     }
+
     /**
      * Consturctor for CPU Paddle
+     *
      * @param score value of score as int
      * @param position value of position as TVector2
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
-     * @param selectedLocation value of selectedPosition as windowLocation
+     * @param selectedLocation value of selectedPosition as WindowLocation
+     * @param color
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation, Color color) 
-    { 
-        super(position,velocity,size);
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, WindowLocation selectedLocation, Color color)
+    {
+        super(position, velocity, size);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.cpuPlayer = cpu;
         this.color = color;
     }
+
     /**
      * Constructor for Player Paddle
+     *
      * @param score value of score as int
      * @param position value of position as TVector2
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param user value of user as Player Object
-     * @param selectedLocation value of selectedposition as windowLocation
+     * @param selectedLocation value of selectedposition as WindowLocation
+     * @param color
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation, Color color) 
-    { 
-        super(position,velocity,size);
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, WindowLocation selectedLocation, Color color)
+    {
+        super(position, velocity, size);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.humanPlayer = user;
         this.color = color;
     }
+
     /**
-     * Move methode for a paddle
-     * Moves the paddle object location into the given direction
-     * @param direction value of direction as enum
+     * Move methode for a paddle Moves the paddle object location into the given
+     * Direction
+     *
+     * @param direction value of Direction as enum
      */
-    public void Move(direction direction)
+    public void Move(Direction direction)
     {
-         switch (direction) {
+        TVector2 oldPosition = getPosition();
+        TVector2 newPosition = TVector2.zero;
+        switch (direction)
+        {
             case UP:
-                TVector2 newPositionUp = new TVector2(this.getPosition().getX(), this.getPosition().getY()+1);
-                this.setPosition(newPositionUp);
-                     break;
+                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() + 1);
+                break;
             case DOWN:
-                TVector2 newPositionDown = new TVector2(this.getPosition().getX(), this.getPosition().getY()-1);
-                this.setPosition(newPositionDown);
-                     break;
+                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() - 1);
+                break;
             case LEFT:
-                TVector2 newPositionLeft = new TVector2(this.getPosition().getX()-1, this.getPosition().getY());
-                this.setPosition(newPositionLeft);
-                     break;
+                newPosition = new TVector2(this.getPosition().getX() - 1, this.getPosition().getY());
+                break;
             case RIGHT:
-                TVector2 newPosition = new TVector2(this.getPosition().getX()+1, this.getPosition().getY());
-                this.setPosition(newPosition);
-                     break;
-         }
+                newPosition = new TVector2(this.getPosition().getX() + 1, this.getPosition().getY());
+                break;
+        }
+        this.setPosition(newPosition);
+        GameObject collidedWith = ColliderChecker.collidesWith(this);
+        // if paddle collides with something that is not a ball
+        if (collidedWith == null || !collidedWith.getClass().equals(Ball.class))
+        {
+            this.setPosition(oldPosition);
+        }
     }
-    
+
     public void tick()
     {
-        if(left) this.Move(direction.LEFT);
-        if(right) this.Move(direction.RIGHT);
+        if (left)
+        {
+            if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH)
+            {
+                this.Move(Direction.LEFT);
+            } else
+            {
+                this.Move(Direction.DOWN);
+            }
+        }
+        if (right)
+        {
+            if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH)
+            {
+                this.Move(Direction.RIGHT);
+            } else
+            {
+                this.Move(Direction.UP);
+            }
+        }
     }
-    
+
     public void keyPressed(int k)
     {
-        if(this.getPlayer() != null)
+        if (this.getPlayer() != null)
         {
-            if(k == KeyEvent.VK_LEFT) left = true;
-            if(k == KeyEvent.VK_RIGHT) right = true;
+            if (k == KeyEvent.VK_LEFT)
+            {
+                left = true;
+            }
+            if (k == KeyEvent.VK_RIGHT)
+            {
+                right = true;
+            }
         }
     }
-    
+
     public void keyReleased(int k)
     {
-        if(this.getPlayer() != null)
+        if (this.getPlayer() != null)
         {
-            if(k == KeyEvent.VK_LEFT) left = false;
-            if(k == KeyEvent.VK_RIGHT) right = false;
+            if (k == KeyEvent.VK_LEFT)
+            {
+                left = false;
+            }
+            if (k == KeyEvent.VK_RIGHT)
+            {
+                right = false;
+            }
         }
     }
-    
+
 }

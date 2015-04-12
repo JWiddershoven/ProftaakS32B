@@ -126,48 +126,48 @@ public class CPU implements Runnable{
      */
     public void Move()
     {
-        if(this.myPaddle.getWindowLocation()== Paddle.windowLocation.SOUTH)
+        if(this.myPaddle.getWindowLocation()== Paddle.WindowLocation.SOUTH)
         {
             if(closestBall.getTVector2().getX() > this.myPaddle.getPosition().getX())
             {
-                myPaddle.Move(Paddle.direction.RIGHT);
+                myPaddle.Move(Paddle.Direction.RIGHT);
             }
             else
             {
-                myPaddle.Move(Paddle.direction.LEFT);
+                myPaddle.Move(Paddle.Direction.LEFT);
             }
         }
-        else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH)
+        else if(this.myPaddle.getWindowLocation() == Paddle.WindowLocation.NORTH)
         {
             if(closestBall.getTVector2().getX() < this.myPaddle.getPosition().getX())
             {
-                myPaddle.Move(Paddle.direction.RIGHT);
+                myPaddle.Move(Paddle.Direction.RIGHT);
             }
             else
             {
-                myPaddle.Move(Paddle.direction.LEFT);
+                myPaddle.Move(Paddle.Direction.LEFT);
             }
         }
-        else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST)
+        else if(this.myPaddle.getWindowLocation() == Paddle.WindowLocation.WEST)
         {
             if(closestBall.getTVector2().getY() > this.myPaddle.getPosition().getY())
             {
-                myPaddle.Move(Paddle.direction.UP);
+                myPaddle.Move(Paddle.Direction.UP);
             }
             else
             {
-                myPaddle.Move(Paddle.direction.DOWN);
+                myPaddle.Move(Paddle.Direction.DOWN);
             }
         }
-        else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST)
+        else if(this.myPaddle.getWindowLocation() == Paddle.WindowLocation.EAST)
         {
             if(closestBall.getTVector2().getY() < this.myPaddle.getPosition().getY())
             {
-                myPaddle.Move(Paddle.direction.UP);
+                myPaddle.Move(Paddle.Direction.UP);
             }
             else
             {
-                myPaddle.Move(Paddle.direction.DOWN);
+                myPaddle.Move(Paddle.Direction.DOWN);
             }
         }
     }

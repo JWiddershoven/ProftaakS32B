@@ -5,6 +5,7 @@
  */
 
 package Shared;
+import Server.ColliderChecker;
 import Server.Server;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -136,7 +137,7 @@ public class Game extends JPanel implements Runnable, KeyListener
         TVector2 standardSize = new TVector2(25,10);
         TVector2 position = new TVector2(50,50);
         TVector2 velocity = new TVector2(10,10);
-        //paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH);
+        //paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.WindowLocation.NORTH);
         //CPU newBot = new CPU(botName,botDifficulty,,this);
         //botList.add(newBot);
     }
@@ -162,6 +163,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     public void addObject(GameObject object)
     {
         this.objectList.add(object);
+        ColliderChecker.gameObjectsList.add(object);
     }
     /**
      * Get all the Objects from the games object list
@@ -340,7 +342,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                         if(playerAmount == 1)
                         {
                             size = new TVector2(100f,20f);
-                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.WEST, Color.green);
+                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.WindowLocation.WEST, Color.green);
                             this.addObject(horizontalPaddle);
                             playerAmount++;
                             break;
@@ -348,7 +350,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                         else // Add CPU player
                         {
                             size = new TVector2(100f,20f);
-                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpu, Paddle.windowLocation.WEST, Color.green);
+                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpu, Paddle.WindowLocation.WEST, Color.green);
                             this.addObject(horizontalPaddle);
                             break;
                         }
@@ -358,7 +360,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                     case "5":
                     {
                         size = new TVector2(20f, 100f);
-                        Paddle verticalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.NORTH, Color.green);
+                        Paddle verticalPaddle = new Paddle(0, position, velocity, size, player, Paddle.WindowLocation.NORTH, Color.green);
                         this.addObject(verticalPaddle);
                         break;
                     }
