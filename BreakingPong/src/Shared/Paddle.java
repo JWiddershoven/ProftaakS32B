@@ -5,7 +5,7 @@
  */
 package Shared;
 
-import Server.ColliderChecker;
+import Server.CollisionChecker;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
@@ -139,7 +139,7 @@ public class Paddle extends GameObject
                 break;
         }
         this.setPosition(newPosition);
-        GameObject collidedWith = ColliderChecker.collidesWith(this);
+        GameObject collidedWith = CollisionChecker.collidesWith(this);
         // if paddle collides with something that is not a ball
         if (collidedWith == null || !collidedWith.getClass().equals(Ball.class))
         {

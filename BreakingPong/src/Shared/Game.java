@@ -5,7 +5,7 @@
  */
 
 package Shared;
-import Server.ColliderChecker;
+import Server.CollisionChecker;
 import Server.Server;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -163,7 +163,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     public void addObject(GameObject object)
     {
         this.objectList.add(object);
-        ColliderChecker.gameObjectsList.add(object);
+        CollisionChecker.gameObjectsList.add(object);
     }
     /**
      * Get all the Objects from the games object list

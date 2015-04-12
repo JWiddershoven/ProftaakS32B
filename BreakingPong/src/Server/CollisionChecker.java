@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Lorenzo
  */
-public class ColliderChecker
+public class CollisionChecker
 {
 
     public static ArrayList<GameObject> gameObjectsList = new ArrayList<>();
@@ -32,7 +32,7 @@ public class ColliderChecker
         {
             if (!gb.equals(objectToCheck))
             {
-                if (ColliderChecker.checkCollidesWith(objectToCheck, gb))
+                if (CollisionChecker.checkCollidesWith(objectToCheck, gb))
                 {
                     return gb;
                 }
@@ -53,7 +53,7 @@ public class ColliderChecker
         {
             if (!gb.equals(objectToCheck))
             {
-                if (ColliderChecker.checkCollidesWith(objectToCheck, gb))
+                if (CollisionChecker.checkCollidesWith(objectToCheck, gb))
                 {
                     return gb;
                 }
