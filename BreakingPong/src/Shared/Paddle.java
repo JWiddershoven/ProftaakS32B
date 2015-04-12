@@ -19,20 +19,20 @@ public class Paddle extends GameObject
     private int score;
     private CPU cpuPlayer;
     private User humanPlayer;
-    private WindowLocation selectedPosition;
+    private windowLocation selectedPosition;
     private Color color;
     private boolean left = false, right = false;
 
     /**
-     * Enumerator Direction
+     * Enumerator direction
      */
-    public enum Direction
+    public enum direction
     {
 
         LEFT, RIGHT, UP, DOWN
     };
 
-    public enum WindowLocation
+    public enum windowLocation
     {
 
         NORTH, EAST, SOUTH, WEST
@@ -58,7 +58,7 @@ public class Paddle extends GameObject
         this.score = this.score + score;
     }
 
-    public WindowLocation getWindowLocation()
+    public windowLocation getWindowLocation()
     {
         return selectedPosition;
     }
@@ -81,10 +81,10 @@ public class Paddle extends GameObject
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
-     * @param selectedLocation value of selectedPosition as WindowLocation
+     * @param selectedLocation value of selectedPosition as windowLocation
      * @param color
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, WindowLocation selectedLocation, Color color)
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation, Color color)
     {
         super(position, velocity, size);
         this.score = score;
@@ -101,10 +101,10 @@ public class Paddle extends GameObject
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param user value of user as Player Object
-     * @param selectedLocation value of selectedposition as WindowLocation
+     * @param selectedLocation value of selectedposition as windowLocation
      * @param color
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, WindowLocation selectedLocation, Color color)
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation, Color color)
     {
         super(position, velocity, size);
         this.score = score;
@@ -115,11 +115,11 @@ public class Paddle extends GameObject
 
     /**
      * Move methode for a paddle Moves the paddle object location into the given
-     * Direction
+ direction
      *
-     * @param direction value of Direction as enum
+     * @param direction value of direction as enum
      */
-    public void Move(Direction direction)
+    public void Move(direction direction)
     {
         TVector2 oldPosition = getPosition();
         TVector2 newPosition = TVector2.zero;
@@ -151,22 +151,22 @@ public class Paddle extends GameObject
     {
         if (left)
         {
-            if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH)
+            if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
             {
-                this.Move(Direction.LEFT);
+                this.Move(direction.LEFT);
             } else
             {
-                this.Move(Direction.DOWN);
+                this.Move(direction.DOWN);
             }
         }
         if (right)
         {
-            if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH)
+            if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
             {
-                this.Move(Direction.RIGHT);
+                this.Move(direction.RIGHT);
             } else
             {
-                this.Move(Direction.UP);
+                this.Move(direction.UP);
             }
         }
     }
