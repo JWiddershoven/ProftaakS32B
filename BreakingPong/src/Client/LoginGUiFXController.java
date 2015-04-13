@@ -84,9 +84,6 @@ public class LoginGUiFXController implements Initializable
     private void onLoginClear(ActionEvent evt)
     {
         clearLogin();
-
-        Shared.Game g = new Shared.Game(1, 300, false);
-        g.setupGame();
     }
 
     /**

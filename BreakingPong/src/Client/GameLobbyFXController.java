@@ -21,7 +21,8 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class GameLobbyFXController implements Initializable {
+public class GameLobbyFXController implements Initializable
+{
 
     // Textfields
     @FXML
@@ -60,55 +61,70 @@ public class GameLobbyFXController implements Initializable {
     private Administration administration;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
         administration = Administration.getInstance();
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
     @FXML
-    private void onStartGameClick() {
-        
+    private void onStartGameClick()
+    {
+
         Game game = new Game(1, 300, true);
-        game.setupGame();
+        try
+        {
+            game.setupGame();
+        } catch (Exception ex)
+        {
+            JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
         /*try {
                 
-                Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
-                Scene scene = new Scene(root);
-                mainStage.setScene(scene);
-                mainStage.show();
+         Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
+         Scene scene = new Scene(root);
+         mainStage.setScene(scene);
+         mainStage.show();
             
-        } catch (IOException | HeadlessException ex) {
-                    System.out.println("error");
-        }*/
+         } catch (IOException | HeadlessException ex) {
+         System.out.println("error");
+         }*/
     }
 
     @FXML
-    private void onLeaveGameClick() {
-
-    }
-
-    @FXML
-    private void onSendChatClick() {
+    private void onLeaveGameClick()
+    {
 
     }
 
     @FXML
-    private void onHelpAboutClick() {
+    private void onSendChatClick()
+    {
+
+    }
+
+    @FXML
+    private void onHelpAboutClick()
+    {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    private void onFileExitClick() {
+    private void onFileExitClick()
+    {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION) {
+        if (dialogResult == JOptionPane.YES_OPTION)
+        {
             System.exit(0);
         }
     }
 
     @FXML
-    private void onEditDeleteClick() {
+    private void onEditDeleteClick()
+    {
         System.out.println("deleted");
     }
 
