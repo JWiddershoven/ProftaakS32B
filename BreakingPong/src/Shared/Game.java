@@ -416,7 +416,6 @@ public class Game extends JPanel implements Runnable, KeyListener
                                 this.addObject(horizontalPaddle);
                                 playerAmount++;
                                 break;
-
                             }
 
                         }
