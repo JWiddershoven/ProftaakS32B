@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
@@ -191,7 +192,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     /**
      * Create the window, draw the objects and start the game
      */
-    public void setupGame()
+    public void setupGame() throws IOException
     {
         //Create the window
         JFrame window = new JFrame();
@@ -200,9 +201,9 @@ public class Game extends JPanel implements Runnable, KeyListener
         window.setLocationRelativeTo(null);
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //Open file dialog and save input
-        ArrayList<String> mayLayout = this.loadMap();
+        ArrayList<String> mapLayout = this.loadMap();
         //Draw the level from the input
-        this.drawMap(mayLayout);
+        this.drawMap(mapLayout);
         //Add the drawn level to the window and then start the game
         window.setContentPane(this);
         window.setVisible(true);
@@ -221,7 +222,7 @@ public class Game extends JPanel implements Runnable, KeyListener
      * Opens a filedialog where the user can select a .txt file to be loaded into a ArrayList<String>
      * @return ArrayList<String> loaded map file as ArrayList.
      */
-    public ArrayList<String> loadMap()
+    public ArrayList<String> loadMap() throws IOException
     {
         // Open file dialog
         File file = null;
@@ -231,20 +232,35 @@ public class Game extends JPanel implements Runnable, KeyListener
         chooser.setFileFilter(filter);
         int code = chooser.showOpenDialog(this);
         ArrayList<String> mapLayout = new ArrayList<>();
-        try
-        {
-            if (code == JFileChooser.APPROVE_OPTION)
+        String text = "";
+        if (code == JFileChooser.APPROVE_OPTION)
             {
-                //Read the selected file
-                File selectedFile = chooser.getSelectedFile();
-                String fileName = selectedFile.getName();
+                try
+                {
+                    //Read the selected file
+                    File selectedFile = chooser.getSelectedFile();
+                    if(selectedFile == null)
+                    {
+                        throw new IllegalArgumentException();
+                    }                
+                    String fileName = selectedFile.getName();
                 FileInputStream fis = new FileInputStream(selectedFile);
                 InputStreamReader in = new InputStreamReader(fis, Charset.forName("UTF-8"));
                 char[] buffer = new char[(int) selectedFile.length()];
                 int n = in.read(buffer);
                 //Remove whitespaces
-                String text = new String(buffer, 0, n).replaceAll("\\s+", "");
+                text = new String(buffer, 0, n).replaceAll("\\s+", "");
                 in.close();
+                }
+                catch(FileNotFoundException  ex)
+                {
+                    
+                }
+                catch(IOException IOex)
+                {
+                    
+                }
+
                 //Add each row into a Array of strings
                 String mapDesign[][] = new String[40][40];
                 int location = 0;
@@ -266,12 +282,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                     }
                     mapLayout.add(row);
                 }
-            }
-        }
-        catch(IOException ex)
-        {
-            System.out.println("File is incorrect. Make sure it's a textfile and containt 40 rows with 40 characters consisting of: 0,1,2,3,4,5 and 6");
-        }
+            }        
         return mapLayout;
     }
     
@@ -339,12 +350,11 @@ public class Game extends JPanel implements Runnable, KeyListener
                     case "4":
                     {
                         // Add human player
-                        if(playerAmount == 1)
+                        if(playerAmount == 2)
                         {
                             size = new TVector2(100f,20f);
                             Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.WEST, Color.green);
                             this.addObject(horizontalPaddle);
-                            playerAmount++;
                             break;
                         }
                         else // Add CPU player
@@ -352,7 +362,9 @@ public class Game extends JPanel implements Runnable, KeyListener
                             size = new TVector2(100f,20f);
                             Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpu, Paddle.windowLocation.WEST, Color.green);
                             this.addObject(horizontalPaddle);
+                            playerAmount++;
                             break;
+                            
                         }
 
                     }
