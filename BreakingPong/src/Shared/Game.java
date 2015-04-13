@@ -192,22 +192,26 @@ public class Game extends JPanel implements Runnable, KeyListener
     /**
      * Create the window, draw the objects and start the game
      */
-    public void setupGame() throws IOException
+    public void setupGame()
     {
-        //Create the window
-        JFrame window = new JFrame();
-        window.setSize(819,848);
-        window.setBackground(Color.white);
-        window.setLocationRelativeTo(null);
-        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //Open file dialog and save input
         ArrayList<String> mapLayout = this.loadMap();
-        //Draw the level from the input
-        this.drawMap(mapLayout);
-        //Add the drawn level to the window and then start the game
-        window.setContentPane(this);
-        window.setVisible(true);
-        this.startGame();
+        if(mapLayout != null)
+        {
+            //Create the window
+            JFrame window = new JFrame();
+            window.setSize(819,848);
+            window.setBackground(Color.white);
+            window.setLocationRelativeTo(null);
+            window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            //Draw the level from the input
+            this.drawMap(mapLayout);
+            //Add the drawn level to the window and then start the game
+            window.setContentPane(this);
+            window.setVisible(true);
+            this.startGame();
+        }
+
     }
     /**
      * Method to start the game and thread that move the objects
@@ -222,8 +226,9 @@ public class Game extends JPanel implements Runnable, KeyListener
      * Opens a filedialog where the user can select a .txt file to be loaded into a ArrayList<String>
      * @return ArrayList<String> loaded map file as ArrayList.
      */
-    public ArrayList<String> loadMap() throws IOException
+    public ArrayList<String> loadMap()
     {
+        CollisionChecker.gameObjectsList.clear();
         // Open file dialog
         File file = null;
         JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home")));
@@ -238,50 +243,60 @@ public class Game extends JPanel implements Runnable, KeyListener
                 try
                 {
                     //Read the selected file
-                    File selectedFile = chooser.getSelectedFile();
-                    if(selectedFile == null)
-                    {
-                        throw new IllegalArgumentException();
-                    }                
+                    File selectedFile = chooser.getSelectedFile();             
                     String fileName = selectedFile.getName();
-                FileInputStream fis = new FileInputStream(selectedFile);
-                InputStreamReader in = new InputStreamReader(fis, Charset.forName("UTF-8"));
-                char[] buffer = new char[(int) selectedFile.length()];
-                int n = in.read(buffer);
-                //Remove whitespaces
-                text = new String(buffer, 0, n).replaceAll("\\s+", "");
-                in.close();
-                }
-                catch(FileNotFoundException  ex)
-                {
-                    
-                }
-                catch(IOException IOex)
-                {
-                    
-                }
+                    FileInputStream fis = new FileInputStream(selectedFile);
+                    InputStreamReader in = new InputStreamReader(fis, Charset.forName("UTF-8"));
+                    char[] buffer = new char[(int) selectedFile.length()];
+                    int n = in.read(buffer);
+                    //Remove whitespaces
+                    text = new String(buffer, 0, n).replaceAll("\\s+", "");
+                    in.close();
+                    }
+                    catch(FileNotFoundException  ex)
+                    {
 
-                //Add each row into a Array of strings
-                String mapDesign[][] = new String[40][40];
-                int location = 0;
-                for (String[] mapDesign1 : mapDesign)
-                {
-                    for (int c = 0; c < mapDesign1.length; c++)
-                    {
-                        mapDesign1[c] = text.substring(location, location + 1);
-                        location++;
                     }
-                }
-                //Add each row into an ArrayList
-                for (int r = 0; r < mapDesign.length; r++)
-                {
-                    String row = new String();
-                    for (String mapDesign1 : mapDesign[r])
+                    catch(IOException IOex)
                     {
-                        row = row + mapDesign1;
+
                     }
-                    mapLayout.add(row);
-                }
+
+                    try
+                    {
+                        //Add each row into a Array of strings
+                        String mapDesign[][] = new String[40][40];
+                        int location = 0;
+                        for (String[] mapDesign1 : mapDesign)
+                        {
+                            for (int c = 0; c < mapDesign1.length; c++)
+                            {
+                                mapDesign1[c] = text.substring(location, location + 1);
+                                location++;
+                            }
+                        }
+
+                        //Add each row into an ArrayList
+                        for (int r = 0; r < mapDesign.length; r++)
+                        {
+                            String row = new String();
+                            for (String mapDesign1 : mapDesign[r])
+                            {
+                                row = row + mapDesign1;
+                            }
+                            mapLayout.add(row);
+                        }
+                    }
+                    catch(IllegalArgumentException ifex)
+                    {
+                        System.out.println("File incorrect");
+                        return null;
+                    }
+                    catch(RuntimeException ex)
+                    {
+                        System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
+                        return null;
+                    }
             }        
         return mapLayout;
     }
@@ -322,6 +337,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                     {
                         Block wall = new Block(0, false, null,position, velocity, size, Color.gray);
                         this.addObject(wall);
+                        
                         break;
                     }
                     // Create white space
@@ -353,14 +369,14 @@ public class Game extends JPanel implements Runnable, KeyListener
                         if(playerAmount == 2)
                         {
                             size = new TVector2(100f,20f);
-                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.WEST, Color.green);
+                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.green);
                             this.addObject(horizontalPaddle);
                             break;
                         }
                         else // Add CPU player
                         {
                             size = new TVector2(100f,20f);
-                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpu, Paddle.windowLocation.WEST, Color.green);
+                            Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpu, Paddle.windowLocation.NORTH, Color.green);
                             this.addObject(horizontalPaddle);
                             playerAmount++;
                             break;
@@ -372,8 +388,17 @@ public class Game extends JPanel implements Runnable, KeyListener
                     case "5":
                     {
                         size = new TVector2(20f, 100f);
-                        Paddle verticalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.NORTH, Color.green);
+                        Paddle verticalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.EAST, Color.green);
                         this.addObject(verticalPaddle);
+                        break;
+                    }
+                    
+                    // Create a ball spawn
+                    case "6":
+                    {
+                        size = new TVector2(15f, 15f);
+                        //Ball ball = new Ball(null, position, velocity, size);
+                        //this.addObject(ball);
                         break;
                     }
                 }
@@ -419,6 +444,15 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         long start, elapsed, wait;
         // Do while game is started
+        
+        for(GameObject o : this.objectList)
+        {
+            if(o instanceof Ball)
+            {
+                Ball b = (Ball)o;
+                b.startBall();
+            }
+        }
         while(inProgress)
         {
             start = System.nanoTime();
@@ -457,14 +491,17 @@ public class Game extends JPanel implements Runnable, KeyListener
         }
     }
 
+    @Override
     public void keyTyped(KeyEvent e)
     {
         // Doesn't need to do anything
     }
     
     //Keypressed eventhandler
+    @Override
     public void keyPressed(KeyEvent e)
     {
+        System.out.println("Y");
         Boolean inCollisionLeft;
         Boolean inCollisionRight;
         //Get all objects from the game
@@ -476,39 +513,12 @@ public class Game extends JPanel implements Runnable, KeyListener
                 inCollisionLeft = false;
                 inCollisionRight = false;
                 Paddle p = (Paddle)o;
-                //Get all objects from the game
-                for(GameObject o2 : this.objectList)
-                {
-                    //Check if object X position equals the X position of the paddle
-                    if(o2.getPosition().getX() == p.getPosition().getX())
-                    {
-                        // If object is a block
-                        if(o2 instanceof Block)
-                        {
-                            Block b = (Block)o2;
-                            //Check if there is a block next to the paddle on the left side
-                            if(p.getPosition().getX() == b.getPosition().getX() && p.getPosition().getY() == b.getPosition().getY())
-                            {
-                                inCollisionLeft = true;
-                            }
-                            //Check if there is a blok next to the paddle on the right side
-                            else if(p.getPosition().getX() == b.getPosition().getX() && p.getPosition().getY() == b.getPosition().getY())
-                            {
-                                inCollisionRight = true;
-                            }    
-                        }
-                    }
-
-                }
-                // If there is no collision send pressed key to paddle
-                if(!inCollisionLeft && !inCollisionRight)
-                {
-                    p.keyPressed(e.getKeyCode());
-                }
+                p.keyPressed(e.getKeyCode());
             }
         }
     }
     //Keyreleased eventhandler
+    @Override
     public void keyReleased(KeyEvent e)
     {   
         //Get all objects from the game

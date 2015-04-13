@@ -6,6 +6,7 @@ package Shared;
  * and open the template in the editor.
  */
 
+import Server.CollisionChecker;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -24,12 +25,14 @@ public class PaddleTest {
     private Paddle paddle1, paddle2, paddle3;
     private TVector2 standardSize, position, velocity;
     private Server selectedServer;
+    private Game game;
     public PaddleTest() {
     }
     
     @Before
     public void setUp() {
         selectedServer = new Server();
+        game  = new Game(1, 300,true);
         
         player1 = new User("PongLord666","123456", "Email@Pong.com", selectedServer);
         player2 = new User("TestAccount1", "Test01", "Test@Pong.com", selectedServer);
@@ -39,14 +42,18 @@ public class PaddleTest {
         position = new TVector2(50,50);
         velocity = new TVector2(10,10);
         paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH, Color.BLUE);
+        game.addObject(paddle1);
+        
         
         position = new TVector2(75,75);
         velocity = new TVector2(100,100);
         paddle2 = new Paddle(20, position, velocity, standardSize, player2, Paddle.windowLocation.SOUTH, Color.BLUE);
+        game.addObject(paddle2);
         
         position = new TVector2(100,100);
         velocity = new TVector2(50,50);
         paddle3 = new Paddle(30, position, velocity, standardSize, player3, Paddle.windowLocation.EAST, Color.BLUE);
+        game.addObject(paddle3);
     }
 
     // TODO add test methods here.
