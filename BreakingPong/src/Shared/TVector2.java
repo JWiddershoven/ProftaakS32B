@@ -53,4 +53,13 @@ public class TVector2 {
     }
     
     public static TVector2 zero = new TVector2(0.0f, 0.0f);
+    
+    /**
+     * @return "x:" + this.x + " y:" + this.y;
+     */
+    @Override
+    public String toString()
+    {
+        return "x:" + this.x + " y:" + this.y;
+    }
 }
