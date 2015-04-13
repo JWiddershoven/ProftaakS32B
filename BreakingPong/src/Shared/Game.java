@@ -383,7 +383,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create white space
                         case "1":
                         {
-                            // Don't do anything to create blank space
+                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+                            this.addObject(space);
                             break;
                         }
                         // Create block without powerup
@@ -422,7 +423,6 @@ public class Game extends JPanel implements Runnable, KeyListener
                                 botList.add(cpubot);
                                 playerAmount++;
                                 break;
-
                             }
 
                         }
@@ -469,8 +469,18 @@ public class Game extends JPanel implements Runnable, KeyListener
                 g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 g.setColor(Color.black);
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-            } //Draw a paddle
-            else if (o instanceof Paddle)
+            }// Draw a whitespace
+            else if (o instanceof WhiteSpace)
+            {
+                WhiteSpace w = (WhiteSpace)o;
+                g.setColor(w.getColor());
+                g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
+            }
+        }
+        for(GameObject o : this.getObjectList())
+        {
+             //Draw a paddle
+            if (o instanceof Paddle)
             {
                 Paddle p = (Paddle) o;
                 g.setColor(p.getColor());
