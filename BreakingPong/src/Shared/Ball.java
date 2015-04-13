@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Server.CollisionChecker;
 import java.awt.event.ActionEvent;
 import javafx.application.Platform;
 import javax.swing.Timer;
@@ -71,44 +72,35 @@ public class Ball extends GameObject
     {
         timer = new Timer(10, (ActionEvent e) ->
         {
-            float velocityX = this.getVelocity().getX();
-            float velocityY = this.getVelocity().getY();
+
+            GameObject collidedWith = CollisionChecker.collidesWith(this);
+            // If ball collides with something that is not a WhiteSpace.
+            if (collidedWith != null && !collidedWith.getClass().equals(WhiteSpace.class))
+            {
+                bounce(collidedWith);
+            }
             
-            // reverse x bounce movement whenever the ball would cross the right border on its current course
-            if (this.getVelocity().getX() > 0 && this.getVelocity().getX() + xMovement + (this.getSize().getX() / 2) > 800)
-            {
-                velocityX *= -1;
-                this.setVelocity(new TVector2(velocityX, velocityY));
-            }
-            // reverses x bounce movement if ball would cross left border
-            if (xMovement < 0 && this.getVelocity().getX() + xMovement - (this.getSize().getX() / 2) < 0)
-            {
-                velocityX *= -1;
-                this.setVelocity(new TVector2(velocityX, velocityY));
-            }
-            // reverses y bounce movement if ball would cross bottom border
-            if (yMovement > 0 && this.getVelocity().getY() + yMovement + (this.getSize().getX() / 2) > 800)
-            {
-                velocityY *= -1;
-                this.setVelocity(new TVector2(velocityX, velocityY));
-            }
-            // reverses y bounce movement if ball would cross top border
-            if (yMovement < 0 && this.getVelocity().getY() + yMovement - (this.getSize().getX() / 2) < 0)
-            {
-                velocityY *= -1;
-                this.setVelocity(new TVector2(velocityX, velocityY));
-            }
-            TVector2 newPos = new TVector2(this.getPosition().getX() + velocityX, this.getPosition().getY() + velocityY);
+            TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
+                    this.getPosition().getY() + this.getVelocity().getY());
             // Increments x/y coordinates with (positive or negative) movement.
             // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
             Platform.runLater(() ->
             {
                 this.setPosition(newPos);
-                this.getVelocity().setX(getVelocity().getX());
-                this.getVelocity().setY(getVelocity().getY());
             });
         });
         timer.start();
+    }
+    
+    public void bounce(GameObject go)
+    {
+        float deltaX = go.getPosition().getX() - this.getPosition().getX();
+        float deltaY = go.getPosition().getY() - this.getPosition().getY();
+        double angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+        System.out.println(angleInDegrees);
+        TVector2 vel = this.getVelocity();
+        TVector2 newVelocity = new TVector2((vel.getX() - vel.getX() - vel.getX()), (vel.getY() - vel.getY() - vel.getY()));
+        this.setVelocity(newVelocity);     
     }
 
     /**
