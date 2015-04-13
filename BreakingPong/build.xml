@@ -50,5 +50,14 @@
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
     -->
+<<<<<<< HEAD
 
+=======
+	<!--
+	<target depends="init, test" name="-do-clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${dist.dir}" followsymlinks="false" includeemptydirs="true"/>
+    </target>-->
+    
+>>>>>>> origin/master
 </project>
