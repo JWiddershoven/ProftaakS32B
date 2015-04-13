@@ -254,6 +254,10 @@ public class Game extends JPanel implements Runnable, KeyListener
         inProgress = true;
         thread = new Thread(this);
         thread.start();
+        for (CPU c : botList)
+        {
+            c.startBot();
+        }
     }
 
     /**
@@ -365,7 +369,6 @@ public class Game extends JPanel implements Runnable, KeyListener
                     TVector2 position = new TVector2(x, y);
                     Server server = new Server();
                     User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                    CPU cpu = new CPU("Bob", (byte) 1, this);
                     //Check what type of block needs to be created from input
                     switch (type)
                     {
@@ -412,8 +415,11 @@ public class Game extends JPanel implements Runnable, KeyListener
                             } else // Add CPU player
                             {
                                 size = new TVector2(100f, 20f);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpu, Paddle.windowLocation.NORTH, Color.green);
+                                CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.green);
+                                cpubot.setMyPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
+                                botList.add(cpubot);
                                 playerAmount++;
                                 break;
 
@@ -436,6 +442,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                             velocity = generateRandomVelocity();
                             Ball ball = new Ball(null, position, velocity, size);
                             this.addObject(ball);
+                            ballList.add(ball);
                             break;
                         }
                     }
@@ -502,7 +509,10 @@ public class Game extends JPanel implements Runnable, KeyListener
             //Move objects
             tick();
             // Redraw objects on panel
+
+            this.revalidate();
             repaint();
+
             elapsed = System.nanoTime() - start;
             wait = targetTime - elapsed / 1000000;
             if (wait <= 0)
@@ -561,7 +571,6 @@ public class Game extends JPanel implements Runnable, KeyListener
     }
 
     //Keyreleased eventhandler
-
     @Override
     public void keyReleased(KeyEvent e)
     {
@@ -582,15 +591,17 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         Random rand = new Random();
         float x = generateRandomFloat(-1f, 1f, rand);
-        float y = generateRandomFloat(-1f,1f,rand);
-        return new TVector2(x,y);
+        float y = generateRandomFloat(-1f, 1f, rand);
+        return new TVector2(x, y);
     }
-    
+
     private float generateRandomFloat(float min, float max, Random rand)
     {
         float finalFloat = 0f;
         while (finalFloat == 0f)
+        {
             finalFloat = rand.nextFloat() * (max - min) + min;
+        }
         return finalFloat;
     }
 }
