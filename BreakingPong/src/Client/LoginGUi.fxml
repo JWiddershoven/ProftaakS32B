@@ -16,8 +16,8 @@
               <children>
                 <Label layoutX="123.0" layoutY="57.0" text="Username" />
                 <Label layoutX="127.0" layoutY="95.0" text="Password" />
-                <TextField fx:id="tfLoginUsername" layoutX="186.0" layoutY="54.0" prefWidth="200.0" promptText="Username" />
-                        <PasswordField fx:id="tfLoginPassword" layoutX="186.0" layoutY="91.0" prefHeight="25.0" prefWidth="200.0" />
+                <TextField fx:id="tfLoginUsername" layoutX="186.0" layoutY="54.0" prefWidth="200.0" promptText="Username" text="username" />
+                        <PasswordField fx:id="tfLoginPassword" layoutX="186.0" layoutY="91.0" prefHeight="25.0" prefWidth="200.0" text="password" />
                 <Button fx:id="btnLogin" layoutX="218.0" layoutY="171.0" mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
                 <Button fx:id="btnLoginClear" layoutX="300.0" layoutY="171.0" mnemonicParsing="false" onAction="#onLoginClear" text="Clear" />
               </children>
