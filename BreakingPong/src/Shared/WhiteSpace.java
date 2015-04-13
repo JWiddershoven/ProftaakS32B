@@ -5,11 +5,19 @@
  */
 package Shared;
 
+import java.awt.Color;
+
 /**
  *
  * @author Jordi
  */
-public class WhiteSpace
+public class WhiteSpace extends GameObject
 {
+    private Color color;
+    public WhiteSpace(TVector2 position, TVector2 velocity, TVector2 size, Color color)
+    {
+        super(position, velocity, size);
+        this.color = color;
+    }
     
 }
