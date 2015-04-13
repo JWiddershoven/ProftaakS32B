@@ -3,9 +3,9 @@
     <import file="nbproject/build-impl.xml"/>
     <!--
 
-    There exist several targets which are by default empty and which can be 
-    used for execution of your tasks. These targets are usually executed 
-    before and after some main targets. Those of them relevant for JavaFX project are: 
+    There exist several targets which are by default empty and which can be
+    used for execution of your tasks. These targets are usually executed
+    before and after some main targets. Those of them relevant for JavaFX project are:
 
       -pre-init:                 called before initialization of project properties
       -post-init:                called after initialization of project properties
@@ -50,11 +50,5 @@
     nbproject/build-impl.xml and nbproject/jfx-impl.xml.
 
     -->
-	<target depends="init, test" name="-do-clean">
-        <delete dir="${build.dir}"/>
-        <delete dir="${dist.dir}" followsymlinks="false" includeemptydirs="true"/>
-    </target>
-	<target depends="init,compile,test,-pre-jar,-do-jar-without-libraries,-do-jar-with-libraries,-post-jar" name="-do-jar"/>
-    <target depends="init,compile,test,-pre-jar,-do-jar,-post-jar" description="Build JAR." name="jar"/>
-    
+
 </project>
