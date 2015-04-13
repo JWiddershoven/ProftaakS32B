@@ -56,9 +56,9 @@ public class CPU implements Runnable{
         int i = 0;
         for(Ball b : currentPosBall)
         {
-          ClosestTo[i] = (b.getTVector2().getX() - currentPosPaddle.getX());
+          ClosestTo[i] = (b.getPosition().getX() - currentPosPaddle.getX());
           i++;
-          ClosestTo[i] = b.getTVector2().getY() - currentPosPaddle.getY();
+          ClosestTo[i] = b.getPosition().getY() - currentPosPaddle.getY();
           i++;
         }
         points = new double[4];
@@ -128,7 +128,7 @@ public class CPU implements Runnable{
     {
         if(this.myPaddle.getWindowLocation()== Paddle.windowLocation.SOUTH)
         {
-            if(closestBall.getTVector2().getX() > this.myPaddle.getPosition().getX())
+            if(closestBall.getPosition().getX() > this.myPaddle.getPosition().getX())
             {
                 myPaddle.Move(Paddle.direction.RIGHT);
             }
@@ -139,7 +139,7 @@ public class CPU implements Runnable{
         }
         else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH)
         {
-            if(closestBall.getTVector2().getX() < this.myPaddle.getPosition().getX())
+            if(closestBall.getPosition().getX() < this.myPaddle.getPosition().getX())
             {
                 myPaddle.Move(Paddle.direction.RIGHT);
             }
@@ -150,7 +150,7 @@ public class CPU implements Runnable{
         }
         else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST)
         {
-            if(closestBall.getTVector2().getY() > this.myPaddle.getPosition().getY())
+            if(closestBall.getPosition().getY() > this.myPaddle.getPosition().getY())
             {
                 myPaddle.Move(Paddle.direction.UP);
             }
@@ -161,7 +161,7 @@ public class CPU implements Runnable{
         }
         else if(this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST)
         {
-            if(closestBall.getTVector2().getY() < this.myPaddle.getPosition().getY())
+            if(closestBall.getPosition().getY() < this.myPaddle.getPosition().getY())
             {
                 myPaddle.Move(Paddle.direction.UP);
             }
