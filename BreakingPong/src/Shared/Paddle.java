@@ -141,7 +141,7 @@ public class Paddle extends GameObject
         this.setPosition(newPosition);
         GameObject collidedWith = CollisionChecker.collidesWith(this);
         // if paddle collides with something that is not a ball
-        if (collidedWith != null && !collidedWith.getClass().equals(Ball.class))
+        if (collidedWith != null && !collidedWith.getClass().equals(Ball.class) && !collidedWith.getClass().equals(WhiteSpace.class))
         {
             this.setPosition(oldPosition);
         }
