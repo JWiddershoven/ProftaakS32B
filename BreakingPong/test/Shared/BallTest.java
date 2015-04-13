@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author Jelle TO-DO: move(), collision()
+ * @author Jelle
  */
 public class BallTest
 {
@@ -45,14 +45,18 @@ public class BallTest
     public void testBall()
     {
         /**
-         * Creates a new ball object with a TVector2 and lastPaddleTouched.
+         * Creates a new ball object with a paddle, position, velocity and size.
          */
         try
         {
             b = new Ball(p, position, velocity, size);
+            assertEquals(p, b.getLastPaddleTouched());
+            assertEquals(position, b.getPosition());
+            assertEquals(velocity, b.getVelocity());
+            assertEquals(size, b.getSize());
         } catch (IllegalArgumentException exc)
         {
-
+            fail("Constructor failure!");
         }
 
         // @param lastPaddleTouched The last Paddle which touched the ball.
@@ -60,15 +64,6 @@ public class BallTest
         {
             b = new Ball(null, position, velocity, size);
             fail("lastPaddleTouched cannot be null.");
-        } catch (IllegalArgumentException exc)
-        {
-
-        }
-
-        try
-        {
-            b = new Ball(p, position, velocity, size);
-            assertEquals(p, b.getLastPaddleTouched());
         } catch (IllegalArgumentException exc)
         {
 
@@ -84,29 +79,11 @@ public class BallTest
 
         }
 
-        try
-        {
-            b = new Ball(p, position, velocity, size);
-            assertEquals(position, b.getPosition());
-        } catch (IllegalArgumentException exc)
-        {
-
-        }
-
         // @param velocity The velocity of a GameObject.
         try
         {
             b = new Ball(p, position, null, size);
             fail("Velocity of a GameObject cannot be null.");
-        } catch (IllegalArgumentException exc)
-        {
-
-        }
-
-        try
-        {
-            b = new Ball(p, position, velocity, size);
-            assertEquals(velocity, b.getVelocity());
         } catch (IllegalArgumentException exc)
         {
 
@@ -121,46 +98,24 @@ public class BallTest
         {
 
         }
-
-        try
-        {
-            b = new Ball(p, position, velocity, size);
-            assertEquals(size, b.getSize());
-        } catch (IllegalArgumentException exc)
-        {
-
-        }
     }
 
     @Test
     public void testSetLastPaddleTouched()
     {
-
+        b = new Ball(p, position, velocity, size);
+        Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, Color.BLACK);
         try
         {
-            Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, Color.BLACK);
-            b = new Ball(p, position, velocity, size);
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());
         } catch (IllegalArgumentException exc)
         {
 
         }
-
+        
         try
         {
-            Paddle p2 = new Paddle(100, position, velocity, size, user, Paddle.windowLocation.EAST, Color.BLACK);
-            b = new Ball(p, position, velocity, size);
-            b.setLastPaddleTouched(p2);
-            assertEquals(p2, b.getLastPaddleTouched());
-        } catch (IllegalArgumentException exc)
-        {
-
-        }
-
-        try
-        {
-            b = new Ball(p, position, velocity, size);
             b.setLastPaddleTouched(null);
             fail("lastPaddleTouched cannot be null.");
         } catch (IllegalArgumentException exc)
@@ -168,37 +123,4 @@ public class BallTest
 
         }
     }
-
-// Verplaatst naar startBall() timer.
-//    @Test
-//    public void testMoveBall() {
-//
-//        try {
-//            TVector2 vector = new TVector2(100, 100);
-//            b = new Ball(tvector2, p, position, velocity, size);
-//            b.move(vector);
-//            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
-//            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
-//        } catch (IllegalArgumentException exc) {
-//
-//        }
-//
-//        try {
-//            TVector2 vector = new TVector2(-10, -10);
-//            b = new Ball(tvector2, p, position, velocity, size);
-//            b.move(vector);
-//            assertEquals(vector.getX(), b.getTVector2().getX(), 1);
-//            assertEquals(vector.getY(), b.getTVector2().getY(), 1);
-//        } catch (IllegalArgumentException exc) {
-//
-//        }
-//
-//        try {
-//            b = new Ball(tvector2, p, position, velocity, size);
-//            b.move(null);
-//            fail("Vector cannot be null.");
-//        } catch (IllegalArgumentException exc) {
-//
-//        }
-//    }
 }
