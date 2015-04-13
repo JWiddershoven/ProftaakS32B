@@ -30,7 +30,7 @@ public class Ball extends GameObject
     public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size)
     {
         super(position, velocity, size);
-        if (lastPaddleTouched != null && position != null && velocity != null && size != null)
+        if (position != null && velocity != null && size != null)
         {
             this.lastPaddleTouched = lastPaddleTouched;
         } else
@@ -69,53 +69,46 @@ public class Ball extends GameObject
      */
     public void startBall()
     {
-        timer = new Timer(200, (ActionEvent e) ->
+        timer = new Timer(10, (ActionEvent e) ->
         {
-            float velocityX = super.getVelocity().getX();
-            float velocityY = super.getVelocity().getY();
+            float velocityX = this.getVelocity().getX();
+            float velocityY = this.getVelocity().getY();
             
             // reverse x bounce movement whenever the ball would cross the right border on its current course
-            if (super.getVelocity().getX() > 0 && this.getVelocity().getX() + xMovement + (super.getSize().getX() / 2) > 800)
+            if (this.getVelocity().getX() > 0 && this.getVelocity().getX() + xMovement + (this.getSize().getX() / 2) > 800)
             {
                 velocityX *= -1;
-                super.setVelocity(new TVector2(velocityX, velocityY));
+                this.setVelocity(new TVector2(velocityX, velocityY));
             }
             // reverses x bounce movement if ball would cross left border
-            if (xMovement < 0 && this.getVelocity().getX() + xMovement - (super.getSize().getX() / 2) < 0)
+            if (xMovement < 0 && this.getVelocity().getX() + xMovement - (this.getSize().getX() / 2) < 0)
             {
                 velocityX *= -1;
-                super.setVelocity(new TVector2(velocityX, velocityY));
+                this.setVelocity(new TVector2(velocityX, velocityY));
             }
             // reverses y bounce movement if ball would cross bottom border
-            if (yMovement > 0 && this.getVelocity().getY() + yMovement + (super.getSize().getX() / 2) > 800)
+            if (yMovement > 0 && this.getVelocity().getY() + yMovement + (this.getSize().getX() / 2) > 800)
             {
                 velocityY *= -1;
-                super.setVelocity(new TVector2(velocityX, velocityY));
+                this.setVelocity(new TVector2(velocityX, velocityY));
             }
             // reverses y bounce movement if ball would cross top border
-            if (yMovement < 0 && this.getVelocity().getY() + yMovement - (super.getSize().getX() / 2) < 0)
+            if (yMovement < 0 && this.getVelocity().getY() + yMovement - (this.getSize().getX() / 2) < 0)
             {
                 velocityY *= -1;
-                super.setVelocity(new TVector2(velocityX, velocityY));
+                this.setVelocity(new TVector2(velocityX, velocityY));
             }
+            TVector2 newPos = new TVector2(this.getPosition().getX() + velocityX, this.getPosition().getY() + velocityY);
             // Increments x/y coordinates with (positive or negative) movement.
             // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
             Platform.runLater(() ->
             {
-                this.getVelocity().setX(getVelocity().getX() + xMovement);
-                this.getVelocity().setY(getVelocity().getY() + yMovement);
+                this.setPosition(newPos);
+                this.getVelocity().setX(getVelocity().getX());
+                this.getVelocity().setY(getVelocity().getY());
             });
         });
-    }
-
-    /**
-     * Starts the startBall timer.
-     *
-     * @param tvector2 The TVector2 of the ball.
-     */
-    public void move(TVector2 tvector2)
-    {
-        startBall();
+        timer.start();
     }
 
     /**
