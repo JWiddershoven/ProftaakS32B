@@ -8,6 +8,7 @@ package Shared;
 import Server.CollisionChecker;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  *
@@ -115,7 +116,7 @@ public class Paddle extends GameObject
 
     /**
      * Move methode for a paddle Moves the paddle object location into the given
- direction
+     * direction
      *
      * @param direction value of direction as enum
      */
@@ -139,11 +140,14 @@ public class Paddle extends GameObject
                 break;
         }
         this.setPosition(newPosition);
-        GameObject collidedWith = CollisionChecker.collidesWith(this);
+        ArrayList<GameObject> collidedWith = CollisionChecker.collidesWithMultiple(this);
         // if paddle collides with something that is not a ball
-        if (collidedWith != null && !collidedWith.getClass().equals(Ball.class) && !collidedWith.getClass().equals(WhiteSpace.class))
+        for (GameObject go : collidedWith)
         {
-            this.setPosition(oldPosition);
+            if (go != null && !go.getClass().equals(Ball.class) && !go.getClass().equals(WhiteSpace.class))
+            {
+                this.setPosition(oldPosition);
+            }
         }
     }
 
