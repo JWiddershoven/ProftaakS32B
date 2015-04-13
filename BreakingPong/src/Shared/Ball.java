@@ -9,6 +9,7 @@ import Server.CollisionChecker;
 import java.awt.event.ActionEvent;
 import javafx.application.Platform;
 import javax.swing.Timer;
+import jdk.nashorn.internal.codegen.CompilerConstants;
 
 /**
  * @author Jelle
@@ -94,23 +95,49 @@ public class Ball extends GameObject
 
     public void bounce(GameObject go)
     {
+        System.out.println("enter bounce");
+        TVector2 position = this.getPosition();
         TVector2 goPos = go.getPosition();
-        
+        float f1, f2;
         float deltaX = go.getPosition().getX() - this.getPosition().getX();
         float deltaY = go.getPosition().getY() - this.getPosition().getY();
         double angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
         TVector2 vel = this.getVelocity();
-        TVector2 newVelocity = new TVector2((vel.getX() - vel.getX() - vel.getX()), (vel.getY() - vel.getY() - vel.getY()));
-        this.setVelocity(newVelocity);
+        System.out.println("Position:" + this.getPosition().toString());
+        System.out.println("Position Go:" + go.getPosition().toString());
+        if (position.getY() > goPos.getY())
+        {
+            f1 = goPos.getY() - position.getY();
+        } else
+        {
+            f1 = position.getY() - goPos.getY();
+        }
+        if (position.getX() > goPos.getX())
+        {
+            f2 = goPos.getX() - position.getX();
+        } else
+        {
+            f2 = position.getX() - goPos.getX();
+        }
+        System.out.println(this.getVelocity().toString());
+        System.out.println("diff Y:" + f1 + " X:" + f2);
+        if (f1 > f2)
+        {
+            System.out.println("bounceY");
+            vel.setY(bounce(this.getVelocity().getY()));
+        } else
+        {
+            System.out.println("bounceX");
+            vel.setX(bounce(this.getVelocity().getX()));
+        }
+
+        this.setVelocity(vel);
+        System.out.println(this.getVelocity().toString());
     }
 
-    /**
-     * Handles the collision between the ball and an object.
-     *
-     * @param tvector2 The TVector2 of the ball.
-     */
-    public void collision(TVector2 tvector2)
+    public float bounce(float x)
     {
-
+        x *= -1;
+        return x;
     }
 }
