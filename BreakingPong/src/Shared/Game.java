@@ -581,8 +581,9 @@ public class Game extends JPanel implements Runnable, KeyListener
     public TVector2 generateRandomVelocity()
     {
         Random rand = new Random();
+        float total = 1.5f;
         float x = generateRandomFloat(-1f, 1f, rand);
-        float y = generateRandomFloat(-1f,1f,rand);
+        float y = total - x;// generateRandomFloat(-1f,1f,rand);
         return new TVector2(x,y);
     }
     
