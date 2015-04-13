@@ -390,13 +390,17 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create block without powerup
                         case "2":
                         {
+                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+                            this.addObject(space);
                             Block noPower = new Block(1, true, null, position, velocity, size, Color.yellow);
                             this.addObject(noPower);
                             break;
                         }
                         // Create block with powerup
                         case "3":
-                        {
+                        {   
+                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+                            this.addObject(space);
                             PowerUp power = new PowerUp(1, null);
                             power.getRandomPowerUpType();
                             Block withPower = new Block(1, true, power, position, velocity, size, Color.red);
@@ -409,12 +413,16 @@ public class Game extends JPanel implements Runnable, KeyListener
                             // Add human player
                             if (playerAmount == 2)
                             {
+                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.green);
                                 this.addObject(horizontalPaddle);
                                 break;
                             } else // Add CPU player
                             {
+                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.green);
@@ -429,6 +437,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create vertical paddle spawn
                         case "5":
                         {
+                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+                            this.addObject(space);
                             size = new TVector2(20f, 100f);
                             Paddle verticalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.EAST, Color.green);
                             this.addObject(verticalPaddle);
@@ -438,6 +448,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create a ball spawn
                         case "6":
                         {
+                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+                            this.addObject(space);
                             size = new TVector2(15f, 15f);
                             velocity = generateRandomVelocity();
                             Ball ball = new Ball(null, position, velocity, size);
@@ -469,7 +481,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                 g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 g.setColor(Color.black);
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-            }// Draw a whitespace
+            }
+            // Draw a whitespace
             else if (o instanceof WhiteSpace)
             {
                 WhiteSpace w = (WhiteSpace)o;
@@ -478,23 +491,23 @@ public class Game extends JPanel implements Runnable, KeyListener
             }
         }
         for(GameObject o : this.getObjectList())
-        {
-             //Draw a paddle
-            if (o instanceof Paddle)
-            {
-                Paddle p = (Paddle) o;
-                g.setColor(p.getColor());
-                g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-                g.setColor(Color.white);
-                g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-            } //Draw a ball
-            else if (o instanceof Ball)
+        {    //Draw a ball
+            if (o instanceof Ball)
             {
                 Ball b = (Ball) o;
                 g.setColor(Color.red);
                 g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 g.setColor(Color.white);
                 g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+            }
+            //Draw a paddle
+            else if (o instanceof Paddle)
+            {
+                Paddle p = (Paddle) o;
+                g.setColor(p.getColor());
+                g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
+                g.setColor(Color.white);
+                g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
             }
         }
     }
