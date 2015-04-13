@@ -79,7 +79,7 @@ public class Ball extends GameObject
             {
                 bounce(collidedWith);
             }
-            
+
             TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
                     this.getPosition().getY() + this.getVelocity().getY());
             // Increments x/y coordinates with (positive or negative) movement.
@@ -91,16 +91,17 @@ public class Ball extends GameObject
         });
         timer.start();
     }
-    
+
     public void bounce(GameObject go)
     {
+        TVector2 goPos = go.getPosition();
+        
         float deltaX = go.getPosition().getX() - this.getPosition().getX();
         float deltaY = go.getPosition().getY() - this.getPosition().getY();
         double angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
-        System.out.println(angleInDegrees);
         TVector2 vel = this.getVelocity();
         TVector2 newVelocity = new TVector2((vel.getX() - vel.getX() - vel.getX()), (vel.getY() - vel.getY() - vel.getY()));
-        this.setVelocity(newVelocity);     
+        this.setVelocity(newVelocity);
     }
 
     /**
