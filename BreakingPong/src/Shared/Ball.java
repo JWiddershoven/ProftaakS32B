@@ -101,7 +101,6 @@ public class Ball extends GameObject
                 }
             }
         }
-        System.out.println("Velocity: "  + this.getVelocity().toString() +  " total:" + TVector2.total(this.getVelocity()));
         
         TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
                 this.getPosition().getY() + this.getVelocity().getY());

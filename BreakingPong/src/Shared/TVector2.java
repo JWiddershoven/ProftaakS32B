@@ -74,14 +74,23 @@ public class TVector2
     public static TVector2 zero = new TVector2(0.0f, 0.0f);
 
     /**
-     * Returns (vector2.x + vector2.y)
+     * Returns ALWAYS POSITIVE (vector2.x + vector2.y)
      *
      * @param vector2
-     * @return (vector2.x + vector2.y)
+     * @return ALWAYS POSITIVE (vector2.x + vector2.y)
      */
     public static float total(TVector2 vector2)
     {
-        return (vector2.x + vector2.y);
+        TVector2 newVector2 = new TVector2(vector2.getX(), vector2.getY());
+        if (newVector2.getX() < 0)
+        {
+            newVector2.setX(newVector2.getX() * (-1));
+        }
+        if (newVector2.getY() < 0)
+        {
+            newVector2.setY(newVector2.getY() * (-1));
+        }
+        return (newVector2.getX() + newVector2.getY());
     }
 
     /**
