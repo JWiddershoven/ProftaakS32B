@@ -72,20 +72,30 @@ public class CPU
             ClosestTo[i] = b.getPosition().getY() - currentPosPaddle.getY();
             i++;
         }
+        int numberOfPlayers = currentGame.getNumberOfPlayers();
+        if(numberOfPlayers == 4)
+        {
         points = new double[4];
         points[0] = Math.sqrt(((ClosestTo[1] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[0] * 2 - currentPosPaddle.getX() * 2));
         points[1] = Math.sqrt(((ClosestTo[3] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[2] * 2 - currentPosPaddle.getX() * 2));
         points[2] = Math.sqrt(((ClosestTo[5] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[4] * 2 - currentPosPaddle.getX() * 2));
         points[3] = Math.sqrt(((ClosestTo[7] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[6] * 2 - currentPosPaddle.getX() * 2));
-
-        calcPosition();
+        calcPositionForFour();
+        }
+        else if(numberOfPlayers == 2)
+        {
+            points = new double[2];
+            points[0] = Math.sqrt(((ClosestTo[1] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[0] * 2 - currentPosPaddle.getX() * 2));
+            points[1] = Math.sqrt(((ClosestTo[3] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[2] * 2 - currentPosPaddle.getX() * 2));
+            calcPositionForTwo();
+        }
         Move();
     }
 
     /**
-     * TODO: VUL DEZE SHIT
+     * Methode for calculating closestBall for four players
      */
-    public void calcPosition()
+    public void calcPositionForFour()
     {
         if (points[0] > points[1])
         {
@@ -124,7 +134,21 @@ public class CPU
     }
 
     /**
-     * TODO: VUL DEZE SHIT
+     * Methode for calculating closestBall for two players
+     */
+    public  void calcPositionForTwo()
+    {
+        if(points[0] > points[1])
+        {
+            closestBall = currentPosBall.get(0);
+        }
+        else
+        {
+            closestBall = currentPosBall.get(1);
+        }
+    }
+    /**
+     * Methode for calling the move methode with difference for the position of the CPU
      */
     public void Move()
     {
