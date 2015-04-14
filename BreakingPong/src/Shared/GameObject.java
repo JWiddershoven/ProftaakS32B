@@ -124,6 +124,6 @@ public class GameObject
     @Override
     public String toString()
     {
-        return "Object: " + this.position.toString();
+        return "Pos: " + this.position.toString() + " Vel: " + this.velocity.toString();
     }
 }

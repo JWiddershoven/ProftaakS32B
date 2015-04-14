@@ -20,6 +20,7 @@ public class Ball extends GameObject
     private final Game game;
     private Paddle lastPaddleTouched;
     Timer timer;
+    private final float maxSpeed = 1.5f;
 
     /**
      * Creates a new ball object with a TVector2 and lastPaddleTouched.
@@ -101,45 +102,37 @@ public class Ball extends GameObject
                     }
                 }
             }
-        }        
+        }
         TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
                 this.getPosition().getY() + this.getVelocity().getY());
-            // Increments x/y coordinates with (positive or negative) movement.
+        // Increments x/y coordinates with (positive or negative) movement.
         // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
-        
+
         Platform.runLater(() ->
         {
             this.setPosition(newPos);
         });
-        
+
     }
 
+    /**
+     *
+     * @param go
+     */
     public void bounce(GameObject go)
     {
         if (go instanceof Paddle)
         {
             Paddle p = (Paddle) go;
-            if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH)
+            if (bouncePaddle(p) == true)
             {
-                this.setVelocity(new TVector2(this.getVelocity().getX(), this.getVelocity().getY() * -1));
-                return;
-            }
-            else
-            {
-                this.setVelocity(new TVector2(this.getVelocity().getX() * -1, this.getVelocity().getY()));
                 return;
             }
         }
-        //System.out.println("enter bounce");
         TVector2 position = this.getPosition();
         TVector2 goPos = go.getPosition();
         float f1, f2;
-        //float deltaX = go.getPosition().getX() - this.getPosition().getX();
-        //float deltaY = go.getPosition().getY() - this.getPosition().getY();
-        //double angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
         TVector2 vel = this.getVelocity();
-        //System.out.println("Position:" + this.getPosition().toString());
-        //System.out.println("Position Go:" + go.getPosition().toString());
         if (position.getY() > goPos.getY())
         {
             f1 = goPos.getY() - position.getY();
@@ -156,27 +149,94 @@ public class Ball extends GameObject
         {
             f2 = position.getX() - goPos.getX();
         }
-        //System.out.println(this.getVelocity().toString());
-        //System.out.println("diff Y:" + f1 + " X:" + f2);
         if (f1 < f2)
         {
-            //  System.out.println("bounceY");
             vel.setY(bounceFloat(this.getVelocity().getY()));
         }
         else
         {
-            //System.out.println("bounceX");
             vel.setX(bounceFloat(this.getVelocity().getX()));
         }
 
         this.setVelocity(vel);
-        //System.out.println(this.getVelocity().toString());
+       
     }
 
+    /**
+     *
+     * @param p
+     * @return FALSE if nothing changed.
+     */
+    private boolean bouncePaddle(Paddle p)
+    {
+        if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH)
+        {
+            float x, y;
+            float distance = 0.0f;
+            boolean left = false;
+            boolean right = false;
+            if (this.getMiddlePosition().getX() > p.getMiddlePosition().getX())
+            {
+                distance = this.getMiddlePosition().getX() - p.getMiddlePosition().getX();
+                right = true;
+            }
+            else if (this.getMiddlePosition().getX() < p.getMiddlePosition().getX())
+            {
+                distance = p.getMiddlePosition().getX() - this.getMiddlePosition().getX();
+                left = true;
+            }
+            if (right == true)
+            {
+                x = this.getVelocity().getX() + (distance / (maxSpeed * 75));
+            }
+            else if (left == true)
+            {
+                x = this.getVelocity().getX() - (distance / (maxSpeed * 75));
+            }
+            else
+            {
+                return false;
+            }
+            if (x > (maxSpeed - 0.1f))
+            {
+                x = maxSpeed - 0.1f;
+            }
+            if (x < (-maxSpeed + 0.1f))
+            {
+                x = -maxSpeed + 0.1f;
+            }
+            // Velocity.y MAY NOT BE BETWEEN -0.09f AND 0.09f
+            if (x < 0)
+            {
+                y = maxSpeed - (x * -1);
+            }
+            else
+            {
+                y = maxSpeed - x;
+            }
+            System.out.println("old vel: " + this.getVelocity().toString());
+            this.setVelocity(new TVector2(x, y));
+            System.out.println("new vel: " + this.getVelocity().toString());
+        }
+        else
+        {
+            // TODO:
+            
+            // Velocity.x MAY NOT BE BETWEEN -0.09f AND 0.09f
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     *
+     * @param x
+     * @return
+     */
     public float bounceFloat(float x)
     {
         x *= -1;
         return x;
     }
-    
+
 }

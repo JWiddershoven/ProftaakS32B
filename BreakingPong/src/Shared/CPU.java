@@ -11,69 +11,89 @@ import java.util.ArrayList;
  *
  * @author Mnesymne
  */
-public class CPU {
+public class CPU
+{
 
     private final String name;
     private final Byte difficulty; // Currently not used
     private final Game currentGame;
-    
+
     private Paddle myPaddle; // CPU PADDLE KOPPLING VIA PADDLE KLASSE
     private Ball closestBall;
     private ArrayList<Ball> currentPosBall;
 
-    public CPU(String name, Byte difficulty, Game myGame) {
+    public CPU(String name, Byte difficulty, Game myGame)
+    {
         this.name = name;
         this.difficulty = difficulty;
         this.currentGame = myGame;
     }
 
-    public void setMyPaddle(Paddle myPaddle) {
+    public void setMyPaddle(Paddle myPaddle)
+    {
         this.myPaddle = myPaddle;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public byte getDifficuly() {
+    public byte getDifficuly()
+    {
         return this.difficulty;
     }
 
     /**
      * Called every update
      */
-    public void update() {
+    public void update()
+    {
         currentPosBall = currentGame.getBallList();
         setClosestBall();
-        Move();
+        if (closestBall != null)
+        {
+            Move();
+        }
     }
 
-    private void setClosestBall() {
+    private void setClosestBall()
+    {
         closestBall = null;
         //System.out.println("Paddle:" + myPaddle.getPosition().toString());
-        for (Ball b : currentPosBall) {
+        for (Ball b : currentPosBall)
+        {
             //System.out.println("Ball pos: " + b.getPosition().toString());
-            if (closestBall == null) {
+            if (closestBall == null)
+            {
                 closestBall = b;
             }
-            if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition())) {
+            if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition()))
+            {
                 closestBall = b;
             }
         }
         //System.out.println("Closest pos: " + closestBall.getPosition().toString());
     }
 
-    private float getDistance(TVector2 targetPos) {
+    private float getDistance(TVector2 targetPos)
+    {
         TVector2 pos = myPaddle.getMiddlePosition();
         float distance = 0.0f;
-        if (pos.getX() > targetPos.getX()) {
+        if (pos.getX() > targetPos.getX())
+        {
             distance += pos.getX() - targetPos.getX();
-        } else {
+        }
+        else
+        {
             distance += targetPos.getX() - pos.getX();
         }
-        if (pos.getY() > targetPos.getY()) {
+        if (pos.getY() > targetPos.getY())
+        {
             distance += pos.getY() - targetPos.getY();
-        } else {
+        }
+        else
+        {
             distance += targetPos.getY() - pos.getY();
         }
         //System.out.println(distance);
@@ -84,29 +104,49 @@ public class CPU {
      * Methode for calling the move methode with difference for the position of
      * the CPU
      */
-    public void Move() {
-        if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH) {
-            if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
+    public void Move()
+    {
+        if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH)
+        {
+            if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2))
+            {
                 myPaddle.Move(Paddle.direction.RIGHT);
-            } else {
+            }
+            else
+            {
                 myPaddle.Move(Paddle.direction.LEFT);
             }
-        } else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH) {
-            if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
+        }
+        else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH)
+        {
+            if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2))
+            {
                 myPaddle.Move(Paddle.direction.RIGHT);
-            } else {
+            }
+            else
+            {
                 myPaddle.Move(Paddle.direction.LEFT);
             }
-        } else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST) {
-            if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
+        }
+        else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST)
+        {
+            if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2))
+            {
                 myPaddle.Move(Paddle.direction.UP);
-            } else {
+            }
+            else
+            {
                 myPaddle.Move(Paddle.direction.DOWN);
             }
-        } else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST) {
-            if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
+        }
+        else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST)
+        {
+            if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2))
+            {
                 myPaddle.Move(Paddle.direction.UP);
-            } else {
+            }
+            else
+            {
                 myPaddle.Move(Paddle.direction.DOWN);
             }
         }
