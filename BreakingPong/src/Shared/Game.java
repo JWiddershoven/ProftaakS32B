@@ -444,7 +444,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                         case "4":
                         {
                             // Add human player
-                            if (playerAmount == 2) // 2 For bottom paddle to be the player paddle
+                            if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
                             {
                                 WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                                 this.addObject(space);
@@ -661,7 +661,7 @@ public class Game extends JPanel implements Runnable, KeyListener
             repaint();
 
             elapsed = System.nanoTime() - start;
-            wait = targetTime - elapsed / 1000000;
+            wait = targetTime - elapsed / 10000;
             if (wait <= 0)
             {
                 wait = 5;
@@ -782,16 +782,15 @@ public class Game extends JPanel implements Runnable, KeyListener
     public TVector2 generateRandomVelocity()
     {
         Random rand = new Random();
-        float total = 1.5f;
         float x = generateRandomFloat(-1f, 1f, rand);
         float y;
         if (x < 0)
         {
-            y = total - (x * -1);
+            y = Ball.maxSpeed - (x * -1);
         }
         else
         {
-            y = total - x;
+            y = Ball.maxSpeed - x;
         }
         TVector2 returnVector = new TVector2(x, y);
         System.out.println("generatedVelocity: " + returnVector.toString());

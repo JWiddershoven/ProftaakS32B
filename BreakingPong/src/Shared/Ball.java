@@ -8,6 +8,7 @@ package Shared;
 import Server.CollisionChecker;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Date;
 import javafx.application.Platform;
 import javax.swing.Timer;
 
@@ -20,7 +21,8 @@ public class Ball extends GameObject
     private final Game game;
     private Paddle lastPaddleTouched;
     Timer timer;
-    private final float maxSpeed = 1.5f;
+    public static final float maxSpeed = 1.5f;
+    private Date lastTimePaddleTouched;
 
     /**
      * Creates a new ball object with a TVector2 and lastPaddleTouched.
@@ -123,11 +125,26 @@ public class Ball extends GameObject
     {
         if (go instanceof Paddle)
         {
-            Paddle p = (Paddle) go;
-            if (bouncePaddle(p) == true)
+            boolean difference = true;
+            Date now = new Date();
+            if (lastTimePaddleTouched != null)
             {
-                return;
+                if (now.getSeconds() == lastTimePaddleTouched.getSeconds())
+                {
+                    System.out.println("Too many collisions with paddle");
+                    difference = false;
+                }
             }
+            if (difference == true)
+            {
+                lastTimePaddleTouched = new Date();
+                Paddle p = (Paddle) go;
+                if (bouncePaddle(p) == true)
+                {
+                    return;
+                }
+            }
+
         }
         TVector2 position = this.getPosition();
         TVector2 goPos = go.getPosition();
@@ -159,7 +176,7 @@ public class Ball extends GameObject
         }
 
         this.setVelocity(vel);
-       
+
     }
 
     /**
@@ -187,11 +204,11 @@ public class Ball extends GameObject
             }
             if (right == true)
             {
-                x = this.getVelocity().getX() + (distance / (maxSpeed * 75));
+                x = this.getVelocity().getX() + (distance / (maxSpeed * 25));
             }
             else if (left == true)
             {
-                x = this.getVelocity().getX() - (distance / (maxSpeed * 75));
+                x = this.getVelocity().getX() - (distance / (maxSpeed * 25));
             }
             else
             {
@@ -214,6 +231,16 @@ public class Ball extends GameObject
             {
                 y = maxSpeed - x;
             }
+
+            if (this.getVelocity().getY() > 0)
+            {
+                y = -y;
+            }
+            else if (y < 0)
+            {
+                y *= -1;
+            }
+
             System.out.println("old vel: " + this.getVelocity().toString());
             this.setVelocity(new TVector2(x, y));
             System.out.println("new vel: " + this.getVelocity().toString());
@@ -221,7 +248,7 @@ public class Ball extends GameObject
         else
         {
             // TODO:
-            
+
             // Velocity.x MAY NOT BE BETWEEN -0.09f AND 0.09f
             return false;
         }
