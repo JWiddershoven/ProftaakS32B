@@ -16,12 +16,11 @@ import java.util.ArrayList;
  */
 public class Paddle extends GameObject
 {
-
+    
     private int score;
     private CPU cpuPlayer;
     private User humanPlayer;
     private windowLocation selectedPosition;
-    private Color color;
     private boolean left = false, right = false;
 
     /**
@@ -29,13 +28,13 @@ public class Paddle extends GameObject
      */
     public enum direction
     {
-
+        
         LEFT, RIGHT, UP, DOWN
     };
-
+    
     public enum windowLocation
     {
-
+        
         NORTH, EAST, SOUTH, WEST
     }
 
@@ -58,20 +57,15 @@ public class Paddle extends GameObject
     {
         this.score = this.score + score;
     }
-
+    
     public windowLocation getWindowLocation()
     {
         return selectedPosition;
     }
-
+    
     public User getPlayer()
     {
         return humanPlayer;
-    }
-
-    public Color getColor()
-    {
-        return color;
     }
 
     /**
@@ -83,15 +77,14 @@ public class Paddle extends GameObject
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
      * @param selectedLocation value of selectedPosition as windowLocation
-     * @param color
+     * @param color JAVA AWT
      */
     public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation, Color color)
     {
-        super(position, velocity, size);
+        super(position, velocity, size, color);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.cpuPlayer = cpu;
-        this.color = color;
     }
 
     /**
@@ -107,16 +100,15 @@ public class Paddle extends GameObject
      */
     public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation, Color color)
     {
-        super(position, velocity, size);
+        super(position, velocity, size, color);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.humanPlayer = user;
-        this.color = color;
     }
 
     /**
      * Move methode for a paddle Moves the paddle object location into the given
- direction
+     * direction
      *
      * @param direction value of direction as enum
      */
@@ -142,7 +134,7 @@ public class Paddle extends GameObject
         this.setPosition(newPosition);
         ArrayList<GameObject> collidedWith = CollisionChecker.collidesWithMultiple(this);
         // if paddle collides with something that is not a ball or a whitespace
-        for(GameObject g : collidedWith)
+        for (GameObject g : collidedWith)
         {
             if (g != null && !g.getClass().equals(Ball.class) && !g.getClass().equals(WhiteSpace.class))
             {
@@ -150,15 +142,23 @@ public class Paddle extends GameObject
             }
         }
     }
-
-    public void tick()
+    
+    /**
+     * update moves the paddle
+     */
+    public void update()
     {
         if (left)
         {
             if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
             {
                 this.Move(direction.LEFT);
-            } else
+            }
+            else if (selectedPosition == windowLocation.WEST)
+            {
+                this.Move(direction.UP);
+            }
+            else if (selectedPosition == windowLocation.EAST)
             {
                 this.Move(direction.DOWN);
             }
@@ -168,13 +168,18 @@ public class Paddle extends GameObject
             if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
             {
                 this.Move(direction.RIGHT);
-            } else
+            }
+            else if (selectedPosition == windowLocation.WEST)
+            {
+                this.Move(direction.DOWN);
+            }
+            else if (selectedPosition == windowLocation.EAST)
             {
                 this.Move(direction.UP);
             }
         }
     }
-
+    
     public void keyPressed(int k)
     {
         if (this.getPlayer() != null)
@@ -189,7 +194,7 @@ public class Paddle extends GameObject
             }
         }
     }
-
+    
     public void keyReleased(int k)
     {
         if (this.getPlayer() != null)
@@ -204,5 +209,5 @@ public class Paddle extends GameObject
             }
         }
     }
-
+    
 }

@@ -6,20 +6,19 @@
 package Shared;
 
 import Server.CollisionChecker;
-import java.awt.event.ActionEvent;
+import java.awt.Color;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javax.swing.Timer;
-import jdk.nashorn.internal.codegen.CompilerConstants;
 
 /**
  * @author Jelle
  */
-public class Ball extends GameObject {
+public class Ball extends GameObject
+{
 
-    private Game game;
+    private final Game game;
     private Paddle lastPaddleTouched;
-    private float xMovement, yMovement;
     Timer timer;
 
     /**
@@ -31,86 +30,102 @@ public class Ball extends GameObject {
      * @param size The size of a GameObject.
      * @param game The game of where this ball is in.
      */
-    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game) {
-        super(position, velocity, size);
+    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color)
+    {
+        super(position, velocity, size, color);
         this.game = game;
-        if (position != null && velocity != null && size != null) {
+        if (position != null && velocity != null && size != null)
+        {
             this.lastPaddleTouched = lastPaddleTouched;
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException();
         }
-
-        this.xMovement = 10;
-        this.yMovement = 10;
     }
 
     /**
      * @return The last paddle which touched the ball.
      */
-    public Paddle getLastPaddleTouched() {
+    public Paddle getLastPaddleTouched()
+    {
         return this.lastPaddleTouched;
     }
 
     /**
      * @param lastPaddleTouched The last Paddle which touched the ball.
      */
-    public void setLastPaddleTouched(Paddle lastPaddleTouched) {
-        if (lastPaddleTouched != null) {
+    public void setLastPaddleTouched(Paddle lastPaddleTouched)
+    {
+        if (lastPaddleTouched != null)
+        {
             this.lastPaddleTouched = lastPaddleTouched;
-        } else {
+        }
+        else
+        {
             throw new IllegalArgumentException();
         }
     }
 
     /**
-     * Timer which handles the collision between a ball and the borders.
+     * updates the position of the ball
      */
-    public void startBall() {
-        timer = new Timer(10, (ActionEvent e) -> {
-
-            ArrayList<GameObject> collidedWith = new ArrayList<>();
-            collidedWith.addAll(CollisionChecker.collidesWithMultiple(this));
-            boolean hasBounced = false;
-            // If ball collides with something that is not a WhiteSpace.
-            for (GameObject go : collidedWith) {
-                if (go != null && !go.getClass().equals(WhiteSpace.class)) {
-                    System.out.println("Collided" + go.toString());
-                    if (hasBounced == false) {
-                        bounce(go);
-                        hasBounced = true;
+    public void update()
+    {
+        ArrayList<GameObject> collidedWith = new ArrayList<>();
+        collidedWith.addAll(CollisionChecker.collidesWithMultiple(this));
+        boolean hasBounced = false;
+        // If ball collides with something that is not a WhiteSpace.
+        for (GameObject go : collidedWith)
+        {
+            if (go != null && !go.getClass().equals(WhiteSpace.class))
+            {
+                System.out.println("Collided" + go.toString());
+                if (hasBounced == false)
+                {
+                    bounce(go);
+                    hasBounced = true;
+                }
+                if (go.getClass().equals(Block.class))
+                {
+                    Block b = (Block) go;
+                    if (lastPaddleTouched != null)
+                    {
+                        lastPaddleTouched.addScore(b.getPoints());
                     }
-                    if (go.getClass().equals(Block.class)) {
-                        Block b = (Block) go;
-                        if (lastPaddleTouched != null) {
-                            lastPaddleTouched.addScore(b.getPoints());
-                        }
-                        if (b.isDestructable()) {
-                            game.objectList.remove(go);
-                            CollisionChecker.gameObjectsList.remove(go);
-                        }
+                    if (b.isDestructable())
+                    {
+                        game.objectList.remove(go);
+                        CollisionChecker.gameObjectsList.remove(go);
                     }
                 }
             }
-
-            TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
-                    this.getPosition().getY() + this.getVelocity().getY());
+        }
+        System.out.println("Velocity: "  + this.getVelocity().toString() +  " total:" + TVector2.total(this.getVelocity()));
+        
+        TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
+                this.getPosition().getY() + this.getVelocity().getY());
             // Increments x/y coordinates with (positive or negative) movement.
-            // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
-            Platform.runLater(() -> {
-                this.setPosition(newPos);
-            });
-
+        // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
+        Platform.runLater(() ->
+        {
+            this.setPosition(newPos);
         });
-        timer.start();
+
     }
 
-    public void bounce(GameObject go) {
-        if (go instanceof Paddle) {
+    public void bounce(GameObject go)
+    {
+        if (go instanceof Paddle)
+        {
             Paddle p = (Paddle) go;
-            if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH) {
+            if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH)
+            {
                 this.setVelocity(new TVector2(this.getVelocity().getX(), this.getVelocity().getY() * -1));
                 return;
-            } else {
+            }
+            else
+            {
                 this.setVelocity(new TVector2(this.getVelocity().getX() * -1, this.getVelocity().getY()));
                 return;
             }
@@ -125,22 +140,31 @@ public class Ball extends GameObject {
         TVector2 vel = this.getVelocity();
         //System.out.println("Position:" + this.getPosition().toString());
         //System.out.println("Position Go:" + go.getPosition().toString());
-        if (position.getY() > goPos.getY()) {
+        if (position.getY() > goPos.getY())
+        {
             f1 = goPos.getY() - position.getY();
-        } else {
+        }
+        else
+        {
             f1 = position.getY() - goPos.getY();
         }
-        if (position.getX() > goPos.getX()) {
+        if (position.getX() > goPos.getX())
+        {
             f2 = goPos.getX() - position.getX();
-        } else {
+        }
+        else
+        {
             f2 = position.getX() - goPos.getX();
         }
         //System.out.println(this.getVelocity().toString());
         //System.out.println("diff Y:" + f1 + " X:" + f2);
-        if (f1 < f2) {
+        if (f1 < f2)
+        {
             //  System.out.println("bounceY");
             vel.setY(bounceFloat(this.getVelocity().getY()));
-        } else {
+        }
+        else
+        {
             //System.out.println("bounceX");
             vel.setX(bounceFloat(this.getVelocity().getX()));
         }
@@ -149,7 +173,8 @@ public class Ball extends GameObject {
         //System.out.println(this.getVelocity().toString());
     }
 
-    public float bounceFloat(float x) {
+    public float bounceFloat(float x)
+    {
         x *= -1;
         return x;
     }

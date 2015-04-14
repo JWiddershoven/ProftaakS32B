@@ -5,9 +5,7 @@
  */
 package Shared;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import javax.swing.Timer;
 
 /**
  *
@@ -17,12 +15,10 @@ public class CPU {
 
     private final String name;
     private final Byte difficulty; // Currently not used
+    private final Game currentGame;
+    
     private Paddle myPaddle; // CPU PADDLE KOPPLING VIA PADDLE KLASSE
-
-    private ArrayList<Ball> allBalls;
-    private Game currentGame;
     private Ball closestBall;
-    private double[] points;
     private ArrayList<Ball> currentPosBall;
 
     public CPU(String name, Byte difficulty, Game myGame) {
@@ -43,59 +39,12 @@ public class CPU {
         return this.difficulty;
     }
 
-    public void startBot() {
-        Timer timer = new Timer(10, (ActionEvent e) -> {
-            runCPU();
-        });
-        timer.start();
-    }
-
     /**
-     * Makes the CPU start his AI
+     * Called every update
      */
-    private void runCPU() {
+    public void update() {
         currentPosBall = currentGame.getBallList();
         setClosestBall();
-        /*TVector2 currentPosPaddle = myPaddle.getPosition();
-         float[] ClosestTo = new float[8];
-         int i = 0;
-         for (Ball b : currentPosBall) {
-         ClosestTo[i] = (b.getPosition().getX() - currentPosPaddle.getX());
-         i++;
-         ClosestTo[i] = b.getPosition().getY() - currentPosPaddle.getY();
-         i++;
-         }
-         int numberOfPlayers = 4;
-         if (numberOfPlayers == 4) {
-         points = new double[4];
-         double out = (((ClosestTo[1] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[0] * 2 - currentPosPaddle.getX() * 2));
-         double out2 = (((ClosestTo[3] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[2] * 2 - currentPosPaddle.getX() * 2));
-         double out3 = (((ClosestTo[5] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[4] * 2 - currentPosPaddle.getX() * 2));
-         double out4 = (((ClosestTo[7] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[6] * 2 - currentPosPaddle.getX() * 2));
-         if (out < 0) {
-         out = out * -1;
-         }
-         if (out2 < 0) {
-         out2 = out2 * -1;
-         }
-         if (out3 < 0) {
-         out3 = out3 * -1;
-         }
-         if (out4 < 0) {
-         out4 = out4 * -1;
-         }
-         points[0] = Math.sqrt(out);
-         points[1] = Math.sqrt(out2);
-         points[2] = Math.sqrt(out3);
-         points[3] = Math.sqrt(out4);
-         calcPositionForFour();
-         } else if (numberOfPlayers == 2) {
-         points = new double[2];
-         points[0] = Math.sqrt(((ClosestTo[1] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[0] * 2 - currentPosPaddle.getX() * 2));
-         points[1] = Math.sqrt(((ClosestTo[3] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[2] * 2 - currentPosPaddle.getX() * 2));
-         calcPositionForTwo();
-         }
-         //this.closestBall = currentPosBall.get(0);*/
         Move();
     }
 
@@ -129,72 +78,6 @@ public class CPU {
         }
         //System.out.println(distance);
         return distance;
-    }
-
-    /**
-     * Methode for calculating closestBall for four players
-     */
-    public void calcPositionForFour() {
-        int closedTo = -1;
-        for (int i = 0; i < points.length; i++) {
-            if (closedTo == -1) {
-                closedTo = 0;
-            }
-            if (points[closedTo] > 0) {
-                if (points[closedTo] < points[i]) {
-                    closedTo = i;
-
-                }
-            }
-        }
-        closestBall = currentPosBall.get(closedTo);
-        System.out.println(closestBall.getPosition().toString());
-        /*
-         if (points[0] > points[1])
-         {
-         if (points[0] > points[2])
-         {
-         if (points[0] > points[3])
-         {
-         closestBall = currentPosBall.get(0);
-         } else
-         {
-         closestBall = currentPosBall.get(3);
-         }
-         } else if (points[2] > points[3])
-         {
-         closestBall = currentPosBall.get(2);
-         } else
-         {
-         closestBall = currentPosBall.get(3);
-         }
-         } else if (points[1] > points[2])
-         {
-         if (points[1] > points[3])
-         {
-         closestBall = currentPosBall.get(1);
-         } else
-         {
-         closestBall = currentPosBall.get(3);
-         }
-         } else if (points[2] > points[3])
-         {
-         closestBall = currentPosBall.get(2);
-         } else
-         {
-         closestBall = currentPosBall.get(3);
-         }*/
-    }
-
-    /**
-     * Methode for calculating closestBall for two players
-     */
-    public void calcPositionForTwo() {
-        if (points[0] > points[1]) {
-            closestBall = currentPosBall.get(0);
-        } else {
-            closestBall = currentPosBall.get(1);
-        }
     }
 
     /**

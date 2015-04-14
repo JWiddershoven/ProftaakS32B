@@ -49,32 +49,34 @@ public class BallTest
          */
         try
         {
-            b = new Ball(p, position, velocity, size, testGame);
+            b = new Ball(p, position, velocity, size, testGame, Color.RED);
             assertEquals(p, b.getLastPaddleTouched());
             assertEquals(position, b.getPosition());
             assertEquals(velocity, b.getVelocity());
             assertEquals(size, b.getSize());
-        } catch (IllegalArgumentException exc)
+        }
+        catch (IllegalArgumentException exc)
         {
             fail("Constructor failure!");
         }
 
+        // EDITED by Lorenzo: lastPaddleTouched mag wel null zijn
         // @param lastPaddleTouched The last Paddle which touched the ball.
-        try
-        {
-            b = new Ball(null, position, velocity, size, testGame);
-            fail("lastPaddleTouched cannot be null.");
-        } catch (IllegalArgumentException exc)
-        {
-
-        }
-
+//        try
+//        {
+//            b = new Ball(null, position, velocity, size, testGame, Color.RED);
+//            fail("lastPaddleTouched cannot be null.");
+//        } catch (IllegalArgumentException exc)
+//        {
+//
+//        }
         // @param position The position of a GameObject.
         try
         {
-            b = new Ball(p, null, velocity, size, testGame);
+            b = new Ball(p, null, velocity, size, testGame, Color.RED);
             fail("Position of a GameObject cannot be null.");
-        } catch (IllegalArgumentException exc)
+        }
+        catch (IllegalArgumentException exc)
         {
 
         }
@@ -82,9 +84,10 @@ public class BallTest
         // @param velocity The velocity of a GameObject.
         try
         {
-            b = new Ball(p, position, null, size, testGame);
+            b = new Ball(p, position, null, size, testGame, Color.RED);
             fail("Velocity of a GameObject cannot be null.");
-        } catch (IllegalArgumentException exc)
+        }
+        catch (IllegalArgumentException exc)
         {
 
         }
@@ -92,9 +95,10 @@ public class BallTest
         // @param size The size of a GameObject.
         try
         {
-            b = new Ball(p, position, velocity, null,  testGame);
+            b = new Ball(p, position, velocity, null, testGame, Color.RED);
             fail("Size of a GameObject cannot be null.");
-        } catch (IllegalArgumentException exc)
+        }
+        catch (IllegalArgumentException exc)
         {
 
         }
@@ -103,22 +107,24 @@ public class BallTest
     @Test
     public void testSetLastPaddleTouched()
     {
-        b = new Ball(p, position, velocity, size, testGame);
+        b = new Ball(p, position, velocity, size, testGame, Color.RED);
         Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, Color.BLACK);
         try
         {
             b.setLastPaddleTouched(p2);
             assertEquals(p2, b.getLastPaddleTouched());
-        } catch (IllegalArgumentException exc)
+        }
+        catch (IllegalArgumentException exc)
         {
 
         }
-        
+
         try
         {
             b.setLastPaddleTouched(null);
             fail("lastPaddleTouched cannot be null.");
-        } catch (IllegalArgumentException exc)
+        }
+        catch (IllegalArgumentException exc)
         {
 
         }

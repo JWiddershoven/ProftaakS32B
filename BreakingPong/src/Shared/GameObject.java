@@ -5,6 +5,8 @@
  */
 package Shared;
 
+
+import java.awt.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -17,6 +19,17 @@ public class GameObject
     private TVector2 position;
     private TVector2 velocity;
     private TVector2 size;
+    
+    private Color color;
+
+    /**
+     * JFX Color
+     * @return 
+     */
+    public Color getColor()
+    {
+        return color;
+    }
 
     public TVector2 getMiddlePosition()
     {
@@ -89,12 +102,14 @@ public class GameObject
      * @param position value of position as TVector2.
      * @param velocity value of velocity as TVector2.
      * @param size value of size as TVector2.
+     * @param color as JAVA.AWT
      */
-    public GameObject(TVector2 position, TVector2 velocity, TVector2 size)
+    public GameObject(TVector2 position, TVector2 velocity, TVector2 size, Color color)
     {
         this.position = position;
         this.velocity = velocity;
         this.size = size;
+        this.color = color;
     }
 
     /**
