@@ -22,7 +22,7 @@ public class CollisionChecker
      * @param objectToCheck
      * @return GameObject collided with
      */
-    public static GameObject collidesWith(GameObject objectToCheck)
+    public static GameObject collidesWithFirst(GameObject objectToCheck)
     {
         if (gameObjectsList == null || gameObjectsList.isEmpty())
         {
@@ -40,14 +40,14 @@ public class CollisionChecker
         }
         return null;
     }
-
+    
     /**
      * Checks if the objectToCheck collides with other GameObjects
      * @param objectToCheck
      * @param gameObjects List of all GameObjects
      * @return GameObject collided with
      */
-    public static GameObject collidesWith(GameObject objectToCheck, ArrayList<GameObject> gameObjects)
+    public static GameObject collidesWithFirst(GameObject objectToCheck, ArrayList<GameObject> gameObjects)
     {
         for (GameObject gb : gameObjects)
         {
@@ -62,6 +62,27 @@ public class CollisionChecker
         return null;
     }
 
+    public static ArrayList<GameObject> collidesWithMultiple(GameObject objectToCheck)
+    {
+        if (gameObjectsList == null || gameObjectsList.isEmpty())
+        {
+            throw new IllegalStateException("gameObjectsList is leeg in ColliderChecker.java");
+        }
+        ArrayList<GameObject> collidedObjects = new ArrayList<>();
+        for (GameObject gb : gameObjectsList)
+        {
+            if (!gb.equals(objectToCheck))
+            {
+                if (CollisionChecker.checkCollidesWith(objectToCheck, gb))
+                {
+                    collidedObjects.add(gb);
+                }
+            }
+        }
+        return collidedObjects;
+    }
+    
+    
     public static boolean checkCollidesWith(GameObject go1, GameObject go2)
     {
         return go1.getBounds().intersects(go2.getBounds().getBoundsInLocal());

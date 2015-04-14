@@ -62,6 +62,6 @@ public class CollisionCheckerTest
     @Test    
     public void testCheckCollide()
     {
-        assertEquals(block2, CollisionChecker.collidesWith(paddle1));      
+        assertEquals(block2, CollisionChecker.collidesWithFirst(paddle1));      
     }
 }

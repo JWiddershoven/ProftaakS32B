@@ -42,7 +42,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     private ArrayList<Map> selectedMaps;
     private ArrayList<User> userList;
     private ArrayList<CPU> botList;
-    private ArrayList<GameObject> objectList;
+    public ArrayList<GameObject> objectList;
     private ArrayList<Ball> ballList;
 
     /**
@@ -451,7 +451,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                             this.addObject(space);
                             size = new TVector2(15f, 15f);
                             velocity = generateRandomVelocity();
-                            Ball ball = new Ball(null, position, velocity, size);
+                            Ball ball = new Ball(null, position, velocity, size, this);
                             this.addObject(ball);
                             ballList.add(ball);
                             break;
@@ -540,7 +540,7 @@ public class Game extends JPanel implements Runnable, KeyListener
             repaint();
 
             elapsed = System.nanoTime() - start;
-            wait = targetTime - elapsed / 1000000;
+            wait = targetTime - elapsed / 10000;
             if (wait <= 0)
             {
                 wait = 5;
