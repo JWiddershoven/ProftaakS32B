@@ -85,7 +85,7 @@ public class Ball extends GameObject
             {
                 if (go != null && !go.getClass().equals(WhiteSpace.class))
                 {
-                    System.out.println("Collided");
+                    //System.out.println("Collided");
                     bounce(go);
                     if (go.getClass().equals(Block.class))
                     {

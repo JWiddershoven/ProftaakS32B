@@ -18,6 +18,11 @@ public class GameObject
     private TVector2 velocity;
     private TVector2 size;
 
+    public TVector2 getMiddlePosition()
+    {
+        return new TVector2(position.getX() + (size.getX() / 2), position.getY() + (size.getY() / 2));
+    }
+    
     /**
      * Getter of position.
      *
