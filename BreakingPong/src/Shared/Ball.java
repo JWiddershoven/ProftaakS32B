@@ -29,6 +29,7 @@ public class Ball extends GameObject
      * @param velocity The velocity of a GameObject.
      * @param size The size of a GameObject.
      * @param game The game of where this ball is in.
+     * @param color JAVA AWT
      */
     public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color)
     {
@@ -80,7 +81,7 @@ public class Ball extends GameObject
         {
             if (go != null && !go.getClass().equals(WhiteSpace.class))
             {
-                System.out.println("Collided" + go.toString());
+                //System.out.println("Collided" + go.toString());
                 if (hasBounced == false)
                 {
                     bounce(go);
@@ -100,17 +101,17 @@ public class Ball extends GameObject
                     }
                 }
             }
-        }
-        
+        }        
         TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
                 this.getPosition().getY() + this.getVelocity().getY());
             // Increments x/y coordinates with (positive or negative) movement.
         // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
+        
         Platform.runLater(() ->
         {
             this.setPosition(newPos);
         });
-
+        
     }
 
     public void bounce(GameObject go)
@@ -177,4 +178,5 @@ public class Ball extends GameObject
         x *= -1;
         return x;
     }
+    
 }

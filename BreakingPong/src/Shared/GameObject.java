@@ -120,4 +120,10 @@ public class GameObject
     {
         return new Rectangle(position.getX(), position.getY(), size.getX(), size.getY());
     }
+    
+    @Override
+    public String toString()
+    {
+        return "Object: " + this.position.toString();
+    }
 }

@@ -48,6 +48,8 @@ public class Game extends JPanel implements Runnable, KeyListener
     private ArrayList<Ball> ballList;
     private ArrayList<Paddle> paddleList;
 
+    private JFrame window;
+
     /**
      * Getter of id
      *
@@ -208,6 +210,24 @@ public class Game extends JPanel implements Runnable, KeyListener
     }
 
     /**
+     * removes a gameobject from objectlist
+     *
+     * @param object
+     */
+    public void removeObject(GameObject object)
+    {
+        this.objectList.remove(object);
+        if (CollisionChecker.gameObjectsList.contains(object))
+        {
+            CollisionChecker.gameObjectsList.remove(object);
+        }
+        if (object instanceof Ball)
+        {
+            ballList.remove((Ball) object);
+        }
+    }
+
+    /**
      * Get all the Objects from the games object list
      *
      * @return ArrayList<GameObject>
@@ -245,7 +265,7 @@ public class Game extends JPanel implements Runnable, KeyListener
         if (mapLayout != null)
         {
             //Create the window
-            JFrame window = new JFrame();
+            window = new JFrame();
             window.setSize(819, 848);
             window.setBackground(Color.white);
             window.setLocationRelativeTo(null);
@@ -416,7 +436,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                             this.addObject(space);
                             PowerUp power = new PowerUp(1, null);
                             power.getRandomPowerUpType();
-                            Block withPower = new Block(1, true, power, position, velocity, size, Color.GREEN);
+                            Block withPower = new Block(1, true, power, position, velocity, size, Color.RED);
                             this.addObject(withPower);
                             break;
                         }
@@ -546,6 +566,7 @@ public class Game extends JPanel implements Runnable, KeyListener
         }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - paintComponent nog effecienter - - - - - - - - - - -">
     // Lorenzo: Ik heb geprobeerd op te lossen / te verlichten, maar lukte niet.
     /*
      @Override
@@ -623,6 +644,7 @@ public class Game extends JPanel implements Runnable, KeyListener
      }
     
      */
+    // </editor-fold>
     @Override
     public void run()
     {
@@ -667,9 +689,17 @@ public class Game extends JPanel implements Runnable, KeyListener
 
     public void tick()
     {
+        ArrayList<GameObject> objectsToRemove = new ArrayList<GameObject>();
         for (Ball b : ballList)
         {
             b.update();
+            if (checkExitedBounds(b.getMiddlePosition()))
+            {
+                // SPELER IS AF
+                // GET CLOSEST PADDLE
+                System.out.println("Ball exited play.");
+                objectsToRemove.add(b);
+            }
         }
         for (CPU c : botList)
         {
@@ -679,6 +709,31 @@ public class Game extends JPanel implements Runnable, KeyListener
         {
             p.update();
         }
+        for (GameObject o : objectsToRemove)
+        {
+            removeObject(o);
+        }
+    }
+
+    private boolean checkExitedBounds(TVector2 vector)
+    {
+        if (vector.getX() < 0)
+        {
+            return true;
+        }
+        if (vector.getY() < 0)
+        {
+            return true;
+        }
+        if (vector.getX() > window.getSize().width)
+        {
+            return true;
+        }
+        if (vector.getY() > window.getSize().height)
+        {
+            return true;
+        }
+        return false;
     }
 
     @Override
