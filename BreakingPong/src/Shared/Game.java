@@ -452,6 +452,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.GREEN);
                                 this.addObject(horizontalPaddle);
                                 this.paddleList.add(horizontalPaddle);
+                                playerAmount++;
                                 break;
                             }
                             else // Add CPU player
