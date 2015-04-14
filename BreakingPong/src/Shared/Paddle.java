@@ -140,7 +140,7 @@ public class Paddle extends GameObject
         }
         this.setPosition(newPosition);
         GameObject collidedWith = CollisionChecker.collidesWith(this);
-        // if paddle collides with something that is not a ball
+        // if paddle collides with something that is not a ball or a whitespace
         if (collidedWith != null && !collidedWith.getClass().equals(Ball.class) && !collidedWith.getClass().equals(WhiteSpace.class))
         {
             this.setPosition(oldPosition);
@@ -154,11 +154,9 @@ public class Paddle extends GameObject
             if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
             {
                 this.Move(direction.LEFT);
-                System.out.println(super.getPosition().getX() + " " + super.getPosition().getY());
             } else
             {
                 this.Move(direction.DOWN);
-                System.out.println(super.getPosition().getX() + " " + super.getPosition().getY());
             }
         }
         if (right)
@@ -166,11 +164,9 @@ public class Paddle extends GameObject
             if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
             {
                 this.Move(direction.RIGHT);
-                System.out.println(super.getPosition().getX() + " " + super.getPosition().getY());
             } else
             {
                 this.Move(direction.UP);
-                System.out.println(super.getPosition().getX() + " " + super.getPosition().getY());
             }
         }
     }

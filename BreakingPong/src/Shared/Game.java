@@ -347,7 +347,6 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         try
         {
-
             // X & Y Positions for the blocks
             int y = 0;
             int x = 0;
@@ -411,7 +410,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                         case "4":
                         {
                             // Add human player
-                            if (playerAmount == 2)
+                            if (playerAmount == 2) // 2 For bottom paddle to be the player paddle
                             {
                                 WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                                 this.addObject(space);
@@ -471,6 +470,17 @@ public class Game extends JPanel implements Runnable, KeyListener
     @Override
     public void paintComponent(Graphics g)
     {
+        //Multiple for loops, order of drawing is wery wery importanté
+        for(GameObject o : this.getObjectList())
+        {
+            // Draw a whitespace
+            if (o instanceof WhiteSpace)
+            {
+                WhiteSpace w = (WhiteSpace)o;
+                g.setColor(w.getColor());
+                g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
+            }
+        }
         for (GameObject o : this.getObjectList())
         {
             //Draw a block
@@ -481,13 +491,6 @@ public class Game extends JPanel implements Runnable, KeyListener
                 g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 g.setColor(Color.black);
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-            }
-            // Draw a whitespace
-            else if (o instanceof WhiteSpace)
-            {
-                WhiteSpace w = (WhiteSpace)o;
-                g.setColor(w.getColor());
-                g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
             }
         }
         for(GameObject o : this.getObjectList())
