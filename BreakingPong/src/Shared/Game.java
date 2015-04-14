@@ -493,19 +493,24 @@ public class Game extends JPanel implements Runnable, KeyListener
     @Override
     public void paintComponent(Graphics g)
     {
-       //Multiple for loops, order of drawing is wery wery importanté
-        for(GameObject o : this.getObjectList())
+        ArrayList<GameObject> drawList = new ArrayList<>();
+        drawList.addAll(this.getObjectList());
+        //Multiple for loops, order of drawing is wery wery importanté
+        for (int i = drawList.size() - 1; i >= 0; i--)
         {
+            GameObject o = drawList.get(i);
             // Draw a whitespace
             if (o instanceof WhiteSpace)
             {
-                WhiteSpace w = (WhiteSpace)o;
+                WhiteSpace w = (WhiteSpace) o;
                 g.setColor(w.getColor());
                 g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
+                drawList.remove(i);
             }
         }
-        for (GameObject o : this.getObjectList())
+        for (int i = drawList.size() - 1; i >= 0; i--)
         {
+            GameObject o = drawList.get(i);
             //Draw a block
             if (o instanceof Block)
             {
@@ -514,10 +519,13 @@ public class Game extends JPanel implements Runnable, KeyListener
                 g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 g.setColor(Color.black);
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                drawList.remove(i);
             }
         }
-        for(GameObject o : this.getObjectList())
-        {    //Draw a ball
+        for (int i = drawList.size() - 1; i >= 0; i--)
+        {
+            GameObject o = drawList.get(i);
+            //Draw a ball
             if (o instanceof Ball)
             {
                 Ball b = (Ball) o;
@@ -537,85 +545,84 @@ public class Game extends JPanel implements Runnable, KeyListener
             }
         }
     }
-    
+
     // Lorenzo: Ik heb geprobeerd op te lossen / te verlichten, maar lukte niet.
     /*
-    @Override
-    public void paintComponent(Graphics g)
-    {
-        ArrayList<GameObject> toDrawBlockList = new ArrayList<>();
-        ArrayList<GameObject> toDrawPaddleList = new ArrayList<>();
-        ArrayList<GameObject> toDrawBallList = new ArrayList<>();
+     @Override
+     public void paintComponent(Graphics g)
+     {
+     ArrayList<GameObject> toDrawBlockList = new ArrayList<>();
+     ArrayList<GameObject> toDrawPaddleList = new ArrayList<>();
+     ArrayList<GameObject> toDrawBallList = new ArrayList<>();
 
-        // Multiple for loops, order of drawing is wery wery importanté
-        // Loop backwards in case objects get removed
-        for (int i = this.objectList.size() - 1; i < 0; i--)
-        {
-            GameObject go = this.objectList.get(i);
-            // Draw a whitespace
-            if (go instanceof WhiteSpace)
-            {
-                WhiteSpace w = (WhiteSpace) go;
-                g.setColor(w.getColor());
-                g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
-            }
-            else
-            {
-                if (this.objectList.get(i) instanceof Block)
-                {
-                    toDrawBlockList.add((Block) go);
-                }
-                else if (this.objectList.get(i) instanceof Paddle)
-                {
-                    toDrawPaddleList.add((Paddle) go);
-                }
-                else if (this.objectList.get(i) instanceof Ball)
-                {
-                    toDrawBallList.add((Ball) go);
-                }
-            }
-        }
-        // Draw blocks
-        for (GameObject go : toDrawBlockList)
-        {
-            if (go instanceof Block)
-            {
-                Block b = (Block) go;
-                g.setColor(b.getColor());
-                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                g.setColor(Color.black);
-                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-            }
-        }
-        // Draw paddles
-        for (GameObject go : toDrawPaddleList)
-        {
-            if (go instanceof Paddle)
-            {
-                Paddle p = (Paddle) go;
-                g.setColor(p.getColor());
-                g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-                g.setColor(Color.white);
-                g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-            }
+     // Multiple for loops, order of drawing is wery wery importanté
+     // Loop backwards in case objects get removed
+     for (int i = this.objectList.size() - 1; i < 0; i--)
+     {
+     GameObject go = this.objectList.get(i);
+     // Draw a whitespace
+     if (go instanceof WhiteSpace)
+     {
+     WhiteSpace w = (WhiteSpace) go;
+     g.setColor(w.getColor());
+     g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
+     }
+     else
+     {
+     if (this.objectList.get(i) instanceof Block)
+     {
+     toDrawBlockList.add((Block) go);
+     }
+     else if (this.objectList.get(i) instanceof Paddle)
+     {
+     toDrawPaddleList.add((Paddle) go);
+     }
+     else if (this.objectList.get(i) instanceof Ball)
+     {
+     toDrawBallList.add((Ball) go);
+     }
+     }
+     }
+     // Draw blocks
+     for (GameObject go : toDrawBlockList)
+     {
+     if (go instanceof Block)
+     {
+     Block b = (Block) go;
+     g.setColor(b.getColor());
+     g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+     g.setColor(Color.black);
+     g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+     }
+     }
+     // Draw paddles
+     for (GameObject go : toDrawPaddleList)
+     {
+     if (go instanceof Paddle)
+     {
+     Paddle p = (Paddle) go;
+     g.setColor(p.getColor());
+     g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
+     g.setColor(Color.white);
+     g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
+     }
 
-        }
-        // Draw Balls
-        for (GameObject go : toDrawBallList)
-        {
-            if (go instanceof Ball)
-            {
-                Ball b = (Ball) go;
-                g.setColor(Color.red);
-                g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                g.setColor(Color.white);
-                g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-            }
-        }
-    }
+     }
+     // Draw Balls
+     for (GameObject go : toDrawBallList)
+     {
+     if (go instanceof Ball)
+     {
+     Ball b = (Ball) go;
+     g.setColor(Color.red);
+     g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+     g.setColor(Color.white);
+     g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+     }
+     }
+     }
     
-    */
-
+     */
     @Override
     public void run()
     {
@@ -729,8 +736,10 @@ public class Game extends JPanel implements Runnable, KeyListener
             y = total - (x * -1);
         }
         else
+        {
             y = total - x;
-        TVector2 returnVector  = new TVector2(x,y);
+        }
+        TVector2 returnVector = new TVector2(x, y);
         System.out.println("generatedVelocity: " + returnVector.toString());
         return returnVector;
     }
