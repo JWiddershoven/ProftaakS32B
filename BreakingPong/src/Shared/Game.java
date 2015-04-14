@@ -36,15 +36,16 @@ public class Game extends JPanel implements Runnable, KeyListener
     private boolean powerUps;
     private boolean inProgress = false;
     private Thread thread;
-    private int FPS = 60;
-    private long targetTime = 1000 / FPS;
+    private final int FPS = 60;
+    private final long targetTime = 1000 / FPS;
     private Map selectedmap;
-    
+
     //private ArrayList<Map> selectedMaps;
     private ArrayList<User> userList;
     private ArrayList<CPU> botList;
     public ArrayList<GameObject> objectList;
     private ArrayList<Ball> ballList;
+    private ArrayList<Paddle> paddleList;
 
     /**
      * Getter of id
@@ -127,13 +128,14 @@ public class Game extends JPanel implements Runnable, KeyListener
         if (setValue == true)
         {
             this.inProgress = false;
-        } else
+        }
+        else
         {
             this.inProgress = true;
         }
         return inProgress;
     }
-    
+
     public int getNumberOfPlayers()
     {
         return selectedmap.getPlayerAmount();
@@ -155,6 +157,7 @@ public class Game extends JPanel implements Runnable, KeyListener
         this.userList = new ArrayList<>();
         this.objectList = new ArrayList<>();
         this.ballList = new ArrayList<>();
+        this.paddleList = new ArrayList<>();
         this.setFocusable(true);
         addKeyListener(this);
     }
@@ -165,6 +168,7 @@ public class Game extends JPanel implements Runnable, KeyListener
      * @param botName value of botName as String
      * @param botDifficulty value of Difficulty as Byte
      */
+    //TODO: Verwijderen?
     public void addBot(String botName, Byte botDifficulty)
     {
         TVector2 standardSize = new TVector2(25, 10);
@@ -218,6 +222,10 @@ public class Game extends JPanel implements Runnable, KeyListener
      */
     public void endGame()
     {
+        System.out.println("GAME ENDED!");
+        System.out.println("GAME ENDED!");
+        System.out.println("GAME ENDED!");
+        System.out.println("GAME ENDED!");
         this.inProgress = false;
     }
 
@@ -259,10 +267,6 @@ public class Game extends JPanel implements Runnable, KeyListener
         inProgress = true;
         thread = new Thread(this);
         thread.start();
-        for (CPU c : botList)
-        {
-            c.startBot();
-        }
     }
 
     /**
@@ -297,10 +301,12 @@ public class Game extends JPanel implements Runnable, KeyListener
                 //Remove whitespaces
                 text = new String(buffer, 0, n).replaceAll("\\s+", "");
                 in.close();
-            } catch (FileNotFoundException ex)
+            }
+            catch (FileNotFoundException ex)
             {
 
-            } catch (IOException IOex)
+            }
+            catch (IOException IOex)
             {
 
             }
@@ -329,11 +335,13 @@ public class Game extends JPanel implements Runnable, KeyListener
                     }
                     mapLayout.add(row);
                 }
-            } catch (IllegalArgumentException ifex)
+            }
+            catch (IllegalArgumentException ifex)
             {
                 System.out.println("File incorrect");
                 return null;
-            } catch (RuntimeException ex)
+            }
+            catch (RuntimeException ex)
             {
                 System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
                 return null;
@@ -379,7 +387,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create undestructable block
                         case "0":
                         {
-                            Block wall = new Block(0, false, null, position, velocity, size, Color.gray);
+                            Block wall = new Block(0, false, null, position, velocity, size, Color.GRAY);
                             this.addObject(wall);
 
                             break;
@@ -396,18 +404,18 @@ public class Game extends JPanel implements Runnable, KeyListener
                         {
                             WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                             this.addObject(space);
-                            Block noPower = new Block(1, true, null, position, velocity, size, Color.yellow);
+                            Block noPower = new Block(1, true, null, position, velocity, size, Color.YELLOW);
                             this.addObject(noPower);
                             break;
                         }
                         // Create block with powerup
                         case "3":
-                        {   
+                        {
                             WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                             this.addObject(space);
                             PowerUp power = new PowerUp(1, null);
                             power.getRandomPowerUpType();
-                            Block withPower = new Block(1, true, power, position, velocity, size, Color.red);
+                            Block withPower = new Block(1, true, power, position, velocity, size, Color.GREEN);
                             this.addObject(withPower);
                             break;
                         }
@@ -420,19 +428,22 @@ public class Game extends JPanel implements Runnable, KeyListener
                                 WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                                 this.addObject(space);
                                 size = new TVector2(100f, 20f);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.green);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.GREEN);
                                 this.addObject(horizontalPaddle);
+                                this.paddleList.add(horizontalPaddle);
                                 break;
-                            } else // Add CPU player
+                            }
+                            else // Add CPU player
                             {
                                 WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                                 this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.green);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.GREEN);
                                 cpubot.setMyPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
-                                botList.add(cpubot);
+                                this.paddleList.add(horizontalPaddle);
+                                this.botList.add(cpubot);
                                 playerAmount++;
                                 break;
                             }
@@ -445,12 +456,13 @@ public class Game extends JPanel implements Runnable, KeyListener
                             this.addObject(space);
                             size = new TVector2(20f, 100f);
                             CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
-                            Paddle verticalPaddle = new Paddle(0, position, velocity, size,cpubot , Paddle.windowLocation.EAST, Color.green);
+                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.EAST, Color.GREEN);
                             this.addObject(verticalPaddle);
-                            botList.add(cpubot);
+                            this.paddleList.add(verticalPaddle);
+                            this.botList.add(cpubot);
                             //    playerAmount++;
                             cpubot.setMyPaddle(verticalPaddle);
-                                break;
+                            break;
                         }
 
                         // Create a ball spawn
@@ -460,9 +472,9 @@ public class Game extends JPanel implements Runnable, KeyListener
                             this.addObject(space);
                             size = new TVector2(15f, 15f);
                             velocity = generateRandomVelocity();
-                            Ball ball = new Ball(null, position, velocity, size, this);
+                            Ball ball = new Ball(null, position, velocity, size, this, Color.RED);
                             this.addObject(ball);
-                            ballList.add(ball);
+                            this.ballList.add(ball);
                             break;
                         }
                     }
@@ -470,7 +482,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                 rowcount++;
                 y += 20;
             }
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             System.out.println(ex.getMessage());
         }
@@ -479,69 +492,73 @@ public class Game extends JPanel implements Runnable, KeyListener
     @Override
     public void paintComponent(Graphics g)
     {
-        //Multiple for loops, order of drawing is wery wery importanté
-        for(GameObject o : this.getObjectList())
+        ArrayList<Block> toDrawBlockList = new ArrayList<>();
+        ArrayList<Paddle> toDrawPaddleList = new ArrayList<>();
+        ArrayList<Ball> toDrawBallList = new ArrayList<>();
+
+        // Multiple for loops, order of drawing is wery wery importanté
+        // Loop backwards in case objects get removed
+        for (int i = this.objectList.size() - 1; i < 0; i--)
         {
+            GameObject go = this.objectList.get(i);
             // Draw a whitespace
-            if (o instanceof WhiteSpace)
+            if (go instanceof WhiteSpace)
             {
-                WhiteSpace w = (WhiteSpace)o;
+                WhiteSpace w = (WhiteSpace) go;
                 g.setColor(w.getColor());
                 g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
             }
+            else
+            {
+                if (this.objectList.get(i) instanceof Block)
+                {
+                    toDrawBlockList.add((Block) go);
+                }
+                else if (this.objectList.get(i) instanceof Paddle)
+                {
+                    toDrawPaddleList.add((Paddle) go);
+                }
+                else if (this.objectList.get(i) instanceof Ball)
+                {
+                    toDrawBallList.add((Ball) go);
+                }
+            }
         }
-        for (GameObject o : this.getObjectList())
+        // Draw blocks
+        for (Block go : toDrawBlockList)
         {
-            //Draw a block
-            if (o instanceof Block)
-            {
-                Block b = (Block) o;
-                g.setColor(b.getColor());
-                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                g.setColor(Color.black);
-                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-            }
+            g.setColor(go.getColor());
+            g.fillRect((int) go.getPosition().getX(), (int) go.getPosition().getY(), (int) go.getSize().getX(), (int) go.getSize().getY());
+            g.setColor(Color.black);
+            g.drawRect((int) go.getPosition().getX(), (int) go.getPosition().getY(), (int) go.getSize().getX(), (int) go.getSize().getY());
         }
-        for(GameObject o : this.getObjectList())
-        {    //Draw a ball
-            if (o instanceof Ball)
-            {
-                Ball b = (Ball) o;
-                g.setColor(Color.red);
-                g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                g.setColor(Color.white);
-                g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-            }
-            //Draw a paddle
-            else if (o instanceof Paddle)
-            {
-                Paddle p = (Paddle) o;
-                g.setColor(p.getColor());
-                g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-                g.setColor(Color.white);
-                g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-            }
+        // Draw paddles
+        for (Paddle go : toDrawPaddleList)
+        {
+            g.setColor(go.getColor());
+            g.fillRect((int) go.getPosition().getX(), (int) go.getPosition().getY(), (int) go.getSize().getX(), (int) go.getSize().getY());
+            g.setColor(Color.white);
+            g.drawRect((int) go.getPosition().getX(), (int) go.getPosition().getY(), (int) go.getSize().getX(), (int) go.getSize().getY());
+        }
+        // Draw Balls
+        for (Ball go : toDrawBallList)
+        {
+            g.setColor(Color.red);
+            g.fillOval((int) go.getPosition().getX(), (int) go.getPosition().getY(), (int) go.getSize().getX(), (int) go.getSize().getY());
+            g.setColor(Color.white);
+            g.drawOval((int) go.getPosition().getX(), (int) go.getPosition().getY(), (int) go.getSize().getX(), (int) go.getSize().getY());
         }
     }
 
     @Override
     public void run()
     {
-        long start, elapsed, wait;
         // Do while game is started
-
-        for (GameObject o : this.objectList)
-        {
-            if (o instanceof Ball)
-            {
-                Ball b = (Ball) o;
-                b.startBall();
-            }
-        }
         while (inProgress)
         {
+            long start, elapsed, wait;
             start = System.nanoTime();
-            //Move objects
+            // calls update function on all objects
             tick();
             // Redraw objects on panel
 
@@ -558,23 +575,35 @@ public class Game extends JPanel implements Runnable, KeyListener
             try
             {
                 thread.sleep(wait);
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
+        exitGame();
+    }
+
+    private void exitGame()
+    {
+
+        this.botList.clear();
+        this.objectList.clear();
     }
 
     public void tick()
     {
-        for (int i = this.objectList.size() - 1; i > 0; i--)
+        for (Ball b : ballList)
         {
-            //Move all paddles
-            if (this.objectList.get(i) instanceof Paddle)
-            {
-                Paddle p = (Paddle) this.objectList.get(i);
-                p.tick();
-            }
+            b.update();
+        }
+        for (CPU c : botList)
+        {
+            c.update();
+        }
+        for (Paddle p : paddleList)
+        {
+            p.update();
         }
     }
 
@@ -628,15 +657,16 @@ public class Game extends JPanel implements Runnable, KeyListener
         float total = 1.5f;
         float x = generateRandomFloat(-1f, 1f, rand);
         float y = total - x;// generateRandomFloat(-1f,1f,rand);
-        return new TVector2(x,y);
+        return new TVector2(x, y);
     }
 
-    /***
-     * 
+    /**
+     * *
+     *
      * @param min
      * @param max
      * @param rand
-     * @return  NOt between -0.1and 0.1f
+     * @return NOt between -0.1and 0.1f
      */
     private float generateRandomFloat(float min, float max, Random rand)
     {
