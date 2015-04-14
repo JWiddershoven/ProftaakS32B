@@ -72,14 +72,34 @@ public class CPU
             ClosestTo[i] = b.getPosition().getY() - currentPosPaddle.getY();
             i++;
         }
-        int numberOfPlayers = currentGame.getNumberOfPlayers();
+        int numberOfPlayers = 4;
         if(numberOfPlayers == 4)
         {
         points = new double[4];
-        points[0] = Math.sqrt(((ClosestTo[1] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[0] * 2 - currentPosPaddle.getX() * 2));
-        points[1] = Math.sqrt(((ClosestTo[3] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[2] * 2 - currentPosPaddle.getX() * 2));
-        points[2] = Math.sqrt(((ClosestTo[5] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[4] * 2 - currentPosPaddle.getX() * 2));
-        points[3] = Math.sqrt(((ClosestTo[7] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[6] * 2 - currentPosPaddle.getX() * 2));
+        double out = (((ClosestTo[1] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[0] * 2 - currentPosPaddle.getX() * 2));
+        double out2 = (((ClosestTo[3] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[2] * 2 - currentPosPaddle.getX() * 2));
+        double out3 = (((ClosestTo[5] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[4] * 2 - currentPosPaddle.getX() * 2));
+        double out4 = (((ClosestTo[7] * 2) - currentPosPaddle.getY() * 2) + (ClosestTo[6] * 2 - currentPosPaddle.getX() * 2));
+        if(out < 0)
+        {
+            out = out + out+ out;
+        }
+        if(out2 < 0)
+        {
+            out2 = out2 + out2+ out2;
+        }
+        if(out3 < 0)
+         {
+            out3 = out3 + out3+ out3;
+        }    
+        if(out4 < 0)
+         {
+            out4 = out4 + out4+ out4;
+        }    
+        points[0] = Math.sqrt(out);
+        points[1] = Math.sqrt(out2);
+        points[2] = Math.sqrt(out3);
+        points[3] = Math.sqrt(out4);
         calcPositionForFour();
         }
         else if(numberOfPlayers == 2)
