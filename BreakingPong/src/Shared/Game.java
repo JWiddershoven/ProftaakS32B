@@ -445,9 +445,13 @@ public class Game extends JPanel implements Runnable, KeyListener
                             WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                             this.addObject(space);
                             size = new TVector2(20f, 100f);
-                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.EAST, Color.green);
+                            CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
+                            Paddle verticalPaddle = new Paddle(0, position, velocity, size,cpubot , Paddle.windowLocation.EAST, Color.green);
                             this.addObject(verticalPaddle);
-                            break;
+                            botList.add(cpubot);
+                                playerAmount++;
+                            cpubot.setMyPaddle(verticalPaddle);
+                                break;
                         }
 
                         // Create a ball spawn
@@ -628,10 +632,17 @@ public class Game extends JPanel implements Runnable, KeyListener
         return new TVector2(x,y);
     }
 
+    /***
+     * 
+     * @param min
+     * @param max
+     * @param rand
+     * @return  NOt between -0.1and 0.1f
+     */
     private float generateRandomFloat(float min, float max, Random rand)
     {
         float finalFloat = 0f;
-        while (finalFloat == 0f)
+        while (finalFloat > -0.1f && finalFloat < 0.1f)
         {
             finalFloat = rand.nextFloat() * (max - min) + min;
         }

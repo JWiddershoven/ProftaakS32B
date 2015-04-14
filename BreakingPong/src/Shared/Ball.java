@@ -15,8 +15,7 @@ import jdk.nashorn.internal.codegen.CompilerConstants;
 /**
  * @author Jelle
  */
-public class Ball extends GameObject
-{
+public class Ball extends GameObject {
 
     private Game game;
     private Paddle lastPaddleTouched;
@@ -32,15 +31,12 @@ public class Ball extends GameObject
      * @param size The size of a GameObject.
      * @param game The game of where this ball is in.
      */
-    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game)
-    {
+    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game) {
         super(position, velocity, size);
         this.game = game;
-        if (position != null && velocity != null && size != null)
-        {
+        if (position != null && velocity != null && size != null) {
             this.lastPaddleTouched = lastPaddleTouched;
-        } else
-        {
+        } else {
             throw new IllegalArgumentException();
         }
 
@@ -51,21 +47,17 @@ public class Ball extends GameObject
     /**
      * @return The last paddle which touched the ball.
      */
-    public Paddle getLastPaddleTouched()
-    {
+    public Paddle getLastPaddleTouched() {
         return this.lastPaddleTouched;
     }
 
     /**
      * @param lastPaddleTouched The last Paddle which touched the ball.
      */
-    public void setLastPaddleTouched(Paddle lastPaddleTouched)
-    {
-        if (lastPaddleTouched != null)
-        {
+    public void setLastPaddleTouched(Paddle lastPaddleTouched) {
+        if (lastPaddleTouched != null) {
             this.lastPaddleTouched = lastPaddleTouched;
-        } else
-        {
+        } else {
             throw new IllegalArgumentException();
         }
     }
@@ -73,29 +65,26 @@ public class Ball extends GameObject
     /**
      * Timer which handles the collision between a ball and the borders.
      */
-    public void startBall()
-    {
-        timer = new Timer(10, (ActionEvent e) ->
-        {
+    public void startBall() {
+        timer = new Timer(10, (ActionEvent e) -> {
 
             ArrayList<GameObject> collidedWith = new ArrayList<>();
             collidedWith.addAll(CollisionChecker.collidesWithMultiple(this));
+            boolean hasBounced = false;
             // If ball collides with something that is not a WhiteSpace.
-            for (GameObject go : collidedWith)
-            {
-                if (go != null && !go.getClass().equals(WhiteSpace.class))
-                {
-                    //System.out.println("Collided");
-                    bounce(go);
-                    if (go.getClass().equals(Block.class))
-                    {
+            for (GameObject go : collidedWith) {
+                if (go != null && !go.getClass().equals(WhiteSpace.class)) {
+                    System.out.println("Collided" + go.toString());
+                    if (hasBounced == false) {
+                        bounce(go);
+                        hasBounced = true;
+                    }
+                    if (go.getClass().equals(Block.class)) {
                         Block b = (Block) go;
-                        if (lastPaddleTouched != null)
-                        {
+                        if (lastPaddleTouched != null) {
                             lastPaddleTouched.addScore(b.getPoints());
                         }
-                        if (b.isDestructable())
-                        {
+                        if (b.isDestructable()) {
                             game.objectList.remove(go);
                             CollisionChecker.gameObjectsList.remove(go);
                         }
@@ -107,8 +96,7 @@ public class Ball extends GameObject
                     this.getPosition().getY() + this.getVelocity().getY());
             // Increments x/y coordinates with (positive or negative) movement.
             // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
-            Platform.runLater(() ->
-            {
+            Platform.runLater(() -> {
                 this.setPosition(newPos);
             });
 
@@ -116,40 +104,43 @@ public class Ball extends GameObject
         timer.start();
     }
 
-    public void bounce(GameObject go)
-    {
+    public void bounce(GameObject go) {
+        if (go instanceof Paddle) {
+            Paddle p = (Paddle) go;
+            if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH) {
+                this.setVelocity(new TVector2(this.getVelocity().getX(), this.getVelocity().getY() * -1));
+                return;
+            } else {
+                this.setVelocity(new TVector2(this.getVelocity().getX() * -1, this.getVelocity().getY()));
+                return;
+            }
+        }
         //System.out.println("enter bounce");
         TVector2 position = this.getPosition();
         TVector2 goPos = go.getPosition();
         float f1, f2;
-        float deltaX = go.getPosition().getX() - this.getPosition().getX();
-        float deltaY = go.getPosition().getY() - this.getPosition().getY();
-        double angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
+        //float deltaX = go.getPosition().getX() - this.getPosition().getX();
+        //float deltaY = go.getPosition().getY() - this.getPosition().getY();
+        //double angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
         TVector2 vel = this.getVelocity();
         //System.out.println("Position:" + this.getPosition().toString());
         //System.out.println("Position Go:" + go.getPosition().toString());
-        if (position.getY() > goPos.getY())
-        {
+        if (position.getY() > goPos.getY()) {
             f1 = goPos.getY() - position.getY();
-        } else
-        {
+        } else {
             f1 = position.getY() - goPos.getY();
         }
-        if (position.getX() > goPos.getX())
-        {
+        if (position.getX() > goPos.getX()) {
             f2 = goPos.getX() - position.getX();
-        } else
-        {
+        } else {
             f2 = position.getX() - goPos.getX();
         }
         //System.out.println(this.getVelocity().toString());
         //System.out.println("diff Y:" + f1 + " X:" + f2);
-        if (f1 > f2)
-        {
-          //  System.out.println("bounceY");
+        if (f1 < f2) {
+            //  System.out.println("bounceY");
             vel.setY(bounceFloat(this.getVelocity().getY()));
-        } else
-        {
+        } else {
             //System.out.println("bounceX");
             vel.setX(bounceFloat(this.getVelocity().getX()));
         }
@@ -158,8 +149,7 @@ public class Ball extends GameObject
         //System.out.println(this.getVelocity().toString());
     }
 
-    public float bounceFloat(float x)
-    {
+    public float bounceFloat(float x) {
         x *= -1;
         return x;
     }

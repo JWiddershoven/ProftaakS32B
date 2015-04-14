@@ -127,7 +127,7 @@ public class CPU {
         } else {
             distance += targetPos.getY() - pos.getY();
         }
-        System.out.println(distance);
+        //System.out.println(distance);
         return distance;
     }
 
