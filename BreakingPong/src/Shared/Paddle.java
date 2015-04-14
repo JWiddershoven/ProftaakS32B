@@ -8,6 +8,7 @@ package Shared;
 import Server.CollisionChecker;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 /**
  *
@@ -139,11 +140,14 @@ public class Paddle extends GameObject
                 break;
         }
         this.setPosition(newPosition);
-        GameObject collidedWith = CollisionChecker.collidesWith(this);
+        ArrayList<GameObject> collidedWith = CollisionChecker.collidesWithMultiple(this);
         // if paddle collides with something that is not a ball or a whitespace
-        if (collidedWith != null && !collidedWith.getClass().equals(Ball.class) && !collidedWith.getClass().equals(WhiteSpace.class))
+        for(GameObject g : collidedWith)
         {
-            this.setPosition(oldPosition);
+            if (g != null && !g.getClass().equals(Ball.class) && !g.getClass().equals(WhiteSpace.class))
+            {
+                this.setPosition(oldPosition);
+            }
         }
     }
 

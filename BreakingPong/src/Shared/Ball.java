@@ -78,7 +78,8 @@ public class Ball extends GameObject
         timer = new Timer(10, (ActionEvent e) ->
         {
 
-            ArrayList<GameObject> collidedWith = CollisionChecker.collidesWithMultiple(this);
+            ArrayList<GameObject> collidedWith = new ArrayList<>();
+            collidedWith.addAll(CollisionChecker.collidesWithMultiple(this));
             // If ball collides with something that is not a WhiteSpace.
             for (GameObject go : collidedWith)
             {
@@ -86,7 +87,7 @@ public class Ball extends GameObject
                 {
                     System.out.println("Collided");
                     bounce(go);
-                    if (collidedWith.getClass().equals(Block.class))
+                    if (go.getClass().equals(Block.class))
                     {
                         Block b = (Block) go;
                         if (lastPaddleTouched != null)
@@ -95,7 +96,8 @@ public class Ball extends GameObject
                         }
                         if (b.isDestructable())
                         {
-                            game.objectList.remove(collidedWith);
+                            game.objectList.remove(go);
+                            CollisionChecker.gameObjectsList.remove(go);
                         }
                     }
                 }
@@ -116,7 +118,7 @@ public class Ball extends GameObject
 
     public void bounce(GameObject go)
     {
-        System.out.println("enter bounce");
+        //System.out.println("enter bounce");
         TVector2 position = this.getPosition();
         TVector2 goPos = go.getPosition();
         float f1, f2;
@@ -124,8 +126,8 @@ public class Ball extends GameObject
         float deltaY = go.getPosition().getY() - this.getPosition().getY();
         double angleInDegrees = Math.atan2(deltaY, deltaX) * 180 / Math.PI;
         TVector2 vel = this.getVelocity();
-        System.out.println("Position:" + this.getPosition().toString());
-        System.out.println("Position Go:" + go.getPosition().toString());
+        //System.out.println("Position:" + this.getPosition().toString());
+        //System.out.println("Position Go:" + go.getPosition().toString());
         if (position.getY() > goPos.getY())
         {
             f1 = goPos.getY() - position.getY();
@@ -140,20 +142,20 @@ public class Ball extends GameObject
         {
             f2 = position.getX() - goPos.getX();
         }
-        System.out.println(this.getVelocity().toString());
-        System.out.println("diff Y:" + f1 + " X:" + f2);
+        //System.out.println(this.getVelocity().toString());
+        //System.out.println("diff Y:" + f1 + " X:" + f2);
         if (f1 > f2)
         {
-            System.out.println("bounceY");
+          //  System.out.println("bounceY");
             vel.setY(bounceFloat(this.getVelocity().getY()));
         } else
         {
-            System.out.println("bounceX");
+            //System.out.println("bounceX");
             vel.setX(bounceFloat(this.getVelocity().getX()));
         }
 
         this.setVelocity(vel);
-        System.out.println(this.getVelocity().toString());
+        //System.out.println(this.getVelocity().toString());
     }
 
     public float bounceFloat(float x)

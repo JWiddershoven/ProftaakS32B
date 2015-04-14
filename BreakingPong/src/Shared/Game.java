@@ -6,6 +6,7 @@
 package Shared;
 
 import Server.CollisionChecker;
+import static Server.CollisionChecker.gameObjectsList;
 import Server.Server;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -38,8 +39,9 @@ public class Game extends JPanel implements Runnable, KeyListener
     private Thread thread;
     private int FPS = 60;
     private long targetTime = 1000 / FPS;
-
-    private ArrayList<Map> selectedMaps;
+    private Map selectedmap;
+    
+    //private ArrayList<Map> selectedMaps;
     private ArrayList<User> userList;
     private ArrayList<CPU> botList;
     public ArrayList<GameObject> objectList;
@@ -132,6 +134,11 @@ public class Game extends JPanel implements Runnable, KeyListener
         }
         return inProgress;
     }
+    
+    public int getNumberOfPlayers()
+    {
+        return selectedmap.getPlayerAmount();
+    }
 
     /**
      * Constructor of game
@@ -149,7 +156,6 @@ public class Game extends JPanel implements Runnable, KeyListener
         this.userList = new ArrayList<>();
         this.objectList = new ArrayList<>();
         this.ballList = new ArrayList<>();
-        this.selectedMaps = new ArrayList<>();
         this.setFocusable(true);
         addKeyListener(this);
     }
@@ -558,12 +564,12 @@ public class Game extends JPanel implements Runnable, KeyListener
 
     public void tick()
     {
-        for (GameObject o : this.objectList)
+        for (int i = this.objectList.size() - 1; i > 0; i--)
         {
             //Move all paddles
-            if (o instanceof Paddle)
+            if (this.objectList.get(i) instanceof Paddle)
             {
-                Paddle p = (Paddle) o;
+                Paddle p = (Paddle) this.objectList.get(i);
                 p.tick();
             }
         }

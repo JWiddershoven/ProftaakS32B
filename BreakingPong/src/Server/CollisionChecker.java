@@ -69,13 +69,13 @@ public class CollisionChecker
             throw new IllegalStateException("gameObjectsList is leeg in ColliderChecker.java");
         }
         ArrayList<GameObject> collidedObjects = new ArrayList<>();
-        for (GameObject gb : gameObjectsList)
+        for (int i = gameObjectsList.size() - 1; i > 0; i--)
         {
-            if (!gb.equals(objectToCheck))
+            if (!gameObjectsList.get(i).equals(objectToCheck))
             {
-                if (CollisionChecker.checkCollidesWith(objectToCheck, gb))
+                if (CollisionChecker.checkCollidesWith(objectToCheck, gameObjectsList.get(i)))
                 {
-                    collidedObjects.add(gb);
+                    collidedObjects.add(gameObjectsList.get(i));
                 }
             }
         }
