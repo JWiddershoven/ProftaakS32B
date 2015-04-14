@@ -66,14 +66,14 @@ public class CollisionChecker
     {
         if (gameObjectsList == null || gameObjectsList.isEmpty())
         {
-            throw new IllegalStateException("gameObjectsList is leeg in ColliderChecker.java");
+            throw new IllegalStateException("gameObjectsList is empty ColliderChecker.java");
         }
         ArrayList<GameObject> collidedObjects = new ArrayList<>();
         for (int i = gameObjectsList.size() - 1; i > 0; i--)
         {
             // Game is closed
             if (gameObjectsList == null)
-                return null;
+                return new ArrayList<GameObject>();
             if (!gameObjectsList.get(i).equals(objectToCheck))
             {
                 if (CollisionChecker.checkCollidesWith(objectToCheck, gameObjectsList.get(i)))
