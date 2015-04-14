@@ -71,6 +71,9 @@ public class CollisionChecker
         ArrayList<GameObject> collidedObjects = new ArrayList<>();
         for (int i = gameObjectsList.size() - 1; i > 0; i--)
         {
+            // Game is closed
+            if (gameObjectsList == null)
+                return null;
             if (!gameObjectsList.get(i).equals(objectToCheck))
             {
                 if (CollisionChecker.checkCollidesWith(objectToCheck, gameObjectsList.get(i)))

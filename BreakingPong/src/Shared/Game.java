@@ -6,7 +6,6 @@
 package Shared;
 
 import Server.CollisionChecker;
-import static Server.CollisionChecker.gameObjectsList;
 import Server.Server;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -449,7 +448,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                             Paddle verticalPaddle = new Paddle(0, position, velocity, size,cpubot , Paddle.windowLocation.EAST, Color.green);
                             this.addObject(verticalPaddle);
                             botList.add(cpubot);
-                                playerAmount++;
+                            //    playerAmount++;
                             cpubot.setMyPaddle(verticalPaddle);
                                 break;
                         }
