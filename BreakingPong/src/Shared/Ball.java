@@ -21,7 +21,7 @@ public class Ball extends GameObject
     private final Game game;
     private Paddle lastPaddleTouched;
     Timer timer;
-    public static final float maxSpeed = 2.5f;
+    public static final float maxSpeed = 1.5f;
     private Date lastTimePaddleTouched;
 
     /**

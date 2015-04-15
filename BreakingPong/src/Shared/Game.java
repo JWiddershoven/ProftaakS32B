@@ -238,7 +238,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         return this.objectList;
     }
-    
+
     public ArrayList<Ball> getBallList()
     {
         return ballList;
@@ -462,7 +462,7 @@ public class Game extends JPanel implements Runnable, KeyListener
 //                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.GREEN);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.BLUE);
                                 cpubot.setMyPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
                                 this.paddleList.add(horizontalPaddle);
@@ -479,7 +479,7 @@ public class Game extends JPanel implements Runnable, KeyListener
 //                            this.addObject(space);
                             size = new TVector2(20f, 100f);
                             CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
-                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.EAST, Color.GREEN);
+                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.EAST, Color.BLUE);
                             this.addObject(verticalPaddle);
                             this.paddleList.add(verticalPaddle);
                             this.botList.add(cpubot);
@@ -574,23 +574,37 @@ public class Game extends JPanel implements Runnable, KeyListener
         }
         String scoreText = "";
         int ypos = 25;
-        Font font = new Font("arial", Font.BOLD, 12);
-        g.setFont(font);
+        Font scoreFont = new Font("arial", Font.BOLD, 16);
+        Font paddleFont = new Font("arial", Font.BOLD, 12);
         for (User u : this.userList)
         {
+            g.setFont(scoreFont);
+            g.setColor(Color.WHITE);
             scoreText = u.getUsername() + ": " + u.getPaddle().getScore();
             g.drawString(scoreText, 10, ypos);
-            ypos += 15;
+            g.setFont(paddleFont);
+            g.setColor(Color.BLACK);
+            float posX = u.getPaddle().getMiddlePosition().getX() - (u.getUsername().length() * 3);
+            g.drawString(u.getUsername(), (int) posX,
+                    (int) (u.getPaddle().getMiddlePosition().getY() - 15f));
+            ypos += 25;
         }
         for (CPU c : this.botList)
         {
+            g.setFont(scoreFont);
+            g.setColor(Color.WHITE);
             scoreText = c.getName() + ": " + c.getMyPaddle().getScore();
             g.drawString(scoreText, 10, ypos);
-            ypos += 15;
+            g.setFont(paddleFont);
+            g.setColor(Color.BLACK);
+            float posX = c.getMyPaddle().getMiddlePosition().getX() - (c.getName().length() * 3);
+            g.drawString(c.getName(), (int) posX,
+                    (int) (c.getMyPaddle().getMiddlePosition().getY() - 15f));
+            ypos += 25;
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - paintComponent nog effecienter - - - - - - - - - - -">
+    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - paintComponent nog sneller meer geheugen - - - - - - - - - - -">
     // Lorenzo: Ik heb geprobeerd op te lossen / te verlichten, maar lukte niet.
     /*
      @Override

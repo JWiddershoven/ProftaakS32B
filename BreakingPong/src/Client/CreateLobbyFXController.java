@@ -84,7 +84,8 @@ public class CreateLobbyFXController implements Initializable
     private Administration administration;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
         administration = Administration.getInstance();
 
         fillComboboxes();
@@ -101,7 +102,7 @@ public class CreateLobbyFXController implements Initializable
 //            timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
 //        }
 //       
-                
+
         cbGametimes.setItems(administration.getDatabase().getTimesstampString());
         cbGametimes.getSelectionModel().select(0);
         cbMappen.setItems(administration.getServer().getMappenObservableList());
@@ -123,12 +124,14 @@ public class CreateLobbyFXController implements Initializable
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
-            } else
+            }
+            else
             {
                 JOptionPane.showConfirmDialog(null, errorMessage, "Cannot create lobby",
                         JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (IOException | HeadlessException ex)
+        }
+        catch (IOException | HeadlessException ex)
         {
 
         }
@@ -152,7 +155,10 @@ public class CreateLobbyFXController implements Initializable
         {
             return "Please select a Map";
         }
-        Timestamp gameDuration = (Timestamp) cbGametimes.getSelectionModel().getSelectedItem();
+        Timestamp gameDuration = new Timestamp(0, 0, 0, 0, 5, 0, 0);
+        // TODO: GET INTEGER FROM USERINTERFACE
+                //Integer.getInteger((String) cbGametimes.getSelectionModel().getSelectedItem()),
+        //0, 0);
         if (gameDuration == null)
         {
             return "Please select a Game Time";
@@ -162,11 +168,12 @@ public class CreateLobbyFXController implements Initializable
         {
             maxPlayers = 2;
         }
-        
-        if(rb4Players.isSelected()){
+
+        if (rb4Players.isSelected())
+        {
             maxPlayers = 4;
         }
-        
+
         try
         {
             if (ClientGUI.loggedinUser == null)
@@ -175,7 +182,8 @@ public class CreateLobbyFXController implements Initializable
             }
             administration.getServer().CreateLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser, maxPlayers, administration.getServer());
             return "";
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             return ex.getMessage();
         }
@@ -191,7 +199,8 @@ public class CreateLobbyFXController implements Initializable
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
 
         }
