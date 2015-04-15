@@ -434,7 +434,7 @@ public class Game extends JPanel implements Runnable, KeyListener
 //                            this.addObject(space);
                             PowerUp power = new PowerUp(1, null);
                             power.getRandomPowerUpType();
-                            Block withPower = new Block(1, true, power, position, velocity, size, Color.RED);
+                            Block withPower = new Block(10, true, power, position, velocity, size, Color.RED);
                             this.addObject(withPower);
                             break;
                         }
