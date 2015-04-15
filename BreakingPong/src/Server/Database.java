@@ -6,6 +6,7 @@
 package Server;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -19,6 +20,14 @@ public class Database {
 
     public ObservableList<Timestamp> getGameTimeDurations() {
         return gameDurations;
+    }
+    
+    public ObservableList<Object> getTimesstampString()
+    {
+        ArrayList<String> array = new ArrayList<>();        
+        for (Timestamp t : gameDurations)
+            array.add(Integer.toString(t.getMinutes()));
+        return FXCollections.observableArrayList(array.toArray()).sorted();
     }
 
     /**

@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -99,9 +100,9 @@ public class CreateLobbyFXController implements Initializable
 //        {
 //            timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
 //        }
-//        
-        
-        cbGametimes.setItems(administration.getDatabase().getGameTimeDurations().sorted());
+//       
+                
+        cbGametimes.setItems(administration.getDatabase().getTimesstampString());
         cbGametimes.getSelectionModel().select(0);
         cbMappen.setItems(administration.getServer().getMappenObservableList());
         cbMappen.getSelectionModel().select(0);

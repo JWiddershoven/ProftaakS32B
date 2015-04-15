@@ -49,6 +49,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     private ArrayList<Ball> ballList;
     private ArrayList<Paddle> paddleList;
 
+    private WhiteSpace whiteSpace;
     private JFrame window;
 
     /**
@@ -237,20 +238,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         return this.objectList;
     }
-
-    /**
-     * Ends a game that currently is in progress. A game can't be ended if it
-     * isn't in progress.
-     */
-    public void endGame()
-    {
-        System.out.println("GAME ENDED!");
-        System.out.println("GAME ENDED!");
-        System.out.println("GAME ENDED!");
-        System.out.println("GAME ENDED!");
-        this.inProgress = false;
-    }
-
+    
     public ArrayList<Ball> getBallList()
     {
         return ballList;
@@ -270,7 +258,6 @@ public class Game extends JPanel implements Runnable, KeyListener
             window.setSize(819, 848);
             window.setBackground(Color.white);
             window.setLocationRelativeTo(null);
-            //window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             //Draw the level from the input
             this.drawMap(mapLayout);
             //Add the drawn level to the window and then start the game
@@ -285,6 +272,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                     inProgress = false;
                 }
             });
+            whiteSpace = new WhiteSpace(TVector2.zero, TVector2.zero,
+                    new TVector2(window.getWidth() + 10, window.getHeight() + 10), Color.WHITE);
             this.startGame();
         }
 
@@ -425,15 +414,15 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create white space
                         case "1":
                         {
-                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-                            this.addObject(space);
+//                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+//                            this.addObject(space);
                             break;
                         }
                         // Create block without powerup
                         case "2":
                         {
-                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-                            this.addObject(space);
+//                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+//                            this.addObject(space);
                             Block noPower = new Block(1, true, null, position, velocity, size, Color.YELLOW);
                             this.addObject(noPower);
                             break;
@@ -441,8 +430,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create block with powerup
                         case "3":
                         {
-                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-                            this.addObject(space);
+//                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+//                            this.addObject(space);
                             PowerUp power = new PowerUp(1, null);
                             power.getRandomPowerUpType();
                             Block withPower = new Block(1, true, power, position, velocity, size, Color.RED);
@@ -455,8 +444,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                             // Add human player
                             if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
                             {
-                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-                                this.addObject(space);
+//                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+//                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.GREEN);
@@ -469,8 +458,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                             }
                             else // Add CPU player
                             {
-                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-                                this.addObject(space);
+//                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+//                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.GREEN);
@@ -486,8 +475,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create vertical paddle spawn
                         case "5":
                         {
-                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-                            this.addObject(space);
+//                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+//                            this.addObject(space);
                             size = new TVector2(20f, 100f);
                             CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
                             Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.EAST, Color.GREEN);
@@ -502,8 +491,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create a ball spawn
                         case "6":
                         {
-                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-                            this.addObject(space);
+//                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
+//                            this.addObject(space);
                             size = new TVector2(15f, 15f);
                             velocity = generateRandomVelocity();
                             Ball ball = new Ball(null, position, velocity, size, this, Color.RED);
@@ -529,18 +518,24 @@ public class Game extends JPanel implements Runnable, KeyListener
         ArrayList<GameObject> drawList = new ArrayList<>();
         drawList.addAll(this.getObjectList());
         //Multiple for loops, order of drawing is wery wery importanté
-        for (int i = drawList.size() - 1; i >= 0; i--)
-        {
-            GameObject o = drawList.get(i);
-            // Draw a whitespace
-            if (o instanceof WhiteSpace)
-            {
-                WhiteSpace w = (WhiteSpace) o;
-                g.setColor(w.getColor());
-                g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
-                drawList.remove(i);
-            }
-        }
+
+        g.setColor(whiteSpace.getColor());
+        g.fillRect((int) whiteSpace.getPosition().getX(),
+                (int) whiteSpace.getPosition().getY(),
+                (int) whiteSpace.getSize().getX(), (int) whiteSpace.getSize().getY());
+
+//        for (int i = drawList.size() - 1; i >= 0; i--)
+//        {
+//            GameObject o = drawList.get(i);
+//            // Draw a whitespace
+//            if (o instanceof WhiteSpace)
+//            {
+//                WhiteSpace w = (WhiteSpace) o;
+//                g.setColor(w.getColor());
+//                g.fillRect((int) w.getPosition().getX(), (int) w.getPosition().getY(), (int) w.getSize().getX(), (int) w.getSize().getY());
+//                drawList.remove(i);
+//            }
+//        }
         for (int i = drawList.size() - 1; i >= 0; i--)
         {
             GameObject o = drawList.get(i);
@@ -813,8 +808,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     public TVector2 generateRandomVelocity()
     {
         Random rand = new Random();
-        float x = generateRandomFloat(-Ball.maxSpeed + (Ball.maxSpeed / 8)
-                , Ball.maxSpeed - (Ball.maxSpeed / 8), rand);
+        float x = generateRandomFloat(-Ball.maxSpeed + (Ball.maxSpeed / 8), Ball.maxSpeed - (Ball.maxSpeed / 8), rand);
         float y;
         if (x < 0)
         {
