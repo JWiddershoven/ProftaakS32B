@@ -214,15 +214,14 @@ public class Ball extends GameObject
             {
                 return false;
             }
-            if (x > (maxSpeed - 0.1f))
+            if (x > (maxSpeed - 0.2f))
             {
-                x = maxSpeed - 0.1f;
+                x = maxSpeed - 0.2f;
             }
-            if (x < (-maxSpeed + 0.1f))
+            if (x < (-maxSpeed + 0.2f))
             {
-                x = -maxSpeed + 0.1f;
+                x = -maxSpeed + 0.2f;
             }
-            // Velocity.y MAY NOT BE BETWEEN -0.09f AND 0.09f
             if (x < 0)
             {
                 y = maxSpeed - (x * -1);
@@ -249,7 +248,6 @@ public class Ball extends GameObject
         {
             // TODO:
 
-            // Velocity.x MAY NOT BE BETWEEN -0.09f AND 0.09f
             return false;
         }
         return true;

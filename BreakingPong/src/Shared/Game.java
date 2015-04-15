@@ -269,12 +269,21 @@ public class Game extends JPanel implements Runnable, KeyListener
             window.setSize(819, 848);
             window.setBackground(Color.white);
             window.setLocationRelativeTo(null);
-            window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            //window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             //Draw the level from the input
             this.drawMap(mapLayout);
             //Add the drawn level to the window and then start the game
             window.setContentPane(this);
             window.setVisible(true);
+            window.addWindowListener(new java.awt.event.WindowAdapter()
+            {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                {
+                    System.out.println("inProgress set false");
+                    inProgress = false;
+                }
+            });
             this.startGame();
         }
 
@@ -656,8 +665,8 @@ public class Game extends JPanel implements Runnable, KeyListener
             start = System.nanoTime();
             // calls update function on all objects
             tick();
-            // Redraw objects on panel
 
+            // Redraw objects on panel
             this.revalidate();
             repaint();
 
@@ -682,7 +691,7 @@ public class Game extends JPanel implements Runnable, KeyListener
 
     private void exitGame()
     {
-
+        thread.interrupt();
         this.botList.clear();
         this.objectList.clear();
         gc();
