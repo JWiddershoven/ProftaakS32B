@@ -21,7 +21,7 @@ public class Ball extends GameObject
     private final Game game;
     private Paddle lastPaddleTouched;
     Timer timer;
-    public static final float maxSpeed = 1.5f;
+    public static final float maxSpeed = 2.5f;
     private Date lastTimePaddleTouched;
 
     /**
@@ -125,6 +125,8 @@ public class Ball extends GameObject
     {
         if (go instanceof Paddle)
         {
+            Paddle p = (Paddle) go;
+            lastPaddleTouched = p;
             boolean difference = true;
             Date now = new Date();
             if (lastTimePaddleTouched != null)
@@ -138,7 +140,6 @@ public class Ball extends GameObject
             if (difference == true)
             {
                 lastTimePaddleTouched = new Date();
-                Paddle p = (Paddle) go;
                 if (bouncePaddle(p) == true)
                 {
                     return;

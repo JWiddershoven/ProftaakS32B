@@ -19,6 +19,7 @@ public class CPU
     private final Game currentGame;
 
     private Paddle myPaddle; // CPU PADDLE KOPPLING VIA PADDLE KLASSE
+
     private Ball closestBall;
     private ArrayList<Ball> currentPosBall;
 
@@ -29,6 +30,10 @@ public class CPU
         this.currentGame = myGame;
     }
 
+    public Paddle getMyPaddle()
+    {
+        return myPaddle;
+    }
     public void setMyPaddle(Paddle myPaddle)
     {
         this.myPaddle = myPaddle;

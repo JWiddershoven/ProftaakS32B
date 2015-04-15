@@ -8,6 +8,7 @@ package Shared;
 import Server.CollisionChecker;
 import Server.Server;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -36,7 +37,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     private int gameTime;
     private boolean powerUps;
     private boolean inProgress = false;
-    private Thread thread;
+    private Thread gameLoopThread;
     private final int FPS = 60;
     private final long targetTime = 1000 / FPS;
     private Map selectedmap;
@@ -295,8 +296,8 @@ public class Game extends JPanel implements Runnable, KeyListener
     public void startGame()
     {
         inProgress = true;
-        thread = new Thread(this);
-        thread.start();
+        gameLoopThread = new Thread(this);
+        gameLoopThread.start();
     }
 
     /**
@@ -410,7 +411,6 @@ public class Game extends JPanel implements Runnable, KeyListener
                     String type = row.substring(c, c + 1);
                     TVector2 position = new TVector2(x, y);
                     Server server = new Server();
-                    User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
                     //Check what type of block needs to be created from input
                     switch (type)
                     {
@@ -458,8 +458,11 @@ public class Game extends JPanel implements Runnable, KeyListener
                                 WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
                                 this.addObject(space);
                                 size = new TVector2(100f, 20f);
+                                User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.GREEN);
+                                player.setPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
+                                this.userList.add(player);
                                 this.paddleList.add(horizontalPaddle);
                                 playerAmount++;
                                 break;
@@ -574,6 +577,22 @@ public class Game extends JPanel implements Runnable, KeyListener
                 g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
             }
         }
+        String scoreText = "";
+        int ypos = 25;
+        Font font = new Font("arial", Font.BOLD, 12);
+        g.setFont(font);
+        for (User u : this.userList)
+        {
+            scoreText = u.getUsername() + ": " + u.getPaddle().getScore();
+            g.drawString(scoreText, 10, ypos);
+            ypos += 15;
+        }
+        for (CPU c : this.botList)
+        {
+            scoreText = c.getName() + ": " + c.getMyPaddle().getScore();
+            g.drawString(scoreText, 10, ypos);
+            ypos += 15;
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - paintComponent nog effecienter - - - - - - - - - - -">
@@ -679,22 +698,28 @@ public class Game extends JPanel implements Runnable, KeyListener
 
             try
             {
-                thread.sleep(wait);
+                gameLoopThread.sleep(wait);
             }
             catch (Exception e)
             {
                 e.printStackTrace();
             }
         }
+        System.out.println("While exited");
         exitGame();
     }
 
     private void exitGame()
     {
-        thread.interrupt();
+        gameLoopThread.interrupt();
+        gameLoopThread = null;
         this.botList.clear();
         this.objectList.clear();
+        this.userList.clear();
+        this.paddleList.clear();
+        this.ballList.clear();
         gc();
+        System.out.println("Exited game");
     }
 
     public void tick()
@@ -756,16 +781,12 @@ public class Game extends JPanel implements Runnable, KeyListener
     @Override
     public void keyPressed(KeyEvent e)
     {
-        Boolean inCollisionLeft;
-        Boolean inCollisionRight;
         //Get all objects from the game
         for (GameObject o : this.objectList)
         {
             // If object is a paddle
             if (o instanceof Paddle)
             {
-                inCollisionLeft = false;
-                inCollisionRight = false;
                 Paddle p = (Paddle) o;
                 p.keyPressed(e.getKeyCode());
             }
@@ -792,7 +813,8 @@ public class Game extends JPanel implements Runnable, KeyListener
     public TVector2 generateRandomVelocity()
     {
         Random rand = new Random();
-        float x = generateRandomFloat(-1f, 1f, rand);
+        float x = generateRandomFloat(-Ball.maxSpeed + (Ball.maxSpeed / 8)
+                , Ball.maxSpeed - (Ball.maxSpeed / 8), rand);
         float y;
         if (x < 0)
         {
