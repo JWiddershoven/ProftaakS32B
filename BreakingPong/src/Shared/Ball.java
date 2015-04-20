@@ -20,6 +20,7 @@ public class Ball extends GameObject {
 
     private final Game game;
     private Paddle lastPaddleTouched;
+    public TVector2 spawnPos;
     Timer timer;
     public static final float maxSpeed = 1.5f;
     private long lastTimePaddleTouched;
@@ -34,9 +35,10 @@ public class Ball extends GameObject {
      * @param game The game of where this ball is in.
      * @param color JAVA AWT
      */
-    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color) {
+    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color,TVector2 spawnpos) {
         super(position, velocity, size, color);
         this.game = game;
+        this.spawnPos = spawnpos;
         if (position != null && velocity != null && size != null) {
             this.lastPaddleTouched = lastPaddleTouched;
         } else {
@@ -151,9 +153,11 @@ public class Ball extends GameObject {
         // Increments x/y coordinates with (positive or negative) movement.
         // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
 
-        Platform.runLater(() -> {
+       /// Platform.runLater(() -> {
+           
             this.setPosition(newPos);
-        });
+            
+        //});
 
         //Check if the ball is out of the screen bounds
         if(this.getPosition().getX() < this.game.getSize().getWidth())
@@ -260,12 +264,13 @@ public class Ball extends GameObject {
                 vel.setX(bounceFloat(vel.getX()));
             }
             this.setVelocity(vel);
-            System.out.println("Hit");
             return;
         }
 
-           
-            if (getMiddlePosition().getY()  > goPos.getY()) {
+        
+              
+            //Hit was on right
+              if (getMiddlePosition().getY()  > goPos.getY()) {
                 f1 = goPos.getY() - getMiddlePosition().getY();
             } else {
                 f1 = getMiddlePosition().getY() - goPos.getY();
