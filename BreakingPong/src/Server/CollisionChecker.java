@@ -88,7 +88,8 @@ public class CollisionChecker
     
     public static boolean checkCollidesWith(GameObject go1, GameObject go2)
     {
-        return go1.getBounds().intersects(go2.getBounds().getBoundsInLocal());
+        
+        return go1.getBounds().intersects(go2.getBounds());
     }
 
 }

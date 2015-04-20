@@ -7,8 +7,8 @@ package Shared;
 
 import Server.CollisionChecker;
 import java.awt.Color;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javax.swing.Timer;
 
@@ -22,7 +22,7 @@ public class Ball extends GameObject
     private Paddle lastPaddleTouched;
     Timer timer;
     public static final float maxSpeed = 1.5f;
-    private Date lastTimePaddleTouched;
+    private long lastTimePaddleTouched;
 
     /**
      * Creates a new ball object with a TVector2 and lastPaddleTouched.
@@ -123,49 +123,45 @@ public class Ball extends GameObject
      */
     public void bounce(GameObject go)
     {
+         TVector2 position = this.getPosition();
+        TVector2 goPos = go.getMiddlePosition();
+        float f1, f2;
+        TVector2 vel = new TVector2(this.getVelocity().getX(), this.getVelocity().getY());
+        
         if (go instanceof Paddle)
         {
-            Paddle p = (Paddle) go;
-            lastPaddleTouched = p;
-            boolean difference = true;
-            Date now = new Date();
-            if (lastTimePaddleTouched != null)
+                   if(go instanceof Paddle)
+        {
+            Paddle p = (Paddle)go;
+            if(p.getWindowLocation() == Paddle.windowLocation.NORTH ||p.getWindowLocation() == Paddle.windowLocation.SOUTH )
             {
-                if (now.getSeconds() == lastTimePaddleTouched.getSeconds())
-                {
-                    System.out.println("Too many collisions with paddle");
-                    difference = false;
-                }
+                vel.setY(bounceFloat(vel.getY()));
             }
-            if (difference == true)
+            if(p.getWindowLocation() == Paddle.windowLocation.WEST ||p.getWindowLocation() == Paddle.windowLocation.EAST )
             {
-                lastTimePaddleTouched = new Date();
-                if (bouncePaddle(p) == true)
-                {
-                    return;
-                }
+                vel.setX(bounceFloat(vel.getX()));
             }
+            this.setVelocity(vel);
+            return;
+        }
 
         }
-        TVector2 position = this.getPosition();
-        TVector2 goPos = go.getPosition();
-        float f1, f2;
-        TVector2 vel = this.getVelocity();
-        if (position.getY() > goPos.getY())
+       
+        if (getMiddlePosition().getY()> goPos.getY())
         {
-            f1 = goPos.getY() - position.getY();
+            f1 = goPos.getY() - getMiddlePosition().getY();
         }
         else
         {
-            f1 = position.getY() - goPos.getY();
+            f1 = getMiddlePosition().getY() - goPos.getY();
         }
-        if (position.getX() > goPos.getX())
+        if (getMiddlePosition().getX() > goPos.getX())
         {
-            f2 = goPos.getX() - position.getX();
+            f2 = goPos.getX() - getMiddlePosition().getX();
         }
         else
         {
-            f2 = position.getX() - goPos.getX();
+            f2 = getMiddlePosition().getX() - goPos.getX();
         }
         if (f1 < f2)
         {
@@ -179,80 +175,7 @@ public class Ball extends GameObject
         this.setVelocity(vel);
 
     }
-
-    /**
-     *
-     * @param p
-     * @return FALSE if nothing changed.
-     */
-    private boolean bouncePaddle(Paddle p)
-    {
-        if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH)
-        {
-            float x, y;
-            float distance = 0.0f;
-            boolean left = false;
-            boolean right = false;
-            if (this.getMiddlePosition().getX() > p.getMiddlePosition().getX())
-            {
-                distance = this.getMiddlePosition().getX() - p.getMiddlePosition().getX();
-                right = true;
-            }
-            else if (this.getMiddlePosition().getX() < p.getMiddlePosition().getX())
-            {
-                distance = p.getMiddlePosition().getX() - this.getMiddlePosition().getX();
-                left = true;
-            }
-            if (right == true)
-            {
-                x = this.getVelocity().getX() + (distance / (maxSpeed * 25));
-            }
-            else if (left == true)
-            {
-                x = this.getVelocity().getX() - (distance / (maxSpeed * 25));
-            }
-            else
-            {
-                return false;
-            }
-            if (x > (maxSpeed - 0.2f))
-            {
-                x = maxSpeed - 0.2f;
-            }
-            if (x < (-maxSpeed + 0.2f))
-            {
-                x = -maxSpeed + 0.2f;
-            }
-            if (x < 0)
-            {
-                y = maxSpeed - (x * -1);
-            }
-            else
-            {
-                y = maxSpeed - x;
-            }
-
-            if (this.getVelocity().getY() > 0)
-            {
-                y = -y;
-            }
-            else if (y < 0)
-            {
-                y *= -1;
-            }
-
-            System.out.println("old vel: " + this.getVelocity().toString());
-            this.setVelocity(new TVector2(x, y));
-            System.out.println("new vel: " + this.getVelocity().toString());
-        }
-        else
-        {
-            // TODO:
-
-            return false;
-        }
-        return true;
-    }
+    
 
     /**
      *

@@ -7,7 +7,7 @@ package Shared;
 
 
 import java.awt.Color;
-import javafx.scene.shape.Rectangle;
+import java.awt.Rectangle;
 
 /**
  *
@@ -118,7 +118,7 @@ public class GameObject
      */
     public Rectangle getBounds()
     {
-        return new Rectangle(position.getX(), position.getY(), size.getX(), size.getY());
+        return new Rectangle((int)position.getX(),(int) position.getY(),(int) size.getX(),(int) size.getY());
     }
     
     @Override
