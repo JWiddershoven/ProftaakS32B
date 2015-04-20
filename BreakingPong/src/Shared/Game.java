@@ -418,7 +418,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create undestructable block
                         case "0":
                         {
-                            Block wall = new Block(0, false, null, position, velocity, new TVector2(size.getX() +1,size.getY() + 1), Color.GRAY);
+                            Block wall = new Block(0, false, null, position, velocity, new TVector2(25,25), Color.GRAY);
                             this.addObject(wall);
 
                             break;
