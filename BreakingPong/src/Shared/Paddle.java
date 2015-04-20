@@ -67,6 +67,11 @@ public class Paddle extends GameObject
     {
         return humanPlayer;
     }
+    
+    public CPU getCPU()
+    {
+        return cpuPlayer;
+    }
 
     /**
      * Consturctor for CPU Paddle

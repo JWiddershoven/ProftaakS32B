@@ -7,6 +7,7 @@ package Shared;
 
 import Server.CollisionChecker;
 import Server.Server;
+import Shared.Paddle.windowLocation;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -155,6 +156,22 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         return this.botList;
     }
+    
+    public ArrayList<Paddle> getPaddles()
+    {
+        return this.paddleList;
+    }
+    
+    public void removePaddle(Paddle p1)
+    {
+        for(Paddle p2 : paddleList)
+        {
+            if(p2.getWindowLocation() == p1.getWindowLocation())
+            {
+              paddleList.remove(p2);
+            }
+        }
+    }
 
     /**
      * Constructor of game
@@ -201,11 +218,36 @@ public class Game extends JPanel implements Runnable, KeyListener
      */
     public void removeBot(String botName)
     {
-        for (CPU bot : botList)
+        for(int i = 0; i < botList.size(); i++)
         {
-            if (bot.getName().equals(botName))
+            CPU c = botList.get(i);
+            if(c.getName().equals(botName))
             {
-                botList.remove(bot);
+                botList.remove(c);
+            }
+        }
+    }
+    
+    public void removePlayer(String playerName)
+    {
+        for(int i = 0; i < userList.size(); i++)
+        {
+            User u = userList.get(i);
+            if(u.getUsername().equals(playerName))
+            {
+                userList.remove(u);
+            }
+        }
+    }
+    
+    public void removeBall(Ball ball)
+    {
+        for(int i = 0; i < ballList.size(); i++)
+        {
+            Ball b = ballList.get(i);
+            if(b == ball)
+            {
+                ballList.remove(b);
             }
         }
     }
@@ -412,6 +454,8 @@ public class Game extends JPanel implements Runnable, KeyListener
                     String type = row.substring(c, c + 1);
                     TVector2 position = new TVector2(x, y);
                     Server server = new Server();
+                    
+                    
                     //Check what type of block needs to be created from input
                     switch (type)
                     {
@@ -456,8 +500,6 @@ public class Game extends JPanel implements Runnable, KeyListener
                             // Add human player
                             if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
                             {
-//                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
-//                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.GREEN);
@@ -473,7 +515,7 @@ public class Game extends JPanel implements Runnable, KeyListener
 //                                WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
 //                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
-                                CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
+                                CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
                                 Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.BLUE);
                                 cpubot.setMyPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
@@ -490,12 +532,12 @@ public class Game extends JPanel implements Runnable, KeyListener
 //                            WhiteSpace space = new WhiteSpace(position, velocity, size, Color.WHITE);
 //                            this.addObject(space);
                             size = new TVector2(20f, 100f);
-                            CPU cpubot = new CPU("Computer(easy)", Byte.MIN_VALUE, this);
+                            CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
                             Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.EAST, Color.BLUE);
                             this.addObject(verticalPaddle);
                             this.paddleList.add(verticalPaddle);
                             this.botList.add(cpubot);
-                            //    playerAmount++;
+                            playerAmount++;
                             cpubot.setMyPaddle(verticalPaddle);
                             break;
                         }
