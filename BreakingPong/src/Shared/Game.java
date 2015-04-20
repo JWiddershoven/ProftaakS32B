@@ -462,7 +462,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create undestructable block
                         case "0":
                         {
-                            Block wall = new Block(0, false, null, position, velocity, new TVector2(size.getX() +1,size.getY() + 1), Color.GRAY);
+                            Block wall = new Block(0, false, null, position, velocity, new TVector2(25,25), Color.GRAY);
                             this.addObject(wall);
 
                             break;
@@ -602,9 +602,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                 g.setColor(Color.black);
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 drawList.remove(i);
-                g.setColor(Color.CYAN);
-                g.drawRect((int)o.getBounds().getX(),(int)o.getBounds().getY()
-                    ,(int) o.getBounds().getWidth(),(int) o.getBounds().getHeight());
+                
             }
         }
         for (int i = drawList.size() - 1; i >= 0; i--)
@@ -645,9 +643,7 @@ public class Game extends JPanel implements Runnable, KeyListener
             g.drawString(u.getUsername(), (int) posX,
                     (int) (u.getPaddle().getMiddlePosition().getY() - 15f));
             ypos += 25;
-            g.setColor(Color.CYAN);
-            g.drawRect((int)u.getPaddle().getBounds().getX(),(int)u.getPaddle().getBounds().getY()
-                    ,(int) u.getPaddle().getBounds().getWidth(),(int) u.getPaddle().getBounds().getHeight());
+            
         }
         for (CPU c : this.botList)
         {
@@ -661,16 +657,10 @@ public class Game extends JPanel implements Runnable, KeyListener
             g.drawString(c.getName(), (int) posX,
                     (int) (c.getMyPaddle().getMiddlePosition().getY() - 15f));
             ypos += 25;
-            g.setColor(Color.CYAN);
-            g.drawRect((int)c.getMyPaddle().getBounds().getX(),(int)c.getMyPaddle().getBounds().getY()
-                    ,(int) c.getMyPaddle().getBounds().getWidth(),(int) c.getMyPaddle().getBounds().getHeight());
+            
         }
         
-        for(Ball b : this.ballList)
-        {
-            g.setColor(Color.CYAN);
-            g.drawRect((int)b.getBounds().getX(),(int)b.getBounds().getY(),(int) b.getBounds().getWidth(),(int) b.getBounds().getHeight());
-        }
+        
         
 
     }
