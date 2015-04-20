@@ -13,7 +13,8 @@ package Shared;
 public enum PowerUpType {
     IncreasePaddleSize,
     IncreaseBallSize,
+    IncreaseBallSpeed,
     DecreasePaddleSize,
     DecreaseBallSize,
-    SplitBall
+    DecreaseBallSpeed
 }

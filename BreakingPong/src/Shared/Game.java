@@ -145,6 +145,16 @@ public class Game extends JPanel implements Runnable, KeyListener
     {
         return selectedmap.getPlayerAmount();
     }
+    
+    public ArrayList<User> getHumanPlayers()
+    {
+        return this.userList;
+    }
+    
+    public ArrayList<CPU> getCPUPlayers()
+    {
+        return this.botList;
+    }
 
     /**
      * Constructor of game
