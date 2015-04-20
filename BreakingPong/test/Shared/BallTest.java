@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Server.CollisionChecker;
 import Server.Server;
 import java.awt.Color;
 import org.junit.Before;
@@ -60,16 +61,6 @@ public class BallTest
             fail("Constructor failure!");
         }
 
-        // EDITED by Lorenzo: lastPaddleTouched mag wel null zijn
-        // @param lastPaddleTouched The last Paddle which touched the ball.
-//        try
-//        {
-//            b = new Ball(null, position, velocity, size, testGame, Color.RED);
-//            fail("lastPaddleTouched cannot be null.");
-//        } catch (IllegalArgumentException exc)
-//        {
-//
-//        }
         // @param position The position of a GameObject.
         try
         {
@@ -128,5 +119,23 @@ public class BallTest
         {
 
         }
+    }
+
+    @Test
+    public void testBallCollision()
+    {
+        velocity = new TVector2(1, 1);
+        size = new TVector2(10, 10);
+        position = new TVector2(10, 10);
+        b = new Ball(p, position, velocity, size, testGame, Color.RED);
+        Block block = new Block(0, false, null, new TVector2(21, 11), TVector2.zero, new TVector2(300, 300), Color.YELLOW);
+        CollisionChecker.gameObjectsList.add(b);
+        CollisionChecker.gameObjectsList.add(block);
+        b.update();
+        b.update();
+        b.update();
+        b.update();
+        assertEquals("Bounce was incorrect", new TVector2(-1, 1), b.getVelocity());
+        CollisionChecker.gameObjectsList.clear();
     }
 }
