@@ -324,11 +324,13 @@ public class Game extends JPanel implements Runnable, KeyListener
             }
             catch (FileNotFoundException ex)
             {
-
+                System.out.println("File could not be found");
+                return null;
             }
             catch (IOException IOex)
             {
-
+                System.out.println("File is incorrect");
+                return null;
             }
 
             try
