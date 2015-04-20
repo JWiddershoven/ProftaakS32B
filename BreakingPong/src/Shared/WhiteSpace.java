@@ -13,15 +13,8 @@ import java.awt.Color;
  */
 public class WhiteSpace extends GameObject
 {
-    private Color color;
     public WhiteSpace(TVector2 position, TVector2 velocity, TVector2 size, Color color)
     {
-        super(position, velocity, size);
-        this.color = color;
-    }
-    
-    public Color getColor()
-    {
-       return this.color;
+        super(position, velocity, size, color);
     }
 }

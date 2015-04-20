@@ -28,7 +28,6 @@ public class Block extends GameObject {
      */
     private PowerUp powerUp;
     
-    private Color color;
 
 
     /**
@@ -40,14 +39,14 @@ public class Block extends GameObject {
      * @param position as TVector2. The position of the GameObject in the game.
      * @param velocity as TVector2. The velocity of the GameObject in the game.
      * @param size as TVector2. The size of the GameObject in the game.
+     * @param color
      */
     public Block(int points, boolean isDestructable, PowerUp powerUp,TVector2 position, TVector2 velocity, TVector2 size, Color color)
     {
-        super(position,velocity,size);
+        super(position,velocity,size, color);
         this.points = points;
         this.isDestructable = isDestructable;
         this.powerUp = powerUp;
-        this.color = color;
     }
 
     /**
@@ -93,11 +92,6 @@ public class Block extends GameObject {
      */
     public void setPowerUp(PowerUp powerUp) {
         this.powerUp = powerUp;
-    }
-    
-    public Color getColor()
-    {
-        return color;
     }
 
     /**
