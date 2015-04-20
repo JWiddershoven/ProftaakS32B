@@ -146,50 +146,38 @@ public class Ball extends GameObject {
         TVector2 goPos = go.getMiddlePosition();
         float f1, f2;
         TVector2 vel = new TVector2(this.getVelocity().getX(), this.getVelocity().getY());
-        
-        if (go instanceof Paddle)
-        {
-                   if(go instanceof Paddle)
-        {
-            Paddle p = (Paddle)go;
-            if(p.getWindowLocation() == Paddle.windowLocation.NORTH ||p.getWindowLocation() == Paddle.windowLocation.SOUTH )
-            {
+
+        if (go instanceof Paddle) {
+            Paddle p = (Paddle) go;
+            this.lastPaddleTouched = p;
+            if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH) {
                 vel.setY(bounceFloat(vel.getY()));
             }
-            if(p.getWindowLocation() == Paddle.windowLocation.WEST ||p.getWindowLocation() == Paddle.windowLocation.EAST )
-            {
+            if (p.getWindowLocation() == Paddle.windowLocation.WEST || p.getWindowLocation() == Paddle.windowLocation.EAST) {
                 vel.setX(bounceFloat(vel.getX()));
             }
             this.setVelocity(vel);
+            System.out.println("Hit");
             return;
         }
 
-        }
-       
-        if (getMiddlePosition().getY()> goPos.getY())
-        {
-            f1 = goPos.getY() - getMiddlePosition().getY();
-        }
-        else
-        {
-            f1 = getMiddlePosition().getY() - goPos.getY();
-        }
-        if (getMiddlePosition().getX() > goPos.getX())
-        {
-            f2 = goPos.getX() - getMiddlePosition().getX();
-        }
-        else
-        {
-            f2 = getMiddlePosition().getX() - goPos.getX();
-        }
-        if (f1 < f2)
-        {
+           
+            if (getMiddlePosition().getY()  > goPos.getY()) {
+                f1 = goPos.getY() - getMiddlePosition().getY();
+            } else {
+                f1 = getMiddlePosition().getY() - goPos.getY();
+            }
+            if (getMiddlePosition().getX() > goPos.getX()) {
+                f2 = goPos.getX() - getMiddlePosition().getX();
+            } else {
+                f2 = getMiddlePosition().getX() - goPos.getX();
+            }
+        if (f1 < f2) {
             vel.setY(bounceFloat(this.getVelocity().getY()));
-        }
-        else
-        {
+        } else {
             vel.setX(bounceFloat(this.getVelocity().getX()));
         }
+    
 
         this.setVelocity(vel);
 
@@ -200,6 +188,7 @@ public class Ball extends GameObject {
      * @param x
      * @return
      */
+    public float bounceFloat(float x) {
         x *= -1;
         return x;
     }
