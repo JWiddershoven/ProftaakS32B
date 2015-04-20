@@ -95,6 +95,48 @@ public class Ball extends GameObject
                     Block b = (Block) go;
                     if (lastPaddleTouched != null)
                     {
+                        if(b.getPowerUp() != null)
+                        {
+                            switch (b.getPowerUp().getType())
+                            {
+                                case IncreasePaddleSize:
+                                {
+                                    TVector2 newSize = new TVector2(175f,20f);
+                                    lastPaddleTouched.setSize(newSize);
+                                    break;
+                                }
+                                case DecreasePaddleSize:
+                                {
+                                    TVector2 newSize = new TVector2(75f,20f);
+                                    lastPaddleTouched.setSize(newSize);
+                                    break;
+                                }
+                                case IncreaseBallSize:
+                                {
+                                    TVector2 newSize = new TVector2(30f,30f);
+                                    this.setSize(newSize);
+                                    break;
+                                }
+                                case DecreaseBallSize:
+                                {
+                                    TVector2 newSize = new TVector2(7.5f,7.5f);
+                                    this.setSize(newSize);
+                                    break;
+                                }
+                                case IncreaseBallSpeed:
+                                {
+                                    TVector2 newSpeed = new TVector2(1.5f,1.5f);
+                                    this.setVelocity(newSpeed);
+                                    break;
+                                }
+                                case DecreaseBallSpeed:
+                                {
+                                    TVector2 newSpeed = new TVector2(0.5f,0.5f);
+                                    this.setVelocity(newSpeed);
+                                    break;
+                                }
+                            }        
+                        }
                         lastPaddleTouched.addScore(b.getPoints());
                     }
                     if (b.isDestructable())
@@ -114,7 +156,12 @@ public class Ball extends GameObject
         {
             this.setPosition(newPos);
         });
-
+        
+        //Check if the ball is out of the screen bounds
+        if(this.getPosition().getX() < this.game.getWidth() || this.getPosition().getX() > this.game.getWidth() || this.getPosition().getY() < this.game.getHeight() || this.getPosition().getY() > this.game.getHeight())
+        {
+            
+        }
     }
 
     /**
