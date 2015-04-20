@@ -6,7 +6,9 @@
 
 package Shared;
 
+import Shared.Paddle.windowLocation;
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  *
@@ -28,6 +30,7 @@ public class Block extends GameObject {
      */
     private PowerUp powerUp;
     
+    private ArrayList<windowLocation> locations;
 
 
     /**
@@ -49,6 +52,8 @@ public class Block extends GameObject {
         this.powerUp = powerUp;
     }
 
+    
+  
     /**
      * Is this block destructable;
      * @return 
