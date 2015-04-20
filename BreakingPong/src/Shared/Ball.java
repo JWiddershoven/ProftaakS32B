@@ -6,6 +6,7 @@
 package Shared;
 
 import Server.CollisionChecker;
+import Shared.Paddle.windowLocation;
 import java.awt.Color;
 import java.util.Date;
 import java.util.ArrayList;
@@ -101,15 +102,33 @@ public class Ball extends GameObject
                             {
                                 case IncreasePaddleSize:
                                 {
-                                    TVector2 newSize = new TVector2(175f,20f);
-                                    lastPaddleTouched.setSize(newSize);
-                                    break;
+                                    if(lastPaddleTouched.getWindowLocation() == windowLocation.NORTH || lastPaddleTouched.getWindowLocation() == windowLocation.SOUTH)
+                                    {
+                                        TVector2 newSize = new TVector2(150f,20f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break; 
+                                    }
+                                    else
+                                    {
+                                        TVector2 newSize = new TVector2(20f,150f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break;
+                                    }
                                 }
                                 case DecreasePaddleSize:
                                 {
-                                    TVector2 newSize = new TVector2(75f,20f);
-                                    lastPaddleTouched.setSize(newSize);
-                                    break;
+                                    if(lastPaddleTouched.getWindowLocation() == windowLocation.NORTH || lastPaddleTouched.getWindowLocation() == windowLocation.SOUTH)
+                                    {
+                                        TVector2 newSize = new TVector2(75f,20f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break; 
+                                    }
+                                    else
+                                    {
+                                        TVector2 newSize = new TVector2(20f,75f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break;
+                                    }
                                 }
                                 case IncreaseBallSize:
                                 {
@@ -158,9 +177,87 @@ public class Ball extends GameObject
         });
         
         //Check if the ball is out of the screen bounds
-        if(this.getPosition().getX() < this.game.getWidth() || this.getPosition().getX() > this.game.getWidth() || this.getPosition().getY() < this.game.getHeight() || this.getPosition().getY() > this.game.getHeight())
+        if(this.getPosition().getX() < this.game.getSize().getWidth())
         {
-            
+            for(Paddle p : game.getPaddles())
+            {
+                if(p.getWindowLocation() == windowLocation.WEST)
+                {
+                    if(p.getCPU() != null)
+                    {
+                        game.removeBot(p.getCPU().getName());
+                    }
+                    else
+                    {
+                        game.removePlayer(p.getPlayer().getUsername());
+                    }
+                    game.removePaddle(p);
+                    game.removeBall(this);
+                    System.out.println("Paddle removed");
+                }
+            }
+        }
+        else if(this.getPosition().getX() > this.game.getSize().getWidth())
+        {
+            for(Paddle p : game.getPaddles())
+            {
+                if(p.getWindowLocation() == windowLocation.EAST)
+                {
+                    if(p.getCPU() != null)
+                    {
+                        game.removeBot(p.getCPU().getName());
+                    }
+                    else
+                    {
+                        game.removePlayer(p.getPlayer().getUsername());
+                    }
+                    game.removeObject(p);
+                    game.removeBall(this);
+                    System.out.println("Paddle removed");
+                }
+            }
+        }
+        else if(this.getPosition().getY() < this.game.getSize().getHeight())
+        {
+            for(Paddle p : game.getPaddles())
+            {
+                if(p.getWindowLocation() == windowLocation.NORTH)
+                {
+                    if(p.getCPU() != null)
+                    {
+                        game.removeBot(p.getCPU().getName());
+                    }
+                    else
+                    {
+                        game.removePlayer(p.getPlayer().getUsername());
+                    }
+                    game.removeObject(p);
+                    game.removePaddle(p);
+                    game.removeBall(this);
+                    System.out.println("Paddle removed");
+                }
+            }
+        }
+        else if(this.getPosition().getY() > this.game.getSize().getHeight())
+        {
+            for(Paddle p : game.getPaddles())
+            {
+                if(p.getWindowLocation() == windowLocation.SOUTH)
+                {
+                    if(p.getCPU() != null)
+                    {
+                        game.removeBot(p.getCPU().getName());
+                    }
+                    else
+                    {
+                        game.removePlayer(p.getPlayer().getUsername());
+                    }
+                    game.removeObject(p);
+                    game.removePaddle(p);
+                    game.removeBall(this);
+                    System.out.println("Paddle removed");
+                }
+            }
         }
     }
 
@@ -180,6 +277,7 @@ public class Ball extends GameObject
                    if(go instanceof Paddle)
         {
             Paddle p = (Paddle)go;
+            lastPaddleTouched = p;
             if(p.getWindowLocation() == Paddle.windowLocation.NORTH ||p.getWindowLocation() == Paddle.windowLocation.SOUTH )
             {
                 vel.setY(bounceFloat(vel.getY()));
