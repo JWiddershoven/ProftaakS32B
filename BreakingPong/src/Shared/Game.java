@@ -479,7 +479,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
 //                            this.addObject(space);
                             size = new TVector2(15f, 15f);
                             velocity = generateRandomVelocity();
-                            Ball ball = new Ball(null, position, velocity, size, this, Color.RED, position);
+                            Ball ball = new Ball(null, position, velocity, size, this, Color.RED);
                             this.addObject(ball);
                             this.ballList.add(ball);
                             break;

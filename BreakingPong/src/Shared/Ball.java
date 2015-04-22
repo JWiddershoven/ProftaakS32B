@@ -35,10 +35,10 @@ public class Ball extends GameObject {
      * @param game The game of where this ball is in.
      * @param color JAVA AWT
      */
-    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color,TVector2 spawnpos) {
+    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color) {
         super(position, velocity, size, color);
         this.game = game;
-        this.spawnPos = spawnpos;
+        this.spawnPos = position;
         if (position != null && velocity != null && size != null) {
             this.lastPaddleTouched = lastPaddleTouched;
         } else {
