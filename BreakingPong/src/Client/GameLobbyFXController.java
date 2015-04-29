@@ -92,9 +92,12 @@ public class GameLobbyFXController implements Initializable
         Game game = new Game(1, 300, true);
         try
         {
-            game.setupGame();
-        }
-        catch (Exception ex)
+            Thread gameLoopThread = game.setupGame();
+            if (gameLoopThread != null)
+            {
+                gameLoopThread.start();
+            }
+        } catch (Exception ex)
         {
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -115,7 +118,9 @@ public class GameLobbyFXController implements Initializable
     private void onLeaveGameClick() throws Exception
     {
         if (ClientGUI.joinedLobby == null)
+        {
             throw new Exception("Wat heb ik gedaan? joinedLobby mag niet null zijn");
+        }
         ClientGUI.joinedLobby.leaveLobby(ClientGUI.loggedinUser);
         Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
         Scene scene = new Scene(root);
