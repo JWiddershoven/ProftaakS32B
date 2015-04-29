@@ -126,7 +126,7 @@ public class GameLobbyFXController implements Initializable
     @FXML
     private void onSendChatClick()
     {
-
+        System.out.println("Sent chat");
     }
 
     @FXML
