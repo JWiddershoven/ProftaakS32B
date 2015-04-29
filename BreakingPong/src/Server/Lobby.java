@@ -7,13 +7,15 @@ package Server;
 
 import Shared.Game;
 import Shared.User;
+import com.sun.deploy.ui.UIFactory;
 import java.util.ArrayList;
 
 /**
  *
  * @author Mnesymne
  */
-public class Lobby {
+public class Lobby
+{
 
     private int id;
 
@@ -44,27 +46,35 @@ public class Lobby {
      * @param maxPlayer The amount of maximum available players
      * @param host The host of the game
      */
-    public Lobby(int id, String name, String password, User owner, byte maxPlayer, Server host) {
+    public Lobby(int id, String name, String password, User owner, byte maxPlayer, Server host)
+    {
 
-        if (name == null || name.trim().isEmpty()){
+        if (name == null || name.trim().isEmpty())
+        {
             throw new IllegalArgumentException("Name is null or empty!");
         }
 
-        if (owner == null) {
+        if (owner == null)
+        {
             throw new IllegalArgumentException("Owner is null!");
         }
 
-        if (maxPlayer == 0 || maxPlayer > 4) {
+        if (maxPlayer == 0 || maxPlayer > 4)
+        {
             throw new IllegalArgumentException("maxPlayer(s) is out of range!");
         }
 
-        if (host == null) {
+        if (host == null)
+        {
             throw new IllegalArgumentException("Host is null!");
         }
 
-        if (password == null || !password.trim().isEmpty()) {
+        if (password == null || !password.trim().isEmpty())
+        {
             this.password = null;
-        } else {
+        }
+        else
+        {
             //there is a password
             this.password = password;
         }
@@ -83,17 +93,20 @@ public class Lobby {
      *
      * @param player The player that leaves the lobby
      */
-    public void leaveLobby(User player) {
-        if (player == null) {
+    public void leaveLobby(User player)
+    {
+        if (player == null)
+        {
             throw new IllegalArgumentException("Player is null!");
         }
 
         //Check if user does exist in the lobby!
-        
-        if(this.joinedPlayers.contains(player)){
+        if (this.joinedPlayers.contains(player))
+        {
             this.joinedPlayers.remove(player);
         }
-        else{
+        else
+        {
             throw new IllegalArgumentException("Player does not exists!");
         }
     }
@@ -104,9 +117,11 @@ public class Lobby {
      *
      * @param player The player that will be kicked
      */
-    public void kickPlayer(User player) {
+    public void kickPlayer(User player)
+    {
 
-        if (player == null) {
+        if (player == null)
+        {
             throw new IllegalArgumentException("Player is null!");
         }
 
@@ -121,8 +136,10 @@ public class Lobby {
      *
      * @param message The message of the player
      */
-    public void sendChat(String message) {
-        if (message == null || message.trim().isEmpty()) {
+    public void sendChat(String message)
+    {
+        if (message == null || message.trim().isEmpty())
+        {
             throw new IllegalArgumentException("Message empty or null!");
         }
 
@@ -135,13 +152,17 @@ public class Lobby {
      *
      * @param username The username of the player that will be invited
      */
-    public void inviteUser(String username) {
-        if (username == null || username.trim().isEmpty()) {
+    public void inviteUser(String username)
+    {
+        if (username == null || username.trim().isEmpty())
+        {
             throw new IllegalArgumentException("Username is null or empty!");
         }
 
-        for (User user : this.joinedPlayers) {
-            if (user.getUsername().toLowerCase().contentEquals(username.toLowerCase())) {
+        for (User user : this.joinedPlayers)
+        {
+            if (user.getUsername().toLowerCase().contentEquals(username.toLowerCase()))
+            {
                 throw new IllegalArgumentException("User is already in the lobby!");
             }
         }
@@ -155,13 +176,16 @@ public class Lobby {
      *
      * @param player The player that will join the lobby
      */
-    public void joinLobby(User player) {
+    public void joinLobby(User player)
+    {
 
-        if (player == null) {
+        if (player == null)
+        {
             throw new IllegalArgumentException("Player is null");
         }
 
-        if (joinedPlayers.contains(player)) {
+        if (joinedPlayers.contains(player))
+        {
             throw new IllegalArgumentException("User is already in the lobby!");
         }
 
@@ -174,13 +198,31 @@ public class Lobby {
      *
      * @param game The selected game that will be joined
      */
-    public void joinGame(Game game) {
+    public void joinGame(Game game)
+    {
 
-        if (game == null) {
+        if (game == null)
+        {
             throw new IllegalArgumentException("The game is null!");
         }
 
         //To be filled in...
+    }
+
+    /**
+     * return name + " - " + owner.getUsername() + " - " + joinedPlayers.size()
+     * + "/" + maxPlayers;
+     *
+     * @return name + " - " + owner.getUsername() + " - " + joinedPlayers.size()
+     * + "/" + maxPlayers;
+     */
+    @Override
+    public String toString()
+    {
+        if (password == null || password.isEmpty())
+            return name + " - " + owner.getUsername() + " - password: No" + " - " + joinedPlayers.size() + "/" + maxPlayers;
+        else
+            return name + " - " + owner.getUsername() + " - password: Yes" + " - " + joinedPlayers.size() + "/" + maxPlayers;
     }
 
 }

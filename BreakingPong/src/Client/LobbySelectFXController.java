@@ -29,7 +29,8 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class LobbySelectFXController implements Initializable {
+public class LobbySelectFXController implements Initializable
+{
 
     // Textfields
     @FXML
@@ -73,83 +74,111 @@ public class LobbySelectFXController implements Initializable {
             = FXCollections.observableArrayList();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
         administration = Administration.getInstance();
+
         fillListViews();
     }
 
-    
-    private void fillListViews() {
-        onlineUsersList.clear();
-        onlineUsersList.addAll(administration.getServer().getOnlineUsers());
-        lvOnlineUsers.setItems(onlineUsersList);
-        
-        lobbiesList.clear();
-        lobbiesList.addAll(administration.getServer().getLobbys());
-        lvLobbies.setItems(lobbiesList);               
+    private void fillListViews()
+    {
+        try
+        {
+            onlineUsersList.clear();
+            onlineUsersList.addAll(administration.getServer().getOnlineUsers());
+            lvOnlineUsers.setItems(onlineUsersList);
+            
+            User user1 = new User("testuser1", "123456", "test@em.nl", administration.getServer());
+            User user2 = new User("testuser2", "123456", "test@em.nl", administration.getServer());
+            administration.getServer().getLobbys().add(new Lobby(1, "Test Lobby1", "123", user1, (byte) 4, administration.getServer()));
+            administration.getServer().getLobbys().add(new Lobby(2, "Test Lobby2", "", user2, (byte) 2, administration.getServer()));
+            
+            lobbiesList.clear();
+            lobbiesList.addAll(administration.getServer().getLobbys());
+            lvLobbies.setItems(lobbiesList);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+            throw ex;
+        }
     }
-    
+
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
-    
     @FXML
-    private void onJoinLobbyClick() {
+    private void onJoinLobbyClick()
+    {
         System.out.println("on lobby join click");
-        try {
+        try
+        {
             Lobby selectedLobby = (Lobby) lvLobbies.getSelectionModel().getSelectedItem();
-            if (selectedLobby != null) {
+            if (selectedLobby != null)
+            {
                 Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
-            } else {
+            }
+            else
+            {
                 JOptionPane.showMessageDialog(null, "Please select a lobby first",
                         "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
 
         }
     }
 
     @FXML
-    private void onCreateLobbyClick() {
+    private void onCreateLobbyClick()
+    {
         System.out.println("on lobby create click");
-        try {
+        try
+        {
             Parent root = FXMLLoader.load(getClass().getResource("CreateLobby.fxml"));
-            
+
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
 
         }
     }
 
     @FXML
-    private void onSendChatClick() {
+    private void onSendChatClick()
+    {
         System.out.println("sent chat!");
     }
 
-   @FXML
-    private void onHelpAboutClick() {
+    @FXML
+    private void onHelpAboutClick()
+    {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    private void onFileExitClick() {
+    private void onFileExitClick()
+    {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION) {
+        if (dialogResult == JOptionPane.YES_OPTION)
+        {
             System.exit(0);
         }
     }
 
     @FXML
-    private void onEditDeleteClick() {
+    private void onEditDeleteClick()
+    {
         System.out.println("deleted");
     }
 
     // </editor-fold>
-    
-    
 }
