@@ -29,7 +29,6 @@ public class PowerUpTypeTest {
         types.add(PowerUpType.IncreaseBallSize);
         types.add(PowerUpType.DecreasePaddleSize);
         types.add(PowerUpType.DecreaseBallSize);
-        types.add(PowerUpType.SplitBall);
 
         PowerUpType[] expResult = new PowerUpType[types.size()];
         expResult = types.toArray(expResult);
@@ -45,8 +44,8 @@ public class PowerUpTypeTest {
     @Test
     public void testValueOf() {
         System.out.println("PowerUpTypeTest - testValueOf");
-        String name = "SplitBall";
-        PowerUpType expResult = PowerUpType.SplitBall;
+        String name = "DecreaseBallSpeed";
+        PowerUpType expResult = PowerUpType.DecreaseBallSpeed;
         PowerUpType result = PowerUpType.valueOf(name);
         assertEquals(expResult, result);
     }

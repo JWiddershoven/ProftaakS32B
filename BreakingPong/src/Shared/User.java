@@ -6,6 +6,7 @@
 package Shared;
 
 import Server.Server;
+
 /**
  *
  * @author Mnesymne
@@ -89,7 +90,8 @@ public class User
         if (this.Rating - Change > 0)
         {
             this.Rating -= Change;
-        } else
+        }
+        else
         {
             this.Rating = 0;
         }
@@ -149,7 +151,8 @@ public class User
         if (username != null && !username.isEmpty() && username.length() >= 6)
         {
             this.username = username;
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("Username cannot be null,empty and has to be longer than 6.");
         }
@@ -173,10 +176,11 @@ public class User
      */
     public void setPassword(String password)
     {
-        if ( password != null && !password.isEmpty() && password.length() >= 6 )
+        if (password != null && !password.isEmpty() && password.length() >= 6)
         {
             this.password = password;
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("Password cannot be null,empty and has to be longer than 6.");
         }
@@ -207,16 +211,26 @@ public class User
      */
     public void setEmail(String email)
     {
-        if (email != null && !email.isEmpty() &&  email.contains("@"))
+        if (email != null && !email.isEmpty() && email.contains("@"))
         {
-            if(email.substring(0,email.indexOf("@")).length() > 0 && email.substring(email.indexOf("@",email.indexOf(".com"))).length() >=1)
+            if (email.substring(0, email.indexOf("@")).length() > 0 && email.substring(email.indexOf("@", email.indexOf(".com"))).length() >= 1)
             {
-            this.email = email;
+                this.email = email;
             }
-        } else
+        }
+        else
         {
             throw new IllegalArgumentException("E-mail cannot be null,empty and has to have use the format : Name@provider.com");
         }
     }
 
+    /**
+     * Return username
+     * @return username
+     */
+    @Override
+    public String toString()
+    {
+        return username;
+    }
 }
