@@ -90,7 +90,16 @@ public class Server {
         }
     }
 
-    public void CreateLobby(String name, String password, User owner, byte maxPlayer, Server host) {
+    /**
+     * 
+     * @param name
+     * @param password
+     * @param owner
+     * @param maxPlayer
+     * @param host
+     * @return Newly created lobby
+     */
+    public Lobby CreateLobby(String name, String password, User owner, byte maxPlayer, Server host) {
         int id = lobbys.size() + 1;
         
         if(name == null || name.isEmpty())
@@ -105,6 +114,7 @@ public class Server {
         
         Lobby lobby = new Lobby(id, name, password, owner, maxPlayer, host);
         lobbys.add(lobby);
+        return lobby;
     }
 
     /**
