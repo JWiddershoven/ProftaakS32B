@@ -85,15 +85,23 @@ public class LobbySelectFXController implements Initializable
     {
         try
         {
-            onlineUsersList.clear();
-            onlineUsersList.addAll(administration.getServer().getOnlineUsers());
-            lvOnlineUsers.setItems(onlineUsersList);
-            
             User user1 = new User("testuser1", "123456", "test@em.nl", administration.getServer());
             User user2 = new User("testuser2", "123456", "test@em.nl", administration.getServer());
-            administration.getServer().getLobbys().add(new Lobby(1, "Test Lobby1", "123", user1, (byte) 4, administration.getServer()));
-            administration.getServer().getLobbys().add(new Lobby(2, "Test Lobby2", "", user2, (byte) 2, administration.getServer()));
+
+            onlineUsersList.clear();
             
+            administration.getServer().getOnlineUsers().add(user1);
+            administration.getServer().getOnlineUsers().add(user2);
+            onlineUsersList.addAll(administration.getServer().getOnlineUsers());
+            lvOnlineUsers.setItems(onlineUsersList);
+
+            Lobby lobby1 = new Lobby(1, "Test Lobby1", "123", user1, (byte) 4, administration.getServer());
+            Lobby lobby2 = new Lobby(2, "Test Lobby2", "", user2, (byte) 2, administration.getServer());
+            lobby1.joinLobby(user1);
+            lobby2.joinLobby(user2);
+            administration.getServer().getLobbys().add(lobby1);
+            administration.getServer().getLobbys().add(lobby2);
+
             lobbiesList.clear();
             lobbiesList.addAll(administration.getServer().getLobbys());
             lvLobbies.setItems(lobbiesList);
@@ -110,25 +118,29 @@ public class LobbySelectFXController implements Initializable
     private void onJoinLobbyClick()
     {
         System.out.println("on lobby join click");
-        try
+        Lobby selectedLobby = (Lobby) lvLobbies.getSelectionModel().getSelectedItem();
+        if (selectedLobby != null)
         {
-            Lobby selectedLobby = (Lobby) lvLobbies.getSelectionModel().getSelectedItem();
-            if (selectedLobby != null)
+            try
             {
+                selectedLobby.joinLobby(ClientGUI.loggedinUser);
+                // joinLobby throws exceptions, if no exception continue
+                ClientGUI.joinedLobby = selectedLobby;
                 Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
             }
-            else
+            catch (Exception ex)
             {
-                JOptionPane.showMessageDialog(null, "Please select a lobby first",
-                        "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
+                JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
+                        "Join error", TrayIcon.MessageType.INFO.ordinal());
             }
         }
-        catch (Exception ex)
+        else
         {
-
+            JOptionPane.showMessageDialog(null, "Please select a lobby first",
+                    "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
         }
     }
 
@@ -146,7 +158,8 @@ public class LobbySelectFXController implements Initializable
         }
         catch (Exception ex)
         {
-
+            JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
+                    "Create error", TrayIcon.MessageType.INFO.ordinal());
         }
     }
 

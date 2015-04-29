@@ -7,8 +7,9 @@ package Server;
 
 import Shared.Game;
 import Shared.User;
-import com.sun.deploy.ui.UIFactory;
 import java.util.ArrayList;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
@@ -48,7 +49,6 @@ public class Lobby
      */
     public Lobby(int id, String name, String password, User owner, byte maxPlayer, Server host)
     {
-
         if (name == null || name.trim().isEmpty())
         {
             throw new IllegalArgumentException("Name is null or empty!");
@@ -88,6 +88,18 @@ public class Lobby
     }
 
     /**
+     * ObservableList<User> joinedPlayers
+     *
+     * @return ObservableList<User> joinedPlayers
+     */
+    public ObservableList<User> getJoinedPlayers()
+    {
+        ObservableList<User> users = FXCollections.observableArrayList();
+        users.addAll(joinedPlayers);
+        return users;
+    }
+
+    /**
      * The player cannot be empty or null The player leaves the lobby and will
      * be removed from joinedPlayers
      *
@@ -119,7 +131,6 @@ public class Lobby
      */
     public void kickPlayer(User player)
     {
-
         if (player == null)
         {
             throw new IllegalArgumentException("Player is null!");
@@ -178,19 +189,15 @@ public class Lobby
      */
     public void joinLobby(User player)
     {
-
         if (player == null)
         {
             throw new IllegalArgumentException("Player is null");
         }
-
         if (joinedPlayers.contains(player))
         {
             throw new IllegalArgumentException("User is already in the lobby!");
         }
-
         this.joinedPlayers.add(player);
-
     }
 
     /**
@@ -200,7 +207,6 @@ public class Lobby
      */
     public void joinGame(Game game)
     {
-
         if (game == null)
         {
             throw new IllegalArgumentException("The game is null!");

@@ -5,6 +5,7 @@
  */
 package Client;
 
+import Server.Lobby;
 import Shared.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +21,7 @@ public class ClientGUI extends Application {
 
     public static Stage mainStage;
     public static User loggedinUser;
+    public static Lobby joinedLobby;
     
     @Override
     public void start(Stage primaryStage) throws Exception {

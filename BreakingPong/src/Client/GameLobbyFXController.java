@@ -5,12 +5,19 @@
  */
 package Client;
 
+import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import Shared.Game;
+import Shared.User;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -64,6 +71,17 @@ public class GameLobbyFXController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         administration = Administration.getInstance();
+        loadUserInterface();
+    }
+
+    private void loadUserInterface()
+    {
+        fillListViews();
+    }
+
+    private void fillListViews()
+    {
+        lvPlayersInGame.setItems(ClientGUI.joinedLobby.getJoinedPlayers());
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
@@ -75,7 +93,8 @@ public class GameLobbyFXController implements Initializable
         try
         {
             game.setupGame();
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -93,9 +112,15 @@ public class GameLobbyFXController implements Initializable
     }
 
     @FXML
-    private void onLeaveGameClick()
+    private void onLeaveGameClick() throws Exception
     {
-
+        if (ClientGUI.joinedLobby == null)
+            throw new Exception("Wat heb ik gedaan? joinedLobby mag niet null zijn");
+        ClientGUI.joinedLobby.leaveLobby(ClientGUI.loggedinUser);
+        Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.show();
     }
 
     @FXML
