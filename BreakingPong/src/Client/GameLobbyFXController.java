@@ -8,11 +8,8 @@ package Client;
 import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import Shared.Game;
-import Shared.User;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -92,7 +89,11 @@ public class GameLobbyFXController implements Initializable
         Game game = new Game(1, 300, true);
         try
         {
-            game.setupGame();
+            Thread gameLoopThread = game.setupGame();
+            if (gameLoopThread != null)
+            {
+                gameLoopThread.start();
+            }
         }
         catch (Exception ex)
         {
@@ -115,7 +116,9 @@ public class GameLobbyFXController implements Initializable
     private void onLeaveGameClick() throws Exception
     {
         if (ClientGUI.joinedLobby == null)
+        {
             throw new Exception("Wat heb ik gedaan? joinedLobby mag niet null zijn");
+        }
         try
         {
             ClientGUI.joinedLobby.leaveLobby(ClientGUI.loggedinUser);
