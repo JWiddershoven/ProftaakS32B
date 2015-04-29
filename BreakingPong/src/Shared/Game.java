@@ -317,15 +317,16 @@ public class Game extends JPanel implements Runnable, KeyListener
             //Add the drawn level to the window and then start the game
             window.setContentPane(this);
             window.setVisible(true);
-            window.addWindowListener(new java.awt.event.WindowAdapter()
-            {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent windowEvent)
-                {
-                    System.out.println("inProgress set false");
-                    inProgress = false;
-                }
-            });
+            window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//            window.addWindowListener(new java.awt.event.WindowAdapter()
+//            {
+//                @Override
+//                public void windowClosing(java.awt.event.WindowEvent windowEvent)
+//                {
+//                    System.out.println("inProgress set false");
+//                    inProgress = false;
+//                }
+//            });
             whiteSpace = new WhiteSpace(TVector2.zero, TVector2.zero,
                     new TVector2(window.getWidth() + 10, window.getHeight() + 10), Color.WHITE);
             this.startGame();
