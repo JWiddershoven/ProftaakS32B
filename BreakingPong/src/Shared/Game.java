@@ -164,11 +164,12 @@ public class Game extends JPanel implements Runnable, KeyListener
     
     public void removePaddle(Paddle p1)
     {
-        for(Paddle p2 : paddleList)
+        for(int i = paddleList.size() -1; i > 0; i--)
         {
-            if(p2.getWindowLocation() == p1.getWindowLocation())
+            Paddle p = paddleList.get(i);
+            if(p.getWindowLocation() == p1.getWindowLocation())
             {
-              paddleList.remove(p2);
+              paddleList.remove(p);
             }
         }
     }
@@ -443,6 +444,8 @@ public class Game extends JPanel implements Runnable, KeyListener
             TVector2 size;
             // Velocity 0 since blocks don't move
             TVector2 velocity = new TVector2(0.0f, 0.0f);
+            windowLocation hLocation = null;
+            windowLocation vLocation = null;
             // Read all rows of the maplayout
             for (String row : mapLayout)
             {
@@ -455,6 +458,22 @@ public class Game extends JPanel implements Runnable, KeyListener
                     TVector2 position = new TVector2(x, y);
                     Server server = new Server();
                     
+                    if(position.getX() > 0 && position.getX() < (this.getSize().getWidth() / 2))
+                    {
+                        vLocation = windowLocation.WEST;
+                    }
+                    else if(position.getX() > (this.getSize().getWidth() / 2))
+                    {
+                        vLocation = windowLocation.EAST;
+                    }
+                    else if(position.getX() > 0 && position.getY() < (this.getSize().getHeight() / 2))
+                    {
+                        hLocation = windowLocation.NORTH;
+                    }
+                    else if(position.getY() > (this.getSize().getHeight() /2))
+                    {
+                        hLocation = windowLocation.SOUTH;
+                    }
                     
                     //Check what type of block needs to be created from input
                     switch (type)
@@ -502,12 +521,13 @@ public class Game extends JPanel implements Runnable, KeyListener
                             {
                                 size = new TVector2(100f, 20f);
                                 User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, Paddle.windowLocation.SOUTH, Color.GREEN);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, hLocation, Color.GREEN);
                                 player.setPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
                                 this.userList.add(player);
                                 this.paddleList.add(horizontalPaddle);
                                 playerAmount++;
+                                System.out.println(horizontalPaddle.getWindowLocation());
                                 break;
                             }
                             else // Add CPU player
@@ -516,12 +536,13 @@ public class Game extends JPanel implements Runnable, KeyListener
 //                                this.addObject(space);
                                 size = new TVector2(100f, 20f);
                                 CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.NORTH, Color.BLUE);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, hLocation, Color.BLUE);
                                 cpubot.setMyPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
                                 this.paddleList.add(horizontalPaddle);
                                 this.botList.add(cpubot);
                                 playerAmount++;
+                                System.out.println(horizontalPaddle.getWindowLocation());
                                 break;
                             }
 
@@ -533,12 +554,13 @@ public class Game extends JPanel implements Runnable, KeyListener
 //                            this.addObject(space);
                             size = new TVector2(20f, 100f);
                             CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
-                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, Paddle.windowLocation.EAST, Color.BLUE);
+                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, vLocation, Color.BLUE);
                             this.addObject(verticalPaddle);
                             this.paddleList.add(verticalPaddle);
                             this.botList.add(cpubot);
                             playerAmount++;
                             cpubot.setMyPaddle(verticalPaddle);
+                            System.out.println(verticalPaddle.getWindowLocation());
                             break;
                         }
 

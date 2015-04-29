@@ -156,10 +156,11 @@ public class Ball extends GameObject {
         });
 
         //Check if the ball is out of the screen bounds
-        if(this.getPosition().getX() < this.game.getSize().getWidth())
+        if(this.getPosition().getX() < 0)
         {
-            for(Paddle p : game.getPaddles())
+            for(int i = game.getPaddles().size() -1; i > 0; i--)
             {
+                Paddle p = game.getPaddles().get(i);
                 if(p.getWindowLocation() == windowLocation.WEST)
                 {
                     if(p.getCPU() != null)
@@ -171,15 +172,15 @@ public class Ball extends GameObject {
                         game.removePlayer(p.getPlayer().getUsername());
                     }
                     game.removePaddle(p);
-                    game.removeBall(this);
                     System.out.println("Paddle removed");
                 }
             }
         }
-        else if(this.getPosition().getX() > this.game.getSize().getWidth())
+        else if(this.getPosition().getX() > game.getSize().getWidth())
         {
-            for(Paddle p : game.getPaddles())
+            for(int i = game.getPaddles().size() -1; i > 0; i--)
             {
+                Paddle p = game.getPaddles().get(i);
                 if(p.getWindowLocation() == windowLocation.EAST)
                 {
                     if(p.getCPU() != null)
@@ -191,15 +192,15 @@ public class Ball extends GameObject {
                         game.removePlayer(p.getPlayer().getUsername());
                     }
                     game.removeObject(p);
-                    game.removeBall(this);
                     System.out.println("Paddle removed");
                 }
             }
         }
-        else if(this.getPosition().getY() < this.game.getSize().getHeight())
+        else if(this.getPosition().getY() < 0)
         {
-            for(Paddle p : game.getPaddles())
+            for(int i = game.getPaddles().size() -1; i > 0; i--)
             {
+                Paddle p = game.getPaddles().get(i);
                 if(p.getWindowLocation() == windowLocation.NORTH)
                 {
                     if(p.getCPU() != null)
@@ -212,15 +213,15 @@ public class Ball extends GameObject {
                     }
                     game.removeObject(p);
                     game.removePaddle(p);
-                    game.removeBall(this);
                     System.out.println("Paddle removed");
                 }
             }
         }
         else if(this.getPosition().getY() > this.game.getSize().getHeight())
         {
-            for(Paddle p : game.getPaddles())
+            for(int i = game.getPaddles().size() -1; i > 0; i--)
             {
+                Paddle p = game.getPaddles().get(i);
                 if(p.getWindowLocation() == windowLocation.SOUTH)
                 {
                     if(p.getCPU() != null)
@@ -233,7 +234,6 @@ public class Ball extends GameObject {
                     }
                     game.removeObject(p);
                     game.removePaddle(p);
-                    game.removeBall(this);
                     System.out.println("Paddle removed");
                 }
             }
