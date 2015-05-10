@@ -5,6 +5,7 @@
  */
 package Client;
 
+import Interfaces.IClient;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -18,5 +19,11 @@ public class Client extends UnicastRemoteObject implements IClient
     public Client() throws RemoteException
     {
         
+    }
+
+    @Override
+    public void ReturnToLobby() throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

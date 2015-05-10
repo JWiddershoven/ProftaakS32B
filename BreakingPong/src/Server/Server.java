@@ -19,7 +19,7 @@ import javafx.collections.ObservableList;
  *
  * @author Mnesymne
  */
-public class Server extends UnicastRemoteObject implements IServer
+public class Server extends UnicastRemoteObject// implements IServer
 {
 
     /*
