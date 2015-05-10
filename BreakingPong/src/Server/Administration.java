@@ -6,6 +6,7 @@
 package Server;
 
 import Shared.User;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
 /**
@@ -19,8 +20,9 @@ public class Administration {
     /**
      * The administration constructor. Here will the server, database and user
      * list be created.
+     * @throws java.rmi.RemoteException
      */
-    protected Administration() {
+    protected Administration() throws RemoteException {
         this.server = new Server();
         this.database = new Database();
         this.users = new ArrayList<>();
@@ -30,8 +32,9 @@ public class Administration {
      * The singleton for administration
      *
      * @return the administration
+     * @throws java.rmi.RemoteException
      */
-    public static Administration getInstance() {
+    public static Administration getInstance() throws RemoteException {
         if (instance == null) {
             instance = new Administration();
         }

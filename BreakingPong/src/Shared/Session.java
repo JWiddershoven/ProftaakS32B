@@ -3,17 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Server;
+package Shared;
 
 import Interfaces.IServer;
 
 /**
  *
- * @author Jordi
+ * @author Mnesymne
  */
-public class Session
-{
-    /**
+public class Session {
+        /**
      * Username of the user wich the session belongs to
      */
     private final String username;

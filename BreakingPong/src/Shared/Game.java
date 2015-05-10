@@ -308,7 +308,7 @@ public class Game extends JPanel implements Runnable, KeyListener
     /**
      * Create the window, draw the objects and start the game
      */
-    public void setupGame()
+    public Thread setupGame()
     {
         //Open file dialog and save input
         ArrayList<String> mapLayout = this.loadMap();
@@ -338,7 +338,9 @@ public class Game extends JPanel implements Runnable, KeyListener
                     new TVector2(window.getWidth() + 10, window.getHeight() + 10),null);
             this.startGame();
         }
-
+        inProgress = true;
+        gameLoopThread = new Thread(this);
+        return gameLoopThread;
     }
 
     /**

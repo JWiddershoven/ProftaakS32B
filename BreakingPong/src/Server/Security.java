@@ -10,6 +10,7 @@ import java.rmi.server.UnicastRemoteObject;
 import Interfaces.IClientSecurity;
 import Interfaces.ILobby;
 import Interfaces.IServerSecurity;
+import Shared.Session;
 
 /**
  *
