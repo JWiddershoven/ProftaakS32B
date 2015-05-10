@@ -11,18 +11,24 @@ import Shared.Paddle.windowLocation;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import static java.lang.System.gc;
+import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -53,6 +59,7 @@ public class Game extends JPanel implements Runnable, KeyListener
 
     private WhiteSpace whiteSpace;
     private JFrame window;
+    private BufferedImage BallImage ,DestroyImage,normalBlockImage,PowerUpImage,PaddleImage,WhiteSpaceImage;
 
     /**
      * Getter of id
@@ -326,8 +333,9 @@ public class Game extends JPanel implements Runnable, KeyListener
                     inProgress = false;
                 }
             });
+            
             whiteSpace = new WhiteSpace(TVector2.zero, TVector2.zero,
-                    new TVector2(window.getWidth() + 10, window.getHeight() + 10), Color.WHITE);
+                    new TVector2(window.getWidth() + 10, window.getHeight() + 10),null);
             this.startGame();
         }
 
@@ -481,7 +489,9 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create undestructable block
                         case "0":
                         {
-                            Block wall = new Block(0, false, null, position, velocity, new TVector2(25, 25), Color.GRAY);
+                             
+                             DestroyImage =   ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
+                            Block wall = new Block(0, false, null, position, velocity, new TVector2(25, 25),DestroyImage);
                             this.addObject(wall);
 
                             break;
@@ -489,21 +499,25 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create white space
                         case "1":
                         {
+                            
                             break;
                         }
                         // Create block without powerup
                         case "2":
                         {
-                            Block noPower = new Block(1, true, null, position, velocity, size, Color.YELLOW);
+                            
+                             normalBlockImage =    ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
+                            Block noPower = new Block(1, true, null, position, velocity, size,normalBlockImage);
                             this.addObject(noPower);
                             break;
                         }
                         // Create block with powerup
                         case "3":
                         {
+                                PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
                             PowerUp power = new PowerUp(1, null);
                             power.getRandomPowerUpType();
-                            Block withPower = new Block(10, true, power, position, velocity, size, Color.RED);
+                            Block withPower = new Block(10, true, power, position, velocity, size,PowerUpImage);
                             this.addObject(withPower);
                             break;
                         }
@@ -513,9 +527,11 @@ public class Game extends JPanel implements Runnable, KeyListener
                             // Add human player
                             if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
                             {
+                                PaddleImage = null;
+                                PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
                                 size = new TVector2(100f, 20f);
                                 User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, hLocation, Color.GREEN);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, hLocation,PaddleImage);
                                 player.setPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
                                 this.userList.add(player);
@@ -526,9 +542,11 @@ public class Game extends JPanel implements Runnable, KeyListener
                             }
                             else // Add CPU player
                             {
+                                PaddleImage = null;
+                                PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
                                 size = new TVector2(100f, 20f);
                                 CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, hLocation, Color.BLUE);
+                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, hLocation,PaddleImage);
                                 cpubot.setMyPaddle(horizontalPaddle);
                                 this.addObject(horizontalPaddle);
                                 this.paddleList.add(horizontalPaddle);
@@ -542,24 +560,29 @@ public class Game extends JPanel implements Runnable, KeyListener
                         // Create vertical paddle spawn
                         case "5":
                         {
+                               PaddleImage = null;
+                               PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
+                           
                             size = new TVector2(20f, 100f);
                             CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
-                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, vLocation, Color.BLUE);
+                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, vLocation,PaddleImage);
                             this.addObject(verticalPaddle);
                             this.paddleList.add(verticalPaddle);
                             this.botList.add(cpubot);
                             playerAmount++;
                             cpubot.setMyPaddle(verticalPaddle);
                             System.out.println(verticalPaddle.getWindowLocation());
+                            System.out.println(PaddleImage);
                             break;
                         }
 
                         // Create a ball spawn
                         case "6":
                         {
+                            BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
                             size = new TVector2(15f, 15f);
                             velocity = generateRandomVelocity();
-                            Ball ball = new Ball(null, position, velocity, size, this, Color.RED);
+                            Ball ball = new Ball(null, position, velocity, size, this,BallImage);
                             this.addObject(ball);
                             this.ballList.add(ball);
                             break;
@@ -584,10 +607,13 @@ public class Game extends JPanel implements Runnable, KeyListener
         //Multiple for loops, order of drawing is wery wery importanté
 
         // Draw whitespace
-        g.setColor(whiteSpace.getColor());
+ 
+        g.setColor(Color.white);
         g.fillRect((int) whiteSpace.getPosition().getX(),
                 (int) whiteSpace.getPosition().getY(),
                 (int) whiteSpace.getSize().getX(), (int) whiteSpace.getSize().getY());
+        
+       
 
         for (int i = drawList.size() - 1; i >= 0; i--)
         {
@@ -596,12 +622,37 @@ public class Game extends JPanel implements Runnable, KeyListener
             if (o instanceof Block)
             {
                 Block b = (Block) o;
+                if(b.isDestructable())
+                {
+                     if(normalBlockImage == null)
+                {
                 g.setColor(b.getColor());
                 g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 g.setColor(Color.black);
                 g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
                 drawList.remove(i);
-
+                }
+                else
+                {
+                     g.drawImage(normalBlockImage,(int)b.getPosition().getX(),(int) b.getPosition().getY(), this);
+                }
+                    
+                }
+                else
+                {
+                if(DestroyImage == null)
+                {
+                g.setColor(b.getColor());
+                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                g.setColor(Color.black);
+                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                drawList.remove(i);
+                }
+                else
+                {
+                     g.drawImage(DestroyImage,(int)b.getPosition().getX(),(int) b.getPosition().getY(), this);
+                }
+                }
             }
         }
         for (int i = drawList.size() - 1; i >= 0; i--)
@@ -611,19 +662,35 @@ public class Game extends JPanel implements Runnable, KeyListener
             if (o instanceof Ball)
             {
                 Ball b = (Ball) o;
-                g.setColor(Color.red);
-                g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                g.setColor(Color.white);
-                g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                if(BallImage == null)
+                {
+                    g.setColor(Color.red);
+                    g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                    g.setColor(Color.white);
+                    g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                }
+                else
+                {
+                    g.drawImage(BallImage,(int)b.getPosition().getX(),(int) b.getPosition().getY(), this);
+                }
+              
             } //Draw a paddle
             else if (o instanceof Paddle)
             {
                 Paddle p = (Paddle) o;
+            
+                if(PaddleImage == null)
+                {
+                
                 g.setColor(p.getColor());
                 g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
                 g.setColor(Color.white);
                 g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-            }
+                }
+                else
+                {
+                    g.drawImage(PaddleImage,(int)p.getPosition().getX(),(int) p.getPosition().getY(), this);
+                }
         }
         String scoreText = "";
         int ypos = 25;
@@ -659,7 +726,7 @@ public class Game extends JPanel implements Runnable, KeyListener
         }
 
     }
-
+    }
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - paintComponent nog sneller meer geheugen - - - - - - - - - - -">
     // Lorenzo: Ik heb geprobeerd op te lossen / te verlichten, maar lukte niet.
     /*

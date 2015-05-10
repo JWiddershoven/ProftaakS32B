@@ -7,6 +7,7 @@ package Shared;
 
 
 import java.awt.Color;
+import java.awt.Image;
 import java.awt.Rectangle;
 
 /**
@@ -19,7 +20,7 @@ public class GameObject
     private TVector2 position;
     private TVector2 velocity;
     private TVector2 size;
-    
+    private Image MyImage;
     private Color color;
 
     /**
@@ -104,12 +105,13 @@ public class GameObject
      * @param size value of size as TVector2.
      * @param color as JAVA.AWT
      */
-    public GameObject(TVector2 position, TVector2 velocity, TVector2 size, Color color)
+    public GameObject(TVector2 position, TVector2 velocity, TVector2 size,Image image)
     {
         this.position = position;
         this.velocity = velocity;
         this.size = size;
         this.color = color;
+        this.MyImage = image;
     }
 
     /**

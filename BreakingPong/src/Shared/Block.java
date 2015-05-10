@@ -8,6 +8,7 @@ package Shared;
 
 import Shared.Paddle.windowLocation;
 import java.awt.Color;
+import java.awt.Image;
 import java.util.ArrayList;
 
 /**
@@ -44,9 +45,9 @@ public class Block extends GameObject {
      * @param size as TVector2. The size of the GameObject in the game.
      * @param color
      */
-    public Block(int points, boolean isDestructable, PowerUp powerUp,TVector2 position, TVector2 velocity, TVector2 size, Color color)
+    public Block(int points, boolean isDestructable, PowerUp powerUp,TVector2 position, TVector2 velocity, TVector2 size,Image image)
     {
-        super(position,velocity,size, color);
+        super(position,velocity,size,image);
         this.points = points;
         this.isDestructable = isDestructable;
         this.powerUp = powerUp;
