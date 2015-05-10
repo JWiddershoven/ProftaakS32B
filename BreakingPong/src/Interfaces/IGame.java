@@ -12,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Mnesymne
  */
-public interface IGame {
+public interface IGame{
     
     //Checks if game exists and has room for another player, adds user to game, returns the IGame of the game.
     public IGame joinGame(IGame game) throws RemoteException;

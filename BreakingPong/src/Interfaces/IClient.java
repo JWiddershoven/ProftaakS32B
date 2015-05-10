@@ -12,8 +12,8 @@ import java.rmi.RemoteException;
  *
  * @author Mnesymne
  */
-public interface IClient  extends Remote{
+public interface IClient extends Remote{
     
     // Returns the User to the lobby if this user currently isn't in it.
-    public void ReturnToLobby() throws RemoteException;
+    public void returnToLobby() throws RemoteException;
 }

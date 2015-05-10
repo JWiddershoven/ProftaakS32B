@@ -5,14 +5,13 @@
  */
 package Interfaces;
 
-import java.rmi.RemoteException;
+import java.rmi.Remote;
 
 /**
  *
- * @author Mnesymne
+ * @author Jordi
  */
-public interface IUser{
+public interface IServer extends Remote
+{
     
-    // Returns a string with Username,Ranking
-    public String getPlayerInformation()throws RemoteException;
 }

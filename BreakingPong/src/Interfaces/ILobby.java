@@ -14,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author Mnesymne
  */
-public interface ILobby {
+public interface ILobby{
     
     //Create a new Lobby, checks if name isnt already in use, if Owner doesn't have a game already and if maxPlayers is a valid value.If lobby is created adds lobby to the list
     // of lobbies. Returns true if lobby is created.
