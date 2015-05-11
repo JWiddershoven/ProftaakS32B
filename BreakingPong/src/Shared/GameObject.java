@@ -77,6 +77,11 @@ public class GameObject
         this.velocity = velocity;
     }
 
+    
+    public Image getImage()
+    {
+        return this.MyImage;
+    }
     /**
      * Getter of size.
      *
