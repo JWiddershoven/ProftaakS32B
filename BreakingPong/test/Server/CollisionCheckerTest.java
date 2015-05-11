@@ -13,6 +13,7 @@ import Shared.GameObject;
 import Shared.Paddle;
 import Shared.TVector2;
 import java.awt.Color;
+import java.awt.Image;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -29,6 +30,7 @@ public class CollisionCheckerTest
     private Block block1, block2;
     private Ball ball;
     private ArrayList<GameObject> gameObjects;
+    private Image image;
 
     public CollisionCheckerTest()
     {
@@ -43,16 +45,16 @@ public class CollisionCheckerTest
         TVector2 paddleSize = new TVector2(25, 10);
         TVector2 blockSize = new TVector2(10, 10);
         TVector2 velocity = TVector2.zero;
-        
+        image = null;
         TVector2 position = new TVector2(50, 50);
-        paddle1 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.windowLocation.NORTH, Color.BLUE);
+        paddle1 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.windowLocation.NORTH,image);
         position = new TVector2(75, 75);
-        paddle2 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.windowLocation.SOUTH, Color.RED);
+        paddle2 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.windowLocation.SOUTH, image);
         
         position = new TVector2(30, 55);
-        block1 = new Block(10, false, null, position, velocity, blockSize, Color.BLACK);
+        block1 = new Block(10, false, null, position, velocity, blockSize, image);
         position = new TVector2(50, 45);
-        block2 = new Block(10, false, null, position, velocity, blockSize, Color.BLACK);
+        block2 = new Block(10, false, null, position, velocity, blockSize, image);
         position = new TVector2(45,45);
         gameObjects.add(paddle1);
         gameObjects.add(paddle2);

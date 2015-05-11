@@ -6,6 +6,9 @@
 package Server;
 
 import Shared.User;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -13,15 +16,19 @@ import org.junit.Test;
  *
  * @author sjorsvanmierlo
  */
-public class LobbyTest {
+public class LobbyTest
+{
 
     private Lobby lobby;
 
     @Test
-    public void testCreation() {
+    public void testCreation() throws RemoteException
+    {
 
         //Arrange
-        Server server = new Server();
+        Server server;
+
+        server = new Server();
         int id = 0;
         String name = "test";
         String password = "test";
@@ -30,214 +37,272 @@ public class LobbyTest {
         byte maxPlayers = 1;
 
         //Violate name null
-        try {
+        try
+        {
             lobby = new Lobby(id, null, password, owner, maxPlayers, server);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
         //Violate name empty
-        try {
+        try
+        {
             lobby = new Lobby(id, " ", password, owner, maxPlayers, server);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
         //Violate owner null
-        try {
+        try
+        {
             lobby = new Lobby(id, name, password, null, maxPlayers, server);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
         //Violate maxplayers
-        try {
+        try
+        {
             maxPlayers = 0;
             lobby = new Lobby(id, name, password, owner, maxPlayers, server);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
-        try {
+        try
+        {
             maxPlayers = 5;
             lobby = new Lobby(id, name, password, owner, maxPlayers, server);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
         maxPlayers = 4;
 
         //Violate host null
-        try {
+        try
+        {
             lobby = new Lobby(id, name, password, owner, maxPlayers, null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
         //Violate password null
-        try {
+        try
+        {
             lobby = new Lobby(id, name, null, owner, maxPlayers, server);
 
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
             fail();
         }
 
         //Violate password empty        
-        try {
+        try
+        {
             lobby = new Lobby(id, name, " ", owner, maxPlayers, server);
 
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
             fail();
         }
 
         //Success
-        try {
+        try
+        {
             lobby = new Lobby(id, name, password, owner, maxPlayers, server);
 
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
             fail();
         }
 
     }
-    
-       @Test
-    public void testJoinLobby(){
+
+    @Test
+    public void testJoinLobby() throws RemoteException
+    {
         byte maxPlayers = 4;
         lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
 
-        try {
+        try
+        {
             lobby.joinLobby(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
-        try {
-            User user1 = new User("Testtest","Testtest","test@test.test",new Server());
-            
+        try
+        {
+            User user1 = new User("Testtest", "Testtest", "test@test.test", new Server());
+
             lobby.joinLobby(user1);
             lobby.joinLobby(user1);
-            
+
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
     }
 
     @Test
-    public void testLeaveLobby() {
+    public void testLeaveLobby() throws RemoteException
+    {
         byte maxPlayers = 4;
         lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
 
-        try {
+        try
+        {
             lobby.leaveLobby(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
-        
-        User user = new User("Testtest","Testtest","Test@test.test",new Server());
-        
-        try{
+
+        User user = new User("Testtest", "Testtest", "Test@test.test", new Server());
+
+        try
+        {
             lobby.leaveLobby(user);
             fail();
         }
-        catch(IllegalArgumentException ex){
-            
+        catch (IllegalArgumentException ex)
+        {
+
         }
-        
-        try{
+
+        try
+        {
             lobby.joinLobby(user);
             lobby.leaveLobby(user);
         }
-        catch(IllegalArgumentException ex){
+        catch (IllegalArgumentException ex)
+        {
             fail();
         }
 
     }
 
     @Test
-    public void testKickLobby() {
+    public void testKickLobby() throws RemoteException
+    {
         byte maxPlayers = 4;
         lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
 
-        try {
+        try
+        {
             lobby.kickPlayer(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
-        
-        try{
-            User user = new User("Testtest","Testtest","Test@test.test",new Server());
-            
+
+        try
+        {
+            User user = new User("Testtest", "Testtest", "Test@test.test", new Server());
+
             lobby.joinLobby(user);
-            lobby.kickPlayer(user);           
-            
+            lobby.kickPlayer(user);
+
         }
-        catch(Exception ex){
+        catch (Exception ex)
+        {
             fail();
         }
 
     }
 
     @Test
-    public void testSendChat() {
+    public void testSendChat() throws RemoteException
+    {
         byte maxPlayers = 4;
         lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
 
-        try {
+        try
+        {
             lobby.sendChat(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
-        try {
+        try
+        {
             lobby.sendChat(" ");
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
     }
-    
-     @Test
-    public void testInviteUser() {
+
+    @Test
+    public void testInviteUser() throws RemoteException
+    {
         byte maxPlayers = 4;
         lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
 
-        try {
+        try
+        {
             lobby.inviteUser(null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        }
+        catch (IllegalArgumentException ex)
+        {
 
         }
 
     }
-    
- 
-    
+
     @Test
-    public void testJoinGame(){
+    public void testJoinGame() throws RemoteException
+    {
         byte maxPlayers = 4;
         lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
 
-        try{
+        try
+        {
             lobby.joinGame(null);
             fail();
         }
-        catch(IllegalArgumentException ex){
-            
+        catch (IllegalArgumentException ex)
+        {
+
         }
     }
-    
-    
 
 }

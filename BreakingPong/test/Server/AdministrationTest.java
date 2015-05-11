@@ -6,6 +6,9 @@
 package Server;
 
 import Server.Administration.IncorrectLoginDataException;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -19,14 +22,28 @@ public class AdministrationTest {
 
     @Test
     public void testCreation() {
-        //Success
-        administration = new Administration();
+        try
+        {
+            //Success
+            administration = new Administration();
+        }
+        catch (RemoteException ex)
+        {
+            Logger.getLogger(AdministrationTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Test
     public void testLogin() {
 
-        administration = new Administration();
+        try
+        {
+            administration = new Administration();
+        }
+        catch (RemoteException ex)
+        {
+            Logger.getLogger(AdministrationTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         //Empty string
         String username = "Test";

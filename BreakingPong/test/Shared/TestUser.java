@@ -7,11 +7,8 @@ package Shared;
  */
 
 import Server.Server;
-import org.junit.After;
-import org.junit.AfterClass;
+import java.rmi.RemoteException;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -21,7 +18,7 @@ import org.junit.Test;
 public class TestUser {
     User ValidUser;
    @Test
-   public void testCreation()
+   public void testCreation() throws RemoteException
    {
        /**
      * Constructor

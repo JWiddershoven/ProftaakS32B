@@ -6,15 +6,12 @@ package Shared;
  * and open the template in the editor.
  */
 
-import Server.CollisionChecker;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import Server.Server;
 import java.awt.Color;
+import java.rmi.RemoteException;
 
 /**
  *
@@ -30,7 +27,7 @@ public class PaddleTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws RemoteException {
         selectedServer = new Server();
         game  = new Game(1, 300,true);
         
@@ -41,18 +38,18 @@ public class PaddleTest {
         standardSize = new TVector2(25,10);
         position = new TVector2(50,50);
         velocity = new TVector2(10,10);
-        paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH, Color.BLUE);
+        paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH, null);
         game.addObject(paddle1);
         
         
         position = new TVector2(75,75);
         velocity = new TVector2(100,100);
-        paddle2 = new Paddle(20, position, velocity, standardSize, player2, Paddle.windowLocation.SOUTH, Color.BLUE);
+        paddle2 = new Paddle(20, position, velocity, standardSize, player2, Paddle.windowLocation.SOUTH, null);
         game.addObject(paddle2);
         
         position = new TVector2(100,100);
         velocity = new TVector2(50,50);
-        paddle3 = new Paddle(30, position, velocity, standardSize, player3, Paddle.windowLocation.EAST, Color.BLUE);
+        paddle3 = new Paddle(30, position, velocity, standardSize, player3, Paddle.windowLocation.EAST, null);
         game.addObject(paddle3);
     }
 

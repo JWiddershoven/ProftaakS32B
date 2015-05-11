@@ -6,6 +6,7 @@
 package Server;
 
 import Shared.User;
+import java.rmi.RemoteException;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 
@@ -27,7 +28,7 @@ public class ServerTest {
     }
 
     @Test
-    public void testJoinLobby() {
+    public void testJoinLobby() throws RemoteException {
 
         server = new Server();
 
@@ -62,7 +63,7 @@ public class ServerTest {
     }
 
     @Test
-    public void testLogout() {
+    public void testLogout() throws RemoteException {
         server = new Server();
 
         try {
