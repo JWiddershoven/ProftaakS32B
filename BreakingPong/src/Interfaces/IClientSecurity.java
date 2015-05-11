@@ -8,7 +8,6 @@ package Interfaces;
 import Shared.Session;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import Server.Session;
 
 /**
  *

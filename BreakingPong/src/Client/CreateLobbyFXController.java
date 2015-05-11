@@ -12,6 +12,7 @@ import Shared.Map;
 import java.awt.HeadlessException;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
@@ -86,8 +87,14 @@ public class CreateLobbyFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        try
+        {
         administration = Administration.getInstance();
-
+        }
+        catch(RemoteException ex)
+        {
+            
+        }
         fillComboboxes();
     }
 

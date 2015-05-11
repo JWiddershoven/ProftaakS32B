@@ -9,7 +9,10 @@ import static Client.ClientGUI.mainStage;
 import Server.Administration;
 import Shared.Game;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -67,7 +70,11 @@ public class GameLobbyFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        administration = Administration.getInstance();
+        try {
+            administration = Administration.getInstance();
+        } catch (RemoteException ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         loadUserInterface();
     }
 
