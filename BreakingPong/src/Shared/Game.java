@@ -276,27 +276,31 @@ public class Game extends JPanel implements Runnable, KeyListener {
         //Open file dialog and save input
         ArrayList<String> mapLayout = this.loadMap();
         if (mapLayout != null) {
-            //Create the window
-            window = new JFrame();
-            window.setSize(819, 848);
-            window.setBackground(Color.white);
-            window.setLocationRelativeTo(null);
-            //Draw the level from the input
-            this.drawMap(mapLayout);
-            //Add the drawn level to the window and then start the game
-            window.setContentPane(this);
-            window.setVisible(true);
-            window.addWindowListener(new java.awt.event.WindowAdapter() {
-                @Override
-                public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                    System.out.println("inProgress set false");
-                    inProgress = false;
-                }
-            });
-
-            whiteSpace = new WhiteSpace(TVector2.zero, TVector2.zero,
-                    new TVector2(window.getWidth() + 10, window.getHeight() + 10), null);
-            this.startGame();
+            try {
+                //Create the window
+                window = new JFrame();
+                window.setSize(819, 848);
+                window.setBackground(Color.white);
+                window.setLocationRelativeTo(null);
+                //Draw the level from the input
+                this.drawMap(mapLayout);
+                //Add the drawn level to the window and then start the game
+                window.setContentPane(this);
+                window.setVisible(true);
+                window.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                        System.out.println("inProgress set false");
+                        inProgress = false;
+                    }
+                });
+                WhiteSpaceImage = ImageIO.read(new FileInputStream("Images/Images/WhiteSpaceImage.jpg"));
+                whiteSpace = new WhiteSpace(TVector2.zero, TVector2.zero,
+                        new TVector2(window.getWidth() + 10, window.getHeight() + 10), WhiteSpaceImage);
+                this.startGame();
+            } catch (IOException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         inProgress = true;
         gameLoopThread = new Thread(this);
@@ -533,10 +537,17 @@ public class Game extends JPanel implements Runnable, KeyListener {
         //Multiple for loops, order of drawing is wery wery importanté
 
         // Draw whitespace
+        if(WhiteSpaceImage == null)
+        {
         g.setColor(Color.white);
         g.fillRect((int) whiteSpace.getPosition().getX(),
                 (int) whiteSpace.getPosition().getY(),
                 (int) whiteSpace.getSize().getX(), (int) whiteSpace.getSize().getY());
+        }
+        else
+        {
+            g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
+        }
 
         for (int i = drawList.size() - 1; i >= 0; i--) {
             GameObject o = drawList.get(i);

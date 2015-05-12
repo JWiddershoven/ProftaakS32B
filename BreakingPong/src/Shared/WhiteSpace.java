@@ -14,6 +14,7 @@ import java.awt.Image;
  */
 public class WhiteSpace extends GameObject
 {
+    
     public WhiteSpace(TVector2 position, TVector2 velocity, TVector2 size, Image image)
     {
         super(position, velocity, size,image);
