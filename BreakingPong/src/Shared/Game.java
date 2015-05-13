@@ -24,10 +24,12 @@ import java.io.InputStreamReader;
 import static java.lang.System.gc;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.Scene;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -58,6 +60,10 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     private WhiteSpace whiteSpace;
     private JFrame window;
+    private User player1, player2, player3, player4;
+    private CPU cpu1, cpu2, cpu3, cpu4;
+    private Paddle P1Paddle, P2Paddle, P3Paddle, P4Paddle;
+    private int numberOfPLayersLeft = 4;
     private BufferedImage BallImage, DestroyImage, normalBlockImage, PowerUpImage, PaddleImage, WhiteSpaceImage;
 
     /**
@@ -170,7 +176,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param gameTime value of gameTime as int
      * @param powerUps value of powerUps as int
      */
-    public Game(int id, int gameTime, boolean powerUps) {
+    public Game(int id, int gameTime, boolean powerUps, ArrayList<User> players) {
         this.id = id;
         this.gameTime = gameTime;
         this.powerUps = powerUps;
@@ -181,6 +187,38 @@ public class Game extends JPanel implements Runnable, KeyListener {
         this.paddleList = new ArrayList<>();
         this.setFocusable(true);
         addKeyListener(this);
+       
+        try {
+            if (players.get(0) != null) {
+                player1 = players.get(1);
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            cpu1 = new CPU("Bot1", (byte) 1, this);
+            cpu1.setMyPaddle(P1Paddle);
+        }
+
+        try {
+            if (players.get(1) != null) {
+                player2 = players.get(1);
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            cpu2 = new CPU("Bot2", (byte) 1, this);
+        }
+        try {
+            if (players.get(2) != null) {
+                player3 = players.get(3);
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            cpu3 = new CPU("Bot3", (byte) 1, this);
+        }
+        try {
+            if (players.get(3) != null) {
+                player4 = players.get(4);
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            cpu4 = new CPU("Bot4", (byte) 1, this);
+        }
+
     }
 
     /**
@@ -284,6 +322,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 window.setLocationRelativeTo(null);
                 //Draw the level from the input
                 this.drawMap(mapLayout);
+               
                 //Add the drawn level to the window and then start the game
                 window.setContentPane(this);
                 window.setVisible(true);
@@ -297,8 +336,11 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 WhiteSpaceImage = ImageIO.read(new FileInputStream("Images/Images/WhiteSpaceImage.jpg"));
                 whiteSpace = new WhiteSpace(TVector2.zero, TVector2.zero,
                         new TVector2(window.getWidth() + 10, window.getHeight() + 10), WhiteSpaceImage);
+                 Thread.sleep(5000);
                 this.startGame();
             } catch (IOException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -390,143 +432,203 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * LoadMapMethod
      */
     public void drawMap(ArrayList<String> mapLayout) {
+
         try {
-            // X & Y Positions for the blocks
-            int y = 0;
-            int x = 0;
-            int playerAmount = 1;
-            PaddleImage = null;
-            // Rowcounter for reading the mapLayout
-            int rowcount = 1;
-            TVector2 size;
-            // Velocity 0 since blocks don't move
-            TVector2 velocity = new TVector2(0.0f, 0.0f);
-            windowLocation hLocation = null;
-            windowLocation vLocation = null;
-            // Read all rows of the maplayout
-            for (String row : mapLayout) {
-                // Read every number on a row of the maplayout
-                for (int c = 0; c <= row.length() - 1; c++) {
-                    size = new TVector2(20f, 20f);
-                    x = c * 20;
-                    String type = row.substring(c, c + 1);
-                    TVector2 position = new TVector2(x, y);
-                    Server server = new Server();
-                    if (position.getX() > 0 && position.getX() < (this.getSize().getWidth() / 2)) {
-                        vLocation = windowLocation.WEST;
-                    } else if (position.getX() > (this.getSize().getWidth() / 2)) {
-                        vLocation = windowLocation.EAST;
-                    } else if (position.getX() > 0 && position.getY() < (this.getSize().getHeight() / 2)) {
-                        hLocation = windowLocation.NORTH;
-                    } else if (position.getY() > (this.getSize().getHeight() / 2)) {
-                        hLocation = windowLocation.SOUTH;
-                    }
 
-                    //Check what type of block needs to be created from input
-                    switch (type) {
-                        // Create undestructable block
-                        case "0": {
+            int SpawnNumber = 0;
+            Server server = new Server();
+            player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            try {
+                // X & Y Positions for the blocks
+                int y = 0;
+                int x = 0;
+                int playerAmount = 1;
+                PaddleImage = null;
+                // Rowcounter for reading the mapLayout
+                int rowcount = 1;
+                TVector2 size;
+                // Velocity 0 since blocks don't move
+                TVector2 velocity = new TVector2(0.0f, 0.0f);
+                windowLocation hLocation = null;
+                windowLocation vLocation = null;
+                // Read all rows of the maplayout
+                for (String row : mapLayout) {
+                    // Read every number on a row of the maplayout
+                    for (int c = 0; c <= row.length() - 1; c++) {
+                        size = new TVector2(20f, 20f);
+                        x = c * 20;
+                        String type = row.substring(c, c + 1);
+                        TVector2 position = new TVector2(x, y);
 
-                            DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
-                            Block wall = new Block(0, false, null, position, velocity, new TVector2(25, 25), DestroyImage);
-                            this.addObject(wall);
-
-                            break;
+                        if (position.getX() > 0 && position.getX() < (this.getSize().getWidth() / 2)) {
+                            vLocation = windowLocation.WEST;
+                        } else if (position.getX() > (this.getSize().getWidth() / 2)) {
+                            vLocation = windowLocation.EAST;
+                        } else if (position.getX() > 0 && position.getY() < (this.getSize().getHeight() / 2)) {
+                            hLocation = windowLocation.NORTH;
+                        } else if (position.getY() > (this.getSize().getHeight() / 2)) {
+                            hLocation = windowLocation.SOUTH;
                         }
-                        // Create white space
-                        case "1": {
 
-                            break;
-                        }
-                        // Create block without powerup
-                        case "2": {
+                        //Check what type of block needs to be created from input
+                        switch (type) {
+                            // Create undestructable block
+                            case "0": {
 
-                            normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
-                            Block noPower = new Block(1, true, null, position, velocity, size, normalBlockImage);
-                            this.addObject(noPower);
-                            break;
-                        }
-                        // Create block with powerup
-                        case "3": {
-                            PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
-                            PowerUp power = new PowerUp(1, null);
-                            power.getRandomPowerUpType();
-                            Block withPower = new Block(10, true, power, position, velocity, size, PowerUpImage);
-                            this.addObject(withPower);
-                            break;
-                        }
-                        // Create horizontal paddle spawn
-                        case "4": {
-                            // Add human player
-                            if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
-                            {
+                                DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
+                                Block wall = new Block(0, false, null, position, velocity, new TVector2(25, 25), DestroyImage);
+                                this.addObject(wall);
 
-                                PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
-                                size = new TVector2(100f, 20f);
-                                User player = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, player, hLocation, PaddleImage);
-                                player.setPaddle(horizontalPaddle);
-                                this.addObject(horizontalPaddle);
-                                this.userList.add(player);
-                                this.paddleList.add(horizontalPaddle);
-                                playerAmount++;
-                                System.out.println(horizontalPaddle.getWindowLocation());
-                                break;
-                            } else // Add CPU player
-                            {
-
-                                PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
-                                size = new TVector2(100f, 20f);
-                                CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
-                                Paddle horizontalPaddle = new Paddle(0, position, velocity, size, cpubot, hLocation, PaddleImage);
-                                cpubot.setMyPaddle(horizontalPaddle);
-                                this.addObject(horizontalPaddle);
-                                this.paddleList.add(horizontalPaddle);
-                                this.botList.add(cpubot);
-                                playerAmount++;
-                                System.out.println(horizontalPaddle.getWindowLocation());
                                 break;
                             }
+                            // Create white space
+                            case "1": {
 
-                        }
-                        // Create vertical paddle spawn
-                        case "5": {
-                            if (vLocation == windowLocation.WEST) {
-                                PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
-                            } else if (vLocation == windowLocation.EAST) {
-                                PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle2.png"));
+                                break;
+                            }
+                            // Create block without powerup
+                            case "2": {
+
+                                normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
+                                Block noPower = new Block(1, true, null, position, velocity, size, normalBlockImage);
+                                this.addObject(noPower);
+                                break;
+                            }
+                            // Create block with powerup
+                            case "3": {
+                                PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
+                                PowerUp power = new PowerUp(1, null);
+                                power.getRandomPowerUpType();
+                                Block withPower = new Block(10, true, power, position, velocity, size, PowerUpImage);
+                                this.addObject(withPower);
+                                break;
+                            }
+                            // Create horizontal paddle spawn
+                            case "4": {
+                                // Add human player
+                                if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
+                                {
+
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
+                                    size = new TVector2(100f, 20f);                                    
+                                    if (player1 != null) {
+                                        P1Paddle = new Paddle(0,position,velocity,size,player1,vLocation,PaddleImage);
+                                        player1.setPaddle(P1Paddle);
+                                        this.addObject(P1Paddle);
+                                        this.userList.add(player1);
+                                        this.paddleList.add(P1Paddle);
+                                        playerAmount++;
+                                        System.out.println(P1Paddle.getWindowLocation());
+                                        break;
+                                    } else {
+                                        P1Paddle = new Paddle(0,position,velocity,size,cpu1,vLocation,PaddleImage);
+                                        cpu1.setMyPaddle(P1Paddle);
+                                        this.addObject(P1Paddle);
+                                        this.botList.add(cpu1);
+                                        this.paddleList.add(P1Paddle);
+                                        playerAmount++;
+                                        break;
+                                    }
+
+                                } else if (playerAmount == 3) {
+
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
+                                    size = new TVector2(100f, 20f);
+                                    if (player3 != null) {
+                                        P3Paddle = new Paddle(0,position,velocity,size,player3,vLocation,PaddleImage);
+                                        player3.setPaddle(P3Paddle);
+                                        this.addObject(P3Paddle);
+                                        this.paddleList.add(P3Paddle);
+                                        playerAmount++;
+                                        System.out.println(P3Paddle.getWindowLocation());
+                                        break;
+                                    } else {
+                                        P3Paddle = new Paddle(0,position,velocity,size,cpu3,vLocation,PaddleImage);
+                                        cpu3.setMyPaddle(P3Paddle);
+                                        this.addObject(P3Paddle);
+                                        this.botList.add(cpu3);
+                                        this.paddleList.add(P3Paddle);
+                                        playerAmount++;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            // Create vertical paddle spawn
+                            case "5": {
+                                SpawnNumber++;
+                                if (SpawnNumber == 1) {
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
+                                } else if (SpawnNumber == 2) {
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle2.png"));
+                                }
+                                if (playerAmount == 2) {
+                                    size = new TVector2(20f, 100f);
+                                    if (player3 != null) {
+                                        P2Paddle = new Paddle(0,position,velocity,size,player2,vLocation,PaddleImage);
+                                        player2.setPaddle(P2Paddle);
+                                        this.addObject(P2Paddle);
+                                        this.paddleList.add(P2Paddle);
+                                        playerAmount++;
+                                        System.out.println(P2Paddle.getWindowLocation());
+                                        System.out.println(PaddleImage);
+                                        break;
+                                    } else {
+                                        P2Paddle = new Paddle(0,position,velocity,size,cpu2,vLocation,PaddleImage);
+                                        cpu2.setMyPaddle(P2Paddle);
+                                        this.addObject(P2Paddle);
+                                        this.botList.add(cpu2);
+                                        this.paddleList.add(P2Paddle);
+                                        playerAmount++;
+                                        break;
+                                    }
+                                } else if (playerAmount == 4) {
+                                    size = new TVector2(20f, 100f);
+
+                                    if (player4 != null) {
+                                        P4Paddle = new Paddle(0,position,velocity,size,player4,vLocation,PaddleImage);
+                                        player4.setPaddle(P4Paddle);
+                                        this.addObject(P4Paddle);
+                                        this.paddleList.add(P4Paddle);
+                                        playerAmount++;
+                                        System.out.println(P4Paddle.getWindowLocation());
+                                        System.out.println(PaddleImage);
+                                        break;
+                                    } else {
+                                        P4Paddle = new Paddle(0,position,velocity,size,cpu4,vLocation,PaddleImage);
+                                        cpu4.setMyPaddle(P4Paddle);
+                                        this.addObject(P4Paddle);
+                                        this.botList.add(cpu4);
+                                        this.paddleList.add(P4Paddle);
+                                        playerAmount++;
+                                        break;
+                                    }
+                                }
                             }
 
-                            size = new TVector2(20f, 100f);
-                            CPU cpubot = new CPU("Computer" + playerAmount + "(easy)", Byte.MIN_VALUE, this);
-                            Paddle verticalPaddle = new Paddle(0, position, velocity, size, cpubot, vLocation, PaddleImage);
-                            this.addObject(verticalPaddle);
-                            this.paddleList.add(verticalPaddle);
-                            this.botList.add(cpubot);
-                            playerAmount++;
-                            cpubot.setMyPaddle(verticalPaddle);
-                            System.out.println(verticalPaddle.getWindowLocation());
-                            System.out.println(PaddleImage);
-                            break;
-                        }
-
-                        // Create a ball spawn
-                        case "6": {
-                            BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
-                            size = new TVector2(15f, 15f);
-                            velocity = generateRandomVelocity();
-                            Ball ball = new Ball(null, position, velocity, size, this, BallImage);
-                            this.addObject(ball);
-                            this.ballList.add(ball);
-                            break;
+                            // Create a ball spawn
+                            case "6": {
+                                BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
+                                size = new TVector2(15f, 15f);
+                                velocity = generateRandomVelocity();
+                                Ball ball = new Ball(null, position, velocity, size, this, BallImage);
+                                this.addObject(ball);
+                                this.ballList.add(ball);
+                                break;
+                            }
                         }
                     }
+                    rowcount++;
+                    y += 20;
                 }
-                rowcount++;
-                y += 20;
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+        } catch (RemoteException ex) {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -537,17 +639,19 @@ public class Game extends JPanel implements Runnable, KeyListener {
         //Multiple for loops, order of drawing is wery wery importanté
 
         // Draw whitespace
-        if(WhiteSpaceImage == null)
-        {
-        g.setColor(Color.white);
-        g.fillRect((int) whiteSpace.getPosition().getX(),
-                (int) whiteSpace.getPosition().getY(),
-                (int) whiteSpace.getSize().getX(), (int) whiteSpace.getSize().getY());
-        }
-        else
-        {
+//        if(WhiteSpaceImage == null)
+//        {
+//        g.setColor(Color.white);
+//        g.fillRect((int) whiteSpace.getPosition().getX(),
+//                (int) whiteSpace.getPosition().getY(),
+//                (int) whiteSpace.getSize().getX(), (int) whiteSpace.getSize().getY());
+//        }
+//        else
+//        {
+        if (whiteSpace != null) {
             g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
         }
+        //}
 
         for (int i = drawList.size() - 1; i >= 0; i--) {
             GameObject o = drawList.get(i);
@@ -565,9 +669,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                         } else {
                             g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
                         }
-                    }
-                    else
-                    {
+                    } else {
                         if (b.getImage() == null) {
                             g.setColor(b.getColor());
                             g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
@@ -616,14 +718,15 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     g.setColor(Color.white);
                     g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
                 } else {
-                    g.drawImage(PaddleImage, (int) p.getPosition().getX(), (int) p.getPosition().getY(), this);
+                    g.drawImage(p.getImage(), (int) p.getPosition().getX(), (int) p.getPosition().getY(), this);
                 }
             }
             String scoreText = "";
             int ypos = 25;
             Font scoreFont = new Font("arial", Font.BOLD, 16);
             Font paddleFont = new Font("arial", Font.BOLD, 12);
-            for (User u : this.userList) {
+            for (int uCounter = this.userList.size(); uCounter > 0; uCounter--) {
+                User u = userList.get(uCounter - 1);
                 g.setFont(scoreFont);
                 g.setColor(Color.WHITE);
                 scoreText = u.getUsername() + ": " + u.getPaddle().getScore();
@@ -636,7 +739,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 ypos += 25;
 
             }
-            for (CPU c : this.botList) {
+            for (int counter = this.botList.size(); counter > 0; counter--) {
+                CPU c = this.botList.get(counter - 1);
                 g.setFont(scoreFont);
                 g.setColor(Color.WHITE);
                 scoreText = c.getName() + ": " + c.getMyPaddle().getScore();
@@ -774,11 +878,14 @@ public class Game extends JPanel implements Runnable, KeyListener {
     }
 
     public void tick() {
-        ArrayList<GameObject> objectsToRemove = new ArrayList<GameObject>();
-        for (Ball b : ballList) {
+
+        ArrayList<GameObject> objectsToRemove = new ArrayList<>();
+        for (int bCounter = ballList.size(); bCounter > 0; bCounter--) {
+            Ball b = ballList.get(bCounter - 1);
             b.update();
             Rectangle r = new Rectangle((int) b.getMiddlePosition().getX(), (int) b.getMiddlePosition().getY(), 1, 1);
-            for (GameObject s : objectList) {
+            for (int oCounter = objectList.size(); oCounter > 0; oCounter--) {
+                GameObject s = objectList.get(oCounter - 1);
                 if (s instanceof Block) {
                     Block block = (Block) s;
                     if (block.isDestructable() == false) {
@@ -789,9 +896,41 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     }
                 }
             }
-            if (checkExitedBounds(b.getMiddlePosition())) {
+            if (checkExitedBounds(b.getMiddlePosition()) == 1) {
+
+                objectsToRemove.add(P1Paddle);
                 // SPELER IS AF
                 // GET CLOSEST PADDLE
+                if (numberOfPLayersLeft != 0) {
+                    numberOfPLayersLeft--;
+                }
+                System.out.println("Ball exited play.");
+                objectsToRemove.add(b);
+            } else if (checkExitedBounds(b.getMiddlePosition()) == 2) {
+                objectsToRemove.add(P2Paddle);
+                // SPELER IS AF
+                // GET CLOSEST PADDLE
+                if (numberOfPLayersLeft != 0) {
+                    numberOfPLayersLeft--;
+                }
+                System.out.println("Ball exited play.");
+                objectsToRemove.add(b);
+            } else if (checkExitedBounds(b.getMiddlePosition()) == 3) {
+                objectsToRemove.add(P3Paddle);
+                // SPELER IS AF
+                // GET CLOSEST PADDLE
+                if (numberOfPLayersLeft != 0) {
+                    numberOfPLayersLeft--;
+                }
+                System.out.println("Ball exited play.");
+                objectsToRemove.add(b);
+            } else if (checkExitedBounds(b.getMiddlePosition()) == 4) {
+                objectsToRemove.add(P4Paddle);
+                // SPELER IS AF
+                // GET CLOSEST PADDLE
+                if (numberOfPLayersLeft != 0) {
+                    numberOfPLayersLeft--;
+                }
                 System.out.println("Ball exited play.");
                 objectsToRemove.add(b);
             }
@@ -805,22 +944,31 @@ public class Game extends JPanel implements Runnable, KeyListener {
         for (GameObject o : objectsToRemove) {
             removeObject(o);
         }
+
+        if (numberOfPLayersLeft == 0) {
+            try {
+                Thread.sleep(100);
+                window.dispose();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
-    private boolean checkExitedBounds(TVector2 vector) {
-        if (vector.getX() < 0) {
-            return true;
+    private int checkExitedBounds(TVector2 vector) {
+        if (vector.getX() <= 0) {
+            return 2;
         }
-        if (vector.getY() < 0) {
-            return true;
+        if (vector.getY() <= 0) {
+            return 1;
         }
-        if (vector.getX() > window.getSize().width) {
-            return true;
+        if (vector.getX() >= window.getSize().width) {
+            return 4;
         }
-        if (vector.getY() > window.getSize().height) {
-            return true;
+        if (vector.getY() >= window.getSize().height) {
+            return 3;
         }
-        return false;
+        return 0;
     }
 
     @Override
