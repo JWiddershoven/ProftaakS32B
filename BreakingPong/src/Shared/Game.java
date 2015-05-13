@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -383,6 +384,11 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
                 return null;
             }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Selecteer een map!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return null;
         }
         return mapLayout;
     }
