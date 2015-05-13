@@ -5,20 +5,11 @@
  */
 package Interfaces;
 
-import fontys.observer.RemotePublisher;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-
 /**
  *
- * @author Mnesymne
+ * @author Jordi
  */
-<<<<<<< HEAD:BreakingPong/src/Server/IServer.java
-public interface IServer extends Remote, RemotePublisher
+public interface IMap
 {
-    public String[] getValues() throws RemoteException;
-=======
-public interface IMap {
     
->>>>>>> origin/master:BreakingPong/src/Interfaces/IMap.java
 }

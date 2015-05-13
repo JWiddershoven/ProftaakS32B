@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Interfaces.IServer;
 import fontys.observer.BasicPublisher;
 import fontys.observer.RemotePropertyListener;
 import java.rmi.RemoteException;

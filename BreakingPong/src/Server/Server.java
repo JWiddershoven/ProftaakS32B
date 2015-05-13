@@ -71,7 +71,6 @@ public class Server
     /**
      * Server interface for all server related services
      */
-    private IServer serviceService;
     
     public Server()
     {
