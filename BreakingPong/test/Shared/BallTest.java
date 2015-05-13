@@ -8,6 +8,7 @@ package Shared;
 import Server.CollisionChecker;
 import Server.Server;
 import java.awt.Color;
+import java.rmi.RemoteException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -30,7 +31,7 @@ public class BallTest
     private Server server;
 
     @Before
-    public void setUp()
+    public void setUp() throws RemoteException
     {
         testGame = new Game(1, 180, false);
         server = new Server();
@@ -39,7 +40,7 @@ public class BallTest
         position = new TVector2(50, 30);
         velocity = new TVector2(15, 40);
         size = new TVector2(5, 5);
-        p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH, Color.BLACK);
+        p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH, null);
     }
 
     @Test
@@ -50,7 +51,7 @@ public class BallTest
          */
         try
         {
-            b = new Ball(p, position, velocity, size, testGame, Color.RED);
+            b = new Ball(p, position, velocity, size, testGame, null);
             assertEquals(p, b.getLastPaddleTouched());
             assertEquals(position, b.getPosition());
             assertEquals(velocity, b.getVelocity());
@@ -64,7 +65,7 @@ public class BallTest
         // @param position The position of a GameObject.
         try
         {
-            b = new Ball(p, null, velocity, size, testGame, Color.RED);
+            b = new Ball(p, null, velocity, size, testGame, null);
             fail("Position of a GameObject cannot be null.");
         }
         catch (IllegalArgumentException exc)
@@ -75,7 +76,7 @@ public class BallTest
         // @param velocity The velocity of a GameObject.
         try
         {
-            b = new Ball(p, position, null, size, testGame, Color.RED);
+            b = new Ball(p, position, null, size, testGame, null);
             fail("Velocity of a GameObject cannot be null.");
         }
         catch (IllegalArgumentException exc)
@@ -86,7 +87,7 @@ public class BallTest
         // @param size The size of a GameObject.
         try
         {
-            b = new Ball(p, position, velocity, null, testGame, Color.RED);
+            b = new Ball(p, position, velocity, null, testGame, null);
             fail("Size of a GameObject cannot be null.");
         }
         catch (IllegalArgumentException exc)
@@ -98,8 +99,8 @@ public class BallTest
     @Test
     public void testSetLastPaddleTouched()
     {
-        b = new Ball(p, position, velocity, size, testGame, Color.RED);
-        Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, Color.BLACK);
+        b = new Ball(p, position, velocity, size, testGame, null);
+        Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, null);
         try
         {
             b.setLastPaddleTouched(p2);
@@ -127,8 +128,8 @@ public class BallTest
         velocity = new TVector2(1, 1);
         size = new TVector2(10, 10);
         position = new TVector2(10, 10);
-        b = new Ball(p, position, velocity, size, testGame, Color.RED);
-        Block block = new Block(0, false, null, new TVector2(21, 11), TVector2.zero, new TVector2(300, 300), Color.YELLOW);
+        b = new Ball(p, position, velocity, size, testGame, null);
+        Block block = new Block(0, false, null, new TVector2(21, 11), TVector2.zero, new TVector2(300, 300), null);
         CollisionChecker.gameObjectsList.add(b);
         CollisionChecker.gameObjectsList.add(block);
         b.update();

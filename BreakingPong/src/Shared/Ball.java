@@ -8,9 +8,12 @@ package Shared;
 import Server.CollisionChecker;
 import Shared.Paddle.windowLocation;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.FileInputStream;
 import java.util.Date;
 import java.util.ArrayList;
 import javafx.application.Platform;
+import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 /**
@@ -24,6 +27,7 @@ public class Ball extends GameObject {
     Timer timer;
     public static final float maxSpeed = 1.5f;
     private long lastTimePaddleTouched;
+    
 
     /**
      * Creates a new ball object with a TVector2 and lastPaddleTouched.
@@ -35,8 +39,8 @@ public class Ball extends GameObject {
      * @param game The game of where this ball is in.
      * @param color JAVA AWT
      */
-    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color) {
-        super(position, velocity, size, color);
+    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game,Image image) {
+        super(position, velocity, size,image);
         this.game = game;
         this.spawnPos = position;
         if (position != null && velocity != null && size != null) {

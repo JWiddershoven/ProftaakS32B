@@ -6,6 +6,7 @@
 package Shared;
 
 import java.awt.Color;
+import java.awt.Image;
 
 /**
  *
@@ -13,8 +14,9 @@ import java.awt.Color;
  */
 public class WhiteSpace extends GameObject
 {
-    public WhiteSpace(TVector2 position, TVector2 velocity, TVector2 size, Color color)
+    
+    public WhiteSpace(TVector2 position, TVector2 velocity, TVector2 size, Image image)
     {
-        super(position, velocity, size, color);
+        super(position, velocity, size,image);
     }
 }

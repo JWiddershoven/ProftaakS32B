@@ -6,7 +6,7 @@
 package Shared;
 
 import Server.CollisionChecker;
-import java.awt.Color;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -84,9 +84,9 @@ public class Paddle extends GameObject
      * @param selectedLocation value of selectedPosition as windowLocation
      * @param color JAVA AWT
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation, Color color)
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation,Image image)
     {
-        super(position, velocity, size, color);
+        super(position, velocity, size,image);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.cpuPlayer = cpu;
@@ -103,9 +103,9 @@ public class Paddle extends GameObject
      * @param selectedLocation value of selectedposition as windowLocation
      * @param color
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation, Color color)
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation,Image image)
     {
-        super(position, velocity, size, color);
+        super(position, velocity, size,image);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.humanPlayer = user;

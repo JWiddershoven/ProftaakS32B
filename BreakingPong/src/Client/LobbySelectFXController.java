@@ -11,7 +11,10 @@ import Server.Lobby;
 import Shared.User;
 import java.awt.TrayIcon;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -76,7 +79,11 @@ public class LobbySelectFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        administration = Administration.getInstance();
+        try {
+            administration = Administration.getInstance();
+        } catch (RemoteException ex) {
+            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         fillListViews();
     }

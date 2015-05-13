@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Client;
+package Interfaces;
+
+import java.rmi.Remote;
 
 /**
  *
- * @author Lorenzo
+ * @author Jordi
  */
-public interface IClient
+public interface IServer extends Remote
 {
     
 }

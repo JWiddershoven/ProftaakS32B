@@ -20,7 +20,7 @@ public class BlockTest {
 
     @Test
     public void testBlock() {
-        Block b = new Block(25, false, null, new TVector2(25.0f, 25.0f), new TVector2(0.0f, 0.0f), new TVector2(10.0f, 10.0f),Color.WHITE);
+        Block b = new Block(25, false, null, new TVector2(25.0f, 25.0f), new TVector2(0.0f, 0.0f), new TVector2(10.0f, 10.0f),null);
         
    }
 }
