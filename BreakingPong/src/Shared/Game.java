@@ -345,11 +345,15 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 //Remove whitespaces
                 text = new String(buffer, 0, n).replaceAll("\\s+", "");
                 in.close();
+                if(text.length() > 1600)
+                {
+                    throw new IOException();
+                }
             } catch (FileNotFoundException ex) {
                 System.out.println("File could not be found");
                 return null;
             } catch (IOException IOex) {
-                System.out.println("File is incorrect");
+                System.out.println("Filesize is incorrect, use 40 rows with 40 characters");
                 return null;
             }
 
