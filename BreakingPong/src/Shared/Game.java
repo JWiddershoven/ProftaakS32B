@@ -33,6 +33,7 @@ import javafx.scene.Scene;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -387,11 +388,15 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 //Remove whitespaces
                 text = new String(buffer, 0, n).replaceAll("\\s+", "");
                 in.close();
+                if(text.length() > 1600)
+                {
+                    throw new IOException();
+                }
             } catch (FileNotFoundException ex) {
                 System.out.println("File could not be found");
                 return null;
             } catch (IOException IOex) {
-                System.out.println("File is incorrect");
+                System.out.println("Filesize is incorrect, use 40 rows with 40 characters");
                 return null;
             }
 
@@ -422,6 +427,11 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 return null;
             }
         }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Selecteer een map!", "Error", JOptionPane.INFORMATION_MESSAGE);
+            return null;
+        }
         return mapLayout;
     }
 
@@ -433,203 +443,204 @@ public class Game extends JPanel implements Runnable, KeyListener {
      */
     public void drawMap(ArrayList<String> mapLayout) {
 
-        try {
-
-            int SpawnNumber = 0;
-            Server server = new Server();
-            player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-            player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-            player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-            player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
             try {
-                // X & Y Positions for the blocks
-                int y = 0;
-                int x = 0;
-                int playerAmount = 1;
-                PaddleImage = null;
-                // Rowcounter for reading the mapLayout
-                int rowcount = 1;
-                TVector2 size;
-                // Velocity 0 since blocks don't move
-                TVector2 velocity = new TVector2(0.0f, 0.0f);
-                windowLocation hLocation = null;
-                windowLocation vLocation = null;
-                // Read all rows of the maplayout
-                for (String row : mapLayout) {
-                    // Read every number on a row of the maplayout
-                    for (int c = 0; c <= row.length() - 1; c++) {
-                        size = new TVector2(20f, 20f);
-                        x = c * 20;
-                        String type = row.substring(c, c + 1);
-                        TVector2 position = new TVector2(x, y);
-
-                        if (position.getX() > 0 && position.getX() < (this.getSize().getWidth() / 2)) {
-                            vLocation = windowLocation.WEST;
-                        } else if (position.getX() > (this.getSize().getWidth() / 2)) {
-                            vLocation = windowLocation.EAST;
-                        } else if (position.getX() > 0 && position.getY() < (this.getSize().getHeight() / 2)) {
-                            hLocation = windowLocation.NORTH;
-                        } else if (position.getY() > (this.getSize().getHeight() / 2)) {
-                            hLocation = windowLocation.SOUTH;
+                
+                int SpawnNumber = 0;
+                Server server = new Server();
+                player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+                player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+                player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+                player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+                try {
+                    // X & Y Positions for the blocks
+                    int y = 0;
+                    int x = 0;
+                    int playerAmount = 1;
+                    PaddleImage = null;
+                    // Rowcounter for reading the mapLayout
+                    int rowcount = 1;
+                    TVector2 size;
+                    // Velocity 0 since blocks don't move
+                    TVector2 velocity = new TVector2(0.0f, 0.0f);
+                    windowLocation hLocation = null;
+                    windowLocation vLocation = null;
+                    // Read all rows of the maplayout
+                    for (String row : mapLayout) {
+                        // Read every number on a row of the maplayout
+                        for (int c = 0; c <= row.length() - 1; c++) {
+                            Thread.sleep(1);
+                            size = new TVector2(20f, 20f);
+                            x = c * 20;
+                            String type = row.substring(c, c + 1);
+                            TVector2 position = new TVector2(x, y);
+                            
+                            if (position.getX() > 0 && position.getX() < (this.getSize().getWidth() / 2)) {
+                                vLocation = windowLocation.WEST;
+                            } else if (position.getX() > (this.getSize().getWidth() / 2)) {
+                                vLocation = windowLocation.EAST;
+                            } else if (position.getX() > 0 && position.getY() < (this.getSize().getHeight() / 2)) {
+                                hLocation = windowLocation.NORTH;
+                            } else if (position.getY() > (this.getSize().getHeight() / 2)) {
+                                hLocation = windowLocation.SOUTH;
+                            }
+                            
+                            //Check what type of block needs to be created from input
+                            switch (type) {
+                                // Create undestructable block
+                                case "0": {
+                                    
+                                    DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
+                                    Block wall = new Block(0, false, null, position, velocity, new TVector2(25, 25), DestroyImage);
+                                    this.addObject(wall);
+                                    
+                                    break;
+                                }
+                                // Create white space
+                                case "1": {
+                                    
+                                    break;
+                                }
+                                // Create block without powerup
+                                case "2": {
+                                    
+                                    normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
+                                    Block noPower = new Block(1, true, null, position, velocity, size, normalBlockImage);
+                                    this.addObject(noPower);
+                                    break;
+                                }
+                                // Create block with powerup
+                                case "3": {
+                                    PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
+                                    PowerUp power = new PowerUp(1, null);
+                                    power.getRandomPowerUpType();
+                                    Block withPower = new Block(10, true, power, position, velocity, size, PowerUpImage);
+                                    this.addObject(withPower);
+                                    break;
+                                }
+                                // Create horizontal paddle spawn
+                                case "4": {
+                                    // Add human player
+                                    if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
+                                    {
+                                        
+                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
+                                        size = new TVector2(100f, 20f);
+                                        if (player1 != null) {
+                                            P1Paddle = new Paddle(0,position,velocity,size,player1,vLocation,PaddleImage);
+                                            player1.setPaddle(P1Paddle);
+                                            this.addObject(P1Paddle);
+                                            this.userList.add(player1);
+                                            this.paddleList.add(P1Paddle);
+                                            playerAmount++;
+                                            System.out.println(P1Paddle.getWindowLocation());
+                                            break;
+                                        } else {
+                                            P1Paddle = new Paddle(0,position,velocity,size,cpu1,vLocation,PaddleImage);
+                                            cpu1.setMyPaddle(P1Paddle);
+                                            this.addObject(P1Paddle);
+                                            this.botList.add(cpu1);
+                                            this.paddleList.add(P1Paddle);
+                                            playerAmount++;
+                                            break;
+                                        }
+                                        
+                                    } else if (playerAmount == 3) {
+                                        
+                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
+                                        size = new TVector2(100f, 20f);
+                                        if (player3 != null) {
+                                            P3Paddle = new Paddle(0,position,velocity,size,player3,vLocation,PaddleImage);
+                                            player3.setPaddle(P3Paddle);
+                                            this.addObject(P3Paddle);
+                                            this.paddleList.add(P3Paddle);
+                                            playerAmount++;
+                                            System.out.println(P3Paddle.getWindowLocation());
+                                            break;
+                                        } else {
+                                            P3Paddle = new Paddle(0,position,velocity,size,cpu3,vLocation,PaddleImage);
+                                            cpu3.setMyPaddle(P3Paddle);
+                                            this.addObject(P3Paddle);
+                                            this.botList.add(cpu3);
+                                            this.paddleList.add(P3Paddle);
+                                            playerAmount++;
+                                            break;
+                                        }
+                                    }
+                                    
+                                }
+                                // Create vertical paddle spawn
+                                case "5": {
+                                    SpawnNumber++;
+                                    if (SpawnNumber == 1) {
+                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
+                                    } else if (SpawnNumber == 2) {
+                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle2.png"));
+                                    }
+                                    if (playerAmount == 2) {
+                                        size = new TVector2(20f, 100f);
+                                        if (player3 != null) {
+                                            P2Paddle = new Paddle(0,position,velocity,size,player2,vLocation,PaddleImage);
+                                            player2.setPaddle(P2Paddle);
+                                            this.addObject(P2Paddle);
+                                            this.paddleList.add(P2Paddle);
+                                            playerAmount++;
+                                            System.out.println(P2Paddle.getWindowLocation());
+                                            System.out.println(PaddleImage);
+                                            break;
+                                        } else {
+                                            P2Paddle = new Paddle(0,position,velocity,size,cpu2,vLocation,PaddleImage);
+                                            cpu2.setMyPaddle(P2Paddle);
+                                            this.addObject(P2Paddle);
+                                            this.botList.add(cpu2);
+                                            this.paddleList.add(P2Paddle);
+                                            playerAmount++;
+                                            break;
+                                        }
+                                    } else if (playerAmount == 4) {
+                                        size = new TVector2(20f, 100f);
+                                        
+                                        if (player4 != null) {
+                                            P4Paddle = new Paddle(0,position,velocity,size,player4,vLocation,PaddleImage);
+                                            player4.setPaddle(P4Paddle);
+                                            this.addObject(P4Paddle);
+                                            this.paddleList.add(P4Paddle);
+                                            playerAmount++;
+                                            System.out.println(P4Paddle.getWindowLocation());
+                                            System.out.println(PaddleImage);
+                                            break;
+                                        } else {
+                                            P4Paddle = new Paddle(0,position,velocity,size,cpu4,vLocation,PaddleImage);
+                                            cpu4.setMyPaddle(P4Paddle);
+                                            this.addObject(P4Paddle);
+                                            this.botList.add(cpu4);
+                                            this.paddleList.add(P4Paddle);
+                                            playerAmount++;
+                                            break;
+                                        }
+                                    }
+                                }
+                                
+                                // Create a ball spawn
+                                case "6": {
+                                    BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
+                                    size = new TVector2(15f, 15f);
+                                    velocity = generateRandomVelocity();
+                                    Ball ball = new Ball(null, position, velocity, size, this, BallImage);
+                                    this.addObject(ball);
+                                    this.ballList.add(ball);
+                                    break;
+                                }
+                            }
                         }
-
-                        //Check what type of block needs to be created from input
-                        switch (type) {
-                            // Create undestructable block
-                            case "0": {
-
-                                DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
-                                Block wall = new Block(0, false, null, position, velocity, new TVector2(25, 25), DestroyImage);
-                                this.addObject(wall);
-
-                                break;
-                            }
-                            // Create white space
-                            case "1": {
-
-                                break;
-                            }
-                            // Create block without powerup
-                            case "2": {
-
-                                normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
-                                Block noPower = new Block(1, true, null, position, velocity, size, normalBlockImage);
-                                this.addObject(noPower);
-                                break;
-                            }
-                            // Create block with powerup
-                            case "3": {
-                                PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
-                                PowerUp power = new PowerUp(1, null);
-                                power.getRandomPowerUpType();
-                                Block withPower = new Block(10, true, power, position, velocity, size, PowerUpImage);
-                                this.addObject(withPower);
-                                break;
-                            }
-                            // Create horizontal paddle spawn
-                            case "4": {
-                                // Add human player
-                                if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
-                                {
-
-                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
-                                    size = new TVector2(100f, 20f);                                    
-                                    if (player1 != null) {
-                                        P1Paddle = new Paddle(0,position,velocity,size,player1,vLocation,PaddleImage);
-                                        player1.setPaddle(P1Paddle);
-                                        this.addObject(P1Paddle);
-                                        this.userList.add(player1);
-                                        this.paddleList.add(P1Paddle);
-                                        playerAmount++;
-                                        System.out.println(P1Paddle.getWindowLocation());
-                                        break;
-                                    } else {
-                                        P1Paddle = new Paddle(0,position,velocity,size,cpu1,vLocation,PaddleImage);
-                                        cpu1.setMyPaddle(P1Paddle);
-                                        this.addObject(P1Paddle);
-                                        this.botList.add(cpu1);
-                                        this.paddleList.add(P1Paddle);
-                                        playerAmount++;
-                                        break;
-                                    }
-
-                                } else if (playerAmount == 3) {
-
-                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
-                                    size = new TVector2(100f, 20f);
-                                    if (player3 != null) {
-                                        P3Paddle = new Paddle(0,position,velocity,size,player3,vLocation,PaddleImage);
-                                        player3.setPaddle(P3Paddle);
-                                        this.addObject(P3Paddle);
-                                        this.paddleList.add(P3Paddle);
-                                        playerAmount++;
-                                        System.out.println(P3Paddle.getWindowLocation());
-                                        break;
-                                    } else {
-                                        P3Paddle = new Paddle(0,position,velocity,size,cpu3,vLocation,PaddleImage);
-                                        cpu3.setMyPaddle(P3Paddle);
-                                        this.addObject(P3Paddle);
-                                        this.botList.add(cpu3);
-                                        this.paddleList.add(P3Paddle);
-                                        playerAmount++;
-                                        break;
-                                    }
-                                }
-
-                            }
-                            // Create vertical paddle spawn
-                            case "5": {
-                                SpawnNumber++;
-                                if (SpawnNumber == 1) {
-                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
-                                } else if (SpawnNumber == 2) {
-                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle2.png"));
-                                }
-                                if (playerAmount == 2) {
-                                    size = new TVector2(20f, 100f);
-                                    if (player3 != null) {
-                                        P2Paddle = new Paddle(0,position,velocity,size,player2,vLocation,PaddleImage);
-                                        player2.setPaddle(P2Paddle);
-                                        this.addObject(P2Paddle);
-                                        this.paddleList.add(P2Paddle);
-                                        playerAmount++;
-                                        System.out.println(P2Paddle.getWindowLocation());
-                                        System.out.println(PaddleImage);
-                                        break;
-                                    } else {
-                                        P2Paddle = new Paddle(0,position,velocity,size,cpu2,vLocation,PaddleImage);
-                                        cpu2.setMyPaddle(P2Paddle);
-                                        this.addObject(P2Paddle);
-                                        this.botList.add(cpu2);
-                                        this.paddleList.add(P2Paddle);
-                                        playerAmount++;
-                                        break;
-                                    }
-                                } else if (playerAmount == 4) {
-                                    size = new TVector2(20f, 100f);
-
-                                    if (player4 != null) {
-                                        P4Paddle = new Paddle(0,position,velocity,size,player4,vLocation,PaddleImage);
-                                        player4.setPaddle(P4Paddle);
-                                        this.addObject(P4Paddle);
-                                        this.paddleList.add(P4Paddle);
-                                        playerAmount++;
-                                        System.out.println(P4Paddle.getWindowLocation());
-                                        System.out.println(PaddleImage);
-                                        break;
-                                    } else {
-                                        P4Paddle = new Paddle(0,position,velocity,size,cpu4,vLocation,PaddleImage);
-                                        cpu4.setMyPaddle(P4Paddle);
-                                        this.addObject(P4Paddle);
-                                        this.botList.add(cpu4);
-                                        this.paddleList.add(P4Paddle);
-                                        playerAmount++;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            // Create a ball spawn
-                            case "6": {
-                                BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
-                                size = new TVector2(15f, 15f);
-                                velocity = generateRandomVelocity();
-                                Ball ball = new Ball(null, position, velocity, size, this, BallImage);
-                                this.addObject(ball);
-                                this.ballList.add(ball);
-                                break;
-                            }
-                        }
+                        rowcount++;
+                        y += 20;
                     }
-                    rowcount++;
-                    y += 20;
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
                 }
-            } catch (Exception ex) {
-                System.out.println(ex.getMessage());
+            } catch (RemoteException ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (RemoteException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
