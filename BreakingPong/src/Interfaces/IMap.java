@@ -11,4 +11,8 @@ package Interfaces;
  */
 public interface IMap {
     
+    /*
+    Pre-condition: Name must be unique and the owner does not own a lobby yet.
+     * Description:
+    */
 }

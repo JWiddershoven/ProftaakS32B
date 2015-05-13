@@ -39,7 +39,7 @@ public class Security extends UnicastRemoteObject implements IClientSecurity, IS
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     @Override
-    public void returnToLobby(ILobby lobby) throws RemoteException
+    public void returnToLobbySelect() throws RemoteException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

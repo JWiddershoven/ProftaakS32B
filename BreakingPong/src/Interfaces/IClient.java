@@ -14,6 +14,10 @@ import java.rmi.RemoteException;
  */
 public interface IClient extends Remote{
     
-    // Returns the User to the lobby if this user currently isn't in it.
+    /**
+     * Pre-condition: User must be logged in.
+     * Description: Returns user from the lobby to the Lobby Select screen.
+     * @throws RemoteException 
+     */
     public void returnToLobby() throws RemoteException;
 }

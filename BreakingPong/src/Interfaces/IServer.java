@@ -14,4 +14,8 @@ import java.rmi.Remote;
 public interface IServer extends Remote
 {
     
+      /*
+    Pre-condition: Name must be unique and the owner does not own a lobby yet.
+     * Description:
+    */
 }

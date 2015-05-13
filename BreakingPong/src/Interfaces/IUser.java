@@ -13,6 +13,10 @@ import java.rmi.RemoteException;
  */
 public interface IUser{
     
-    // Returns a string with Username,Ranking
+    /**
+     * Description: Returns a string with Username and Ranking
+     * @return String with Username and Ranking
+     * @throws RemoteException 
+     */
     public String getPlayerInformation()throws RemoteException;
 }

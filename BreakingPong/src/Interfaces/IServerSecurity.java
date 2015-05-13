@@ -14,6 +14,10 @@ import java.rmi.RemoteException;
  */
 public interface IServerSecurity extends Remote {
     
-    //Returns the User if user has been AFK for to long.
-    public void returnToLobby(ILobby lobby)throws RemoteException;
+    /**
+     * Pre-condition: User must be in a lobby.
+     * Description: Returns user from the lobby to the Lobby Select screen if the user has been AFK for too long.
+     * @throws RemoteException 
+     */
+    public void returnToLobbySelect()throws RemoteException;
 }

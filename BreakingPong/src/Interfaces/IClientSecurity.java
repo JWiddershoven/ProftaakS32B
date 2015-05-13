@@ -16,15 +16,33 @@ import java.rmi.RemoteException;
 public interface IClientSecurity extends Remote{
     
     
-    // Gives the Username and Password to the Login method of IJoin, Returns a Session if IJoin returns true
+    /**
+     * Pre-condition: User must be in login screen.
+     * Description: Gives the Username and Password to the Login method of IJoin and returns a Session if IJoin returns true.
+     * @param UserName
+     * @param Password
+     * @return Session if IJoin returns true.
+     * @throws RemoteException 
+     */
     public Session login(String UserName,String Password) throws RemoteException;
     
-    // Logs the player out and exits the game,sets Session to Null
+    // 
+    /**
+     * Pre-condition: User must be logged in.
+     * Description: Logs the player out, exits the game and sets Session to Null.
+     * @return TRUE if succeeded - FALSE if failed.
+     * @throws RemoteException 
+     */
     public Session logout()throws RemoteException;
     
     // Gives the Information to the createUser method of IJoin, Returns boolean value of IJoin
-    // * @param username as String minimal of 6 letters
-    // * @param password as String minimal of 6 symbols
-    // * @param email as String , must be a valid email meaning it contains a @
+    /**
+     * Pre-condition: User must in CreateUser screen.
+     * Description: Gives the information to the createUser method of IJoin and returns a boolean value of IJoin.createUser
+     * @param Password minimal of 6 symbols
+     * @param email must be a valid email meaning it contains a "@" and a "."
+     * @return boolean value of IJoin.createUser
+     * @throws RemoteException 
+     */
     public boolean createUser(String username,String Password,String email)throws RemoteException;
 }

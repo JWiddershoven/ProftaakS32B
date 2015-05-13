@@ -13,12 +13,30 @@ import java.rmi.RemoteException;
  */
 public interface IJoin{
     
-    //Checks login credentials to Database, returns true if User/password combination can be found in database
-    public boolean login(String Username,String Password)throws RemoteException;
+    /**
+     * Description: Checks login credentials to Database, returns true if User/password combination can be found in database
+     * @param username
+     * @param password
+     * @return TRUE if login succeeded - FALSE if login failed.
+     * @throws RemoteException 
+     */
+    public boolean login(String username,String password)throws RemoteException;
     
-    //Returns true if player is logged in
+    /**
+     * Pre-condition: User must be logged in.
+     * Description: Returns true if user is logged in
+     * @return true if user is logged in
+     * @throws RemoteException 
+     */
     public boolean logout()throws RemoteException;
     
-    //Creates a user with given credentials. Credentials are already checked so shouldn't be needed to check again.
-    public boolean createUser(String Username,String Password,String Email)throws RemoteException;
+    /**
+     * Description: Creates a user with given credentials. Credentials are already checked so shouldn't be needed to check again.
+     * @param username
+     * @param password
+     * @param email
+     * @return TRUE if succeeded - FALSE if failed.
+     * @throws RemoteException 
+     */
+    public boolean createUser(String username,String password,String email)throws RemoteException;
 }
