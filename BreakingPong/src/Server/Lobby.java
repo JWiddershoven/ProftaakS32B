@@ -99,6 +99,12 @@ public class Lobby
         return users;
     }
 
+    
+    
+    public ArrayList<User> getPlayerList()
+    {
+        return this.joinedPlayers;
+    }
     /**
      * The player cannot be empty or null The player leaves the lobby and will
      * be removed from joinedPlayers

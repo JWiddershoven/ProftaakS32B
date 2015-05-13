@@ -229,7 +229,7 @@ public class Ball extends GameObject {
         {
             for(int i = game.getPaddles().size() -1; i > 0; i--)
             {
-                Paddle p = game.getPaddles().get(i);
+                Paddle p = game.getPaddles().get(i-1);
                 if(p.getWindowLocation() == windowLocation.SOUTH)
                 {
                     if(p.getCPU() != null)

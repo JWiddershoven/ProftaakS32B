@@ -93,7 +93,7 @@ public class GameLobbyFXController implements Initializable
     private void onStartGameClick()
     {
 
-        Game game = new Game(1, 300, true);
+        Game game = new Game(1, 300, true,ClientGUI.joinedLobby.getPlayerList());
         try
         {
             Thread gameLoopThread = game.setupGame();
