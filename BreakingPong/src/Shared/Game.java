@@ -407,6 +407,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
             for (String row : mapLayout) {
                 // Read every number on a row of the maplayout
                 for (int c = 0; c <= row.length() - 1; c++) {
+                    Thread.sleep(1);
                     size = new TVector2(20f, 20f);
                     x = c * 20;
                     String type = row.substring(c, c + 1);
