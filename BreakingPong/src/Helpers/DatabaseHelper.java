@@ -19,9 +19,9 @@ public final class DatabaseHelper {
     private static Connection connection;
     private final static String username = "root";
     private final static String password = "";
-    private final static String url = "jdbc:mysql://127.0.0.1:3306/";
+    private final static String url = "jdbc:mysql://localhost:3306/BreakingBusiness";
 
-    public static boolean registerUser(String username, String password, String email) {
+    public static boolean registerUser(String username, String password, String email) throws SQLException {
 
         if (username == null || password == null || email == null || username.isEmpty() || password.isEmpty() || email.isEmpty()) {
             throw new IllegalArgumentException("Parameters niet correct ingevuld!");
@@ -46,12 +46,16 @@ public final class DatabaseHelper {
 
             prepStatement.execute();
 
-            closeConnection();
+            
             result = true;
-        } catch (Exception ex) {
+        } catch (SQLException ex){            
             System.out.println(ex.getMessage());
             result = false;
+            throw ex;
+        } finally{
+            closeConnection();
         }
+        
         return result;
     }
 

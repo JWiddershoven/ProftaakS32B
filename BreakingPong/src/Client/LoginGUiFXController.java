@@ -6,11 +6,14 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Helpers.DatabaseHelper;
 import Server.Administration;
+import java.awt.EventQueue;
 import java.awt.TrayIcon;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -121,6 +124,8 @@ public class LoginGUiFXController implements Initializable
         {
             try
             {
+                
+                
                 ClientGUI.loggedinUser = administration.login(username, password);
 
                 System.out.println("succesfully logged in.");
@@ -165,16 +170,29 @@ public class LoginGUiFXController implements Initializable
     @FXML
     private void onCreateUserCreate(ActionEvent evt)
     {
-        String message = createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfLoginPassword.getText(),
-                tfCreateUserReEnterPassword.getText());
-        if (!message.isEmpty())
+        String message = null;
+        try {
+            message = createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfCreateUserPassword.getText(),
+                    tfCreateUserReEnterPassword.getText());
+        } catch (RemoteException ex) {
+            Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        final String messageForDialog = message;
+        
+        if (!messageForDialog.isEmpty())
         {
-            JOptionPane.showMessageDialog(null, message,
-                    "Create user failed", TrayIcon.MessageType.WARNING.ordinal());
+            EventQueue.invokeLater(() -> {               
+                JOptionPane.showMessageDialog(null, messageForDialog);
+            });
+            
         } else
         {
-            JOptionPane.showMessageDialog(null, "Account created!",
-                    "Account created!", TrayIcon.MessageType.WARNING.ordinal());
+            clearCreateUser();
+            EventQueue.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null, "Gebruiker toegevoegd!");
+                
+            });
         }
     }
 
@@ -186,7 +204,7 @@ public class LoginGUiFXController implements Initializable
      * @param repassword
      * @return Error message or empty string if account is created.
      */
-    private String createUser(String username, String email, String password, String repassword)
+    private String createUser(String username, String email, String password, String repassword) throws RemoteException
     {
         if (username == null || username.trim().isEmpty())
         {
@@ -212,13 +230,23 @@ public class LoginGUiFXController implements Initializable
         {
             return "Password must be at least 6 characters";
         }
+        if(repassword == null || repassword.isEmpty()){
+            return "Re-password cannot be empty";
+        }
+        if(!password.equals(repassword)){
+            return "Passwords must match";
+        }
+        
         try
         {
+            boolean dbActionWorked = DatabaseHelper.registerUser(username, password, email);
+            System.out.println("DBworked = " + dbActionWorked);
+            
             Shared.User newUser = new Shared.User(username, password, email, Administration.getInstance().getServer());
             Administration.getInstance().getServer().addUser(newUser);
-        } catch (Exception ex)
+        } catch (SQLException ex)
         {
-            return ex.getMessage();
+            return "Username is already taken";
         }
         return "";
     }
@@ -230,6 +258,10 @@ public class LoginGUiFXController implements Initializable
     @FXML
     private void onCreateUserClear(ActionEvent evt)
     {
+        clearCreateUser();
+    }
+    
+    private void clearCreateUser(){
         tfCreateUserEmail.clear();
         tfCreateUserPassword.clear();
         tfCreateUserReEnterPassword.clear();
