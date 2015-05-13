@@ -5,11 +5,15 @@
  */
 package Server;
 
+import fontys.observer.RemotePublisher;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+
 /**
  *
  * @author Lorenzo
  */
-public interface IServer
+public interface IServer extends Remote, RemotePublisher
 {
-    
+    public String[] getValues() throws RemoteException;
 }

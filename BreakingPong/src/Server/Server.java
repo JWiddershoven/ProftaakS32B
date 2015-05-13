@@ -19,9 +19,8 @@ import javafx.collections.ObservableList;
  *
  * @author Mnesymne
  */
-public class Server extends UnicastRemoteObject implements IServer
+public class Server
 {
-
     /*
      List with all the current onlineUsers
      */
@@ -68,12 +67,18 @@ public class Server extends UnicastRemoteObject implements IServer
      *
      * @throws java.rmi.RemoteException
      */
-    public Server() throws RemoteException
+    
+    /**
+     * Server interface for all server related services
+     */
+    private IServer serviceService;
+    
+    public Server()
     {
         onlineUsers = new ArrayList<>();
         lobbys = new ArrayList<>();
-
-//TODO: hieronder verwijderen als mappen inlezen werkt.
+        
+        //TODO: hieronder verwijderen als mappen inlezen werkt.
         mappenObserableList.add(new Map("testmap", 4, new int[10][10]));
     }
 
