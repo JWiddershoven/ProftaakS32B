@@ -125,6 +125,7 @@ public class LoginGUiFXController implements Initializable
             try
             {
                 
+                //LoggedinUser ingelogd = DatabaseHelper.loginUser(username, password);
                 
                 ClientGUI.loggedinUser = administration.login(username, password);
 
