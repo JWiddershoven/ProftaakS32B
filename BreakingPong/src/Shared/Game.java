@@ -527,10 +527,6 @@ public class Game extends JPanel implements Runnable, KeyListener
 
             int SpawnNumber = 0;
             Server server = new Server();
-            player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-            player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-            player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-            player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
             try
             {
                 // X & Y Positions for the blocks
@@ -559,12 +555,12 @@ public class Game extends JPanel implements Runnable, KeyListener
                         TVector2 middleOfScreen = new TVector2((float) window.getWidth() / 2, (float) window.getHeight() / 2);
                         float diffX = middleOfScreen.getX() - newObjectPosition.getX();
                         float diffY = middleOfScreen.getY() - newObjectPosition.getY();
-                        
-                        if (type.equals("4" ) || type.equals("5"))
+
+                        if (type.equals("4") || type.equals("5"))
                         {
                             diffX = diffX;
                         }
-                        
+
                         if (Math.abs(diffX) > Math.abs(diffY))
                         {
                             // East of West
@@ -635,7 +631,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.userList.add(player1);
                                         this.paddleList.add(P1Paddle);
                                         playerAmount++;
-                                        System.out.println("P1 "  + P1Paddle.getWindowLocation());
+                                        System.out.println("P1 " + P1Paddle.getWindowLocation());
                                         break;
                                     }
                                     else
@@ -646,7 +642,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.botList.add(cpu1);
                                         this.paddleList.add(P1Paddle);
                                         playerAmount++;
-                                        System.out.println("P1 "  + P1Paddle.getWindowLocation());
+                                        System.out.println("P1 " + P1Paddle.getWindowLocation());
                                         break;
                                     }
 
@@ -663,7 +659,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.addObject(P3Paddle);
                                         this.paddleList.add(P3Paddle);
                                         playerAmount++;
-                                        System.out.println("P3 "  + P3Paddle.getWindowLocation());
+                                        System.out.println("P3 " + P3Paddle.getWindowLocation());
                                         break;
                                     }
                                     else
@@ -674,7 +670,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.botList.add(cpu3);
                                         this.paddleList.add(P3Paddle);
                                         playerAmount++;
-                                        System.out.println("P3 "  + P3Paddle.getWindowLocation());
+                                        System.out.println("P3 " + P3Paddle.getWindowLocation());
                                         break;
                                     }
                                 }
@@ -702,7 +698,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.addObject(P2Paddle);
                                         this.paddleList.add(P2Paddle);
                                         playerAmount++;
-                                        System.out.println("P2 "  + P2Paddle.getWindowLocation());
+                                        System.out.println("P2 " + P2Paddle.getWindowLocation());
                                         break;
                                     }
                                     else
@@ -713,7 +709,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.botList.add(cpu2);
                                         this.paddleList.add(P2Paddle);
                                         playerAmount++;
-                                        System.out.println("P2 "  + P2Paddle.getWindowLocation());
+                                        System.out.println("P2 " + P2Paddle.getWindowLocation());
                                         break;
                                     }
                                 }
@@ -728,7 +724,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.addObject(P4Paddle);
                                         this.paddleList.add(P4Paddle);
                                         playerAmount++;
-                                        System.out.println("P4 "  + P4Paddle.getWindowLocation());
+                                        System.out.println("P4 " + P4Paddle.getWindowLocation());
                                         break;
                                     }
                                     else
@@ -739,7 +735,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                                         this.botList.add(cpu4);
                                         this.paddleList.add(P4Paddle);
                                         playerAmount++;
-                                        System.out.println("P4 "  + P4Paddle.getWindowLocation());
+                                        System.out.println("P4 " + P4Paddle.getWindowLocation());
                                         break;
                                     }
                                 }
@@ -782,7 +778,7 @@ public class Game extends JPanel implements Runnable, KeyListener
             drawList.addAll(this.getObjectList());
         //Multiple for loops, order of drawing is wery wery importanté
 
-        // Draw whitespace
+            // Draw whitespace
 //        if(WhiteSpaceImage == null)
 //        {
 //        g.setColor(Color.white);
@@ -792,12 +788,11 @@ public class Game extends JPanel implements Runnable, KeyListener
 //        }
 //        else
 //        {
+            //}
             if (whiteSpace != null)
             {
                 g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
             }
-            //}
-            g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
 
             for (int i = drawList.size() - 1; i >= 0; i--)
             {
@@ -805,23 +800,59 @@ public class Game extends JPanel implements Runnable, KeyListener
                 //Draw a block
                 if (o instanceof Block)
                 {
-                    g.setColor(b.getColor());
-                    g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                    g.setColor(Color.black);
-                    g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                    drawList.remove(i);
-                }
-                else
-                {
-                    g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                    Block b = (Block) o;
+                    if (b.isDestructable())
+                    {
+                        if (b.getPowerUp() != null)
+                        {
+                            if (b.getImage() == null)
+                            {
+                                g.setColor(b.getColor());
+                                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                g.setColor(Color.black);
+                                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                drawList.remove(i);
+                            }
+                            else
+                            {
+                                g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                            }
+                        }
+                        else
+                        {
+                            if (b.getImage() == null)
+                            {
+                                g.setColor(b.getColor());
+                                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                g.setColor(Color.black);
+                                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                drawList.remove(i);
+                            }
+                            else
+                            {
+                                g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (b.getImage() == null)
+                        {
+                            g.setColor(b.getColor());
+                            g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                            g.setColor(Color.black);
+                            g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                            drawList.remove(i);
+                        }
+                        else
+                        {
+                            g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                        }
+                    }
                 }
             }
-        }
-        for (int i = drawList.size() - 1; i >= 0; i--)
-        {
-            GameObject o = drawList.get(i);
-            //Draw a ball
-            if (o instanceof Ball)
+
+            for (int i = drawList.size() - 1; i >= 0; i--)
             {
                 GameObject o = drawList.get(i);
                 //Draw a ball
@@ -893,7 +924,6 @@ public class Game extends JPanel implements Runnable, KeyListener
                 ypos += 25;
 
             }
-
         }
         catch (Exception ex)
         {
