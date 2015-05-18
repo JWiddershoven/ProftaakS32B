@@ -527,10 +527,10 @@ public class Game extends JPanel implements Runnable, KeyListener
 
             int SpawnNumber = 0;
             Server server = new Server();
-//                player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-//                player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-//                player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-//                player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
             try
             {
                 // X & Y Positions for the blocks
@@ -782,7 +782,7 @@ public class Game extends JPanel implements Runnable, KeyListener
             drawList.addAll(this.getObjectList());
         //Multiple for loops, order of drawing is wery wery importanté
 
-            // Draw whitespace
+        // Draw whitespace
 //        if(WhiteSpaceImage == null)
 //        {
 //        g.setColor(Color.white);
@@ -797,6 +797,7 @@ public class Game extends JPanel implements Runnable, KeyListener
                 g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
             }
             //}
+            g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
 
             for (int i = drawList.size() - 1; i >= 0; i--)
             {
@@ -804,58 +805,23 @@ public class Game extends JPanel implements Runnable, KeyListener
                 //Draw a block
                 if (o instanceof Block)
                 {
-                    Block b = (Block) o;
-                    if (b.isDestructable())
-                    {
-                        if (b.getPowerUp() != null)
-                        {
-                            if (b.getImage() == null)
-                            {
-                                g.setColor(b.getColor());
-                                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                                g.setColor(Color.black);
-                                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                                drawList.remove(i);
-                            }
-                            else
-                            {
-                                g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
-                            }
-                        }
-                        else
-                        {
-                            if (b.getImage() == null)
-                            {
-                                g.setColor(b.getColor());
-                                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                                g.setColor(Color.black);
-                                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                                drawList.remove(i);
-                            }
-                            else
-                            {
-                                g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (b.getImage() == null)
-                        {
-                            g.setColor(b.getColor());
-                            g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                            g.setColor(Color.black);
-                            g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                            drawList.remove(i);
-                        }
-                        else
-                        {
-                            g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
-                        }
-                    }
+                    g.setColor(b.getColor());
+                    g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                    g.setColor(Color.black);
+                    g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                    drawList.remove(i);
+                }
+                else
+                {
+                    g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
                 }
             }
-            for (int i = drawList.size() - 1; i >= 0; i--)
+        }
+        for (int i = drawList.size() - 1; i >= 0; i--)
+        {
+            GameObject o = drawList.get(i);
+            //Draw a ball
+            if (o instanceof Ball)
             {
                 GameObject o = drawList.get(i);
                 //Draw a ball
