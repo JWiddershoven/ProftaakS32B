@@ -12,7 +12,7 @@ import Shared.Game;
 import Shared.GameObject;
 import Shared.Paddle;
 import Shared.TVector2;
-import java.awt.Color;
+import Shared.User;
 import java.awt.Image;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
@@ -41,7 +41,7 @@ public class CollisionCheckerTest
     public void setUp()
     {
         gameObjects  = new ArrayList<>();
-        CPU cpu = new CPU("test", Byte.MIN_VALUE, new Game(0, 5, true));
+        CPU cpu = new CPU("test", Byte.MIN_VALUE, new Game(0, 5, true,new ArrayList<User>()));
         TVector2 paddleSize = new TVector2(25, 10);
         TVector2 blockSize = new TVector2(10, 10);
         TVector2 velocity = TVector2.zero;

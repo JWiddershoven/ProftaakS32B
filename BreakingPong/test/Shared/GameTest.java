@@ -5,10 +5,8 @@
  */
 package Shared;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import java.util.ArrayList;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -24,7 +22,7 @@ public class GameTest {
     @Before
     public void setUp() 
     {
-        firstGame = new Game(1,180,false);
+        firstGame = new Game(1,180,false,new ArrayList<User>());
     }
 
     // TODO add test methods here.

@@ -108,14 +108,13 @@ public class GameObject
      * @param position value of position as TVector2.
      * @param velocity value of velocity as TVector2.
      * @param size value of size as TVector2.
-     * @param color as JAVA.AWT
+     * @param image
      */
     public GameObject(TVector2 position, TVector2 velocity, TVector2 size,Image image)
     {
         this.position = position;
         this.velocity = velocity;
         this.size = size;
-        this.color = color;
         this.MyImage = image;
     }
 

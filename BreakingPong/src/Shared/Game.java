@@ -41,7 +41,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Mnesymne
  */
-public class Game extends JPanel implements Runnable, KeyListener {
+public class Game extends JPanel implements Runnable, KeyListener
+{
 
     private int id;
     private int gameTime;
@@ -72,7 +73,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @return id as int
      */
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
@@ -81,7 +83,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @param id value of id as int
      */
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
 
@@ -90,7 +93,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @return gameTime as int
      */
-    public int getGameTime() {
+    public int getGameTime()
+    {
         return gameTime;
     }
 
@@ -99,7 +103,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @param gameTime value of gameTime as int
      */
-    public void setGameTime(int gameTime) {
+    public void setGameTime(int gameTime)
+    {
         this.gameTime = gameTime;
     }
 
@@ -108,7 +113,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @return powerUps as boolean
      */
-    public boolean getPowerUps() {
+    public boolean getPowerUps()
+    {
         return powerUps;
     }
 
@@ -117,7 +123,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @param powerUps value of powerUps as boolean
      */
-    public void setPowerUps(boolean powerUps) {
+    public void setPowerUps(boolean powerUps)
+    {
         this.powerUps = powerUps;
     }
 
@@ -126,7 +133,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @return inProgress as boolean
      */
-    public boolean getInProgress() {
+    public boolean getInProgress()
+    {
         return this.inProgress;
     }
 
@@ -136,35 +144,46 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param setValue value of inProgress as boolean
      * @return value of inProgress
      */
-    public boolean setInProgress(boolean setValue) {
-        if (setValue == true) {
+    public boolean setInProgress(boolean setValue)
+    {
+        if (setValue == true)
+        {
             this.inProgress = false;
-        } else {
+        }
+        else
+        {
             this.inProgress = true;
         }
         return inProgress;
     }
 
-    public int getNumberOfPlayers() {
+    public int getNumberOfPlayers()
+    {
         return selectedmap.getPlayerAmount();
     }
 
-    public ArrayList<User> getHumanPlayers() {
+    public ArrayList<User> getHumanPlayers()
+    {
         return this.userList;
     }
 
-    public ArrayList<CPU> getCPUPlayers() {
+    public ArrayList<CPU> getCPUPlayers()
+    {
         return this.botList;
     }
 
-    public ArrayList<Paddle> getPaddles() {
+    public ArrayList<Paddle> getPaddles()
+    {
         return this.paddleList;
     }
 
-    public void removePaddle(Paddle p1) {
-        for (int i = paddleList.size() - 1; i > 0; i--) {
+    public void removePaddle(Paddle p1)
+    {
+        for (int i = paddleList.size() - 1; i > 0; i--)
+        {
             Paddle p = paddleList.get(i);
-            if (p.getWindowLocation() == p1.getWindowLocation()) {
+            if (p.getWindowLocation() == p1.getWindowLocation())
+            {
                 paddleList.remove(p);
             }
         }
@@ -177,7 +196,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param gameTime value of gameTime as int
      * @param powerUps value of powerUps as int
      */
-    public Game(int id, int gameTime, boolean powerUps, ArrayList<User> players) {
+    public Game(int id, int gameTime, boolean powerUps, ArrayList<User> players)
+    {
         this.id = id;
         this.gameTime = gameTime;
         this.powerUps = powerUps;
@@ -188,35 +208,51 @@ public class Game extends JPanel implements Runnable, KeyListener {
         this.paddleList = new ArrayList<>();
         this.setFocusable(true);
         addKeyListener(this);
-       
-        try {
-            if (players.get(0) != null) {
+
+        try
+        {
+            if (players.get(0) != null)
+            {
                 player1 = players.get(1);
             }
-        } catch (IndexOutOfBoundsException ex) {
+        }
+        catch (IndexOutOfBoundsException ex)
+        {
             cpu1 = new CPU("Bot1", (byte) 1, this);
             cpu1.setMyPaddle(P1Paddle);
         }
 
-        try {
-            if (players.get(1) != null) {
+        try
+        {
+            if (players.get(1) != null)
+            {
                 player2 = players.get(1);
             }
-        } catch (IndexOutOfBoundsException ex) {
+        }
+        catch (IndexOutOfBoundsException ex)
+        {
             cpu2 = new CPU("Bot2", (byte) 1, this);
         }
-        try {
-            if (players.get(2) != null) {
+        try
+        {
+            if (players.get(2) != null)
+            {
                 player3 = players.get(3);
             }
-        } catch (IndexOutOfBoundsException ex) {
+        }
+        catch (IndexOutOfBoundsException ex)
+        {
             cpu3 = new CPU("Bot3", (byte) 1, this);
         }
-        try {
-            if (players.get(3) != null) {
+        try
+        {
+            if (players.get(3) != null)
+            {
                 player4 = players.get(4);
             }
-        } catch (IndexOutOfBoundsException ex) {
+        }
+        catch (IndexOutOfBoundsException ex)
+        {
             cpu4 = new CPU("Bot4", (byte) 1, this);
         }
 
@@ -229,7 +265,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param botDifficulty value of Difficulty as Byte
      */
     //TODO: Verwijderen?
-    public void addBot(String botName, Byte botDifficulty) {
+    public void addBot(String botName, Byte botDifficulty)
+    {
         TVector2 standardSize = new TVector2(25, 10);
         TVector2 position = new TVector2(50, 50);
         TVector2 velocity = new TVector2(10, 10);
@@ -243,28 +280,37 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @param botName value of botName as String
      */
-    public void removeBot(String botName) {
-        for (int i = 0; i < botList.size(); i++) {
+    public void removeBot(String botName)
+    {
+        for (int i = 0; i < botList.size(); i++)
+        {
             CPU c = botList.get(i);
-            if (c.getName().equals(botName)) {
+            if (c.getName().equals(botName))
+            {
                 botList.remove(c);
             }
         }
     }
 
-    public void removePlayer(String playerName) {
-        for (int i = 0; i < userList.size(); i++) {
+    public void removePlayer(String playerName)
+    {
+        for (int i = 0; i < userList.size(); i++)
+        {
             User u = userList.get(i);
-            if (u.getUsername().equals(playerName)) {
+            if (u.getUsername().equals(playerName))
+            {
                 userList.remove(u);
             }
         }
     }
 
-    public void removeBall(Ball ball) {
-        for (int i = 0; i < ballList.size(); i++) {
+    public void removeBall(Ball ball)
+    {
+        for (int i = 0; i < ballList.size(); i++)
+        {
             Ball b = ballList.get(i);
-            if (b == ball) {
+            if (b == ball)
+            {
                 ballList.remove(b);
             }
         }
@@ -275,7 +321,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @param object
      */
-    public void addObject(GameObject object) {
+    public void addObject(GameObject object)
+    {
         this.objectList.add(object);
         CollisionChecker.gameObjectsList.add(object);
     }
@@ -285,12 +332,15 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @param object
      */
-    public void removeObject(GameObject object) {
+    public void removeObject(GameObject object)
+    {
         this.objectList.remove(object);
-        if (CollisionChecker.gameObjectsList.contains(object)) {
+        if (CollisionChecker.gameObjectsList.contains(object))
+        {
             CollisionChecker.gameObjectsList.remove(object);
         }
-        if (object instanceof Ball) {
+        if (object instanceof Ball)
+        {
             ballList.remove((Ball) object);
         }
     }
@@ -300,22 +350,27 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @return ArrayList<GameObject>
      */
-    public ArrayList<GameObject> getObjectList() {
+    public ArrayList<GameObject> getObjectList()
+    {
         return this.objectList;
     }
 
-    public ArrayList<Ball> getBallList() {
+    public ArrayList<Ball> getBallList()
+    {
         return ballList;
     }
 
     /**
      * Create the window, draw the objects and start the game
      */
-    public Thread setupGame() {
+    public Thread setupGame()
+    {
         //Open file dialog and save input
         ArrayList<String> mapLayout = this.loadMap();
-        if (mapLayout != null) {
-            try {
+        if (mapLayout != null)
+        {
+            try
+            {
                 //Create the window
                 window = new JFrame();
                 window.setSize(819, 848);
@@ -323,13 +378,15 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 window.setLocationRelativeTo(null);
                 //Draw the level from the input
                 this.drawMap(mapLayout);
-               
+
                 //Add the drawn level to the window and then start the game
                 window.setContentPane(this);
                 window.setVisible(true);
-                window.addWindowListener(new java.awt.event.WindowAdapter() {
+                window.addWindowListener(new java.awt.event.WindowAdapter()
+                {
                     @Override
-                    public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                    public void windowClosing(java.awt.event.WindowEvent windowEvent)
+                    {
                         System.out.println("inProgress set false");
                         inProgress = false;
                     }
@@ -337,11 +394,15 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 WhiteSpaceImage = ImageIO.read(new FileInputStream("Images/Images/WhiteSpaceImage.jpg"));
                 whiteSpace = new WhiteSpace(TVector2.zero, TVector2.zero,
                         new TVector2(window.getWidth() + 10, window.getHeight() + 10), WhiteSpaceImage);
-                 Thread.sleep(5000);
+                Thread.sleep(5000);
                 this.startGame();
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (InterruptedException ex) {
+            }
+            catch (InterruptedException ex)
+            {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -353,7 +414,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
     /**
      * Method to start the game and thread that move the objects
      */
-    public void startGame() {
+    public void startGame()
+    {
         inProgress = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
@@ -365,7 +427,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
      *
      * @return ArrayList<String> loaded map file as ArrayList.
      */
-    public ArrayList<String> loadMap() {
+    public ArrayList<String> loadMap()
+    {
         CollisionChecker.gameObjectsList.clear();
         // Open file dialog
         File file = null;
@@ -376,8 +439,10 @@ public class Game extends JPanel implements Runnable, KeyListener {
         int code = chooser.showOpenDialog(this);
         ArrayList<String> mapLayout = new ArrayList<>();
         String text = "";
-        if (code == JFileChooser.APPROVE_OPTION) {
-            try {
+        if (code == JFileChooser.APPROVE_OPTION)
+        {
+            try
+            {
                 //Read the selected file
                 File selectedFile = chooser.getSelectedFile();
                 String fileName = selectedFile.getName();
@@ -388,41 +453,54 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 //Remove whitespaces
                 text = new String(buffer, 0, n).replaceAll("\\s+", "");
                 in.close();
-                if(text.length() > 1600)
+                if (text.length() > 1600)
                 {
                     throw new IOException();
                 }
-            } catch (FileNotFoundException ex) {
+            }
+            catch (FileNotFoundException ex)
+            {
                 System.out.println("File could not be found");
                 return null;
-            } catch (IOException IOex) {
+            }
+            catch (IOException IOex)
+            {
                 System.out.println("Filesize is incorrect, use 40 rows with 40 characters");
                 return null;
             }
 
-            try {
+            try
+            {
                 //Add each row into a Array of strings
                 String mapDesign[][] = new String[40][40];
                 int location = 0;
-                for (String[] mapDesign1 : mapDesign) {
-                    for (int c = 0; c < mapDesign1.length; c++) {
+                for (String[] mapDesign1 : mapDesign)
+                {
+                    for (int c = 0; c < mapDesign1.length; c++)
+                    {
                         mapDesign1[c] = text.substring(location, location + 1);
                         location++;
                     }
                 }
 
                 //Add each row into an ArrayList
-                for (int r = 0; r < mapDesign.length; r++) {
+                for (int r = 0; r < mapDesign.length; r++)
+                {
                     String row = new String();
-                    for (String mapDesign1 : mapDesign[r]) {
+                    for (String mapDesign1 : mapDesign[r])
+                    {
                         row = row + mapDesign1;
                     }
                     mapLayout.add(row);
                 }
-            } catch (IllegalArgumentException ifex) {
+            }
+            catch (IllegalArgumentException ifex)
+            {
                 System.out.println("File incorrect");
                 return null;
-            } catch (RuntimeException ex) {
+            }
+            catch (RuntimeException ex)
+            {
                 System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
                 return null;
             }
@@ -441,215 +519,270 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param mapLayout ArrayList<String> with the mapLayout from the
      * LoadMapMethod
      */
-    public void drawMap(ArrayList<String> mapLayout) {
+    public void drawMap(ArrayList<String> mapLayout)
+    {
 
-            try {
-                
-                int SpawnNumber = 0;
-                Server server = new Server();
-                player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
-                try {
-                    // X & Y Positions for the blocks
-                    int y = 0;
-                    int x = 0;
-                    int playerAmount = 1;
-                    PaddleImage = null;
-                    // Rowcounter for reading the mapLayout
-                    int rowcount = 1;
-                    TVector2 size;
-                    // Velocity 0 since blocks don't move
-                    TVector2 velocity = new TVector2(0.0f, 0.0f);
-                    windowLocation hLocation = null;
-                    windowLocation vLocation = null;
-                    // Read all rows of the maplayout
-                    for (String row : mapLayout) {
-                        // Read every number on a row of the maplayout
-                        for (int c = 0; c <= row.length() - 1; c++) {
-                            Thread.sleep(1);
-                            size = new TVector2(20f, 20f);
-                            x = c * 20;
-                            String type = row.substring(c, c + 1);
-                            TVector2 position = new TVector2(x, y);
-                            
-                            if (position.getX() > 0 && position.getX() < (this.getSize().getWidth() / 2)) {
-                                vLocation = windowLocation.WEST;
-                            } else if (position.getX() > (this.getSize().getWidth() / 2)) {
-                                vLocation = windowLocation.EAST;
-                            } else if (position.getX() > 0 && position.getY() < (this.getSize().getHeight() / 2)) {
-                                hLocation = windowLocation.NORTH;
-                            } else if (position.getY() > (this.getSize().getHeight() / 2)) {
-                                hLocation = windowLocation.SOUTH;
+        try
+        {
+
+            int SpawnNumber = 0;
+            Server server = new Server();
+//                player1 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+//                player2 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+//                player3 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+//                player4 = new User("Test9000", "Test10101", "Testmail@email.com", server);
+            try
+            {
+                // X & Y Positions for the blocks
+                int y = 0;
+                int x = 0;
+                int playerAmount = 1;
+                PaddleImage = null;
+                // Rowcounter for reading the mapLayout
+                int rowcount = 1;
+                TVector2 size;
+                // Velocity 0 since blocks don't move
+                TVector2 velocity = new TVector2(0.0f, 0.0f);
+                windowLocation paddleLocation = null;
+                // Read all rows of the maplayout
+                for (String row : mapLayout)
+                {
+                    // Read every number on a row of the maplayout
+                    for (int c = 0; c <= row.length() - 1; c++)
+                    {
+                        Thread.sleep(1);
+                        size = new TVector2(20f, 20f);
+                        x = c * 20;
+                        String type = row.substring(c, c + 1);
+                        TVector2 newObjectPosition = new TVector2(x, y);
+
+                        TVector2 middleOfScreen = new TVector2((float) window.getWidth() / 2, (float) window.getHeight() / 2);
+                        float diffX = middleOfScreen.getX() - newObjectPosition.getX();
+                        float diffY = middleOfScreen.getY() - newObjectPosition.getY();
+                        
+                        if (type.equals("4" ) || type.equals("5"))
+                        {
+                            diffX = diffX;
+                        }
+                        
+                        if (Math.abs(diffX) > Math.abs(diffY))
+                        {
+                            // East of West
+                            if (diffX < 0)
+                                paddleLocation = windowLocation.EAST;
+                            else
+                                paddleLocation = windowLocation.WEST;
+                        }
+                        else
+                        {
+                            if (diffY < 0)
+                                paddleLocation = windowLocation.SOUTH;
+                            else
+                                paddleLocation = windowLocation.NORTH;
+                        }
+
+                        //Check what type of block needs to be created from input
+                        switch (type)
+                        {
+                            // Create undestructable block
+                            case "0":
+                            {
+
+                                DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
+                                Block wall = new Block(0, false, null, newObjectPosition, velocity, new TVector2(25, 25), DestroyImage);
+                                this.addObject(wall);
+
+                                break;
                             }
-                            
-                            //Check what type of block needs to be created from input
-                            switch (type) {
-                                // Create undestructable block
-                                case "0": {
-                                    
-                                    DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
-                                    Block wall = new Block(0, false, null, position, velocity, new TVector2(25, 25), DestroyImage);
-                                    this.addObject(wall);
-                                    
-                                    break;
-                                }
-                                // Create white space
-                                case "1": {
-                                    
-                                    break;
-                                }
-                                // Create block without powerup
-                                case "2": {
-                                    
-                                    normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
-                                    Block noPower = new Block(1, true, null, position, velocity, size, normalBlockImage);
-                                    this.addObject(noPower);
-                                    break;
-                                }
-                                // Create block with powerup
-                                case "3": {
-                                    PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
-                                    PowerUp power = new PowerUp(1, null);
-                                    power.getRandomPowerUpType();
-                                    Block withPower = new Block(10, true, power, position, velocity, size, PowerUpImage);
-                                    this.addObject(withPower);
-                                    break;
-                                }
-                                // Create horizontal paddle spawn
-                                case "4": {
-                                    // Add human player
-                                    if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
+                            // Create white space
+                            case "1":
+                            {
+
+                                break;
+                            }
+                            // Create block without powerup
+                            case "2":
+                            {
+
+                                normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
+                                Block noPower = new Block(1, true, null, newObjectPosition, velocity, size, normalBlockImage);
+                                this.addObject(noPower);
+                                break;
+                            }
+                            // Create block with powerup
+                            case "3":
+                            {
+                                PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
+                                PowerUp power = new PowerUp(1, null);
+                                power.getRandomPowerUpType();
+                                Block withPower = new Block(10, true, power, newObjectPosition, velocity, size, PowerUpImage);
+                                this.addObject(withPower);
+                                break;
+                            }
+                            // Create horizontal paddle spawn
+                            case "4":
+                            {
+                                // Add human player
+                                if (playerAmount == 1) // 2 For bottom paddle to be the player paddle
+                                {
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
+                                    size = new TVector2(100f, 20f);
+                                    if (player1 != null)
                                     {
-                                        
-                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
-                                        size = new TVector2(100f, 20f);
-                                        if (player1 != null) {
-                                            P1Paddle = new Paddle(0,position,velocity,size,player1,vLocation,PaddleImage);
-                                            player1.setPaddle(P1Paddle);
-                                            this.addObject(P1Paddle);
-                                            this.userList.add(player1);
-                                            this.paddleList.add(P1Paddle);
-                                            playerAmount++;
-                                            System.out.println(P1Paddle.getWindowLocation());
-                                            break;
-                                        } else {
-                                            P1Paddle = new Paddle(0,position,velocity,size,cpu1,vLocation,PaddleImage);
-                                            cpu1.setMyPaddle(P1Paddle);
-                                            this.addObject(P1Paddle);
-                                            this.botList.add(cpu1);
-                                            this.paddleList.add(P1Paddle);
-                                            playerAmount++;
-                                            break;
-                                        }
-                                        
-                                    } else if (playerAmount == 3) {
-                                        
-                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
-                                        size = new TVector2(100f, 20f);
-                                        if (player3 != null) {
-                                            P3Paddle = new Paddle(0,position,velocity,size,player3,vLocation,PaddleImage);
-                                            player3.setPaddle(P3Paddle);
-                                            this.addObject(P3Paddle);
-                                            this.paddleList.add(P3Paddle);
-                                            playerAmount++;
-                                            System.out.println(P3Paddle.getWindowLocation());
-                                            break;
-                                        } else {
-                                            P3Paddle = new Paddle(0,position,velocity,size,cpu3,vLocation,PaddleImage);
-                                            cpu3.setMyPaddle(P3Paddle);
-                                            this.addObject(P3Paddle);
-                                            this.botList.add(cpu3);
-                                            this.paddleList.add(P3Paddle);
-                                            playerAmount++;
-                                            break;
-                                        }
+                                        P1Paddle = new Paddle(0, newObjectPosition, velocity, size, player1, paddleLocation, PaddleImage);
+                                        player1.setPaddle(P1Paddle);
+                                        this.addObject(P1Paddle);
+                                        this.userList.add(player1);
+                                        this.paddleList.add(P1Paddle);
+                                        playerAmount++;
+                                        System.out.println("P1 "  + P1Paddle.getWindowLocation());
+                                        break;
                                     }
-                                    
+                                    else
+                                    {
+                                        P1Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu1, paddleLocation, PaddleImage);
+                                        cpu1.setMyPaddle(P1Paddle);
+                                        this.addObject(P1Paddle);
+                                        this.botList.add(cpu1);
+                                        this.paddleList.add(P1Paddle);
+                                        playerAmount++;
+                                        System.out.println("P1 "  + P1Paddle.getWindowLocation());
+                                        break;
+                                    }
+
                                 }
-                                // Create vertical paddle spawn
-                                case "5": {
-                                    SpawnNumber++;
-                                    if (SpawnNumber == 1) {
-                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
-                                    } else if (SpawnNumber == 2) {
-                                        PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle2.png"));
+                                else if (playerAmount == 4)
+                                {
+
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
+                                    size = new TVector2(100f, 20f);
+                                    if (player3 != null)
+                                    {
+                                        P3Paddle = new Paddle(0, newObjectPosition, velocity, size, player3, paddleLocation, PaddleImage);
+                                        player3.setPaddle(P3Paddle);
+                                        this.addObject(P3Paddle);
+                                        this.paddleList.add(P3Paddle);
+                                        playerAmount++;
+                                        System.out.println("P3 "  + P3Paddle.getWindowLocation());
+                                        break;
                                     }
-                                    if (playerAmount == 2) {
-                                        size = new TVector2(20f, 100f);
-                                        if (player3 != null) {
-                                            P2Paddle = new Paddle(0,position,velocity,size,player2,vLocation,PaddleImage);
-                                            player2.setPaddle(P2Paddle);
-                                            this.addObject(P2Paddle);
-                                            this.paddleList.add(P2Paddle);
-                                            playerAmount++;
-                                            System.out.println(P2Paddle.getWindowLocation());
-                                            System.out.println(PaddleImage);
-                                            break;
-                                        } else {
-                                            P2Paddle = new Paddle(0,position,velocity,size,cpu2,vLocation,PaddleImage);
-                                            cpu2.setMyPaddle(P2Paddle);
-                                            this.addObject(P2Paddle);
-                                            this.botList.add(cpu2);
-                                            this.paddleList.add(P2Paddle);
-                                            playerAmount++;
-                                            break;
-                                        }
-                                    } else if (playerAmount == 4) {
-                                        size = new TVector2(20f, 100f);
-                                        
-                                        if (player4 != null) {
-                                            P4Paddle = new Paddle(0,position,velocity,size,player4,vLocation,PaddleImage);
-                                            player4.setPaddle(P4Paddle);
-                                            this.addObject(P4Paddle);
-                                            this.paddleList.add(P4Paddle);
-                                            playerAmount++;
-                                            System.out.println(P4Paddle.getWindowLocation());
-                                            System.out.println(PaddleImage);
-                                            break;
-                                        } else {
-                                            P4Paddle = new Paddle(0,position,velocity,size,cpu4,vLocation,PaddleImage);
-                                            cpu4.setMyPaddle(P4Paddle);
-                                            this.addObject(P4Paddle);
-                                            this.botList.add(cpu4);
-                                            this.paddleList.add(P4Paddle);
-                                            playerAmount++;
-                                            break;
-                                        }
+                                    else
+                                    {
+                                        P3Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu3, paddleLocation, PaddleImage);
+                                        cpu3.setMyPaddle(P3Paddle);
+                                        this.addObject(P3Paddle);
+                                        this.botList.add(cpu3);
+                                        this.paddleList.add(P3Paddle);
+                                        playerAmount++;
+                                        System.out.println("P3 "  + P3Paddle.getWindowLocation());
+                                        break;
                                     }
                                 }
-                                
-                                // Create a ball spawn
-                                case "6": {
-                                    BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
-                                    size = new TVector2(15f, 15f);
-                                    velocity = generateRandomVelocity();
-                                    Ball ball = new Ball(null, position, velocity, size, this, BallImage);
-                                    this.addObject(ball);
-                                    this.ballList.add(ball);
-                                    break;
+
+                            }
+                            // Create vertical paddle spawn
+                            case "5":
+                            {
+                                SpawnNumber++;
+                                if (SpawnNumber == 1)
+                                {
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
                                 }
+                                else if (SpawnNumber == 2)
+                                {
+                                    PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle2.png"));
+                                }
+                                if (playerAmount == 2)
+                                {
+                                    size = new TVector2(20f, 100f);
+                                    if (player2 != null)
+                                    {
+                                        P2Paddle = new Paddle(0, newObjectPosition, velocity, size, player2, paddleLocation, PaddleImage);
+                                        player2.setPaddle(P2Paddle);
+                                        this.addObject(P2Paddle);
+                                        this.paddleList.add(P2Paddle);
+                                        playerAmount++;
+                                        System.out.println("P2 "  + P2Paddle.getWindowLocation());
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        P2Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu2, paddleLocation, PaddleImage);
+                                        cpu2.setMyPaddle(P2Paddle);
+                                        this.addObject(P2Paddle);
+                                        this.botList.add(cpu2);
+                                        this.paddleList.add(P2Paddle);
+                                        playerAmount++;
+                                        System.out.println("P2 "  + P2Paddle.getWindowLocation());
+                                        break;
+                                    }
+                                }
+                                else if (playerAmount == 3)
+                                {
+                                    size = new TVector2(20f, 100f);
+
+                                    if (player4 != null)
+                                    {
+                                        P4Paddle = new Paddle(0, newObjectPosition, velocity, size, player4, paddleLocation, PaddleImage);
+                                        player4.setPaddle(P4Paddle);
+                                        this.addObject(P4Paddle);
+                                        this.paddleList.add(P4Paddle);
+                                        playerAmount++;
+                                        System.out.println("P4 "  + P4Paddle.getWindowLocation());
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        P4Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu4, paddleLocation, PaddleImage);
+                                        cpu4.setMyPaddle(P4Paddle);
+                                        this.addObject(P4Paddle);
+                                        this.botList.add(cpu4);
+                                        this.paddleList.add(P4Paddle);
+                                        playerAmount++;
+                                        System.out.println("P4 "  + P4Paddle.getWindowLocation());
+                                        break;
+                                    }
+                                }
+                            }
+
+                            // Create a ball spawn
+                            case "6":
+                            {
+                                BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
+                                size = new TVector2(15f, 15f);
+                                velocity = generateRandomVelocity();
+                                Ball ball = new Ball(null, newObjectPosition, velocity, size, this, BallImage);
+                                this.addObject(ball);
+                                this.ballList.add(ball);
+                                break;
                             }
                         }
-                        rowcount++;
-                        y += 20;
                     }
-                } catch (Exception ex) {
-                    System.out.println(ex.getMessage());
+                    rowcount++;
+                    y += 20;
                 }
-            } catch (RemoteException ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
+            catch (Exception ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
+        catch (RemoteException ex)
+        {
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-        ArrayList<GameObject> drawList = new ArrayList<>();
-        drawList.addAll(this.getObjectList());
+    public void paintComponent(Graphics g)
+    {
+        try
+        {
+            ArrayList<GameObject> drawList = new ArrayList<>();
+            drawList.addAll(this.getObjectList());
         //Multiple for loops, order of drawing is wery wery importanté
 
-        // Draw whitespace
+            // Draw whitespace
 //        if(WhiteSpaceImage == null)
 //        {
 //        g.setColor(Color.white);
@@ -659,84 +792,113 @@ public class Game extends JPanel implements Runnable, KeyListener {
 //        }
 //        else
 //        {
-        if (whiteSpace != null) {
-            g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
-        }
-        //}
+            if (whiteSpace != null)
+            {
+                g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
+            }
+            //}
 
-        for (int i = drawList.size() - 1; i >= 0; i--) {
-            GameObject o = drawList.get(i);
-            //Draw a block
-            if (o instanceof Block) {
-                Block b = (Block) o;
-                if (b.isDestructable()) {
-                    if (b.getPowerUp() != null) {
-                        if (b.getImage() == null) {
-                            g.setColor(b.getColor());
-                            g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                            g.setColor(Color.black);
-                            g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                            drawList.remove(i);
-                        } else {
-                            g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+            for (int i = drawList.size() - 1; i >= 0; i--)
+            {
+                GameObject o = drawList.get(i);
+                //Draw a block
+                if (o instanceof Block)
+                {
+                    Block b = (Block) o;
+                    if (b.isDestructable())
+                    {
+                        if (b.getPowerUp() != null)
+                        {
+                            if (b.getImage() == null)
+                            {
+                                g.setColor(b.getColor());
+                                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                g.setColor(Color.black);
+                                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                drawList.remove(i);
+                            }
+                            else
+                            {
+                                g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                            }
                         }
-                    } else {
-                        if (b.getImage() == null) {
-                            g.setColor(b.getColor());
-                            g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                            g.setColor(Color.black);
-                            g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                            drawList.remove(i);
-                        } else {
-                            g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                        else
+                        {
+                            if (b.getImage() == null)
+                            {
+                                g.setColor(b.getColor());
+                                g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                g.setColor(Color.black);
+                                g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                                drawList.remove(i);
+                            }
+                            else
+                            {
+                                g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                            }
                         }
                     }
-                } else {
-                    if (b.getImage() == null) {
-                        g.setColor(b.getColor());
-                        g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                        g.setColor(Color.black);
-                        g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                        drawList.remove(i);
-                    } else {
-                        g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                    else
+                    {
+                        if (b.getImage() == null)
+                        {
+                            g.setColor(b.getColor());
+                            g.fillRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                            g.setColor(Color.black);
+                            g.drawRect((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                            drawList.remove(i);
+                        }
+                        else
+                        {
+                            g.drawImage(b.getImage(), (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                        }
                     }
                 }
             }
-        }
-        for (int i = drawList.size() - 1; i >= 0; i--) {
-            GameObject o = drawList.get(i);
-            //Draw a ball
-            if (o instanceof Ball) {
-                Ball b = (Ball) o;
-                if (BallImage == null) {
-                    g.setColor(Color.red);
-                    g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                    g.setColor(Color.white);
-                    g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
-                } else {
-                    g.drawImage(BallImage, (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
-                }
+            for (int i = drawList.size() - 1; i >= 0; i--)
+            {
+                GameObject o = drawList.get(i);
+                //Draw a ball
+                if (o instanceof Ball)
+                {
+                    Ball b = (Ball) o;
+                    if (BallImage == null)
+                    {
+                        g.setColor(Color.red);
+                        g.fillOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                        g.setColor(Color.white);
+                        g.drawOval((int) b.getPosition().getX(), (int) b.getPosition().getY(), (int) b.getSize().getX(), (int) b.getSize().getY());
+                    }
+                    else
+                    {
+                        g.drawImage(BallImage, (int) b.getPosition().getX(), (int) b.getPosition().getY(), this);
+                    }
 
-            } //Draw a paddle
-            else if (o instanceof Paddle) {
-                Paddle p = (Paddle) o;
-                PaddleImage = (BufferedImage) p.getImage();
-                if (PaddleImage == null) {
+                } //Draw a paddle
+                else if (o instanceof Paddle)
+                {
+                    Paddle p = (Paddle) o;
+                    PaddleImage = (BufferedImage) p.getImage();
+                    if (PaddleImage == null)
+                    {
 
-                    g.setColor(p.getColor());
-                    g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-                    g.setColor(Color.white);
-                    g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
-                } else {
-                    g.drawImage(p.getImage(), (int) p.getPosition().getX(), (int) p.getPosition().getY(), this);
+                        g.setColor(p.getColor());
+                        g.fillRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
+                        g.setColor(Color.white);
+                        g.drawRect((int) p.getPosition().getX(), (int) p.getPosition().getY(), (int) p.getSize().getX(), (int) p.getSize().getY());
+                    }
+                    else
+                    {
+                        g.drawImage(p.getImage(), (int) p.getPosition().getX(), (int) p.getPosition().getY(), this);
+                    }
                 }
             }
             String scoreText = "";
             int ypos = 25;
             Font scoreFont = new Font("arial", Font.BOLD, 16);
             Font paddleFont = new Font("arial", Font.BOLD, 12);
-            for (int uCounter = this.userList.size(); uCounter > 0; uCounter--) {
+            for (int uCounter = this.userList.size(); uCounter > 0; uCounter--)
+            {
                 User u = userList.get(uCounter - 1);
                 g.setFont(scoreFont);
                 g.setColor(Color.WHITE);
@@ -750,7 +912,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 ypos += 25;
 
             }
-            for (int counter = this.botList.size(); counter > 0; counter--) {
+            for (int counter = this.botList.size(); counter > 0; counter--)
+            {
                 CPU c = this.botList.get(counter - 1);
                 g.setFont(scoreFont);
                 g.setColor(Color.WHITE);
@@ -765,6 +928,10 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
             }
 
+        }
+        catch (Exception ex)
+        {
+            System.out.println("PaintError: " + ex.getMessage());
         }
     }
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - paintComponent nog sneller meer geheugen - - - - - - - - - - -">
@@ -848,9 +1015,11 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     // </editor-fold>
     @Override
-    public void run() {
+    public void run()
+    {
         // Do while game is started
-        while (inProgress) {
+        while (inProgress)
+        {
             long start, elapsed, wait;
             start = System.nanoTime();
             // calls update function on all objects
@@ -862,13 +1031,19 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
             elapsed = System.nanoTime() - start;
             wait = targetTime - elapsed / 10000;
-            if (wait <= 0) {
+            if (wait <= 0)
+            {
                 wait = 5;
             }
 
-            try {
+            try
+            {
+                // Deze sleep verwijderen ( dit is alleen voor test )
+                gameLoopThread.sleep(20);
                 gameLoopThread.sleep(wait);
-            } catch (Exception e) {
+            }
+            catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
@@ -876,7 +1051,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
         exitGame();
     }
 
-    private void exitGame() {
+    private void exitGame()
+    {
         gameLoopThread.interrupt();
         gameLoopThread = null;
         this.botList.clear();
@@ -888,112 +1064,145 @@ public class Game extends JPanel implements Runnable, KeyListener {
         System.out.println("Exited game");
     }
 
-    public void tick() {
+    public void tick()
+    {
 
         ArrayList<GameObject> objectsToRemove = new ArrayList<>();
-        for (int bCounter = ballList.size(); bCounter > 0; bCounter--) {
+        for (int bCounter = ballList.size(); bCounter > 0; bCounter--)
+        {
             Ball b = ballList.get(bCounter - 1);
             b.update();
             Rectangle r = new Rectangle((int) b.getMiddlePosition().getX(), (int) b.getMiddlePosition().getY(), 1, 1);
-            for (int oCounter = objectList.size(); oCounter > 0; oCounter--) {
+            for (int oCounter = objectList.size(); oCounter > 0; oCounter--)
+            {
                 GameObject s = objectList.get(oCounter - 1);
-                if (s instanceof Block) {
+                if (s instanceof Block)
+                {
                     Block block = (Block) s;
-                    if (block.isDestructable() == false) {
-                        if (r.intersects(s.getBounds())) {
+                    if (block.isDestructable() == false)
+                    {
+                        if (r.intersects(s.getBounds()))
+                        {
                             System.out.println("reset ball!");
                             b.setPosition(b.spawnPos);
                         }
                     }
                 }
             }
-            if (checkExitedBounds(b.getMiddlePosition()) == 1) {
+            if (checkExitedBounds(b.getMiddlePosition()) == 1)
+            {
 
                 objectsToRemove.add(P1Paddle);
                 // SPELER IS AF
                 // GET CLOSEST PADDLE
-                if (numberOfPLayersLeft != 0) {
+                if (numberOfPLayersLeft != 0)
+                {
                     numberOfPLayersLeft--;
                 }
                 System.out.println("Ball exited play.");
                 objectsToRemove.add(b);
-            } else if (checkExitedBounds(b.getMiddlePosition()) == 2) {
+            }
+            else if (checkExitedBounds(b.getMiddlePosition()) == 2)
+            {
                 objectsToRemove.add(P2Paddle);
                 // SPELER IS AF
                 // GET CLOSEST PADDLE
-                if (numberOfPLayersLeft != 0) {
+                if (numberOfPLayersLeft != 0)
+                {
                     numberOfPLayersLeft--;
                 }
                 System.out.println("Ball exited play.");
                 objectsToRemove.add(b);
-            } else if (checkExitedBounds(b.getMiddlePosition()) == 3) {
+            }
+            else if (checkExitedBounds(b.getMiddlePosition()) == 3)
+            {
                 objectsToRemove.add(P3Paddle);
                 // SPELER IS AF
                 // GET CLOSEST PADDLE
-                if (numberOfPLayersLeft != 0) {
+                if (numberOfPLayersLeft != 0)
+                {
                     numberOfPLayersLeft--;
                 }
                 System.out.println("Ball exited play.");
                 objectsToRemove.add(b);
-            } else if (checkExitedBounds(b.getMiddlePosition()) == 4) {
+            }
+            else if (checkExitedBounds(b.getMiddlePosition()) == 4)
+            {
                 objectsToRemove.add(P4Paddle);
                 // SPELER IS AF
                 // GET CLOSEST PADDLE
-                if (numberOfPLayersLeft != 0) {
+                if (numberOfPLayersLeft != 0)
+                {
                     numberOfPLayersLeft--;
                 }
                 System.out.println("Ball exited play.");
                 objectsToRemove.add(b);
             }
         }
-        for (CPU c : botList) {
+        for (CPU c : botList)
+        {
             c.update();
         }
-        for (Paddle p : paddleList) {
+        for (Paddle p : paddleList)
+        {
             p.update();
         }
-        for (GameObject o : objectsToRemove) {
+        for (GameObject o : objectsToRemove)
+        {
             removeObject(o);
         }
 
-        if (numberOfPLayersLeft == 0) {
-            try {
+        if (numberOfPLayersLeft == 0)
+        {
+            try
+            {
                 Thread.sleep(100);
                 window.dispose();
-            } catch (InterruptedException ex) {
+            }
+            catch (InterruptedException ex)
+            {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
-    private int checkExitedBounds(TVector2 vector) {
-        if (vector.getX() <= 0) {
+    private int checkExitedBounds(TVector2 vector)
+    {
+        if (vector.getX() <= 0)
+        {
             return 2;
         }
-        if (vector.getY() <= 0) {
+        if (vector.getY() <= 0)
+        {
             return 1;
         }
-        if (vector.getX() >= window.getSize().width) {
+        if (vector.getX() >= window.getSize().width)
+        {
             return 4;
         }
-        if (vector.getY() >= window.getSize().height) {
+        if (vector.getY() >= window.getSize().height)
+        {
             return 3;
         }
         return 0;
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped(KeyEvent e)
+    {
         // Doesn't need to do anything
     }
 
     //Keypressed eventhandler
     @Override
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed(KeyEvent e)
+    {
         //Get all objects from the game
-        for (GameObject o : this.objectList) {
+        for (GameObject o : this.objectList)
+        {
             // If object is a paddle
-            if (o instanceof Paddle) {
+            if (o instanceof Paddle)
+            {
                 Paddle p = (Paddle) o;
                 p.keyPressed(e.getKeyCode());
             }
@@ -1002,11 +1211,14 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     //Keyreleased eventhandler
     @Override
-    public void keyReleased(KeyEvent e) {
+    public void keyReleased(KeyEvent e)
+    {
         //Get all objects from the game
-        for (GameObject o : this.objectList) {
+        for (GameObject o : this.objectList)
+        {
             // If the object is a paddle
-            if (o instanceof Paddle) {
+            if (o instanceof Paddle)
+            {
                 //Stop moving the paddle
                 Paddle p = (Paddle) o;
                 p.keyReleased(e.getKeyCode());
@@ -1014,13 +1226,17 @@ public class Game extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    public TVector2 generateRandomVelocity() {
+    public TVector2 generateRandomVelocity()
+    {
         Random rand = new Random();
         float x = generateRandomFloat(-Ball.maxSpeed + (Ball.maxSpeed / 8), Ball.maxSpeed - (Ball.maxSpeed / 8), rand);
         float y;
-        if (x < 0) {
+        if (x < 0)
+        {
             y = Ball.maxSpeed - (x * -1);
-        } else {
+        }
+        else
+        {
             y = Ball.maxSpeed - x;
         }
         TVector2 returnVector = new TVector2(x, y);
@@ -1036,9 +1252,11 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param rand
      * @return NOt between -0.1and 0.1f
      */
-    private float generateRandomFloat(float min, float max, Random rand) {
+    private float generateRandomFloat(float min, float max, Random rand)
+    {
         float finalFloat = 0f;
-        while (finalFloat > -0.1f && finalFloat < 0.1f) {
+        while (finalFloat > -0.1f && finalFloat < 0.1f)
+        {
             finalFloat = rand.nextFloat() * (max - min) + min;
         }
         return finalFloat;

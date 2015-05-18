@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import Server.Server;
-import java.awt.Color;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 /**
  *
@@ -29,7 +29,7 @@ public class PaddleTest {
     @Before
     public void setUp() throws RemoteException {
         selectedServer = new Server();
-        game  = new Game(1, 300,true);
+        game  = new Game(1, 300,true, new ArrayList<User>());
         
         player1 = new User("PongLord666","123456", "Email@Pong.com", selectedServer);
         player2 = new User("TestAccount1", "Test01", "Test@Pong.com", selectedServer);

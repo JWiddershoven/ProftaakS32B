@@ -7,8 +7,8 @@ package Shared;
 
 import Server.CollisionChecker;
 import Server.Server;
-import java.awt.Color;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -33,7 +33,7 @@ public class BallTest
     @Before
     public void setUp() throws RemoteException
     {
-        testGame = new Game(1, 180, false);
+        testGame = new Game(1, 180, false, new ArrayList<User>());
         server = new Server();
         cpu = new CPU("Bot", (byte) 5, testGame);
         user = new User("Jelle123", "wachtwoord123", "jelle@gmail.com", server);
