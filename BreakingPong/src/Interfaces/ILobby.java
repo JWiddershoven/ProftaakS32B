@@ -5,10 +5,8 @@
  */
 package Interfaces;
 
-import Shared.User;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  *

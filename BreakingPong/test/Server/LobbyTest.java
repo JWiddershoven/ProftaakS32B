@@ -7,8 +7,6 @@ package Server;
 
 import Shared.User;
 import java.rmi.RemoteException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 

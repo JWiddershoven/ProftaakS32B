@@ -20,7 +20,7 @@ public class GameObject
     private TVector2 position;
     private TVector2 velocity;
     private TVector2 size;
-    private Image MyImage;
+    private final Image MyImage;
     private Color color;
 
     /**
@@ -32,6 +32,10 @@ public class GameObject
         return color;
     }
 
+    /**
+     * return new TVector2(position.getX() + (size.getX() / 2), position.getY() + (size.getY() / 2));
+     * @return  new TVector2(position.getX() + (size.getX() / 2), position.getY() + (size.getY() / 2));
+     */
     public TVector2 getMiddlePosition()
     {
         return new TVector2(position.getX() + (size.getX() / 2), position.getY() + (size.getY() / 2));
@@ -77,7 +81,10 @@ public class GameObject
         this.velocity = velocity;
     }
 
-    
+    /**
+     * returns this.MyImage
+     * @return this.MyImage
+     */
     public Image getImage()
     {
         return this.MyImage;

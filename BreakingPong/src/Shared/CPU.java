@@ -79,8 +79,10 @@ public class CPU {
             }
             catch (Exception ex) {
                 System.out.println("ERROR in setClosest ball " + ex.getMessage());
-                if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition())) {
-                    closestBall = b;
+                if (b != null && closestBall != null) {
+                    if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition())) {
+                        closestBall = b;
+                    }
                 }
             }
         }
@@ -109,13 +111,16 @@ public class CPU {
     /**
      * Methode for calling the move methode with difference for the position of
      * the CPU
+     * @throws java.lang.Exception
      */
     public void Move() throws Exception {
-            if (this.closestBall == null)
-                throw new Exception("closestBall is null in Move()");
-            if (this.myPaddle == null)
-                throw  new Exception("myPaddle is null in Move()");
-           
+        if (this.closestBall == null) {
+            throw new Exception("closestBall is null in Move()");
+        }
+        if (this.myPaddle == null) {
+            throw new Exception("myPaddle is null in Move()");
+        }
+
         try {
             if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {

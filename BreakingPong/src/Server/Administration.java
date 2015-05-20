@@ -50,7 +50,10 @@ public class Administration {
      */
     public class IncorrectLoginDataException extends Exception {
 
-        //Constructor that accepts a message
+        /**
+         * Custom exception for incorrect Login data
+         * @param message 
+         */
         public IncorrectLoginDataException(String message) {
             super(message);
         }

@@ -16,6 +16,9 @@ import java.util.ArrayList;
  */
 public class Block extends GameObject
 {
+    /**
+     * TVector2(20f,20f)
+     */
     public static TVector2 standardBlockSize = new TVector2(20f,20f);
     
     /**
@@ -44,7 +47,6 @@ public class Block extends GameObject
      * @param position as TVector2. The position of the GameObject in the game.
      * @param velocity as TVector2. The velocity of the GameObject in the game.
      * @param size as TVector2. The size of the GameObject in the game.
-     * @param color
      */
     public Block(int points, boolean isDestructable, PowerUp powerUp, TVector2 position, TVector2 velocity, TVector2 size, Image image)
     {

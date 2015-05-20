@@ -5,8 +5,6 @@
  */
 package Shared;
 
-import Server.Server;
-
 /**
  * @author Jelle
  */

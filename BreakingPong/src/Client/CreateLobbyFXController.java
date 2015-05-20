@@ -142,11 +142,6 @@ public class CreateLobbyFXController implements Initializable
             System.out.println("Error : " + ex.getMessage());
             
         }
-        catch (Exception ex)
-        {
-            System.out.println("OncreateLobby " + ex.getMessage());
-            throw ex;
-        }
     }
 
     /**

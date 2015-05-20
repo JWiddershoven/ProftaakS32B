@@ -39,6 +39,7 @@ public interface IClientSecurity extends Remote{
     /**
      * Pre-condition: User must in CreateUser screen.
      * Description: Gives the information to the createUser method of IJoin and returns a boolean value of IJoin.createUser
+     * @param username minimal of 6 symbols
      * @param Password minimal of 6 symbols
      * @param email must be a valid email meaning it contains a "@" and a "."
      * @return boolean value of IJoin.createUser

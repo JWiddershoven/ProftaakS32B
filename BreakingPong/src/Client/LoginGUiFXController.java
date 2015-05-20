@@ -175,7 +175,7 @@ public class LoginGUiFXController implements Initializable {
 
         final String messageForDialog = message;
 
-        if (!messageForDialog.isEmpty()) {
+        if (messageForDialog != null && !messageForDialog.isEmpty()) {
             EventQueue.invokeLater(() -> {
                 JOptionPane.showMessageDialog(null, messageForDialog);
             });

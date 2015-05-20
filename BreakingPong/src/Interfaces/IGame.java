@@ -47,7 +47,7 @@ public interface IGame{
      * Pre-condition:
      * Description: Returns a List with Username,Score,ranking of all players in the game.
      * @param game The game the client is in.
-     * @return List<String> of with Username,Score,ranking of all players in the game.
+     * @return List of Strings of with Username,Score,ranking of all players in the game.
      * @throws RemoteException 
      */
     public ArrayList<String> getPlayersInformation(IGame game)throws RemoteException;

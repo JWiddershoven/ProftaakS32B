@@ -52,64 +52,50 @@ public class AdministrationTest {
         try {
             administration.login(username, null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IncorrectLoginDataException ex) {
 
-        } catch(IncorrectLoginDataException ex){
-            
         }
 
         try {
             administration.login(null, password);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IncorrectLoginDataException ex) {
 
-        }catch(IncorrectLoginDataException ex){
-            
         }
 
         try {
             administration.login(null, null);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IncorrectLoginDataException ex) {
 
-        }catch(IncorrectLoginDataException ex){
-            
         }
 
         try {
             administration.login("", password);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IncorrectLoginDataException ex) {
 
-        }catch(IncorrectLoginDataException ex){
-            
         }
 
         try {
             administration.login(username, "");
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IncorrectLoginDataException ex) {
 
-        }catch(IncorrectLoginDataException ex){
-            
         }
 
         try {
             administration.login(" ", password);
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IncorrectLoginDataException ex) {
 
-        }catch(IncorrectLoginDataException ex){
-            
         }
 
         try {
             administration.login(username, " ");
             fail();
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException | IncorrectLoginDataException ex) {
 
-        }catch(IncorrectLoginDataException ex){
-            
         }
 
     }

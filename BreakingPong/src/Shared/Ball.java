@@ -7,13 +7,8 @@ package Shared;
 
 import Server.CollisionChecker;
 import Shared.Paddle.windowLocation;
-import java.awt.Color;
 import java.awt.Image;
-import java.io.FileInputStream;
-import java.util.Date;
 import java.util.ArrayList;
-import javafx.application.Platform;
-import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 /**
@@ -37,7 +32,7 @@ public class Ball extends GameObject {
      * @param velocity The velocity of a GameObject.
      * @param size The size of a GameObject.
      * @param game The game of where this ball is in.
-     * @param color JAVA AWT
+     * @param image
      */
     public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game,Image image) {
         super(position, velocity, size,image);

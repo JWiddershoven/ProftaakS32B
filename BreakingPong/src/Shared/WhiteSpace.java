@@ -5,7 +5,6 @@
  */
 package Shared;
 
-import java.awt.Color;
 import java.awt.Image;
 
 /**

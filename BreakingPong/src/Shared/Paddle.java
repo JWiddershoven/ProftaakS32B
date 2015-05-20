@@ -82,7 +82,7 @@ public class Paddle extends GameObject
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
      * @param selectedLocation value of selectedPosition as windowLocation
-     * @param color JAVA AWT
+     * @param image
      */
     public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation,Image image)
     {
@@ -101,7 +101,7 @@ public class Paddle extends GameObject
      * @param size value of size as TVector2
      * @param user value of user as Player Object
      * @param selectedLocation value of selectedposition as windowLocation
-     * @param color
+     * @param image
      */
     public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation,Image image)
     {
