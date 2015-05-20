@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * The database helper
  * @author sjorsvanmierlo
  */
 public final class DatabaseHelper {
@@ -25,6 +25,14 @@ public final class DatabaseHelper {
     private final static String url = "jdbc:mysql://localhost:3306/BreakingBusiness";
     private final static EncryptionType encryptionType = EncryptionType.MD5;
 
+    /**
+     * Register a new user to the game.
+     * @param username The username of the new user. Has to be unique.
+     * @param password The password of the new user. Has to be 6 characters long.
+     * @param email The email of the new user. Must contain @ and a . to be valid.
+     * @return Returns true if the user is registerd else false.
+     * @throws SQLException If SQL fails , excetpion will be thrown to GUI to handle.
+     */
     public static boolean registerUser(String username, String password, String email) throws SQLException {
 
         if (username == null || password == null || email == null || username.isEmpty() || password.isEmpty() || email.isEmpty()) {
@@ -69,6 +77,12 @@ public final class DatabaseHelper {
         return result;
     }
 
+    /**
+     * Logs a user in.
+     * @param username The username cannot be empty or null.
+     * @param password The password cannot be empty or null.
+     * @return a object with user info if succeeded else object with false boolean.
+     */
     public static LoggedinUser loginUser(String username, String password) {
 
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
@@ -120,6 +134,12 @@ public final class DatabaseHelper {
         }
     }
 
+    /**
+     * Updates the rating of a user.
+     * @param username The username cannot be empty or null.
+     * @param newRating The new rating cannot be NaN.
+     * @return Returns a boolean is the update is successfull.
+     */
     public static boolean updateRating(String username, Double newRating) {
 
         if (username == null || username.isEmpty() || newRating.isNaN()) {
@@ -150,6 +170,11 @@ public final class DatabaseHelper {
         }
     }
 
+    /**
+     * Gets the rating of a user.
+     * @param username The username cannot be empty or null.
+     * @return Returns a double with the rating.
+     */
     public static double getRating(String username) {
 
         if (username == null || username.isEmpty()) {
@@ -180,6 +205,9 @@ public final class DatabaseHelper {
         return result;
     }
 
+    /**
+     * Initialises the database connection.
+     */
     private static void initConnection() {
         try {
             connection = DriverManager.getConnection(url, username, password);
@@ -189,6 +217,9 @@ public final class DatabaseHelper {
         }
     }
 
+    /**
+     * Closes the database connnection.
+     */
     private static void closeConnection() {
         try {
             connection.close();
