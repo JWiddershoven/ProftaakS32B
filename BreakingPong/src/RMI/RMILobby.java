@@ -6,6 +6,7 @@
 package RMI;
 
 import Interfaces.ILobby;
+import Interfaces.IServer;
 import Interfaces.IUser;
 import Server.Lobby;
 import Server.Server;
@@ -30,18 +31,21 @@ public class RMILobby implements ILobby{
 
     private byte maxPlayers;
 
-    private Server host;
+    private ServerRMI host;
 
     private Game game;
 
     private ArrayList<IUser> joinedPlayers;
             
     @Override
-    public boolean leaveLobby(ILobby lobby ,IUser user) throws RemoteException {
-       if(this.joinedPlayers.contains(user))
+    public boolean leaveLobby(int lobbyid ,String username) throws RemoteException {
+       for(IUser user : joinedPlayers)
        {
-           this.joinedPlayers.remove(user);
-           return true;
+           if(user.getUsername(user).equals(username))
+           {
+               joinedPlayers.remove(user);
+               return true;
+           }
        }
        return false;
     }
@@ -58,27 +62,43 @@ public class RMILobby implements ILobby{
     }
 
     @Override
-    public ArrayList<String> getPlayerInformationFromLobby(ILobby lobby) throws RemoteException {
+    public ArrayList<String> getPlayerInformationFromLobby(int lobbyid) throws RemoteException {
         ArrayList<String> returnvalue = new ArrayList<String>();
         if(joinedPlayers != null && !joinedPlayers.isEmpty())
         {
             for(IUser user : joinedPlayers)
             {
-                returnvalue.add(user.getPlayerInformation(user));
+                returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
             }
         }
         return returnvalue;
     }
 
     @Override
-    public boolean addUserToLobby(IUser user, ILobby lobby) {
+    public boolean addUserToLobby(String username, int lobbyid) {
+       boolean Breturn = false;
+       for(IUser user: joinedPlayers)
+       {
+           if(user.getUsername(user).equals(username))
+           {
+               Breturn = false;
+           }
+       }
        
-        if(user != null && !joinedPlayers.contains(user))
-        {
-            joinedPlayers.add(user);
-            return true;
-        }
-        else return false;
+       for(IUser user: host.loggedInUsers)
+       {
+           if(user.getUsername(user).equals(username))
+           {
+               joinedPlayers.add(user);
+               Breturn = true;
+           }
+     }
+       return Breturn;
+    }
+
+    @Override
+    public int getLobbyID() {
+        return this.id;
     }
     
 }

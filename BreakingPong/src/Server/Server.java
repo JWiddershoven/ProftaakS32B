@@ -131,7 +131,7 @@ public class Server extends UnicastRemoteObject// implements IServer
             throw new IllegalArgumentException("Host is null");
         }
 
-        Lobby lobby = new Lobby(id, name, password, owner, maxPlayer, host);
+        Lobby lobby = new Lobby(id, name, password, owner, maxPlayer);
         lobbys.add(lobby);
         return lobby;
     }

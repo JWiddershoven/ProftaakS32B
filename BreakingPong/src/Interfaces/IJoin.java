@@ -29,7 +29,7 @@ public interface IJoin{
      * @return true if user is logged in
      * @throws RemoteException 
      */
-    public boolean logout(IUser user)throws RemoteException;
+    public boolean logout(String username)throws RemoteException;
     
     /**
      * Description: Creates a user with given credentials. Credentials are already checked so shouldn't be needed to check again.

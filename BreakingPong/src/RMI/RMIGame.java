@@ -52,23 +52,32 @@ public class RMIGame implements IGame{
 
 
     @Override
-    public boolean leaveGame(IGame game , IUser user) throws RemoteException {
-       if(this.userList.contains(user))
-       {
-           this.userList.remove(user);
-           return true;
-       }
-       return false;
+    public boolean leaveGame(int gameid , String username) throws RemoteException {
+     
+        for(IUser user : userList)
+        {
+            if(user.getUsername(user).equals(username))
+            {
+                userList.remove(user);
+                return true;
+            }
+        }
+        return false;
+        
     }
 
     @Override
-    public boolean kickPlayer(IUser user) throws RemoteException {
-        if(this.userList.contains(user))
+    public boolean kickPlayer(String username) throws RemoteException {
+
+        for(IUser user : userList)
         {
-            this.userList.remove(user);
-            return true;
+            if(user.getUsername(user).equals(username))
+            {
+                userList.remove(user);
+                return true;
+            }
         }
-        return false;        
+        return false;
     }
 
     @Override
@@ -77,24 +86,42 @@ public class RMIGame implements IGame{
     }
 
     @Override
-    public IGame joinGame(IGame game, IUser user) throws RemoteException {
-       if(this.userList != null)
+    public IGame joinGame(int gameid, String username) throws RemoteException {
+       boolean check = false;
+       IUser Juser = null;
+       for(IUser user : userList)
        {
-       this.userList.add(user);
+           if(!user.getUsername(user).equals(username))
+           {
+               Juser = user;
+               check = false;
+           }
+           else check = true;
        }
-       return this;
+       
+       if(!check)
+       {
+           userList.add(Juser);
+           return this;
+       }
+       return null;
     }
 
     @Override
-    public ArrayList<String> getPlayersInformation(IGame game) throws RemoteException {
+    public ArrayList<String> getPlayersInformation(int game) throws RemoteException {
        ArrayList<String> returnvalue = new ArrayList<>();
        if(this.userList != null)
        {
            for(IUser user : this.userList)
            {
-               returnvalue.add(user.getPlayerInformation(user));
+               returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
            }
        }
        return returnvalue;
+    }
+
+    @Override
+    public int getID() {
+        return this.id;
     }
 }

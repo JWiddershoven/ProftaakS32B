@@ -23,7 +23,7 @@ public interface ILobby{
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
-    public boolean leaveLobby(ILobby lobby,IUser user)throws RemoteException;   
+    public boolean leaveLobby(int lobbyid,String username)throws RemoteException;   
     
     
     /**
@@ -46,8 +46,10 @@ public interface ILobby{
      * @return List of Username and Ranking of all players in the game.
      * @throws RemoteException 
      */
-    public ArrayList<String> getPlayerInformationFromLobby(ILobby lobby)throws RemoteException;
+    public ArrayList<String> getPlayerInformationFromLobby(int lobbyid)throws RemoteException;
     
-    public boolean addUserToLobby(IUser user, ILobby lobby);
+    public boolean addUserToLobby(String username, int lobbyid);
+    
+    public int getLobbyID();
     
 }
