@@ -24,7 +24,7 @@ public class RMIUser implements IUser
     
     //-----------------------------------
     @Override
-    public String getPlayerInformation(IUser user) throws RemoteException {
+    public String getPlayerInformation(String username) throws RemoteException {
         String returnValue = "Player: " + username +" has a rating of :" + Rating;
         return returnValue;
     }

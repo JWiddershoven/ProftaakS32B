@@ -27,7 +27,7 @@ public interface IServer extends Remote,IGame,ILobby,IUser
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
-    public boolean createLobby(String name,String Password,User Owner,Byte maxPlayers,IServer server) throws RemoteException;
+    public boolean createLobby(String name,String Password,String username,Byte maxPlayers) throws RemoteException;
     
     /**
      * Pre-condition: Lobby must exist, must be enough space for a new player and the lobby is not ingame.
@@ -37,7 +37,7 @@ public interface IServer extends Remote,IGame,ILobby,IUser
      * @return The new ILobby
      * @throws RemoteException 
      */
-    public ILobby joinLobby(ILobby lobby,IUser user) throws RemoteException;
+    public ILobby joinLobby(int lobbyid,String username) throws RemoteException;
     
     /**
      * Pre-condition: Lobby must exist.
@@ -46,5 +46,5 @@ public interface IServer extends Remote,IGame,ILobby,IUser
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
-    public boolean removeLobby(ILobby lobby)throws RemoteException;
+    public boolean removeLobby(int lobbyid)throws RemoteException;
 }

@@ -18,7 +18,7 @@ public interface IUser{
      * @return String with Username and Ranking
      * @throws RemoteException 
      */
-    public String getPlayerInformation(IUser user)throws RemoteException;
+    public String getPlayerInformation(String username)throws RemoteException;
     
     /**
      * Description: Returns a string with the username

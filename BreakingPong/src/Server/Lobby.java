@@ -47,7 +47,7 @@ public class Lobby
      * @param maxPlayer The amount of maximum available players
      * @param host The host of the game
      */
-    public Lobby(int id, String name, String password, User owner, byte maxPlayer, Server host)
+    public Lobby(int id, String name, String password, User owner, byte maxPlayer)
     {
         if (name == null || name.trim().isEmpty())
         {
@@ -83,7 +83,6 @@ public class Lobby
         this.name = name;
         this.owner = owner;
         this.maxPlayers = maxPlayer;
-        this.host = host;
         this.joinedPlayers = new ArrayList<>();
     }
 

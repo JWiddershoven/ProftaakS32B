@@ -21,22 +21,36 @@ import java.util.logging.Logger;
 
 public class ServerRMI implements IServer {
 
-    private ArrayList<IUser> loggedInUsers = new ArrayList<>();
+    private int ID;
+    public ArrayList<IUser> loggedInUsers = new ArrayList<>();
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
+    private ArrayList<IGame> currentGames = new ArrayList<>();
 
     @Override
-    public boolean kickPlayer(IUser user) throws RemoteException {
-       if(loggedInUsers != null && loggedInUsers.contains(user))
+    public boolean kickPlayer(String username) throws RemoteException {
+       boolean returnValue = false;
+       for(IUser user : loggedInUsers)
        {
-           loggedInUsers.remove(user);
-           return true;
+           if(user.getUsername(user).equals(username))
+           {
+               loggedInUsers.remove(user);
+               returnValue = true;
+           }
        }
-       return false;
+       return returnValue;
     }
 
     @Override
-    public ArrayList<String> getPlayersInformation(IGame game) throws RemoteException {
-        return game.getPlayersInformation(game);
+    public ArrayList<String> getPlayersInformation(int gameid) throws RemoteException {
+       ArrayList<String> returnValue = new ArrayList<>();
+       for(IGame game : currentGames)
+       {
+           if(game.getID() == gameid)
+           {
+               returnValue = game.getPlayersInformation(gameid);
+           }
+       }
+       return returnValue;
     }
 
     @Override
@@ -45,52 +59,62 @@ public class ServerRMI implements IServer {
     }
 
     @Override
-    public boolean createLobby(String name, String Password, User Owner, Byte maxPlayers, IServer server) throws RemoteException {
-       if(name != null && Password != null && Owner != null && maxPlayers != null && server != null)
+    public boolean createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException {
+       if(name != null && Password != null && Owner != null && maxPlayers != null)
        {
-        Lobby lobby = new Lobby(currentLobbies.size() + 1 ,name,Password,Owner,maxPlayers,(Server)server);
-       currentLobbies.add((ILobby)lobby);
-       return true;
+        for(IUser user : loggedInUsers)
+        {
+            if(user.getUsername(user).equals(name))
+            {
+               Lobby lobby = new Lobby(currentLobbies.size() + 1 ,name,Password,(User)user,maxPlayers);
+               currentLobbies.add((ILobby)lobby); 
+               return true;
+            }
+        }
        }
        return false;
     }
 
     @Override
-    public ILobby joinLobby(ILobby lobby,IUser user) throws RemoteException {
-        if(lobby != null && user != null)
+    public ILobby joinLobby(int lobbyid,String username) throws RemoteException {
+        ILobby returnValue = null;
+        for(ILobby lobby : currentLobbies)
         {
-            lobby.addUserToLobby(user, lobby);
-            return lobby;
-        }
-        throw new IllegalArgumentException();
-    }
-
-    @Override
-    public boolean leaveLobby(ILobby lobby,IUser user) throws RemoteException {
-        try {
-            if(lobby != null)
+            if(lobby.getLobbyID() == lobbyid)
             {
-            lobby.leaveLobby(lobby, user);
-            return true;
+               lobby.addUserToLobby(username, lobbyid);
+               returnValue = lobby;
             }
-        } catch (RemoteException ex) {
-            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return returnValue;
     }
 
     @Override
-    public boolean removeLobby(ILobby lobby) throws RemoteException {
-        if(lobby != null && currentLobbies != null && currentLobbies.size() >= 1)
+    public boolean leaveLobby(int lobbyid,String user) throws RemoteException {
+        
+        boolean check = false;
+        for(ILobby lobby : currentLobbies)
         {
-            if(currentLobbies.contains(lobby))
+            if(lobby.getLobbyID() == lobbyid)
+            {
+               lobby.leaveLobby(lobbyid, user);
+               check = true;
+            }
+        }
+        return check;     
+    }
+
+    @Override
+    public boolean removeLobby(int lobbyid) throws RemoteException {
+        for(ILobby lobby : currentLobbies)
+        {
+            if(lobby.getLobbyID() == lobbyid)
             {
                 currentLobbies.remove(lobby);
                 return true;
             }
-            else return false;
         }
-        else return false;
+        return false;
     }
 
     @Override
@@ -104,18 +128,42 @@ public class ServerRMI implements IServer {
     }
 
     @Override
-    public ArrayList<String> getPlayerInformationFromLobby(ILobby lobby) throws RemoteException {
-        return lobby.getPlayerInformationFromLobby(lobby);        
+    public ArrayList<String> getPlayerInformationFromLobby(int lobbyid) throws RemoteException {
+       ArrayList<String> returnValue = null;
+       for(ILobby lobby : currentLobbies)
+       {
+           if(lobby.getLobbyID() == lobbyid)
+           {
+              returnValue =  lobby.getPlayerInformationFromLobby(lobbyid);
+           }
+       }
+       return returnValue;
     }
 
     @Override
-    public String getPlayerInformation(IUser user) throws RemoteException {
-       return user.getPlayerInformation(user);
+    public String getPlayerInformation(String username) throws RemoteException {
+       String returnValue = null;
+       for(IUser user : loggedInUsers)
+       {
+           if(user.getUsername(user).equals(username))
+           {
+               returnValue = user.getPlayerInformation(username);
+           }
+       }
+       return returnValue;
     }
 
     @Override
-    public IGame joinGame(IGame game, IUser user) throws RemoteException {
-        return game.joinGame(game, user);        
+    public IGame joinGame(int gameid, String username) throws RemoteException {
+       IGame returnValue = null;
+       for(IGame game : currentGames)
+       {
+           if(game.getID() == gameid)
+           {
+               returnValue = game.joinGame(gameid, username);
+           }
+       }
+       return returnValue;
     }
 
     @Override
@@ -124,8 +172,16 @@ public class ServerRMI implements IServer {
     }
 
     @Override
-    public boolean leaveGame(IGame game, IUser user) throws RemoteException {
-        return game.leaveGame(game, user);
+    public boolean leaveGame(int gameid,String username) throws RemoteException {
+       boolean returnValue = false;
+       for(IGame game : currentGames)
+       {
+           if(game.getID() == gameid)
+           {
+               returnValue = game.leaveGame(gameid, username);
+           }
+       }
+       return returnValue;
     }
 
     
@@ -145,8 +201,34 @@ public class ServerRMI implements IServer {
     }
 
     @Override
-    public boolean addUserToLobby(IUser user, ILobby lobby) {
-        return lobby.addUserToLobby(user, lobby);
+    public boolean addUserToLobby(String username, int lobbyid) {
+        boolean check = false;
+        for(ILobby lobby : currentLobbies)
+        {
+            if(lobby.getLobbyID() == lobbyid)
+            {
+                for(IUser user : loggedInUsers)
+                {
+                    if(user.getUsername(user).equals(username))
+                    {
+                        lobby.addUserToLobby(username, lobbyid);
+                        check = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return check;
+    }
+
+    @Override
+    public int getID() {
+      return 0;
+    }
+
+    @Override
+    public int getLobbyID() {
+       return 0;
     }
 
   

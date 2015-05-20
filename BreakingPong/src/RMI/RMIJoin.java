@@ -30,10 +30,19 @@ public class RMIJoin implements IJoin{
     }
 
     @Override
-    public boolean logout(IUser user) throws RemoteException {
-        if(user != null)
+    public boolean logout(String username) throws RemoteException {
+        if(username != null)
         {
-        server.logout(user);
+        IUser foundUser = null;
+        for(IUser user : server.loggedInUsers)
+        {
+            if(user.getUsername(user).equals(username))
+            {
+                server.loggedInUsers.remove(user);
+                foundUser = user;                
+            }
+        }
+        server.logout(foundUser);
         return true;
         }
         return false;

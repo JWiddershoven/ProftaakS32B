@@ -22,7 +22,7 @@ public interface IGame{
      * @return The IGame of the game the user wants to join.
      * @throws RemoteException 
      */
-    public IGame joinGame(IGame game , IUser user) throws RemoteException;
+    public IGame joinGame(int gameID , String username) throws RemoteException;
     
     /**
      * Pre-condition: User must be in the game he/she wants to leave.
@@ -32,7 +32,7 @@ public interface IGame{
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
-    public boolean leaveGame(IGame game , IUser user) throws RemoteException;
+    public boolean leaveGame(int gameID , String username) throws RemoteException;
     
     /**
      * Pre-condition: User must be in a lobby and cannot be the owner of this lobby.
@@ -41,7 +41,7 @@ public interface IGame{
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException
      */
-    public boolean kickPlayer(IUser user)throws RemoteException;
+    public boolean kickPlayer(String username)throws RemoteException;
     
     /**
      * Pre-condition:
@@ -50,7 +50,7 @@ public interface IGame{
      * @return List of Strings of with Username,Score,ranking of all players in the game.
      * @throws RemoteException 
      */
-    public ArrayList<String> getPlayersInformation(IGame game)throws RemoteException;
+    public ArrayList<String> getPlayersInformation(int gameid)throws RemoteException;
     
     /**
      * Pre-condition: Map is of correct format.
@@ -59,4 +59,7 @@ public interface IGame{
      * @throws RemoteException 
      */
     public void addMap(IMap map)throws RemoteException;
+    
+    
+    public int getID();
 }
