@@ -115,7 +115,7 @@ public class LobbySelectFXController implements Initializable
         }
         catch (Exception ex)
         {
-            System.out.println(ex.getMessage());
+            System.out.println("ERROR in fillListViews : " + ex.getMessage());
             throw ex;
         }
     }

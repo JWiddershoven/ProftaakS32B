@@ -59,7 +59,7 @@ public final class DatabaseHelper {
 
             result = true;
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error in register user: "  + ex.getMessage());
             result = false;
             throw ex;
         } finally {
@@ -108,7 +108,7 @@ public final class DatabaseHelper {
                 }
             }
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ERROR in loginUser " + ex.getMessage());
         } finally {
             closeConnection();
         }
@@ -140,7 +140,7 @@ public final class DatabaseHelper {
 
             closeConnection();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ERROR in updateRating: " + ex.getMessage());
         }
 
         if (updateCount > 0) {
@@ -170,7 +170,7 @@ public final class DatabaseHelper {
             }
             closeConnection();
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("ERROR in getRating " + ex.getMessage());
         }
 
         if (count == 0) {
@@ -185,7 +185,7 @@ public final class DatabaseHelper {
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connected");
         } catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error in initConnection " + ex.getMessage());
         }
     }
 
@@ -194,7 +194,7 @@ public final class DatabaseHelper {
             connection.close();
             connection = null;
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Error in close connection " + ex.getMessage());
         }
     }
 

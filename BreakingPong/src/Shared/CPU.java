@@ -82,7 +82,7 @@ public class CPU
             }
             catch(Exception ex)
             {
-                System.out.println(ex.getMessage());
+                System.out.println("ERROR in setClosest ball " + ex.getMessage());
                  if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition()))
                 {
                     closestBall = b;
