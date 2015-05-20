@@ -5,15 +5,13 @@
  */
 package Shared;
 
-import Interfaces.IGame;
-import Interfaces.IMap;
-import Interfaces.IUser;
 import Server.CollisionChecker;
 import Server.Server;
 import Shared.Paddle.windowLocation;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -41,11 +39,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Mnesymne
  */
-
 public class Game extends JPanel implements Runnable, KeyListener {
 
     int playerAmount = 1;
-
 
     private int id;
     private int gameTime;
@@ -181,6 +177,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param id value of id as int
      * @param gameTime value of gameTime as int
      * @param powerUps value of powerUps as int
+     * @param players
      */
     public Game(int id, int gameTime, boolean powerUps, ArrayList<User> players) {
         this.id = id;
@@ -196,7 +193,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
         try {
             if (players.get(0) != null) {
-                player1 = players.get(1);
+                player1 = players.get(0);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -214,7 +211,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
         }
         try {
             if (players.get(2) != null) {
-                player3 = players.get(3);
+                player3 = players.get(2);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -222,7 +219,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
         }
         try {
             if (players.get(3) != null) {
-                player4 = players.get(4);
+                player4 = players.get(3);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -262,8 +259,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
     }
 
     public void removePlayer(String playerName) {
-        for (int i = 0; i < userList.size(); i++) {
-            User u = userList.get(i);
+        for (int i = userList.size(); i > 0; i--) {
+            User u = userList.get(i - 1);
             if (u.getUsername().equals(playerName)) {
                 userList.remove(u);
             }
@@ -307,7 +304,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
     /**
      * Get all the Objects from the games object list
      *
-     * @return ArrayList<GameObject>
+     * @return ArrayList of GameObjects
      */
     public ArrayList<GameObject> getObjectList() {
         return this.objectList;
@@ -319,6 +316,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     /**
      * Create the window, draw the objects and start the game
+     * @return 
      */
     public Thread setupGame() {
         //Open file dialog and save input
@@ -349,10 +347,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 Thread.sleep(5000);
                 this.startGame();
             }
-            catch (IOException ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch (InterruptedException ex) {
+            catch (IOException | InterruptedException ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -372,9 +367,9 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     /**
      * Opens a filedialog where the user can select a .txt file to be loaded
-     * into a ArrayList<String>
+     * into a ArrayList of Strings
      *
-     * @return ArrayList<String> loaded map file as ArrayList.
+     * @return ArrayList of Strings loaded map file as ArrayList.
      */
     public ArrayList<String> loadMap() {
         CollisionChecker.gameObjectsList.clear();
@@ -451,7 +446,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
     /**
      * Draw objects onto the panel from the ArrayList
      *
-     * @param mapLayout ArrayList<String> with the mapLayout from the
+     * @param mapLayout ArrayList of Strings with the mapLayout from the
      * LoadMapMethod
      */
     public void drawMap(ArrayList<String> mapLayout) {
@@ -474,34 +469,31 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 for (String row : mapLayout) {
                     // Read every number on a row of the maplayout
                     for (int c = 0; c <= row.length() - 1; c++) {
-                        Thread.sleep(1);
                         x = c * 20;
                         String type = row.substring(c, c + 1);
                         TVector2 newObjectPosition = new TVector2(x, y);
-
                         TVector2 middleOfScreen = new TVector2((float) window.getWidth() / 2, (float) window.getHeight() / 2);
                         float diffX = middleOfScreen.getX() - newObjectPosition.getX();
                         float diffY = middleOfScreen.getY() - newObjectPosition.getY();
 
                         if (type.equals("4") || type.equals("5")) {
-                            diffX = diffX;
-                        }
 
-                        if (Math.abs(diffX) > Math.abs(diffY)) {
-                            // East of West
-                            if (diffX < 0) {
-                                paddleLocation = windowLocation.WEST;
+                            if (Math.abs(diffX) > Math.abs(diffY)) {
+                                // East of West
+                                if (diffX < 0) {
+                                    paddleLocation = windowLocation.EAST;
+                                }
+                                else {
+                                    paddleLocation = windowLocation.WEST;
+                                }
                             }
                             else {
-                                paddleLocation = windowLocation.EAST;
-                            }
-                        }
-                        else {
-                            if (diffY < 0) {
-                                paddleLocation = windowLocation.SOUTH;
-                            }
-                            else {
-                                paddleLocation = windowLocation.NORTH;
+                                if (diffY < 0) {
+                                    paddleLocation = windowLocation.SOUTH;
+                                }
+                                else {
+                                    paddleLocation = windowLocation.NORTH;
+                                }
                             }
                         }
 
@@ -571,23 +563,24 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
                                     PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
                                     size = new TVector2(100f, 20f);
-                                    if (player3 != null) {
-                                        P3Paddle = new Paddle(0, newObjectPosition, velocity, size, player3, paddleLocation, PaddleImage);
-                                        player3.setPaddle(P3Paddle);
-                                        this.addObject(P3Paddle);
-                                        this.paddleList.add(P3Paddle);
+                                    if (player4 != null) {
+                                        P4Paddle = new Paddle(0, newObjectPosition, velocity, size, player4, paddleLocation, PaddleImage);
+                                        player4.setPaddle(P4Paddle);
+                                        this.addObject(P4Paddle);
+                                        this.userList.add(player4);
+                                        this.paddleList.add(P4Paddle);
                                         playerAmount++;
-                                        System.out.println("P3 " + P3Paddle.getWindowLocation());
+                                        System.out.println("P4 " + P4Paddle.getWindowLocation());
                                         break;
                                     }
                                     else {
-                                        P3Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu3, paddleLocation, PaddleImage);
-                                        cpu3.setMyPaddle(P3Paddle);
-                                        this.addObject(P3Paddle);
-                                        this.botList.add(cpu3);
-                                        this.paddleList.add(P3Paddle);
+                                        P4Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu4, paddleLocation, PaddleImage);
+                                        cpu4.setMyPaddle(P4Paddle);
+                                        this.addObject(P4Paddle);
+                                        this.botList.add(cpu4);
+                                        this.paddleList.add(P4Paddle);
                                         playerAmount++;
-                                        System.out.println("P3 " + P3Paddle.getWindowLocation());
+                                        System.out.println("P4 " + P4Paddle.getWindowLocation());
                                         break;
                                     }
                                 }
@@ -608,6 +601,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                                         P2Paddle = new Paddle(0, newObjectPosition, velocity, size, player2, paddleLocation, PaddleImage);
                                         player2.setPaddle(P2Paddle);
                                         this.addObject(P2Paddle);
+                                        this.userList.add(player2);
                                         this.paddleList.add(P2Paddle);
                                         playerAmount++;
                                         System.out.println("P2 " + P2Paddle.getWindowLocation());
@@ -627,23 +621,24 @@ public class Game extends JPanel implements Runnable, KeyListener {
                                 else if (playerAmount == 3) {
                                     size = new TVector2(20f, 100f);
 
-                                    if (player4 != null) {
-                                        P4Paddle = new Paddle(0, newObjectPosition, velocity, size, player4, paddleLocation, PaddleImage);
-                                        player4.setPaddle(P4Paddle);
-                                        this.addObject(P4Paddle);
-                                        this.paddleList.add(P4Paddle);
+                                    if (player3 != null) {
+                                        P3Paddle = new Paddle(0, newObjectPosition, velocity, size, player3, paddleLocation, PaddleImage);
+                                        player3.setPaddle(P3Paddle);
+                                        this.addObject(P3Paddle);
+                                        this.userList.add(player3);
+                                        this.paddleList.add(P3Paddle);
                                         playerAmount++;
-                                        System.out.println("P4 " + P4Paddle.getWindowLocation());
+                                        System.out.println("P3 " + P3Paddle.getWindowLocation());
                                         break;
                                     }
                                     else {
-                                        P4Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu4, paddleLocation, PaddleImage);
-                                        cpu4.setMyPaddle(P4Paddle);
-                                        this.addObject(P4Paddle);
-                                        this.botList.add(cpu4);
-                                        this.paddleList.add(P4Paddle);
+                                        P3Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu3, paddleLocation, PaddleImage);
+                                        cpu3.setMyPaddle(P3Paddle);
+                                        this.addObject(P3Paddle);
+                                        this.botList.add(cpu3);
+                                        this.paddleList.add(P3Paddle);
                                         playerAmount++;
-                                        System.out.println("P4 " + P4Paddle.getWindowLocation());
+                                        System.out.println("P3 " + P3Paddle.getWindowLocation());
                                         break;
                                     }
                                 }
@@ -665,7 +660,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 }
             }
             catch (Exception ex) {
-                System.out.println(ex.getMessage());
+                System.out.println("ERROR in drawMap: " + ex.getMessage());
             }
         }
         catch (RemoteException ex) {
@@ -691,6 +686,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
 //        else
 //        {
             //}
+            // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Draw Objects - - - - - - - - - - -">>
             if (whiteSpace != null) {
                 g.drawImage(WhiteSpaceImage, (int) whiteSpace.getPosition().getX(), (int) whiteSpace.getPosition().getY(), this);
             }
@@ -772,35 +768,83 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     }
                 }
             }
+            // </editor-fold>
+
             String scoreText = "";
             int ypos = 25;
             Font scoreFont = new Font("arial", Font.BOLD, 16);
             Font paddleFont = new Font("arial", Font.BOLD, 12);
+            Graphics2D g2d = (Graphics2D) g;
+            g.setColor(Color.WHITE);
             for (int uCounter = this.userList.size(); uCounter > 0; uCounter--) {
                 User u = userList.get(uCounter - 1);
+                Paddle p = u.getPaddle();
                 g.setFont(scoreFont);
-                g.setColor(Color.WHITE);
                 scoreText = u.getUsername() + ": " + u.getPaddle().getScore();
                 g.drawString(scoreText, 10, ypos);
                 g.setFont(paddleFont);
-                g.setColor(Color.BLACK);
+                TVector2 drawNameLocation = TVector2.zero;
                 float posX = u.getPaddle().getMiddlePosition().getX() - (u.getUsername().length() * 3);
-                g.drawString(u.getUsername(), (int) posX,
-                        (int) (u.getPaddle().getMiddlePosition().getY() - 15f));
+//                AffineTransform af = g2d.getTransform();
+                switch (p.getWindowLocation()) {
+                    case EAST:
+//                        af.setToRotation(0);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 65f, p.getMiddlePosition().getY());
+                        break;
+                    case WEST:
+//                        af.setToRotation(0);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() + 25f, p.getMiddlePosition().getY());
+                        break;
+                    case NORTH:
+//                        af.setToRotation(0);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 25f, p.getMiddlePosition().getY() + 25f);
+                        break;
+                    case SOUTH:
+//                        af.setToRotation(0);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 25f, p.getMiddlePosition().getY() - 25f);
+                        break;
+                }
+                g2d.drawString(u.getUsername(), (int) drawNameLocation.getX(), (int) drawNameLocation.getY());
                 ypos += 25;
 
             }
             for (int counter = this.botList.size(); counter > 0; counter--) {
                 CPU c = this.botList.get(counter - 1);
+                Paddle p = c.getMyPaddle();
                 g.setFont(scoreFont);
-                g.setColor(Color.WHITE);
                 scoreText = c.getName() + ": " + c.getMyPaddle().getScore();
                 g.drawString(scoreText, 10, ypos);
                 g.setFont(paddleFont);
-                g.setColor(Color.BLACK);
                 float posX = c.getMyPaddle().getMiddlePosition().getX() - (c.getName().length() * 3);
-                g.drawString(c.getName(), (int) posX,
-                        (int) (c.getMyPaddle().getMiddlePosition().getY() - 15f));
+                TVector2 drawNameLocation = TVector2.zero;
+                //AffineTransform af = new AffineTransform();
+                switch (p.getWindowLocation()) {
+                    case EAST:
+//                        af.setToRotation(-Math.PI);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 55f, p.getMiddlePosition().getY());
+                        break;
+                    case WEST:
+//                        af.setToRotation(0);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 25f, p.getMiddlePosition().getY());
+                        break;
+                    case NORTH:
+//                        af.setToRotation(0);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 25f, p.getMiddlePosition().getY() + 15f);
+                        break;
+                    case SOUTH:
+//                        af.setToRotation(0);
+//                        g2d.setTransform(af);
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 25f, p.getMiddlePosition().getY() - 15f);
+                        break;
+                }
+                g2d.drawString(p.getWindowLocation().toString() + "  " + c.getName(), (int) drawNameLocation.getX(), (int) drawNameLocation.getY());
                 ypos += 25;
 
             }
@@ -889,6 +933,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
      */
 
     // </editor-fold>
+    
     @Override
     public void run() {
         // Do while game is started
@@ -910,7 +955,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
             try {
                 // Deze sleep verwijderen ( dit is alleen voor test )
-                //gameLoopThread.sleep(20);
+                gameLoopThread.sleep(5);
                 gameLoopThread.sleep(wait);
             }
             catch (Exception e) {
@@ -997,32 +1042,35 @@ public class Game extends JPanel implements Runnable, KeyListener {
     private void checkBallExitedPlay(Ball b) throws Exception {
         ArrayList<GameObject> objectsToRemove = new ArrayList<>();
         int playerNumber = checkExitedBounds(b.getMiddlePosition());
+        int maxWidthSize = Math.round(40 * Block.standardBlockSize.getX());
         if (playerNumber != 0) {
             objectsToRemove.add(b);
             TVector2 blockSize = new TVector2(20, 20);
             DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
             switch (playerNumber) {
                 case 1:
+                    P1Paddle.setVelocity(TVector2.zero);
                     objectsToRemove.add(P1Paddle);
                     // fill top side with indestructable blocks
-                    for (int i = 0; i < Math.ceil(window.getWidth() / blockSize.getX()); i++) {
+                    for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
                         this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(), 0),
                                 TVector2.zero, blockSize, DestroyImage));
                     }
                     break;
                 case 2:
+                    P2Paddle.setVelocity(TVector2.zero);
                     objectsToRemove.add(P2Paddle);
                     if (playerAmount == 2) {
                         // bottom side
-                        for (int i = 0; i < Math.ceil(window.getWidth() / blockSize.getX()); i++) {
+                        for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
                             this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(),
-                                    window.getHeight() - blockSize.getY()),
+                                    maxWidthSize - blockSize.getY()),
                                     TVector2.zero, blockSize, DestroyImage));
                         }
                     }
                     else {
                         // left side
-                        for (int i = 0; i < Math.ceil(window.getHeight() / blockSize.getY()); i++) {
+                        for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
                             this.addObject(new Block(0, false, null, new TVector2(0, i * blockSize.getY()),
                                     TVector2.zero, blockSize, DestroyImage));
                         }
@@ -1030,19 +1078,21 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     break;
                 case 3:
                     // right side
+                    P3Paddle.setVelocity(TVector2.zero);
                     objectsToRemove.add(P3Paddle);
-                    for (int i = 0; i < Math.ceil(window.getHeight() / blockSize.getY()); i++) {
-                        this.addObject(new Block(0, false, null, new TVector2(window.getWidth() - blockSize.getX(),
+                    for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
+                        this.addObject(new Block(0, false, null, new TVector2(maxWidthSize - blockSize.getX(),
                                 i * blockSize.getY()),
                                 TVector2.zero, new TVector2(25, 25), DestroyImage));
                     }
                     break;
                 case 4:
+                    P4Paddle.setVelocity(TVector2.zero);
                     objectsToRemove.add(P4Paddle);
                     // bottom side
-                    for (int i = 0; i < Math.ceil(window.getWidth() / blockSize.getX()); i++) {
+                    for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
                         this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(),
-                                window.getHeight() - blockSize.getY()),
+                                maxWidthSize - blockSize.getY()),
                                 TVector2.zero, blockSize, DestroyImage));
                     }
                     break;
