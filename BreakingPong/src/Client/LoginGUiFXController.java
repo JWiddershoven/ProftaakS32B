@@ -117,11 +117,9 @@ public class LoginGUiFXController implements Initializable {
 
             try {
                 //LoggedinUser ingelogd = DatabaseHelper.loginUser(username, password);
-                if (username.equals("username") && password.equals("password")) {
-
-                } else {
-                    ClientGUI.loggedinUser = administration.login(username, password);
-                }
+                
+                ClientGUI.loggedinUser = administration.login(username, password);
+                
 
                 System.out.println("succesfully logged in.");
 
