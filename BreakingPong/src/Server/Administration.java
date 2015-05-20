@@ -5,6 +5,8 @@
  */
 package Server;
 
+import Helpers.DatabaseHelper;
+import Helpers.LoggedinUser;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -87,13 +89,21 @@ public class Administration {
             throw new IllegalArgumentException("Password cannot be null or empty!");
         }
 
-        // login gegevens voor eerste iteratie
-        String checkUsername = "username";
-        String checkPassword = "password";
+        
+        if(userName.equals("username") && password.equals("password")){
+            User user = new User(userName, password,"test@test.nl",getServer());
+            users.add(user);
+            server.addUser(user);
+            return user;
+        }else{
+            LoggedinUser lUser = DatabaseHelper.loginUser(userName, password);
+        
 
-        if (userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)) {
+        if (lUser.getLoggedIn()) {
 
-            User user = new User(userName, password, "test@test.nl", getServer());
+            User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail(), getServer());
+            Double rating = lUser.getRating();
+            user.setRating(rating.intValue());
             users.add(user);
             server.addUser(user);
             return user;
@@ -101,11 +111,9 @@ public class Administration {
         } else {
             throw new IncorrectLoginDataException("Username and password combination is incorrect.");
         }
-
-        //Check in the database if the user exists
-        //check the username with the password
-        //Create a User
-        //Add user to users
+        }
+        
+        
     }
 
 }
