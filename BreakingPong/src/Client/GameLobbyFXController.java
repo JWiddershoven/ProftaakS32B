@@ -92,7 +92,6 @@ public class GameLobbyFXController implements Initializable
     @FXML
     private void onStartGameClick()
     {
-
         Game game = new Game(1, 300, true,ClientGUI.joinedLobby.getPlayerList());
         try
         {

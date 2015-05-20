@@ -6,13 +6,14 @@
 package Shared;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Mnesymne
  */
-public class CPU
-{
+public class CPU {
 
     private final String name;
     private final Byte difficulty; // Currently not used
@@ -23,68 +24,62 @@ public class CPU
     private Ball closestBall;
     private ArrayList<Ball> currentPosBall;
 
-    public CPU(String name, Byte difficulty, Game myGame)
-    {
+    public CPU(String name, Byte difficulty, Game myGame) {
         this.name = name;
         this.difficulty = difficulty;
         this.currentGame = myGame;
     }
 
-    public Paddle getMyPaddle()
-    {
+    public Paddle getMyPaddle() {
         return myPaddle;
     }
-    public void setMyPaddle(Paddle myPaddle)
-    {
+
+    public void setMyPaddle(Paddle myPaddle) {
         this.myPaddle = myPaddle;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public byte getDifficuly()
-    {
+    public byte getDifficuly() {
         return this.difficulty;
     }
 
     /**
      * Called every update
      */
-    public void update()
-    {
+    public void update() {
         currentPosBall = currentGame.getBallList();
         setClosestBall();
-        if (closestBall != null)
-        {
-            Move();
+        if (closestBall != null) {
+            try {
+                Move();
+            }
+            catch (Exception ex) {
+                Logger.getLogger(CPU.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
-    private void setClosestBall()
-    {
+    private void setClosestBall() {
         closestBall = null;
         //System.out.println("Paddle:" + myPaddle.getPosition().toString());
-        for (Ball b : currentPosBall)
-        {
+        for (Ball b : currentPosBall) {
             //System.out.println("Ball pos: " + b.getPosition().toString());
-            if (closestBall == null)
-            {
+            if (closestBall == null) {
                 closestBall = b;
             }
-            try
-            {
-                if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition()))
-                {
-                    closestBall = b;
+            try {
+                if (b != null && closestBall != null) {
+                    if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition())) {
+                        closestBall = b;
+                    }
                 }
             }
-            catch(Exception ex)
-            {
+            catch (Exception ex) {
                 System.out.println("ERROR in setClosest ball " + ex.getMessage());
-                 if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition()))
-                {
+                if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition())) {
                     closestBall = b;
                 }
             }
@@ -92,24 +87,19 @@ public class CPU
         //System.out.println("Closest pos: " + closestBall.getPosition().toString());
     }
 
-    private float getDistance(TVector2 targetPos)
-    {
+    private float getDistance(TVector2 targetPos) {
         TVector2 pos = myPaddle.getMiddlePosition();
         float distance = 0.0f;
-        if (pos.getX() > targetPos.getX())
-        {
+        if (pos.getX() > targetPos.getX()) {
             distance += pos.getX() - targetPos.getX();
         }
-        else
-        {
+        else {
             distance += targetPos.getX() - pos.getX();
         }
-        if (pos.getY() > targetPos.getY())
-        {
+        if (pos.getY() > targetPos.getY()) {
             distance += pos.getY() - targetPos.getY();
         }
-        else
-        {
+        else {
             distance += targetPos.getY() - pos.getY();
         }
         //System.out.println(distance);
@@ -120,8 +110,12 @@ public class CPU
      * Methode for calling the move methode with difference for the position of
      * the CPU
      */
-    public void Move()
-    {
+    public void Move() throws Exception {
+            if (this.closestBall == null)
+                throw new Exception("closestBall is null in Move()");
+            if (this.myPaddle == null)
+                throw  new Exception("myPaddle is null in Move()");
+           
         try {
             if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
