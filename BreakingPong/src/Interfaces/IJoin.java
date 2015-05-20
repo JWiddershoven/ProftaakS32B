@@ -24,11 +24,12 @@ public interface IJoin{
     
     /**
      * Pre-condition: User must be logged in.
-     * Description: Returns true if user is logged in
+     * Description: Returns true if user is logged in.
+     * @param user The user that is currently using the client
      * @return true if user is logged in
      * @throws RemoteException 
      */
-    public boolean logout()throws RemoteException;
+    public boolean logout(IUser user)throws RemoteException;
     
     /**
      * Description: Creates a user with given credentials. Credentials are already checked so shouldn't be needed to check again.

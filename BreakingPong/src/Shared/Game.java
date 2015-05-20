@@ -5,6 +5,9 @@
  */
 package Shared;
 
+import Interfaces.IGame;
+import Interfaces.IMap;
+import Interfaces.IUser;
 import Server.CollisionChecker;
 import Server.Server;
 import Shared.Paddle.windowLocation;
@@ -41,7 +44,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Mnesymne
  */
-public class Game extends JPanel implements Runnable, KeyListener
+public class Game extends JPanel implements Runnable, KeyListener 
 {
 
     private int id;

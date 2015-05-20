@@ -18,28 +18,21 @@ public interface IGame{
      * Pre-condition: User must be in the lobby of the game he/she wants to join.
      * Description: Checks if game exists and has room for another player, adds user to game, returns the IGame of the game.
      * @param game The IGame the user wants to join.
+     * @param user The user that is using the client.
      * @return The IGame of the game the user wants to join.
      * @throws RemoteException 
      */
-    public IGame joinGame(IGame game) throws RemoteException;
+    public IGame joinGame(IGame game , IUser user) throws RemoteException;
     
     /**
      * Pre-condition: User must be in the game he/she wants to leave.
      * Description: Removed the player from the game
      * @param game The IGame the user wants to leave.
+     * @param user The user that is using the client.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
-    public boolean leaveGame(IGame game) throws RemoteException;
-    
-    /**
-     * Pre-condition: User must be in the lobby of the game he/she wants to join.
-     * Description: Checks if the game exists, if so removes all players from the game and then deletes the game. Returns true if game is deleted.
-     * @param game The game the user wants to remove.
-     * @return TRUE if succeeded - FALSE if failed.
-     * @throws RemoteException 
-     */
-    public boolean removeGame(IGame game) throws RemoteException;
+    public boolean leaveGame(IGame game , IUser user) throws RemoteException;
     
     /**
      * Pre-condition: User must be in a lobby and cannot be the owner of this lobby.
@@ -53,10 +46,11 @@ public interface IGame{
     /**
      * Pre-condition:
      * Description: Returns a List with Username,Score,ranking of all players in the game.
+     * @param game The game the client is in.
      * @return List<String> of with Username,Score,ranking of all players in the game.
      * @throws RemoteException 
      */
-    public ArrayList<String> getPlayerInformation()throws RemoteException;
+    public ArrayList<String> getPlayersInformation(IGame game)throws RemoteException;
     
     /**
      * Pre-condition: Map is of correct format.
