@@ -149,6 +149,16 @@ public class Game extends JPanel implements Runnable, KeyListener {
     public int getNumberOfPlayers() {
         return selectedmap.getPlayerAmount();
     }
+    
+    /**
+     * Returns standard 40*blocksize by 40*blocksize
+     * @return 
+     */
+    public TVector2 getGameSize()
+    {
+     return new TVector2(40 * Block.standardBlockSize.getX(), 
+             40*Block.standardBlockSize.getY());   
+    }
 
     public ArrayList<User> getHumanPlayers() {
         return this.userList;
@@ -244,28 +254,28 @@ public class Game extends JPanel implements Runnable, KeyListener {
         //botList.add(newBot);
     }
 
-    /**
-     * Removes a CPU player from the game
-     *
-     * @param botName value of botName as String
-     */
-    public void removeBot(String botName) {
-        for (int i = 0; i < botList.size(); i++) {
-            CPU c = botList.get(i);
-            if (c.getName().equals(botName)) {
-                botList.remove(c);
-            }
-        }
-    }
-
-    public void removePlayer(String playerName) {
-        for (int i = userList.size(); i > 0; i--) {
-            User u = userList.get(i - 1);
-            if (u.getUsername().equals(playerName)) {
-                userList.remove(u);
-            }
-        }
-    }
+//    /**
+//     * Removes a CPU player from the game
+//     *
+//     * @param botName value of botName as String
+//     */
+//    public void removeBot(String botName) {
+//        for (int i = 0; i < botList.size(); i++) {
+//            CPU c = botList.get(i);
+//            if (c.getName().equals(botName)) {
+//                botList.remove(c);
+//            }
+//        }
+//    }
+//
+//    public void removePlayer(String playerName) {
+//        for (int i = userList.size(); i > 0; i--) {
+//            User u = userList.get(i - 1);
+//            if (u.getUsername().equals(playerName)) {
+//                userList.remove(u);
+//            }
+//        }
+//    }
 
     public void removeBall(Ball ball) {
         for (int i = 0; i < ballList.size(); i++) {
@@ -316,7 +326,8 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
     /**
      * Create the window, draw the objects and start the game
-     * @return 
+     *
+     * @return
      */
     public Thread setupGame() {
         //Open file dialog and save input
@@ -790,7 +801,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     case EAST:
 //                        af.setToRotation(0);
 //                        g2d.setTransform(af);
-                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 65f, p.getMiddlePosition().getY());
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 85f, p.getMiddlePosition().getY());
                         break;
                     case WEST:
 //                        af.setToRotation(0);
@@ -808,7 +819,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                         drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 25f, p.getMiddlePosition().getY() - 25f);
                         break;
                 }
-                g2d.drawString(u.getUsername(), (int) drawNameLocation.getX(), (int) drawNameLocation.getY());
+                g2d.drawString(p.getWindowLocation().toString() + "  " + u.getUsername(), (int) drawNameLocation.getX(), (int) drawNameLocation.getY());
                 ypos += 25;
 
             }
@@ -826,7 +837,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     case EAST:
 //                        af.setToRotation(-Math.PI);
 //                        g2d.setTransform(af);
-                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 55f, p.getMiddlePosition().getY());
+                        drawNameLocation = new TVector2(p.getMiddlePosition().getX() - 85f, p.getMiddlePosition().getY());
                         break;
                     case WEST:
 //                        af.setToRotation(0);
@@ -933,7 +944,6 @@ public class Game extends JPanel implements Runnable, KeyListener {
      */
 
     // </editor-fold>
-    
     @Override
     public void run() {
         // Do while game is started
@@ -955,7 +965,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
 
             try {
                 // Deze sleep verwijderen ( dit is alleen voor test )
-                gameLoopThread.sleep(5);
+                gameLoopThread.sleep(10);
                 gameLoopThread.sleep(wait);
             }
             catch (Exception e) {
@@ -994,7 +1004,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
             c.update();
         }
         for (Paddle p : paddleList) {
-            p.update();
+                p.update();
         }
 
         if (numberOfPLayersLeft == 0) {
@@ -1023,6 +1033,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     if (r.intersects(s.getBounds())) {
                         System.out.println("reset ball!");
                         // Set position to middle of the window.
+                        b.setVelocity(generateRandomVelocity());
                         b.setPosition(new TVector2(
                                 window.getWidth() / 2 - (b.getSize().getX() / 2),
                                 window.getHeight() / 2 - (b.getSize().getY() / 2)));
@@ -1040,17 +1051,16 @@ public class Game extends JPanel implements Runnable, KeyListener {
      * @param b
      */
     private void checkBallExitedPlay(Ball b) throws Exception {
-        ArrayList<GameObject> objectsToRemove = new ArrayList<>();
         int playerNumber = checkExitedBounds(b.getMiddlePosition());
         int maxWidthSize = Math.round(40 * Block.standardBlockSize.getX());
         if (playerNumber != 0) {
-            objectsToRemove.add(b);
             TVector2 blockSize = new TVector2(20, 20);
             DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
             switch (playerNumber) {
                 case 1:
+                    P1Paddle.addScore(-P1Paddle.getScore());
                     P1Paddle.setVelocity(TVector2.zero);
-                    objectsToRemove.add(P1Paddle);
+                    P1Paddle.setEnabled(false);
                     // fill top side with indestructable blocks
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
                         this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(), 0),
@@ -1058,8 +1068,9 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     }
                     break;
                 case 2:
+                    P2Paddle.addScore(-P2Paddle.getScore());
                     P2Paddle.setVelocity(TVector2.zero);
-                    objectsToRemove.add(P2Paddle);
+                    P2Paddle.setEnabled(false);
                     if (playerAmount == 2) {
                         // bottom side
                         for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
@@ -1078,8 +1089,9 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     break;
                 case 3:
                     // right side
+                    P3Paddle.addScore(-P3Paddle.getScore());
                     P3Paddle.setVelocity(TVector2.zero);
-                    objectsToRemove.add(P3Paddle);
+                    P3Paddle.setEnabled(false);
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
                         this.addObject(new Block(0, false, null, new TVector2(maxWidthSize - blockSize.getX(),
                                 i * blockSize.getY()),
@@ -1087,8 +1099,9 @@ public class Game extends JPanel implements Runnable, KeyListener {
                     }
                     break;
                 case 4:
+                    P4Paddle.addScore(-P4Paddle.getScore());
                     P4Paddle.setVelocity(TVector2.zero);
-                    objectsToRemove.add(P4Paddle);
+                    P4Paddle.setEnabled(false);
                     // bottom side
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
                         this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(),
@@ -1102,13 +1115,11 @@ public class Game extends JPanel implements Runnable, KeyListener {
             if (numberOfPLayersLeft > 0) {
                 numberOfPLayersLeft--;
             }
+            removeObject(b);
             System.out.println("Ball exited play.");
         }
-        for (GameObject go : objectsToRemove) {
-            removeObject(go);
-        }
     }
-
+    
     /**
      * returns playernumber ( 1 - 4 ) where ball exited play
      *

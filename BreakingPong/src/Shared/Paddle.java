@@ -14,27 +14,33 @@ import java.util.ArrayList;
  *
  * @author Mnesymne
  */
-public class Paddle extends GameObject
-{
-    
+public class Paddle extends GameObject {
+
     private int score;
     private CPU cpuPlayer;
     private User humanPlayer;
     private windowLocation selectedPosition;
     private boolean left = false, right = false;
+    private boolean enabled = true;
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     /**
      * Enumerator direction
      */
-    public enum direction
-    {
-        
+    public enum direction {
+
         LEFT, RIGHT, UP, DOWN
     };
-    
-    public enum windowLocation
-    {
-        
+
+    public enum windowLocation {
+
         NORTH, EAST, SOUTH, WEST
     }
 
@@ -43,8 +49,7 @@ public class Paddle extends GameObject
      *
      * @return score as int
      */
-    public int getScore()
-    {
+    public int getScore() {
         return score;
     }
 
@@ -53,23 +58,19 @@ public class Paddle extends GameObject
      *
      * @param score value of score as int
      */
-    public void addScore(int score)
-    {
+    public void addScore(int score) {
         this.score = this.score + score;
     }
-    
-    public windowLocation getWindowLocation()
-    {
+
+    public windowLocation getWindowLocation() {
         return selectedPosition;
     }
-    
-    public User getPlayer()
-    {
+
+    public User getPlayer() {
         return humanPlayer;
     }
-    
-    public CPU getCPU()
-    {
+
+    public CPU getCPU() {
         return cpuPlayer;
     }
 
@@ -84,9 +85,8 @@ public class Paddle extends GameObject
      * @param selectedLocation value of selectedPosition as windowLocation
      * @param image
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation,Image image)
-    {
-        super(position, velocity, size,image);
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation, Image image) {
+        super(position, velocity, size, image);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.cpuPlayer = cpu;
@@ -103,9 +103,8 @@ public class Paddle extends GameObject
      * @param selectedLocation value of selectedposition as windowLocation
      * @param image
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation,Image image)
-    {
-        super(position, velocity, size,image);
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation, Image image) {
+        super(position, velocity, size, image);
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.humanPlayer = user;
@@ -117,12 +116,10 @@ public class Paddle extends GameObject
      *
      * @param direction value of direction as enum
      */
-    public void Move(direction direction)
-    {
+    public void Move(direction direction) {
         TVector2 oldPosition = getPosition();
         TVector2 newPosition = TVector2.zero;
-        switch (direction)
-        {
+        switch (direction) {
             case UP:
                 newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() + 1);
                 break;
@@ -139,80 +136,63 @@ public class Paddle extends GameObject
         this.setPosition(newPosition);
         ArrayList<GameObject> collidedWith = CollisionChecker.collidesWithMultiple(this);
         // if paddle collides with something that is not a ball or a whitespace
-        for (GameObject g : collidedWith)
-        {
-            if (g != null && !g.getClass().equals(Ball.class) && !g.getClass().equals(WhiteSpace.class))
-            {
+        for (GameObject g : collidedWith) {
+            if (g != null && !g.getClass().equals(Ball.class) && !g.getClass().equals(WhiteSpace.class)) {
                 this.setPosition(oldPosition);
             }
         }
     }
-    
+
     /**
      * update moves the paddle
      */
-    public void update()
-    {
-        if (left)
-        {
-            if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
-            {
-                this.Move(direction.LEFT);
+    public void update() {
+        if (isEnabled()) {
+            if (left) {
+                if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH) {
+                    this.Move(direction.LEFT);
+                }
+                else if (selectedPosition == windowLocation.WEST) {
+                    this.Move(direction.UP);
+                }
+                else if (selectedPosition == windowLocation.EAST) {
+                    this.Move(direction.DOWN);
+                }
             }
-            else if (selectedPosition == windowLocation.WEST)
-            {
-                this.Move(direction.UP);
-            }
-            else if (selectedPosition == windowLocation.EAST)
-            {
-                this.Move(direction.DOWN);
-            }
-        }
-        if (right)
-        {
-            if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH)
-            {
-                this.Move(direction.RIGHT);
-            }
-            else if (selectedPosition == windowLocation.WEST)
-            {
-                this.Move(direction.DOWN);
-            }
-            else if (selectedPosition == windowLocation.EAST)
-            {
-                this.Move(direction.UP);
+            if (right) {
+                if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH) {
+                    this.Move(direction.RIGHT);
+                }
+                else if (selectedPosition == windowLocation.WEST) {
+                    this.Move(direction.DOWN);
+                }
+                else if (selectedPosition == windowLocation.EAST) {
+                    this.Move(direction.UP);
+                }
             }
         }
     }
-    
-    public void keyPressed(int k)
-    {
-        if (this.getPlayer() != null)
-        {
-            if (k == KeyEvent.VK_LEFT)
-            {
+
+    public void keyPressed(int k) {
+        if (this.getPlayer() != null) {
+            if (k == KeyEvent.VK_LEFT) {
                 left = true;
             }
-            if (k == KeyEvent.VK_RIGHT)
-            {
+            if (k == KeyEvent.VK_RIGHT) {
                 right = true;
             }
         }
     }
-    
-    public void keyReleased(int k)
-    {
-        if (this.getPlayer() != null)
-        {
-            if (k == KeyEvent.VK_LEFT)
-            {
+
+    public void keyReleased(int k) {
+        if (this.getPlayer() != null) {
+            if (k == KeyEvent.VK_LEFT) {
                 left = false;
             }
-            if (k == KeyEvent.VK_RIGHT)
-            {
+            if (k == KeyEvent.VK_RIGHT) {
                 right = false;
             }
         }
     }
-    
+
 }

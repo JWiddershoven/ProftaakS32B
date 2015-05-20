@@ -96,15 +96,4 @@ public class GameTest {
         }
     }
     
-    @Test
-    public void testRemoveBot()
-    {
-        try
-        {
-            firstGame.removeBot("TestBot");
-        }catch(IllegalArgumentException iaex)
-        {
-            fail("TestBot hasn't been removed");
-        }
-    }
 }
