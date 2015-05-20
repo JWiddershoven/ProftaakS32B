@@ -16,7 +16,8 @@ import java.util.ArrayList;
  */
 public class Block extends GameObject
 {
-
+    public static TVector2 standardBlockSize = new TVector2(20f,20f);
+    
     /**
      * The amount of points this block gives when it is destroyed.
      */
