@@ -73,9 +73,20 @@ public class CPU
             {
                 closestBall = b;
             }
-            if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition()))
+            try
             {
-                closestBall = b;
+                if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition()))
+                {
+                    closestBall = b;
+                }
+            }
+            catch(Exception ex)
+            {
+                System.out.println(ex.getMessage());
+                 if (getDistance(b.getMiddlePosition()) < getDistance(closestBall.getMiddlePosition()))
+                {
+                    closestBall = b;
+                }
             }
         }
         //System.out.println("Closest pos: " + closestBall.getPosition().toString());
@@ -111,48 +122,74 @@ public class CPU
      */
     public void Move()
     {
-        if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH)
-        {
-            if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2))
-            {
-                myPaddle.Move(Paddle.direction.RIGHT);
+        try {
+            if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH) {
+                if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
+                    myPaddle.Move(Paddle.direction.RIGHT);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.LEFT);
+                }
             }
-            else
-            {
-                myPaddle.Move(Paddle.direction.LEFT);
+            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH) {
+                if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
+                    myPaddle.Move(Paddle.direction.RIGHT);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.LEFT);
+                }
+            }
+            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST) {
+                if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
+                    myPaddle.Move(Paddle.direction.UP);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.DOWN);
+                }
+            }
+            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST) {
+                if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
+                    myPaddle.Move(Paddle.direction.UP);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.DOWN);
+                }
             }
         }
-        else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH)
-        {
-            if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2))
-            {
-                myPaddle.Move(Paddle.direction.RIGHT);
+
+        catch (Exception e) {
+            System.out.println("CPU.Move() ERROR ! : " + e.getMessage());
+            if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH) {
+                if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
+                    myPaddle.Move(Paddle.direction.RIGHT);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.LEFT);
+                }
             }
-            else
-            {
-                myPaddle.Move(Paddle.direction.LEFT);
+            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH) {
+                if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
+                    myPaddle.Move(Paddle.direction.RIGHT);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.LEFT);
+                }
             }
-        }
-        else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST)
-        {
-            if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2))
-            {
-                myPaddle.Move(Paddle.direction.UP);
+            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST) {
+                if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
+                    myPaddle.Move(Paddle.direction.UP);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.DOWN);
+                }
             }
-            else
-            {
-                myPaddle.Move(Paddle.direction.DOWN);
-            }
-        }
-        else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST)
-        {
-            if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2))
-            {
-                myPaddle.Move(Paddle.direction.UP);
-            }
-            else
-            {
-                myPaddle.Move(Paddle.direction.DOWN);
+            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST) {
+                if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
+                    myPaddle.Move(Paddle.direction.UP);
+                }
+                else {
+                    myPaddle.Move(Paddle.direction.DOWN);
+                }
             }
         }
     }

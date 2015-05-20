@@ -120,29 +120,63 @@ public final class DatabaseHelper {
         }
     }
 
-    public static double updateRating(String username) {
+    public static boolean updateRating(String username, Double newRating) {
 
-        double result = 0.0;
+        if (username == null || username.isEmpty() || newRating.isNaN()) {
+            throw new IllegalArgumentException("Parameters not defined!");
+        }
+
+        int updateCount = 0;
+
         try {
             initConnection();
+
+            PreparedStatement p = connection.prepareStatement("UPDATE Administration SET Rating=? WHERE username = ?");
+            p.setDouble(1, newRating);
+            p.setString(2, username.trim());
+
+            p.execute();
+            updateCount = p.getUpdateCount();
 
             closeConnection();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
-        return result;
+
+        if (updateCount > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static double getRating(String username) {
 
+        if (username == null || username.isEmpty()) {
+            throw new IllegalArgumentException("Username not defined!");
+        }
+        int count = 0;
         double result = 0.0;
         try {
             initConnection();
 
+            PreparedStatement p = connection.prepareStatement("Select rating FROM Administration WHERE username = ?");
+            p.setString(1, username.trim());
+            ResultSet rs = p.executeQuery();
+
+            while (rs.next()) {
+                count++;
+                result = rs.getDouble("rating");
+            }
             closeConnection();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+
+        if (count == 0) {
+            throw new IllegalStateException("No rating found!");
+        }
+
         return result;
     }
 
