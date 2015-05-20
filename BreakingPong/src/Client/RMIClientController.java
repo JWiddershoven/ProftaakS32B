@@ -5,15 +5,19 @@
  */
 package Client;
 
+import Interfaces.IServer;
 import Shared.Game;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -39,7 +43,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.print(evt.getNewValue().toString());
     }
     
     private void start()
@@ -57,7 +61,13 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                 if(System.currentTimeMillis() - timeOut > 10*1000 || services == null)
                 {
                     System.out.println("Attempting to setup a connection");
-                    connect();
+                    try
+                    {
+                        connect();
+                    } catch (MalformedURLException ex)
+                    {
+                        Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }, 0 , 2500);
@@ -79,12 +89,12 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         }
     }
     
-    private void connect()
+    private void connect() throws MalformedURLException
     {
         try
         {
             this.reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
-            this.services = (RemotePublisher) this.reg.lookup("GameServer");
+            this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getValues");
         }
         catch(RemoteException | NotBoundException ex )

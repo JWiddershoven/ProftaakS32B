@@ -5,6 +5,8 @@
  */
 package Server;
 
+import Interfaces.IServer;
+import fontys.observer.BasicPublisher;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -22,7 +24,7 @@ import javafx.stage.Stage;
  */
 public class ServerGUI extends Application
 {
-    private RMIServer services;
+    private IServer services;
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -30,8 +32,12 @@ public class ServerGUI extends Application
         Scene scene = new Scene(root);
         try
         {
-            services = new RMIServer();
             Registry registry = LocateRegistry.createRegistry(1099);
+            if(registry == null)
+            {
+                registry = LocateRegistry.getRegistry(1099);
+            }
+            services = new RMIServer();
             registry.rebind("gameServer", services);
         }
         catch (RemoteException ex)

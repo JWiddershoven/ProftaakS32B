@@ -9,6 +9,8 @@ import Interfaces.IServer;
 import fontys.observer.BasicPublisher;
 import fontys.observer.RemotePropertyListener;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -20,9 +22,13 @@ import java.util.TimerTask;
 public class RMIServer extends UnicastRemoteObject implements IServer
 {
     private final BasicPublisher publisher;
+    private int oldValue = 0;
+    private String newValue = "";
     
     public RMIServer() throws RemoteException
     {
+        /*Registry reg = LocateRegistry.createRegistry(1099);
+        reg.rebind("getValues", this);*/
         publisher = new BasicPublisher(new String[] {"getValues"});
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -30,7 +36,9 @@ public class RMIServer extends UnicastRemoteObject implements IServer
             @Override
             public void run()
             {
-                publisher.inform(this, "getValues", null, getValues());
+                oldValue++;
+                newValue = "" + oldValue;
+                publisher.inform(this, "getValues", oldValue, newValue);
             }
         },0, 1500);
     }

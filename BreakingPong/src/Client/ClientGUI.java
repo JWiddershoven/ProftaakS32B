@@ -11,9 +11,11 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -27,6 +29,8 @@ public class ClientGUI extends Application {
     public static Lobby joinedLobby;
     private RMIClientController controller;
     
+    @FXML     
+       Label labelLevel;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LoginGUi.fxml"));
@@ -43,6 +47,11 @@ public class ClientGUI extends Application {
         mainStage.setScene(scene);
         mainStage.show();
         
+    }
+    
+    public void setLabel(String s)
+    {
+        labelLevel.setText(s);
     }
 
     /**
