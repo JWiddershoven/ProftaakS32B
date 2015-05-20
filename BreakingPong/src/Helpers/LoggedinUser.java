@@ -33,6 +33,10 @@ public class LoggedinUser {
         this.rating = rating;
     }
     
+    public boolean getLoggedIn(){
+        return this.loggedIn;
+    }
+    
     public String getUsername(){
         return this.username;
     }
