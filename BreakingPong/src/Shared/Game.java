@@ -999,23 +999,52 @@ public class Game extends JPanel implements Runnable, KeyListener {
         int playerNumber = checkExitedBounds(b.getMiddlePosition());
         if (playerNumber != 0) {
             objectsToRemove.add(b);
+            TVector2 blockSize = new TVector2(20, 20);
+            DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
             switch (playerNumber) {
                 case 1:
                     objectsToRemove.add(P1Paddle);
+                    // fill top side with indestructable blocks
+                    for (int i = 0; i < Math.ceil(window.getWidth() / blockSize.getX()); i++) {
+                        this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(), 0),
+                                TVector2.zero, blockSize, DestroyImage));
+                    }
                     break;
                 case 2:
                     objectsToRemove.add(P2Paddle);
                     if (playerAmount == 2) {
-
+                        // bottom side
+                        for (int i = 0; i < Math.ceil(window.getWidth() / blockSize.getX()); i++) {
+                            this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(),
+                                    window.getHeight() - blockSize.getY()),
+                                    TVector2.zero, blockSize, DestroyImage));
+                        }
                     }
                     else {
+                        // left side
+                        for (int i = 0; i < Math.ceil(window.getHeight() / blockSize.getY()); i++) {
+                            this.addObject(new Block(0, false, null, new TVector2(0, i * blockSize.getY()),
+                                    TVector2.zero, blockSize, DestroyImage));
+                        }
                     }
                     break;
                 case 3:
+                    // right side
                     objectsToRemove.add(P3Paddle);
+                    for (int i = 0; i < Math.ceil(window.getHeight() / blockSize.getY()); i++) {
+                        this.addObject(new Block(0, false, null, new TVector2(window.getWidth() - blockSize.getX(),
+                                i * blockSize.getY()),
+                                TVector2.zero, new TVector2(25, 25), DestroyImage));
+                    }
                     break;
                 case 4:
                     objectsToRemove.add(P4Paddle);
+                    // bottom side
+                    for (int i = 0; i < Math.ceil(window.getWidth() / blockSize.getX()); i++) {
+                        this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(),
+                                window.getHeight() - blockSize.getY()),
+                                TVector2.zero, blockSize, DestroyImage));
+                    }
                     break;
                 default:
                     throw new Exception("Ball exited play index exception");
