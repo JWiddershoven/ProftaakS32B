@@ -6,7 +6,7 @@
 package Helpers;
 
 /**
- *
+ * LoggedinUser for logging in.
  * @author sjorsvanmierlo
  */
 public class LoggedinUser {
@@ -17,6 +17,10 @@ public class LoggedinUser {
     private final String email;
     private final double rating;
     
+    /**
+     * Constructor
+     * @param loggedIn boolean if the user could login on the database.
+     */
     public LoggedinUser(boolean loggedIn){
         this.loggedIn = loggedIn;
         this.username = "";

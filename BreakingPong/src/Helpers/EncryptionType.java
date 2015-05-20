@@ -6,10 +6,12 @@
 package Helpers;
 
 /**
+ * Encryption types.
  *
  * @author sjorsvanmierlo
  */
 public enum EncryptionType {
+
     MD5,
     SHA1,
     SHA256
