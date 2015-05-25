@@ -37,7 +37,7 @@ public class LobbyTest
         //Violate name null
         try
         {
-            lobby = new Lobby(id, null, password, owner, maxPlayers, server);
+            lobby = new Lobby(id, null, password, owner, maxPlayers);
             fail();
         }
         catch (IllegalArgumentException ex)
@@ -48,7 +48,7 @@ public class LobbyTest
         //Violate name empty
         try
         {
-            lobby = new Lobby(id, " ", password, owner, maxPlayers, server);
+            lobby = new Lobby(id, " ", password, owner, maxPlayers);
             fail();
         }
         catch (IllegalArgumentException ex)
@@ -59,7 +59,7 @@ public class LobbyTest
         //Violate owner null
         try
         {
-            lobby = new Lobby(id, name, password, null, maxPlayers, server);
+            lobby = new Lobby(id, name, password, null, maxPlayers);
             fail();
         }
         catch (IllegalArgumentException ex)
@@ -71,7 +71,7 @@ public class LobbyTest
         try
         {
             maxPlayers = 0;
-            lobby = new Lobby(id, name, password, owner, maxPlayers, server);
+            lobby = new Lobby(id, name, password, owner, maxPlayers);
             fail();
         }
         catch (IllegalArgumentException ex)
@@ -82,7 +82,7 @@ public class LobbyTest
         try
         {
             maxPlayers = 5;
-            lobby = new Lobby(id, name, password, owner, maxPlayers, server);
+            lobby = new Lobby(id, name, password, owner, maxPlayers);
             fail();
         }
         catch (IllegalArgumentException ex)
@@ -95,7 +95,7 @@ public class LobbyTest
         //Violate host null
         try
         {
-            lobby = new Lobby(id, name, password, owner, maxPlayers, null);
+            lobby = new Lobby(id, name, password, owner, maxPlayers);
             fail();
         }
         catch (IllegalArgumentException ex)
@@ -106,7 +106,7 @@ public class LobbyTest
         //Violate password null
         try
         {
-            lobby = new Lobby(id, name, null, owner, maxPlayers, server);
+            lobby = new Lobby(id, name, null, owner, maxPlayers);
 
         }
         catch (IllegalArgumentException ex)
@@ -117,7 +117,7 @@ public class LobbyTest
         //Violate password empty        
         try
         {
-            lobby = new Lobby(id, name, " ", owner, maxPlayers, server);
+            lobby = new Lobby(id, name, " ", owner, maxPlayers);
 
         }
         catch (IllegalArgumentException ex)
@@ -128,7 +128,7 @@ public class LobbyTest
         //Success
         try
         {
-            lobby = new Lobby(id, name, password, owner, maxPlayers, server);
+            lobby = new Lobby(id, name, password, owner, maxPlayers);
 
         }
         catch (IllegalArgumentException ex)
@@ -142,7 +142,7 @@ public class LobbyTest
     public void testJoinLobby() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
 
         try
         {
@@ -173,7 +173,7 @@ public class LobbyTest
     public void testLeaveLobby() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
 
         try
         {
@@ -213,7 +213,7 @@ public class LobbyTest
     public void testKickLobby() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
 
         try
         {
@@ -244,7 +244,7 @@ public class LobbyTest
     public void testSendChat() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
 
         try
         {
@@ -272,7 +272,7 @@ public class LobbyTest
     public void testInviteUser() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
 
         try
         {
@@ -290,7 +290,7 @@ public class LobbyTest
     public void testJoinGame() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
 
         try
         {

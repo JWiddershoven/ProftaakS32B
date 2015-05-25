@@ -42,7 +42,7 @@ public class ServerTest {
         server = new Server();
 
         byte maxPlayers = 4;
-        Lobby lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers, new Server());
+        Lobby lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
 
         try {
             server.JoinLobby(lobby);
