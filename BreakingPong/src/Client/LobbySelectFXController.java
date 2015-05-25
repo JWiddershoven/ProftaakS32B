@@ -101,9 +101,8 @@ public class LobbySelectFXController implements Initializable
             administration.getServer().getOnlineUsers().add(user2);
             onlineUsersList.addAll(administration.getServer().getOnlineUsers());
             lvOnlineUsers.setItems(onlineUsersList);
-
-            Lobby lobby1 = new Lobby(1, "Test Lobby1", "123", user1, (byte) 4, administration.getServer());
-            Lobby lobby2 = new Lobby(2, "Test Lobby2", "", user2, (byte) 2, administration.getServer());
+            Lobby lobby1 = new Lobby(1, "Test Lobby1", "123", user1, (byte) 4);
+            Lobby lobby2 = new Lobby(2, "Test Lobby2", "", user2, (byte) 2);
             lobby1.joinLobby(user1);
             lobby2.joinLobby(user2);
             administration.getServer().getLobbys().add(lobby1);
