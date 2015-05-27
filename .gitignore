@@ -16,3 +16,5 @@ hs_err_pid*
 /GuiTest/nbproject/private/
 /GuiTest/build/
 /GuiTest/dist/
+/Tests/nbproject/private/
+/Tests/build/
