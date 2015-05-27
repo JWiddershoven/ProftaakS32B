@@ -5,10 +5,12 @@
  */
 package Shared;
 
+import Interfaces.IMap;
+
 /**
  * @author Jelle
  */
-public class Map
+public class Map implements IMap
 {
 
     private String name;

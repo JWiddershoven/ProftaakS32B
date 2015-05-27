@@ -97,7 +97,7 @@ public class Lobby
         return users;
     }
 
-    
+   
     
     public ArrayList<User> getPlayerList()
     {
@@ -233,6 +233,14 @@ public class Lobby
             return name + " - " + owner.getUsername() + " - password: No" + " - " + joinedPlayers.size() + "/" + maxPlayers;
         else
             return name + " - " + owner.getUsername() + " - password: Yes" + " - " + joinedPlayers.size() + "/" + maxPlayers;
+    }
+    
+    /**
+     * Gets the ID of the lobby.
+     * @return the id.
+     */
+    public int getId(){
+        return this.id;
     }
 
 }
