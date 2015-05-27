@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Shared.GameObject;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -84,4 +85,34 @@ public interface IGame{
      * @throws RemoteException 
      */
     public void moveRight(int gameId, String username) throws RemoteException;
+    
+    /**
+     * Gives back all objects known to this game.
+     * @param gameId GameID of the game.
+     * @return 
+     * @throws RemoteException 
+     */
+    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException;
+ 
+    /**
+     * 
+     * @param gameId
+     * @throws RemoteException 
+     */
+    public void getAllBalls(int gameId) throws RemoteException;
+    
+    /**
+     * Returns all GameObjects that have changed their position or size
+     * @param gameId
+     * @return ArrayList of GameObjects that changed their position or size.
+     * @throws RemoteException 
+     */
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException;
+    /**
+     * Returns all GameObjects that have been removed.
+     * @param gameId
+     * @return ArrayList of GameObjects that have been removed.
+     * @throws RemoteException 
+     */
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException;
 }

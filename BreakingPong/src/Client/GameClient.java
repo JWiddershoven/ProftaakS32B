@@ -5,6 +5,8 @@
  */
 package Client;
 
+import Interfaces.IGame;
+import Interfaces.IUser;
 import Server.Game;
 import Shared.Ball;
 import Shared.Block;
@@ -39,15 +41,16 @@ import javax.swing.JPanel;
  */
 public class GameClient extends JPanel implements Runnable, KeyListener {
 
-    private int gameId;
+    private final IGame currentGame;
+    private final int gameId;
     private String localUsername;
 
     private Thread drawThread;
     private boolean inProgress = false;
 
-    private ArrayList<User> userList;
-    private ArrayList<CPU> botList;
-    public ArrayList<GameObject> objectList;
+    private final ArrayList<IUser> userList;
+    private final ArrayList<CPU> botList;
+    private final ArrayList<GameObject> objectList;
     private WhiteSpace whiteSpace;
     private JFrame window;
     private final int FPS = 60;
@@ -55,12 +58,31 @@ public class GameClient extends JPanel implements Runnable, KeyListener {
 
     private BufferedImage BallImage, DestroyImage, normalBlockImage, PowerUpImage, PaddleImage, WhiteSpaceImage;
 
-    public GameClient() {
+    public GameClient(int gameId, IGame currentGame) {
+        this.gameId = gameId;
+        this.currentGame = currentGame;
         // Needs component for KeyListener
         userList = new ArrayList<>();
         botList = new ArrayList<>();
         objectList = new ArrayList<>();
         addKeyListener(this);
+    }
+    
+    /**
+     * Add all objects to initialize.
+     * @param objectList CANNOT BE NULL
+     * @param botlist CANNOT BE NULL
+     * @param userList CANNOT BE NULL
+     */
+    public void beforeSetupGame(ArrayList<GameObject> objectList, ArrayList<CPU> botlist, ArrayList<IUser> userList)
+    {
+        this.objectList.clear();
+        this.objectList.addAll(objectList);
+        this.botList.clear();
+        this.botList.addAll(botlist);
+        this.userList.clear();
+        this.userList.addAll(userList);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Key pressed - - - - - - - - - - -">>
@@ -151,6 +173,21 @@ public class GameClient extends JPanel implements Runnable, KeyListener {
     public void run() {
         // Do while game is started
         while (inProgress) {
+            try {
+               ArrayList<GameObject> changedObjects = currentGame.getChangedGameObjects(gameId);
+               ArrayList<GameObject> removedObjects = currentGame.getRemovedGamesObjects(gameId);
+               if (changedObjects.size() > 0)
+               {
+                   
+               }
+               if (removedObjects.size() > 0)
+               {
+                   
+               }
+               // TODO: REMOVE / CHANGE OBJECTS.
+            }
+            catch (RemoteException e) {
+            }
             long start, elapsed, wait;
             start = System.nanoTime();
 
@@ -289,7 +326,7 @@ public class GameClient extends JPanel implements Runnable, KeyListener {
             Graphics2D g2d = (Graphics2D) g;
             g.setColor(Color.WHITE);
             for (int uCounter = this.userList.size(); uCounter > 0; uCounter--) {
-                User u = userList.get(uCounter - 1);
+                User u = (User)userList.get(uCounter - 1);
                 Paddle p = u.getPaddle();
                 g.setFont(scoreFont);
                 scoreText = u.getUsername() + ": " + u.getPaddle().getScore();

@@ -14,24 +14,39 @@ import java.rmi.RemoteException;
  *
  * @author Mnesymne
  */
-public class RMIUser implements IUser
-{
- //--------------------------------------------//
+public class RMIUser implements IUser {
+
+    //--------------------------------------------//
+
     private String username, password, email;
     private Paddle paddle;
-    private Server selectedServer;
-    private int Rating;
-    
+    //private Server selectedServer;
+    private int rating;
+
     //-----------------------------------
+    public RMIUser(String username, String password, String email, int rating) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.rating = rating;
+    }
+
+    public Paddle getPaddle() {
+        return paddle;
+    }
+
+    public void setPaddle(Paddle paddle) {
+        this.paddle = paddle;
+    }
+
     @Override
     public String getPlayerInformation(String username) throws RemoteException {
-        String returnValue = "Player: " + username +" has a rating of :" + Rating;
-        return returnValue;
+        return username + " - " + rating;
     }
 
     @Override
     public String getUsername(IUser user) {
-       return username;
+        return username;
     }
-    
+
 }

@@ -24,7 +24,11 @@ import Shared.WhiteSpace;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import static java.lang.System.gc;
+import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -56,6 +60,8 @@ public class RMIGame implements IGame, Runnable {
     public ArrayList<GameObject> objectList;
     private final ArrayList<Ball> ballList;
     private final ArrayList<Paddle> paddleList;
+    private final ArrayList<GameObject> changedObjectsList;
+    private final ArrayList<GameObject> removedObjectsList;
 
     private User player1, player2, player3, player4;
     private CPU cpu1, cpu2, cpu3, cpu4;
@@ -140,7 +146,8 @@ public class RMIGame implements IGame, Runnable {
     public void moveLeft(int gameId, String username) throws RemoteException {
         for (int i = paddleList.size(); i > 0; i--) {
             Paddle p = paddleList.get(i);
-            if (p.getPlayer().getUsername().equals(username)) {
+            User u = (User) p.getPlayer();
+            if (u.getUsername().equals(username)) {
                 p.Move(Paddle.Direction.LEFT);
                 break;
             }
@@ -151,15 +158,26 @@ public class RMIGame implements IGame, Runnable {
     public void moveRight(int gameId, String username) throws RemoteException {
         for (int i = paddleList.size(); i > 0; i--) {
             Paddle p = paddleList.get(i);
-            if (p.getPlayer().getUsername().equals(username)) {
+            User u = (User) p.getPlayer();
+            if (u.getUsername().equals(username)) {
                 p.Move(Paddle.Direction.RIGHT);
                 break;
             }
         }
     }
 
+    @Override
+    public void getAllBalls(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
+        return this.objectList;
+    }
     // </editor-fold>
-    public RMIGame(int id, int gameTime, boolean powerUps, ArrayList<User> players) {
+
+    public RMIGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) {
         this.id = id;
         this.gameTime = gameTime;
         this.powerUps = powerUps;
@@ -168,6 +186,8 @@ public class RMIGame implements IGame, Runnable {
         this.objectList = new ArrayList<>();
         this.ballList = new ArrayList<>();
         this.paddleList = new ArrayList<>();
+        this.changedObjectsList = new ArrayList<>();
+        this.removedObjectsList = new ArrayList<>();
         this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
         generateBotPlayers(players);
     }
@@ -176,10 +196,10 @@ public class RMIGame implements IGame, Runnable {
         return userList;
     }
 
-    private void generateBotPlayers(ArrayList<User> players) {
+    private void generateBotPlayers(ArrayList<IUser> players) {
         try {
             if (players.get(0) != null) {
-                player1 = players.get(0);
+                player1 = (User) players.get(0);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -189,7 +209,7 @@ public class RMIGame implements IGame, Runnable {
 
         try {
             if (players.get(1) != null) {
-                player2 = players.get(1);
+                player2 = (User) players.get(1);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -197,7 +217,7 @@ public class RMIGame implements IGame, Runnable {
         }
         try {
             if (players.get(2) != null) {
-                player3 = players.get(2);
+                player3 = (User) players.get(2);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -205,7 +225,7 @@ public class RMIGame implements IGame, Runnable {
         }
         try {
             if (players.get(3) != null) {
-                player4 = players.get(3);
+                player4 = (User) players.get(3);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -214,15 +234,76 @@ public class RMIGame implements IGame, Runnable {
     }
 
     /**
+     * Loads a map
+     *
+     * @param mapUrl Location to the map file (*.txt)
+     * @return Error message
+     */
+    public String loadMap(String mapUrl) {
+        String text = "";
+        ArrayList<String> mapLayout = new ArrayList<>();
+        try {
+            FileInputStream fis = new FileInputStream(mapUrl);
+            InputStreamReader in = new InputStreamReader(fis, Charset.forName("UTF-8"));
+            char[] buffer = new char[(int) mapUrl.length()];
+            int n = in.read(buffer);
+            //Remove whitespaces
+            text = new String(buffer, 0, n).replaceAll("\\s+", "");
+            in.close();
+            if (text.length() > 1600) {
+                throw new IOException();
+            }
+            //Add each row into a Array of strings
+            String mapDesign[][] = new String[40][40];
+            int location = 0;
+            for (String[] mapDesign1 : mapDesign) {
+                for (int c = 0; c < mapDesign1.length; c++) {
+                    mapDesign1[c] = text.substring(location, location + 1);
+                    location++;
+                }
+            }
+
+            //Add each row into an ArrayList
+            for (int r = 0; r < mapDesign.length; r++) {
+                String row = new String();
+                for (String mapDesign1 : mapDesign[r]) {
+                    row = row + mapDesign1;
+                }
+                mapLayout.add(row);
+            }
+            readMap(mapLayout);
+        }
+
+        catch (FileNotFoundException ex) {
+            System.out.println("File could not be found");
+            return "File could not be found";
+        }
+        catch (IOException IOex) {
+            System.out.println("Filesize is incorrect, use 40 rows with 40 characters");
+            return "Filesize is incorrect, use 40 rows with 40 characters";
+        }
+        catch (IllegalArgumentException ifex) {
+            System.out.println("File incorrect");
+            return "File incorrect";
+        }
+        catch (RuntimeException ex) {
+            System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
+            return "Textfile size is incorrect, use 40 rows with 40 characters";
+        }
+        return "";
+
+    }
+
+    /**
      * Draw objects onto the panel from the ArrayList
      *
      * @param mapLayout ArrayList of Strings with the mapLayout from the
      * LoadMapMethod
      */
-    public void readMap(ArrayList<String> mapLayout) {
+    private void readMap(ArrayList<String> mapLayout) {
 
         try {
-
+            CollisionChecker.gameObjectsList.clear();
             int SpawnNumber = 0;
             Server server = new Server();
             try {
@@ -695,5 +776,15 @@ public class RMIGame implements IGame, Runnable {
         this.ballList.clear();
         gc();
         System.out.println("Exited game");
+    }
+
+    @Override
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
+        return this.changedObjectsList;
+    }
+
+    @Override
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
+        return this.removedObjectsList;
     }
 }

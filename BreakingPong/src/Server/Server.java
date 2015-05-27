@@ -12,6 +12,7 @@ import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
 import RMI.ServerRMI;
+import Shared.GameObject;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -432,6 +433,26 @@ public class Server extends UnicastRemoteObject  implements IServer
     @Override
     public ArrayList<ILobby> getAllLobbies() throws RemoteException
     {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void getAllBalls(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

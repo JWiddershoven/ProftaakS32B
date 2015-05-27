@@ -13,6 +13,7 @@ import Interfaces.IServer;
 import Interfaces.IUser;
 import Server.Lobby;
 import Server.Server;
+import Shared.GameObject;
 import Shared.User;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -302,6 +303,35 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     public ArrayList<ILobby> getAllLobbies() throws RemoteException
     {
          return this.currentLobbies;
+    }
+
+    @Override
+    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
+        for (int i = currentGames.size(); i > 0; i--)
+            if (currentGames.get(i).getID() == gameId)
+                return currentGames.get(i).getAllGameObjects(gameId);
+        return null;
+    }
+
+    @Override
+    public void getAllBalls(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
+        for (int i = currentGames.size(); i > 0; i--)
+            if (currentGames.get(i).getID() == gameId)
+                return currentGames.get(i).getChangedGameObjects(gameId);
+        return new ArrayList<GameObject>();
+    }
+
+    @Override
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
+        for (int i = currentGames.size(); i > 0; i--)
+            if (currentGames.get(i).getID() == gameId)
+                return currentGames.get(i).getRemovedGamesObjects(gameId);
+        return new ArrayList<GameObject>();
     }
 
 }

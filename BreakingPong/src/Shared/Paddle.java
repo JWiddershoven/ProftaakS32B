@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Interfaces.IUser;
 import Server.CollisionChecker;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ public class Paddle extends GameObject {
 
     private int score;
     private CPU cpuPlayer;
-    private User humanPlayer;
+    private IUser humanPlayer;
     private WindowLocation selectedPosition;
     private boolean enabled = true;
 
@@ -64,7 +65,7 @@ public class Paddle extends GameObject {
         return selectedPosition;
     }
 
-    public User getPlayer() {
+    public IUser getPlayer() {
         return humanPlayer;
     }
 
@@ -101,7 +102,7 @@ public class Paddle extends GameObject {
      * @param selectedLocation value of selectedposition as WindowLocation
      * @param image
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, WindowLocation selectedLocation, Image image) {
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, IUser user, WindowLocation selectedLocation, Image image) {
         super(position, velocity, size, image);
         this.score = score;
         this.selectedPosition = selectedLocation;

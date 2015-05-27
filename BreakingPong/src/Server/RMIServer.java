@@ -11,6 +11,7 @@ import Interfaces.ILobby;
 import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
+import Shared.GameObject;
 import fontys.observer.BasicPublisher;
 import fontys.observer.RemotePropertyListener;
 import java.rmi.RemoteException;
@@ -177,6 +178,26 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     @Override
     public ArrayList<ILobby> getAllLobbies() throws RemoteException
     {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void getAllBalls(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
