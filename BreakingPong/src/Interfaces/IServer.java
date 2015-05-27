@@ -5,14 +5,17 @@
  */
 package Interfaces;
 
+
 import Shared.User;
+import fontys.observer.RemotePublisher;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 /**
  *
- * @author Jordi
+ * @author Mnesymne
  */
+
 public interface IServer extends Remote,IGame,ILobby,IUser
 {
     

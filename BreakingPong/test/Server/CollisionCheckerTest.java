@@ -46,9 +46,9 @@ public class CollisionCheckerTest
         TVector2 velocity = TVector2.zero;
         image = null;
         TVector2 position = new TVector2(50, 50);
-        paddle1 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.windowLocation.NORTH,image);
+        paddle1 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.WindowLocation.NORTH,image);
         position = new TVector2(75, 75);
-        paddle2 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.windowLocation.SOUTH, image);
+        paddle2 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.WindowLocation.SOUTH, image);
         
         position = new TVector2(30, 55);
         block1 = new Block(10, false, null, position, velocity, blockSize, image);

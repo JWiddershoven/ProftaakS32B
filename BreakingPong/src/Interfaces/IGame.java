@@ -37,7 +37,7 @@ public interface IGame{
     /**
      * Pre-condition: User must be in a lobby and cannot be the owner of this lobby.
      * Description: Checks if player is in the game, if so removes player from game and returns him to the lobby. Returns true if player is removed.
-     * @param user IUser to be removed from the game it is in.
+     * @param username User to be removed from the game it is in.-=
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException
      */
@@ -46,7 +46,7 @@ public interface IGame{
     /**
      * Pre-condition:
      * Description: Returns a List with Username,Score,ranking of all players in the game.
-     * @param game The game the client is in.
+     * @param gameid The ID of the game the client is in.
      * @return List of Strings of with Username,Score,ranking of all players in the game.
      * @throws RemoteException 
      */
@@ -60,6 +60,28 @@ public interface IGame{
      */
     public void addMap(IMap map)throws RemoteException;
     
-    
+    /**
+     * Pre-condition:
+     * Description: Returns a List with Username,Score,ranking of all players in the game.
+     * @return
+     * @throws RemoteException 
+     */
     public int getID() throws RemoteException;
+    
+    /**
+     * Pre-condition:
+     * Description: Moves player left.
+     * @param gameId
+     * @param username
+     * @throws RemoteException 
+     */
+    public void moveLeft(int gameId, String username) throws RemoteException;
+    /**
+     * Pre-condition:
+     * Description: Moves player right.
+     * @param gameId
+     * @param username
+     * @throws RemoteException 
+     */
+    public void moveRight(int gameId, String username) throws RemoteException;
 }

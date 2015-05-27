@@ -7,9 +7,10 @@ package Interfaces;
 
 /**
  *
- * @author Mnesymne
+ * @author Jordi
  */
-public interface IMap {
+public interface IMap
+{
     
     /*
     Pre-condition: Name must be unique and the owner does not own a lobby yet.

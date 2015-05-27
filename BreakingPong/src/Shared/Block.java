@@ -5,7 +5,7 @@
  */
 package Shared;
 
-import Shared.Paddle.windowLocation;
+import Shared.Paddle.WindowLocation;
 import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Block extends GameObject
      */
     private PowerUp powerUp;
 
-    private ArrayList<windowLocation> locations;
+    private ArrayList<WindowLocation> locations;
 
     /**
      * The Block constructor. Calls the super constructor of GameObject.

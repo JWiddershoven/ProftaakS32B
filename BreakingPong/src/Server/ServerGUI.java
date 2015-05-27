@@ -5,6 +5,13 @@
  */
 package Server;
 
+import Interfaces.IServer;
+import fontys.observer.BasicPublisher;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,12 +24,27 @@ import javafx.stage.Stage;
  */
 public class ServerGUI extends Application
 {
+    private IServer services;
     @Override
     public void start(Stage primaryStage) throws Exception
     {
         Parent root = FXMLLoader.load(getClass().getResource("ServerMain.fxml"));
         Scene scene = new Scene(root);
-        
+        try
+        {
+            Registry registry = LocateRegistry.createRegistry(1099);
+            if(registry == null)
+            {
+                registry = LocateRegistry.getRegistry(1099);
+            }
+            services = new RMIServer();
+            registry.rebind("gameServer", services);
+        }
+        catch (RemoteException ex)
+        {
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, ex.getMessage());
+        }
+        System.out.println("Gameserver executed. Listening for commands");
         primaryStage.setScene(scene);
         primaryStage.setTitle("Server Application");
         primaryStage.show();

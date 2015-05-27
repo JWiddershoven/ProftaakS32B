@@ -13,23 +13,32 @@ import Interfaces.IUser;
 import Server.Lobby;
 import Server.Server;
 import Shared.User;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ServerRMI implements IServer {
+public class ServerRMI extends UnicastRemoteObject implements IServer , Remote{
+
+    public ServerRMI() throws RemoteException {
+        this.ID = 1;
+    }
 
     private int ID;
     public ArrayList<IUser> loggedInUsers = new ArrayList<>();
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<IGame> currentGames = new ArrayList<>();
 
+<<<<<<< HEAD
     public ArrayList<ILobby> getCurrentLobbies()
     {
         return this.currentLobbies;
     }
+=======
+>>>>>>> origin/master
     
     @Override
     public boolean kickPlayer(String username) throws RemoteException {
@@ -227,13 +236,35 @@ public class ServerRMI implements IServer {
     }
 
     @Override
-    public int getID() {
-      return 0;
+    public int getID() throws RemoteException {
+      return ID;
     }
 
     @Override
-    public int getLobbyID() {
-       return 0;
+    public int getLobbyID() throws RemoteException  {
+       return ID;
+    }
+
+    @Override
+    public void moveLeft(int gameId, String username) throws RemoteException {
+        for (int i = currentGames.size(); i > 0; i--)
+        {
+            if (currentGames.get(i).getID() == gameId)
+            {
+                currentGames.get(i).moveLeft(gameId, username);
+            }
+        }
+    }
+
+    @Override
+    public void moveRight(int gameId, String username) throws RemoteException {
+        for (int i = currentGames.size(); i > 0; i--)
+        {
+            if (currentGames.get(i).getID() == gameId)
+            {
+                currentGames.get(i).moveRight(gameId, username);
+            }
+        }
     }
 
   
