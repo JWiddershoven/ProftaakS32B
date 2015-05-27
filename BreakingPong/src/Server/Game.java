@@ -679,7 +679,7 @@ public class Game extends JPanel implements Runnable {
                 }
             }
             catch (Exception ex) {
-                System.out.println("ERROR in drawMap: " + ex.getMessage());
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         catch (RemoteException ex) {
@@ -870,6 +870,7 @@ public class Game extends JPanel implements Runnable {
         }
         catch (Exception ex) {
             System.out.println("PaintError: " + ex.getMessage());
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - paintComponent nog sneller meer geheugen - - - - - - - - - - -">

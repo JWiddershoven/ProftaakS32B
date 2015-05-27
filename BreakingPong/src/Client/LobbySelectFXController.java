@@ -33,8 +33,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class LobbySelectFXController implements Initializable
-{
+public class LobbySelectFXController implements Initializable {
 
     // Textfields
     @FXML
@@ -78,23 +77,19 @@ public class LobbySelectFXController implements Initializable
             = FXCollections.observableArrayList();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        try
-        {
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
             administration = Administration.getInstance();
-        } catch (RemoteException ex)
-        {
+        }
+        catch (RemoteException ex) {
             Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         fillListViews();
     }
 
-    private void fillListViews()
-    {
-        try
-        {
+    private void fillListViews() {
+        try {
 //            User user1 = new User("testuser1", "123456", "test@em.nl", administration.getServer());
 //            User user2 = new User("testuser2", "123456", "test@em.nl", administration.getServer());
 //
@@ -108,7 +103,7 @@ public class LobbySelectFXController implements Initializable
 //            lobbiesList.add(lobby2);
 //            lobby1.joinLobby(user1);
 //            lobby2.joinLobby(user2);
-            
+
             ServerRMI serverRMI = new ServerRMI();
             lvOnlineUsers.setItems(FXCollections.observableArrayList(serverRMI.loggedInUsers));
             lvLobbies.setItems(FXCollections.observableArrayList(serverRMI.getCurrentLobbies()));
@@ -117,22 +112,20 @@ public class LobbySelectFXController implements Initializable
 
             //lobbiesList.clear();
             //lobbiesList.addAll(administration.getServer().getLobbys());
-        } catch (Exception ex)
-        {
+        }
+        catch (Exception ex) {
             System.out.println("ERROR in fillListViews : " + ex.getMessage());
+            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
     @FXML
-    private void onJoinLobbyClick()
-    {
+    private void onJoinLobbyClick() {
         System.out.println("on lobby join click");
         Lobby selectedLobby = (Lobby) lvLobbies.getSelectionModel().getSelectedItem();
-        if (selectedLobby != null)
-        {
-            try
-            {
+        if (selectedLobby != null) {
+            try {
                 selectedLobby.joinLobby(ClientGUI.loggedinUser);
                 // joinLobby throws exceptions, if no exception continue
                 ClientGUI.joinedLobby = selectedLobby;
@@ -140,63 +133,56 @@ public class LobbySelectFXController implements Initializable
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
-            } catch (Exception ex)
-            {
+            }
+            catch (Exception ex) {
                 JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
                         "Join error", TrayIcon.MessageType.INFO.ordinal());
             }
-        } else
-        {
+        }
+        else {
             JOptionPane.showMessageDialog(null, "Please select a lobby first",
                     "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
         }
     }
 
     @FXML
-    private void onCreateLobbyClick()
-    {
+    private void onCreateLobbyClick() {
         System.out.println("on lobby create click");
-        try
-        {
+        try {
             Parent root = FXMLLoader.load(getClass().getResource("CreateLobby.fxml"));
 
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        } catch (Exception ex)
-        {
+        }
+        catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
                     "Create error", TrayIcon.MessageType.INFO.ordinal());
         }
     }
 
     @FXML
-    private void onSendChatClick()
-    {
+    private void onSendChatClick() {
         System.out.println("sent chat!");
     }
 
     @FXML
-    private void onHelpAboutClick()
-    {
+    private void onHelpAboutClick() {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    private void onFileExitClick()
-    {
+    private void onFileExitClick() {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION)
-        {
+        if (dialogResult == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
 
     @FXML
-    private void onEditDeleteClick()
-    {
+    private void onEditDeleteClick() {
         System.out.println("deleted");
     }
     // </editor-fold>

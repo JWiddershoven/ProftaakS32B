@@ -99,7 +99,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         }
         catch(RemoteException | NotBoundException ex )
         {
-            System.out.println(ex.getMessage());
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {

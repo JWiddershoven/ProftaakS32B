@@ -76,7 +76,7 @@ public class Tests extends Application {
                             connection.moveUp();
                             System.out.println("Up");
                         } catch (RemoteException ex) {
-                            System.out.println(ex.getMessage());
+                            Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         root.getChildren().remove(ball);
                         ball = new Circle(xPos, yPos, 20, Color.RED);
@@ -91,7 +91,7 @@ public class Tests extends Application {
                            connection.moveDown();
                             System.out.println("Down");
                         } catch (RemoteException ex) {
-                            System.out.println(ex.getMessage());
+                            Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         root.getChildren().remove(ball);
                         ball = new Circle(xPos, yPos, 20, Color.RED);
@@ -106,7 +106,7 @@ public class Tests extends Application {
                             connection.moveUp();
                             System.out.println("lef   t");
                         } catch (RemoteException ex) {
-                            System.out.println(ex.getMessage());
+                            Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         root.getChildren().remove(ball);
                         ball = new Circle(xPos, yPos, 20, Color.RED);
@@ -122,7 +122,7 @@ public class Tests extends Application {
                            connection.moveDown();
                             System.out.println("right");
                         } catch (RemoteException ex) {
-                            System.out.println(ex.getMessage());
+                            Logger.getLogger(Tests.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         root.getChildren().remove(ball);
                         ball = new Circle(xPos, yPos, 20, Color.RED);
