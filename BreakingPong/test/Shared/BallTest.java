@@ -41,7 +41,7 @@ public class BallTest
         position = new TVector2(50, 30);
         velocity = new TVector2(15, 40);
         size = new TVector2(5, 5);
-        p = new Paddle(33, position, velocity, size, cpu, Paddle.windowLocation.NORTH, null);
+        p = new Paddle(33, position, velocity, size, cpu, Paddle.WindowLocation.NORTH, null);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class BallTest
     public void testSetLastPaddleTouched()
     {
         b = new Ball(p, position, velocity, size, testGame, null);
-        Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.windowLocation.SOUTH, null);
+        Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.WindowLocation.SOUTH, null);
         try
         {
             b.setLastPaddleTouched(p2);

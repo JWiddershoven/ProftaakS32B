@@ -124,4 +124,33 @@ public class RMIGame implements IGame{
     public int getID() {
         return this.id;
     }
+
+    @Override
+    public void moveLeft(int gameId, String username) throws RemoteException {
+        for (int i = paddleList.size(); i > 0; i--)
+        {
+            Paddle p = paddleList.get(i);
+            if (p.getPlayer().getUsername().equals(username))
+            {
+                p.Move(Paddle.Direction.LEFT);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void moveRight(int gameId, String username) throws RemoteException {
+        for (int i = paddleList.size(); i > 0; i--)
+        {
+            Paddle p = paddleList.get(i);
+            if (p.getPlayer().getUsername().equals(username))
+            {
+                p.Move(Paddle.Direction.RIGHT);
+                break;
+            }
+        }
+    }
+    
+    
+    
 }

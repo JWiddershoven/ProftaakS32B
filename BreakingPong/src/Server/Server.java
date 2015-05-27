@@ -406,4 +406,14 @@ public class Server extends UnicastRemoteObject implements IServer // implements
         }
         return "";
     }
+
+    @Override
+    public void moveLeft(String username) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void moveRight(String username) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

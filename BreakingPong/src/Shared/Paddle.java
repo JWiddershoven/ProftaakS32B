@@ -7,7 +7,6 @@ package Shared;
 
 import Server.CollisionChecker;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 /**
@@ -19,8 +18,7 @@ public class Paddle extends GameObject {
     private int score;
     private CPU cpuPlayer;
     private User humanPlayer;
-    private windowLocation selectedPosition;
-    private boolean left = false, right = false;
+    private WindowLocation selectedPosition;
     private boolean enabled = true;
 
     public boolean isEnabled() {
@@ -32,14 +30,14 @@ public class Paddle extends GameObject {
     }
 
     /**
-     * Enumerator direction
+     * Enumerator Direction
      */
-    public enum direction {
+    public enum Direction {
 
         LEFT, RIGHT, UP, DOWN
     };
 
-    public enum windowLocation {
+    public enum WindowLocation {
 
         NORTH, EAST, SOUTH, WEST
     }
@@ -62,7 +60,7 @@ public class Paddle extends GameObject {
         this.score = this.score + score;
     }
 
-    public windowLocation getWindowLocation() {
+    public WindowLocation getWindowLocation() {
         return selectedPosition;
     }
 
@@ -82,10 +80,10 @@ public class Paddle extends GameObject {
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param cpu value of cpu as CPU Object
-     * @param selectedLocation value of selectedPosition as windowLocation
+     * @param selectedLocation value of selectedPosition as WindowLocation
      * @param image
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, windowLocation selectedLocation, Image image) {
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, CPU cpu, WindowLocation selectedLocation, Image image) {
         super(position, velocity, size, image);
         this.score = score;
         this.selectedPosition = selectedLocation;
@@ -100,10 +98,10 @@ public class Paddle extends GameObject {
      * @param velocity value of velocity as TVector2
      * @param size value of size as TVector2
      * @param user value of user as Player Object
-     * @param selectedLocation value of selectedposition as windowLocation
+     * @param selectedLocation value of selectedposition as WindowLocation
      * @param image
      */
-    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, windowLocation selectedLocation, Image image) {
+    public Paddle(int score, TVector2 position, TVector2 velocity, TVector2 size, User user, WindowLocation selectedLocation, Image image) {
         super(position, velocity, size, image);
         this.score = score;
         this.selectedPosition = selectedLocation;
@@ -112,11 +110,11 @@ public class Paddle extends GameObject {
 
     /**
      * Move methode for a paddle Moves the paddle object location into the given
-     * direction
+     * Direction
      *
-     * @param direction value of direction as enum
+     * @param direction value of Direction as enum
      */
-    public void Move(direction direction) {
+    public void Move(Direction direction) {
         TVector2 oldPosition = getPosition();
         TVector2 newPosition = TVector2.zero;
         switch (direction) {
@@ -145,54 +143,31 @@ public class Paddle extends GameObject {
 
     /**
      * update moves the paddle
+     *
+     * @param direction - LEFT or RIGHT.
      */
-    public void update() {
-        if (isEnabled()) {
-            if (left) {
-                if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH) {
-                    this.Move(direction.LEFT);
-                }
-                else if (selectedPosition == windowLocation.WEST) {
-                    this.Move(direction.UP);
-                }
-                else if (selectedPosition == windowLocation.EAST) {
-                    this.Move(direction.DOWN);
-                }
+    public void MoveDirection(Direction direction) {
+        if (direction == Direction.LEFT) {
+            if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH) {
+                this.Move(Direction.LEFT);
             }
-            if (right) {
-                if (selectedPosition == windowLocation.NORTH || selectedPosition == windowLocation.SOUTH) {
-                    this.Move(direction.RIGHT);
-                }
-                else if (selectedPosition == windowLocation.WEST) {
-                    this.Move(direction.DOWN);
-                }
-                else if (selectedPosition == windowLocation.EAST) {
-                    this.Move(direction.UP);
-                }
+            else if (selectedPosition == WindowLocation.WEST) {
+                this.Move(Direction.UP);
+            }
+            else if (selectedPosition == WindowLocation.EAST) {
+                this.Move(Direction.DOWN);
+            }
+        }
+        if (direction == Direction.RIGHT) {
+            if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH) {
+                this.Move(Direction.RIGHT);
+            }
+            else if (selectedPosition == WindowLocation.WEST) {
+                this.Move(Direction.DOWN);
+            }
+            else if (selectedPosition == WindowLocation.EAST) {
+                this.Move(Direction.UP);
             }
         }
     }
-
-    public void keyPressed(int k) {
-        if (this.getPlayer() != null) {
-            if (k == KeyEvent.VK_LEFT) {
-                left = true;
-            }
-            if (k == KeyEvent.VK_RIGHT) {
-                right = true;
-            }
-        }
-    }
-
-    public void keyReleased(int k) {
-        if (this.getPlayer() != null) {
-            if (k == KeyEvent.VK_LEFT) {
-                left = false;
-            }
-            if (k == KeyEvent.VK_RIGHT) {
-                right = false;
-            }
-        }
-    }
-
 }

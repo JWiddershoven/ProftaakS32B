@@ -231,6 +231,28 @@ public class ServerRMI implements IServer {
        return 0;
     }
 
+    @Override
+    public void moveLeft(int gameId, String username) throws RemoteException {
+        for (int i = currentGames.size(); i > 0; i--)
+        {
+            if (currentGames.get(i).getID() == gameId)
+            {
+                currentGames.get(i).moveLeft(gameId, username);
+            }
+        }
+    }
+
+    @Override
+    public void moveRight(int gameId, String username) throws RemoteException {
+        for (int i = currentGames.size(); i > 0; i--)
+        {
+            if (currentGames.get(i).getID() == gameId)
+            {
+                currentGames.get(i).moveRight(gameId, username);
+            }
+        }
+    }
+
   
 
     

@@ -123,72 +123,72 @@ public class CPU {
         }
 
         try {
-            if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH) {
+            if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT);
                 }
             }
-            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH) {
+            else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.NORTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT);
                 }
             }
-            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST) {
+            else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.WEST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN);
                 }
             }
-            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST) {
+            else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.EAST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN);
                 }
             }
         }
 
         catch (Exception e) {
             System.out.println("CPU.Move() ERROR ! : " + e.getMessage());
-            if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.SOUTH) {
+            if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT);
                 }
             }
-            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.NORTH) {
+            else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.NORTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT);
                 }
             }
-            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.WEST) {
+            else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.WEST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN);
                 }
             }
-            else if (this.myPaddle.getWindowLocation() == Paddle.windowLocation.EAST) {
+            else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.EAST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP);
                 }
                 else {
-                    myPaddle.Move(Paddle.direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN);
                 }
             }
         }

@@ -5,15 +5,13 @@
  */
 package Server;
 
-import Server.CollisionChecker;
-import Server.Server;
 import Shared.Ball;
 import Shared.Block;
 import Shared.CPU;
 import Shared.GameObject;
 import Shared.Map;
 import Shared.Paddle;
-import Shared.Paddle.windowLocation;
+import Shared.Paddle.WindowLocation;
 import Shared.PowerUp;
 import Shared.TVector2;
 import Shared.User;
@@ -23,8 +21,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +46,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  *
  * @author Mnesymne
  */
-public class Game extends JPanel implements Runnable, KeyListener {
+public class Game extends JPanel implements Runnable {
 
     int playerAmount = 1;
 
@@ -209,7 +206,6 @@ public class Game extends JPanel implements Runnable, KeyListener {
         this.ballList = new ArrayList<>();
         this.paddleList = new ArrayList<>();
         this.setFocusable(true);
-        addKeyListener(this);
 
         try {
             if (players.get(0) != null) {
@@ -259,7 +255,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
         TVector2 standardSize = new TVector2(25, 10);
         TVector2 position = new TVector2(50, 50);
         TVector2 velocity = new TVector2(10, 10);
-        //paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.windowLocation.NORTH);
+        //paddle1 = new Paddle(10, position, velocity, standardSize, player1, Paddle.WindowLocation.NORTH);
         //CPU newBot = new CPU(botName,botDifficulty,,this);
         //botList.add(newBot);
     }
@@ -485,7 +481,7 @@ public class Game extends JPanel implements Runnable, KeyListener {
                 int rowcount = 1;
                 // Velocity 0 since blocks don't move
                 TVector2 velocity = new TVector2(0.0f, 0.0f);
-                windowLocation paddleLocation = null;
+                WindowLocation paddleLocation = null;
                 // Read all rows of the maplayout
                 for (String row : mapLayout) {
                     // Read every number on a row of the maplayout
@@ -502,18 +498,18 @@ public class Game extends JPanel implements Runnable, KeyListener {
                             if (Math.abs(diffX) > Math.abs(diffY)) {
                                 // East of West
                                 if (diffX < 0) {
-                                    paddleLocation = windowLocation.EAST;
+                                    paddleLocation = WindowLocation.EAST;
                                 }
                                 else {
-                                    paddleLocation = windowLocation.WEST;
+                                    paddleLocation = WindowLocation.WEST;
                                 }
                             }
                             else {
                                 if (diffY < 0) {
-                                    paddleLocation = windowLocation.SOUTH;
+                                    paddleLocation = WindowLocation.SOUTH;
                                 }
                                 else {
-                                    paddleLocation = windowLocation.NORTH;
+                                    paddleLocation = WindowLocation.NORTH;
                                 }
                             }
                         }
@@ -1013,9 +1009,10 @@ public class Game extends JPanel implements Runnable, KeyListener {
         for (CPU c : botList) {
             c.update();
         }
-        for (Paddle p : paddleList) {
-                p.update();
-        }
+        // TODO: check
+//        for (Paddle p : paddleList) {
+//                p.update();
+//        }
 
         if (numberOfPLayersLeft == 0) {
             try {
@@ -1153,38 +1150,6 @@ public class Game extends JPanel implements Runnable, KeyListener {
             return 2;
         }
         return 0;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        // Doesn't need to do anything
-    }
-
-    //Keypressed eventhandler
-    @Override
-    public void keyPressed(KeyEvent e) {
-        //Get all objects from the game
-        for (int i = this.objectList.size(); i > 0; i--) {
-            // If object is a paddle
-            if (this.objectList.get(i - 1) instanceof Paddle) {
-                Paddle p = (Paddle) this.objectList.get(i - 1);
-                p.keyPressed(e.getKeyCode());
-            }
-        }
-    }
-
-    //Keyreleased eventhandler
-    @Override
-    public void keyReleased(KeyEvent e) {
-        //Get all objects from the game
-        for (GameObject o : this.objectList) {
-            // If the object is a paddle
-            if (o instanceof Paddle) {
-                //Stop moving the paddle
-                Paddle p = (Paddle) o;
-                p.keyReleased(e.getKeyCode());
-            }
-        }
     }
 
     public TVector2 generateRandomVelocity() {
