@@ -5,13 +5,19 @@
  */
 package RMIPaddleMoveTest;
 
+import RMI.RMIGame;
+import RMI.RMIUser;
 import Shared.Paddle;
+import Shared.User;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
@@ -20,6 +26,9 @@ import javafx.stage.Stage;
  */
 public class PaddleMoveServer extends Application
 {
+    private int playerAmount;
+    private ArrayList<RMIUser> playerList;
+    RMIGame game;
     private IConnection connection;
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -36,7 +45,17 @@ public class PaddleMoveServer extends Application
         {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Gameserver executed. Listening for commands");
+        //RMIGame game = new RMIGame(1, 300, true,playerList);
+        playerAmount = 0;
+        System.out.println("Waiting for 4 more players");
+        while(game.getUserList().size() < 4)
+        {
+            if(game.getUserList().size() != playerAmount)
+            {
+                System.out.println("Waiting for " + (4 - game.getUserList().size()) + "players");
+                playerAmount = game.getUserList().size();
+            }
+        }
     }
     
     public static void main(String[] args)

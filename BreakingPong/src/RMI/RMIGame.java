@@ -171,6 +171,10 @@ public class RMIGame implements IGame, Runnable {
         this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
         generateBotPlayers(players);
     }
+    
+    public ArrayList<IUser> getUserList() {
+        return userList;
+    }
 
     private void generateBotPlayers(ArrayList<User> players) {
         try {
