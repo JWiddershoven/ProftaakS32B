@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Server.Game;
 import Server.CollisionChecker;
 import Shared.Paddle.windowLocation;
 import java.awt.Image;

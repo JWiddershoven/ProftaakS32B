@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Server.Game;
 import Server.CollisionChecker;
 import Server.Server;
 import java.rmi.RemoteException;

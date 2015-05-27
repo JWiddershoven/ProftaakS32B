@@ -26,16 +26,16 @@ public interface IClientSecurity extends Remote{
      */
     public Session login(String UserName,String Password) throws RemoteException;
     
-    // 
+    
     /**
      * Pre-condition: User must be logged in.
      * Description: Logs the player out, exits the game and sets Session to Null.
+     * @param username username of the logged in user.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
-    public Session logout()throws RemoteException;
+    public Session logout(String username) throws RemoteException;
     
-    // Gives the Information to the createUser method of IJoin, Returns boolean value of IJoin
     /**
      * Pre-condition: User must in CreateUser screen.
      * Description: Gives the information to the createUser method of IJoin and returns a boolean value of IJoin.createUser

@@ -3,11 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Shared;
+package Server;
 
 import Server.CollisionChecker;
 import Server.Server;
+import Shared.Ball;
+import Shared.Block;
+import Shared.CPU;
+import Shared.GameObject;
+import Shared.Map;
+import Shared.Paddle;
 import Shared.Paddle.windowLocation;
+import Shared.PowerUp;
+import Shared.TVector2;
+import Shared.User;
+import Shared.WhiteSpace;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;

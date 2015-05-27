@@ -22,9 +22,10 @@ public class Administration {
     /**
      * The administration constructor. Here will the server, database and user
      * list be created.
+     *
      * @throws java.rmi.RemoteException
      */
-    protected Administration() throws RemoteException {
+    public Administration() throws RemoteException {
         this.server = new Server();
         this.database = new Database();
         this.users = new ArrayList<>();
@@ -52,7 +53,8 @@ public class Administration {
 
         /**
          * Custom exception for incorrect Login data
-         * @param message 
+         *
+         * @param message
          */
         public IncorrectLoginDataException(String message) {
             super(message);
@@ -66,7 +68,6 @@ public class Administration {
     }
 
     private final Database database;
-
 
     public Database getDatabase() {
         return database;
@@ -92,31 +93,30 @@ public class Administration {
             throw new IllegalArgumentException("Password cannot be null or empty!");
         }
 
-        
-        if(userName.equals("username") && password.equals("password")){
-            User user = new User(userName, password,"test@test.nl",getServer());
+        if (userName.equals("username") && password.equals("password")) {
+            User user = new User(userName, password, "test@test.nl", getServer());
             users.add(user);
             server.addUser(user);
             return user;
-        }else{
+        }
+        else {
             LoggedinUser lUser = DatabaseHelper.loginUser(userName, password);
-        
 
-        if (lUser.getLoggedIn()) {
+            if (lUser.getLoggedIn()) {
 
-            User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail(), getServer());
-            Double rating = lUser.getRating();
-            user.setRating(rating.intValue());
-            users.add(user);
-            server.addUser(user);
-            return user;
+                User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail(), getServer());
+                Double rating = lUser.getRating();
+                user.setRating(rating.intValue());
+                users.add(user);
+                server.addUser(user);
+                return user;
 
-        } else {
-            throw new IncorrectLoginDataException("Username and password combination is incorrect.");
+            }
+            else {
+                throw new IncorrectLoginDataException("Username and password combination is incorrect.");
+            }
         }
-        }
-        
-        
+
     }
 
 }

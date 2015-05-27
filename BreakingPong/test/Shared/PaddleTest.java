@@ -6,6 +6,7 @@ package Shared;
  * and open the template in the editor.
  */
 
+import Server.Game;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

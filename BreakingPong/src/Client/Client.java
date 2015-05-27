@@ -15,14 +15,22 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class Client extends UnicastRemoteObject implements IClient
 {
+    
+    
     public Client()throws RemoteException
     {
         
     }
     
+    /**
+     * Pre-condition: User must be logged in.
+     * Description: Returns user from the lobby to the Lobby Select screen.
+     * @throws RemoteException 
+     */
     @Override
-    public void returnToLobby()
+    public void returnToLobby() throws RemoteException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
     }
 }

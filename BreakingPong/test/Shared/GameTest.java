@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Server.Game;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;

@@ -7,7 +7,7 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import Server.Administration;
-import Shared.Game;
+import Server.Game;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;

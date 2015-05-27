@@ -5,7 +5,6 @@
  */
 package Server;
 
-import Shared.Game;
 import Shared.User;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;

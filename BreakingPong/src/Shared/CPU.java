@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Server.Game;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

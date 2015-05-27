@@ -10,7 +10,7 @@ import Interfaces.IServer;
 import Interfaces.IUser;
 import Server.Lobby;
 import Server.Server;
-import Shared.Game;
+import Server.Game;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
