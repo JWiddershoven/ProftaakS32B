@@ -16,4 +16,10 @@ import java.rmi.RemoteException;
 public interface IConnection extends Remote, RemotePublisher
 {
     public int[] newValues(int newX, int newY) throws RemoteException;
+    public void moveUp() throws RemoteException;
+    public void moveDown()  throws RemoteException;
+    public void moveLeft() throws RemoteException;
+    public void moveRight()  throws RemoteException;
+    public int getPosX()  throws RemoteException;
+    public int getPosY()  throws RemoteException;
 }
