@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Interfaces.IUser;
 import Shared.User;
 import java.rmi.RemoteException;
 import static org.junit.Assert.fail;
@@ -22,43 +23,47 @@ public class ServerTest {
     public void testCreation() {
         try {
             server = new Server();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             fail();
         }
+    }
+
+    @Test
+    public void testCreateLobby() throws RemoteException {
+        server = new Server();
+        try {
+            if (!server.createLobby("test", "test", "username", (byte) 2)) {
+                fail("Failed to create lobby");
+            }
+        }
+        catch (Exception ex) {
+            fail(ex.getMessage());
+        }
+
     }
 
     @Test
     public void testJoinLobby() throws RemoteException {
 
         server = new Server();
-
         try {
-            server.JoinLobby(null);
-            fail();
-        } catch (IllegalArgumentException ex) {
-
+            if (!server.createLobby("test", "test", "username", (byte) 2)) {
+                fail("Failed to create lobby");
+            }
+        }
+        catch (Exception ex) {
+            fail(ex.getMessage());
         }
 
-        server = new Server();
-
-        byte maxPlayers = 4;
-        Lobby lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
-
         try {
-            server.JoinLobby(lobby);
-            server.JoinLobby(lobby);
-            fail();
-        } catch (IllegalArgumentException ex) {
-
+            server.joinLobby(1, "username2");
         }
-        server = new Server();
-
-        try {
-            server.JoinLobby(lobby);
-
-        } catch (IllegalArgumentException ex) {
-            fail();
+        catch (IllegalArgumentException ex) {
+            fail(ex.getMessage());
         }
+        server.joinLobby(2, "username2");
+        fail("Deze lobby bestaat niet");
 
     }
 
@@ -67,18 +72,20 @@ public class ServerTest {
         server = new Server();
 
         try {
-            server.LogOut(null);
-            fail();
-        } catch (IllegalArgumentException ex) {
+            server.logout(new User("test","test", "es@bl.nl",server));
+            fail("user does not exist");
+        }
+        catch (IllegalArgumentException ex) {
 
         }
 
         User user1 = new User("Testtest", "Testtest", "test@test.test", new Server());
         try {
-            server.LogOut(user1);
-            fail();
-        } catch (IllegalArgumentException ex) {
+            server.logout(user1);
+        }
+        catch (IllegalArgumentException ex) {
 
+            fail(ex.getMessage());
         }
 
     }

@@ -5,20 +5,22 @@
  */
 package Shared;
 
+import Interfaces.IUser;
 import Server.Server;
+import java.rmi.RemoteException;
 
 /**
  *
  * @author Mnesymne
  */
-public class User
+public class User implements IUser
 {
 
     //--------------------------------------------//
     private String username, password, email;
     private Paddle paddle;
     private Server selectedServer;
-    private int Rating;
+    private int rating;
     //-------------------------------------------//
 
     /**
@@ -65,35 +67,35 @@ public class User
         this.password = password;
         this.email = email;
         this.selectedServer = selectedServer;
-        this.Rating = 0;
+        this.rating = 0;
 
     }
 
     /**
-     * Getter of Rating
+     * Getter of rating
      *
      * @return rating as int.
      */
     public int getRating()
     {
-        return Rating;
+        return rating;
     }
 
     /**
-     * Setter of Rating If end Rating is lower then 0, become 0. Else new Rating
-     * is old Rating - rating.
+     * Setter of rating If end rating is lower then 0, become 0. Else new rating
+ is old rating - rating.
      *
      * @param Change
      */
     public void setRating(int Change)
     {
-        if (this.Rating - Change > 0)
+        if (this.rating - Change > 0)
         {
-            this.Rating -= Change;
+            this.rating -= Change;
         }
         else
         {
-            this.Rating = 0;
+            this.rating = 0;
         }
     }
 
@@ -232,5 +234,25 @@ public class User
     public String toString()
     {
         return username;
+    }
+
+    /**
+     * Description: Returns a string with Username and Ranking
+     * @param username
+     * @return String with Username and Ranking
+     * @throws RemoteException 
+     */
+    @Override
+    public String getPlayerInformation(String username) throws RemoteException {
+       return this.username + " - " + this.rating;
+    }
+
+    /**
+     * Description: RMI - Returns a string with the username
+     * @return  String with the Username
+     */
+    @Override
+    public String getUsername(IUser user) {
+        return this.username;
     }
 }

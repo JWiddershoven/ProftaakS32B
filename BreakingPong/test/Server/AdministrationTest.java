@@ -35,7 +35,6 @@ public class AdministrationTest {
 
     @Test
     public void testLogin() {
-
         try
         {
             administration = new Administration();

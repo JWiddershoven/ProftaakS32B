@@ -15,6 +15,7 @@ public interface IUser{
     
     /**
      * Description: Returns a string with Username and Ranking
+     * @param username
      * @return String with Username and Ranking
      * @throws RemoteException 
      */
@@ -22,6 +23,7 @@ public interface IUser{
     
     /**
      * Description: Returns a string with the username
+     * @param user Won't be used
      * @return  String with the Username
      */
     public String getUsername(IUser user);
