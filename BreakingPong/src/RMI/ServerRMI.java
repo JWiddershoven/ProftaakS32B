@@ -32,13 +32,10 @@ public class ServerRMI extends UnicastRemoteObject implements IServer , Remote{
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<IGame> currentGames = new ArrayList<>();
 
-<<<<<<< HEAD
     public ArrayList<ILobby> getCurrentLobbies()
     {
         return this.currentLobbies;
     }
-=======
->>>>>>> origin/master
     
     @Override
     public boolean kickPlayer(String username) throws RemoteException {
