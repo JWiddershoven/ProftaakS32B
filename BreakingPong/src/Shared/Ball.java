@@ -5,7 +5,6 @@
  */
 package Shared;
 
-import Server.Game;
 import Server.CollisionChecker;
 import Shared.Paddle.WindowLocation;
 import java.awt.Image;
@@ -17,7 +16,6 @@ import javax.swing.Timer;
  */
 public class Ball extends GameObject {
 
-    private final Game game;
     private Paddle lastPaddleTouched;
     public TVector2 spawnPos;
     Timer timer;
@@ -31,12 +29,10 @@ public class Ball extends GameObject {
      * @param position The position of a GameObject.
      * @param velocity The velocity of a GameObject.
      * @param size The size of a GameObject.
-     * @param game The game of where this ball is in.
      * @param image
      */
-    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Image image) {
+    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Image image) {
         super(position, velocity, size, image);
-        this.game = game;
         this.spawnPos = position;
         if (position != null && velocity != null && size != null) {
             this.lastPaddleTouched = lastPaddleTouched;
@@ -132,10 +128,6 @@ public class Ball extends GameObject {
                             }
                         }
                         lastPaddleTouched.addScore(b.getPoints());
-                    }
-                    if (b.isDestructable()) {
-                        game.objectList.remove(go);
-                        CollisionChecker.gameObjectsList.remove(go);
                     }
                 }
             }

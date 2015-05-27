@@ -89,6 +89,7 @@ public class Game extends JPanel implements Runnable {
      * Setter of id
      *
      * @param id value of id as int
+     * 
      */
     public void setId(int id) {
         this.id = id;
@@ -667,7 +668,7 @@ public class Game extends JPanel implements Runnable {
                             case "6": {
                                 BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
                                 velocity = generateRandomVelocity();
-                                Ball ball = new Ball(null, newObjectPosition, velocity, new TVector2(15f, 15f), this, BallImage);
+                                Ball ball = new Ball(null, newObjectPosition, velocity, new TVector2(15f, 15f), BallImage);
                                 this.addObject(ball);
                                 this.ballList.add(ball);
                                 break;

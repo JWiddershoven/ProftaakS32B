@@ -96,7 +96,7 @@ public class Administration {
         }
 
         if (userName.equals("username") && password.equals("password")) {
-            User user = new User(userName, password, "test@test.nl", getServer());
+            User user = new User(userName, password, "test@test.nl");
             users.add(user);
             try {
                 server.login(userName, password);
@@ -109,7 +109,7 @@ public class Administration {
 
             if (lUser.getLoggedIn()) {
 
-                User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail(), getServer());
+                User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail());
                 Double rating = lUser.getRating();
                 user.setRating(rating.intValue());
                 users.add(user);

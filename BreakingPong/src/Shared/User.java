@@ -6,7 +6,6 @@
 package Shared;
 
 import Interfaces.IUser;
-import Server.Server;
 import java.rmi.RemoteException;
 
 /**
@@ -19,7 +18,7 @@ public class User implements IUser
     //--------------------------------------------//
     private String username, password, email;
     private Paddle paddle;
-    private Server selectedServer;
+    //private Server selectedServer;
     private int rating;
     //-------------------------------------------//
 
@@ -30,10 +29,8 @@ public class User implements IUser
      * @param password as String minimal of 6 symbols
      * @param email as String , must be a valid email meaning it contains a @
      * and f.ex .com
-     * @param selectedServer as Server, this is the server the user is currently
-     * in.
      */
-    public User(String username, String password, String email, Server selectedServer)
+    public User(String username, String password, String email)
     {
         if (username == null || username.trim().isEmpty())
         {
@@ -51,10 +48,10 @@ public class User implements IUser
         {
             throw new IllegalArgumentException("Email is not of correct format");
         }
-        if (selectedServer == null)
-        {
-            throw new IllegalArgumentException("Server cannot be null");
-        }
+//        if (selectedServer == null)
+//        {
+//            throw new IllegalArgumentException("Server cannot be null");
+//        }
         if (username.length() < 6)
         {
             throw new IllegalArgumentException("Username must be at least 6 characters");
@@ -66,7 +63,7 @@ public class User implements IUser
         this.username = username;
         this.password = password;
         this.email = email;
-        this.selectedServer = selectedServer;
+        //this.selectedServer = selectedServer;
         this.rating = 0;
 
     }
@@ -114,23 +111,23 @@ public class User implements IUser
      *
      * @return the selectedServer
      */
-    public Server getSelectedServer()
-    {
-        return selectedServer;
-    }
+//    public Server getSelectedServer()
+//    {
+//        return selectedServer;
+//    }
 
     /**
      * Setter of selectedServer
      *
      * @param selectedServer as Server
      */
-    public void setSelectedServer(Server selectedServer)
-    {
-        if (selectedServer != null && selectedServer != this.selectedServer)
-        {
-            this.selectedServer = selectedServer;
-        }
-    }
+//    public void setSelectedServer(Server selectedServer)
+//    {
+//        if (selectedServer != null && selectedServer != this.selectedServer)
+//        {
+//            this.selectedServer = selectedServer;
+//        }
+//    }
 
     /**
      * Getter of Username

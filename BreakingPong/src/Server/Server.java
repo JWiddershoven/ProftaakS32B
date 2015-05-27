@@ -348,7 +348,7 @@ public class Server extends UnicastRemoteObject  implements IServer
     public boolean login(String username, String password) throws RemoteException {
         // do Database stufftest@
 
-        return this.loggedInUsers.add((IUser) new User(username, password, "test@test.com", this));
+        return this.loggedInUsers.add((IUser) new User(username, password, "test@test.com"));
     }
 
     @Override
@@ -402,7 +402,7 @@ public class Server extends UnicastRemoteObject  implements IServer
             boolean dbActionWorked = DatabaseHelper.registerUser(username, password, email);
             System.out.println("DBworked = " + dbActionWorked);
 
-            Shared.User newUser = new Shared.User(username, password, email, Administration.getInstance().getServer());
+            Shared.User newUser = new Shared.User(username, password, email);
 
             this.loggedInUsers.add((IUser) newUser);
         } catch (SQLException ex) {
