@@ -6,10 +6,13 @@
 package Interfaces;
 
 
+import Server.Lobby;
 import Shared.User;
 import fontys.observer.RemotePublisher;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  *
@@ -50,4 +53,17 @@ public interface IServer extends Remote,IGame,ILobby,IUser
      * @throws RemoteException 
      */
     public boolean removeLobby(int lobbyid)throws RemoteException;
+    /**
+     * Returns an ArrayList of online users.
+     * @return an ArrayList of online users.
+     * @throws RemoteException 
+     */
+    public ArrayList<String> getOnlineUsers() throws RemoteException;
+    
+    /**
+     * Returns an ArrayList of the lobbies.
+     * @return an ArrayList of the lobbies.
+     * @throws RemoteException
+     */
+    public ArrayList<ILobby> getAllLobbies() throws RemoteException;
 }

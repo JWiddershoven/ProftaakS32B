@@ -27,9 +27,9 @@ public class Lobby
 
     private byte maxPlayers;
 
-    private Server host;
+    //private Server host;
 
-    private Game game;
+    //private Game game;
 
     private ArrayList<User> joinedPlayers;
 

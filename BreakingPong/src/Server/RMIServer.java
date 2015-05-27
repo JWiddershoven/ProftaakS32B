@@ -167,4 +167,16 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     public String getUsername(IUser user) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public ArrayList<String> getOnlineUsers() throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<ILobby> getAllLobbies() throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

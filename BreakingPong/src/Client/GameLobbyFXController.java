@@ -13,6 +13,7 @@ import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -87,7 +88,13 @@ public class GameLobbyFXController implements Initializable
 
     private void fillListViews()
     {
-        lvPlayersInGame.setItems(ClientGUI.joinedLobby.getJoinedPlayers());
+        try
+        {
+            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getId())));
+        } catch (RemoteException ex)
+        {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">

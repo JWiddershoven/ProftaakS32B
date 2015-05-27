@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * @author Mnesymne
  * @Deprecated NIET MEER GEBRUIKEN VOOR RMI
  */
+
 @Deprecated
 public class Server extends UnicastRemoteObject  implements IServer
 {
@@ -38,12 +39,12 @@ public class Server extends UnicastRemoteObject  implements IServer
 //     */
 //    private List<Lobby> lobbys;
 //
-    /*
-     List with all the current onlineUsers
-     */
-    public ArrayList<IUser> getOnlineUsers() {
-        return this.loggedInUsers;
-    }
+//    /*
+//     List with all the current onlineUsers
+//     */
+//    public ArrayList<IUser> getOnlineUsers() {
+//        return this.loggedInUsers;
+//    }
 //
 //    /*
 //     List with all the current lobby's
@@ -419,6 +420,18 @@ public class Server extends UnicastRemoteObject  implements IServer
 
     @Override
     public void moveRight(int gameId, String username) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String> getOnlineUsers() throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<ILobby> getAllLobbies() throws RemoteException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

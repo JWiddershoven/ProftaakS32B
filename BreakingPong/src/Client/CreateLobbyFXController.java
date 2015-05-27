@@ -17,6 +17,8 @@ import java.net.URL;
 import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -140,8 +142,7 @@ public class CreateLobbyFXController implements Initializable
         }
         catch (IOException | HeadlessException ex)
         {
-            System.out.println("Error : " + ex.getMessage());
-            
+            Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -190,8 +191,7 @@ public class CreateLobbyFXController implements Initializable
                 throw new Exception("Dit zou niet mogen gebeuren!");
             }
             boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
-            ServerRMI serverRMI = new ServerRMI();
-            serverRMI.createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
+            ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
             //ClientGUI.joinedLobby = newLobby;
             return "";

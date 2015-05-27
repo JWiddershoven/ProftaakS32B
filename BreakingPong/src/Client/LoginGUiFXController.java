@@ -7,6 +7,7 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import Helpers.DatabaseHelper;
+import RMI.ServerRMI;
 import Server.Administration;
 import java.awt.EventQueue;
 import java.awt.TrayIcon;
@@ -121,6 +122,7 @@ public class LoginGUiFXController implements Initializable {
                 //LoggedinUser ingelogd = DatabaseHelper.loginUser(username, password);
 
                 ClientGUI.loggedinUser = administration.login(username, password);
+                //serverRMI.loggedInUsers.add(ClientGUI.loggedinUser);
 
                 System.out.println("succesfully logged in.");
 
