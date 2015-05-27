@@ -76,7 +76,7 @@ public class RMIGame implements IGame, Runnable {
 
     private BufferedImage BallImage, DestroyImage, normalBlockImage, PowerUpImage, PaddleImage, WhiteSpaceImage;
 
-    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - I n t e r f a c e s - - - - - - - - - - -">>
+    // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - I n t e r f a c e s   O V E R R I D E - - - - - - - - - - -">>
     @Override
     public boolean leaveGame(int gameid, String username) throws RemoteException {
 
@@ -175,6 +175,16 @@ public class RMIGame implements IGame, Runnable {
     public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
         return this.objectList;
     }
+
+    @Override
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
+        return this.changedObjectsList;
+    }
+
+    @Override
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
+        return this.removedObjectsList;
+    }
     // </editor-fold>
 
     public RMIGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) {
@@ -191,7 +201,7 @@ public class RMIGame implements IGame, Runnable {
         this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
         generateBotPlayers(players);
     }
-    
+
     public ArrayList<IUser> getUserList() {
         return userList;
     }
@@ -778,13 +788,4 @@ public class RMIGame implements IGame, Runnable {
         System.out.println("Exited game");
     }
 
-    @Override
-    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
-        return this.changedObjectsList;
-    }
-
-    @Override
-    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
-        return this.removedObjectsList;
-    }
 }
