@@ -60,6 +60,7 @@ public class RMIGame implements IGame{
             {
                 userList.remove(user);
                 return true;
+            } else {
             }
         }
         return false;

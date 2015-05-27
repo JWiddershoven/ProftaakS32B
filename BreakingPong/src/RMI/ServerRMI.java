@@ -13,19 +13,26 @@ import Interfaces.IUser;
 import Server.Lobby;
 import Server.Server;
 import Shared.User;
+import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class ServerRMI implements IServer {
+public class ServerRMI extends UnicastRemoteObject implements IServer , Remote{
+
+    public ServerRMI() throws RemoteException {
+        this.ID = 1;
+    }
 
     private int ID;
     public ArrayList<IUser> loggedInUsers = new ArrayList<>();
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<IGame> currentGames = new ArrayList<>();
 
+    
     @Override
     public boolean kickPlayer(String username) throws RemoteException {
        boolean returnValue = false;
@@ -222,13 +229,13 @@ public class ServerRMI implements IServer {
     }
 
     @Override
-    public int getID() {
-      return 0;
+    public int getID() throws RemoteException {
+      return ID;
     }
 
     @Override
-    public int getLobbyID() {
-       return 0;
+    public int getLobbyID() throws RemoteException  {
+       return ID;
     }
 
     @Override

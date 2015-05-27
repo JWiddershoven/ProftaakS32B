@@ -23,7 +23,7 @@ public class RMIJoin implements IJoin{
     public boolean login(String username, String password) throws RemoteException {
         if(username != null && !username.isEmpty() && password != null && !password.isEmpty())
         {
-            //server.login(username,password);
+            server.login(username,password);
             return true;
         }
         else throw new IllegalArgumentException();

@@ -5,11 +5,9 @@
  */
 package Interfaces;
 
-<<<<<<< HEAD
+
 import Shared.User;
-=======
 import fontys.observer.RemotePublisher;
->>>>>>> origin/RMI
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
@@ -17,7 +15,7 @@ import java.rmi.RemoteException;
  *
  * @author Mnesymne
  */
-<<<<<<< HEAD
+
 public interface IServer extends Remote,IGame,ILobby,IUser
 {
     
@@ -52,9 +50,4 @@ public interface IServer extends Remote,IGame,ILobby,IUser
      * @throws RemoteException 
      */
     public boolean removeLobby(int lobbyid)throws RemoteException;
-=======
-public interface IServer extends Remote, RemotePublisher
-{
-    public String[] getValues() throws RemoteException;
->>>>>>> origin/RMI
 }

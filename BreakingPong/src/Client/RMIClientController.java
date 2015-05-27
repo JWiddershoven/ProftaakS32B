@@ -6,7 +6,6 @@
 package Client;
 
 import Interfaces.IServer;
-import Shared.Game;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
@@ -90,11 +89,11 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
     }
     
     private void connect() throws MalformedURLException
-    {
+    {/*
         try
         {
             this.reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
-            this.services = (IServer) this.reg.lookup("gameServer");
+          //  this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getValues");
         }
         catch(RemoteException | NotBoundException ex )
@@ -104,6 +103,6 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         finally
         {
             this.timeOut = System.currentTimeMillis();
-        }
+        }*/
     }
 }
