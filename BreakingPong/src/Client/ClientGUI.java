@@ -6,6 +6,7 @@
 package Client;
 
 import Server.Lobby;
+import Shared.Session;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -28,6 +29,7 @@ public class ClientGUI extends Application {
     public static User loggedinUser;
     public static Lobby joinedLobby;
     private RMIClientController controller;
+    public static Session CurrentSession;
     
     @FXML     
        Label labelLevel;

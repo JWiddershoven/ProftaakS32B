@@ -95,6 +95,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
             this.reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
           //  this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getValues");
+        ClientGUI.currentSession = 
         }
         catch(RemoteException | NotBoundException ex )
         {
