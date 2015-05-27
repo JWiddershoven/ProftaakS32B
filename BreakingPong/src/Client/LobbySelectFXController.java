@@ -101,12 +101,16 @@ public class LobbySelectFXController implements Initializable
             lvOnlineUsers.setItems(onlineUsersList);
             Lobby lobby1 = new Lobby(1, "Test Lobby1", "123", user1, (byte) 4);
             Lobby lobby2 = new Lobby(2, "Test Lobby2", "", user2, (byte) 2);
+            lobbiesList.add(lobby1);
+            lobbiesList.add(lobby2);
             lobby1.joinLobby(user1);
             lobby2.joinLobby(user2);
+            lvOnlineUsers.setItems(lobby1.getJoinedPlayers());
+            lvOnlineUsers.setItems(lobby2.getJoinedPlayers());
             //administration.getServer().getLobbys().add(lobby1);
             //administration.getServer().getLobbys().add(lobby2);
 
-            lobbiesList.clear();
+            //lobbiesList.clear();
             //lobbiesList.addAll(administration.getServer().getLobbys());
             lvLobbies.setItems(lobbiesList);
         }
@@ -196,6 +200,5 @@ public class LobbySelectFXController implements Initializable
     {
         System.out.println("deleted");
     }
-
     // </editor-fold>
 }

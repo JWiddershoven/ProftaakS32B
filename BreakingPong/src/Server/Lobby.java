@@ -44,7 +44,6 @@ public class Lobby
      * @param password The password of the lobby
      * @param owner The owner of the lobby
      * @param maxPlayer The amount of maximum available players
-     * @param host The host of the game
      */
     public Lobby(int id, String name, String password, User owner, byte maxPlayer)
     {
@@ -63,10 +62,10 @@ public class Lobby
             throw new IllegalArgumentException("maxPlayer(s) is out of range!");
         }
 
-        if (host == null)
-        {
-            throw new IllegalArgumentException("Host is null!");
-        }
+//        if (host == null)
+//        {
+//            throw new IllegalArgumentException("Host is null!");
+//        }
 
         if (password == null || !password.trim().isEmpty())
         {
@@ -201,9 +200,10 @@ public class Lobby
         {
             throw new IllegalArgumentException("User is already in the lobby!");
         }
+        
         this.joinedPlayers.add(player);
     }
-
+    
     /**
      * Game can't be empty or null The user can join the chosen game
      *

@@ -342,9 +342,9 @@ public class Server extends UnicastRemoteObject implements IServer // implements
     
 
     public boolean login(String username, String password) throws RemoteException {
-        // do Database stuff
+        // do Database stufftest@
 
-        return this.loggedInUsers.add((IUser) new User(username, password, "", this));
+        return this.loggedInUsers.add((IUser) new User(username, password, "test@test.com", this));
     }
 
     @Override
