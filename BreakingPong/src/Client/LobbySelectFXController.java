@@ -6,6 +6,7 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import RMI.ServerRMI;
 import Server.Administration;
 import Server.Lobby;
 import Shared.User;
@@ -79,9 +80,11 @@ public class LobbySelectFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        try {
+        try
+        {
             administration = Administration.getInstance();
-        } catch (RemoteException ex) {
+        } catch (RemoteException ex)
+        {
             Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -92,29 +95,29 @@ public class LobbySelectFXController implements Initializable
     {
         try
         {
-            User user1 = new User("testuser1", "123456", "test@em.nl", administration.getServer());
-            User user2 = new User("testuser2", "123456", "test@em.nl", administration.getServer());
-
-            onlineUsersList.clear();
+//            User user1 = new User("testuser1", "123456", "test@em.nl", administration.getServer());
+//            User user2 = new User("testuser2", "123456", "test@em.nl", administration.getServer());
+//
+//            onlineUsersList.clear();
+//
+//            //onlineUsersList.addAll(administration.getServer().getOnlineUsers());
+//            lvOnlineUsers.setItems(onlineUsersList);
+//            Lobby lobby1 = new Lobby(1, "Test Lobby1", "123", user1, (byte) 4);
+//            Lobby lobby2 = new Lobby(2, "Test Lobby2", "", user2, (byte) 2);
+//            lobbiesList.add(lobby1);
+//            lobbiesList.add(lobby2);
+//            lobby1.joinLobby(user1);
+//            lobby2.joinLobby(user2);
             
-            //onlineUsersList.addAll(administration.getServer().getOnlineUsers());
-            lvOnlineUsers.setItems(onlineUsersList);
-            Lobby lobby1 = new Lobby(1, "Test Lobby1", "123", user1, (byte) 4);
-            Lobby lobby2 = new Lobby(2, "Test Lobby2", "", user2, (byte) 2);
-            lobbiesList.add(lobby1);
-            lobbiesList.add(lobby2);
-            lobby1.joinLobby(user1);
-            lobby2.joinLobby(user2);
-            lvOnlineUsers.setItems(lobby1.getJoinedPlayers());
-            lvOnlineUsers.setItems(lobby2.getJoinedPlayers());
+            ServerRMI serverRMI = new ServerRMI();
+            lvOnlineUsers.setItems(FXCollections.observableArrayList(serverRMI.loggedInUsers));
+            lvLobbies.setItems(FXCollections.observableArrayList(serverRMI.getCurrentLobbies()));
             //administration.getServer().getLobbys().add(lobby1);
             //administration.getServer().getLobbys().add(lobby2);
 
             //lobbiesList.clear();
             //lobbiesList.addAll(administration.getServer().getLobbys());
-            lvLobbies.setItems(lobbiesList);
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             System.out.println("ERROR in fillListViews : " + ex.getMessage());
             throw ex;
@@ -138,14 +141,12 @@ public class LobbySelectFXController implements Initializable
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
                         "Join error", TrayIcon.MessageType.INFO.ordinal());
             }
-        }
-        else
+        } else
         {
             JOptionPane.showMessageDialog(null, "Please select a lobby first",
                     "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
@@ -163,8 +164,7 @@ public class LobbySelectFXController implements Initializable
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
                     "Create error", TrayIcon.MessageType.INFO.ordinal());

@@ -26,6 +26,11 @@ public class ServerRMI implements IServer {
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<IGame> currentGames = new ArrayList<>();
 
+    public ArrayList<ILobby> getCurrentLobbies()
+    {
+        return this.currentLobbies;
+    }
+    
     @Override
     public boolean kickPlayer(String username) throws RemoteException {
        boolean returnValue = false;
