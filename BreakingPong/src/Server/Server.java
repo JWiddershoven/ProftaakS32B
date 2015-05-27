@@ -21,7 +21,9 @@ import java.util.ArrayList;
  * The server class
  *
  * @author Mnesymne
+ * @Deprecated NIET MEER GEBRUIKEN VOOR RMI
  */
+@Deprecated
 public class Server extends UnicastRemoteObject  implements IServer
 {
 //

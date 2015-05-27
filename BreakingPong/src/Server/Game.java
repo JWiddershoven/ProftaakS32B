@@ -45,7 +45,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author Mnesymne
+ * @Deprecated NIET MEER GEBRUIKEN VOOR RMI
  */
+@Deprecated
 public class Game extends JPanel implements Runnable {
 
     int playerAmount = 1;
@@ -213,7 +215,7 @@ public class Game extends JPanel implements Runnable {
             }
         }
         catch (IndexOutOfBoundsException ex) {
-            cpu1 = new CPU("Bot1", (byte) 1, this);
+            cpu1 = new CPU("Bot1", (byte) 1);
             cpu1.setMyPaddle(P1Paddle);
         }
 
@@ -223,7 +225,7 @@ public class Game extends JPanel implements Runnable {
             }
         }
         catch (IndexOutOfBoundsException ex) {
-            cpu2 = new CPU("Bot2", (byte) 1, this);
+            cpu2 = new CPU("Bot2", (byte) 1);
         }
         try {
             if (players.get(2) != null) {
@@ -231,7 +233,7 @@ public class Game extends JPanel implements Runnable {
             }
         }
         catch (IndexOutOfBoundsException ex) {
-            cpu3 = new CPU("Bot3", (byte) 1, this);
+            cpu3 = new CPU("Bot3", (byte) 1);
         }
         try {
             if (players.get(3) != null) {
@@ -239,7 +241,7 @@ public class Game extends JPanel implements Runnable {
             }
         }
         catch (IndexOutOfBoundsException ex) {
-            cpu4 = new CPU("Bot4", (byte) 1, this);
+            cpu4 = new CPU("Bot4", (byte) 1);
         }
 
     }
@@ -1007,7 +1009,7 @@ public class Game extends JPanel implements Runnable {
             }
         }
         for (CPU c : botList) {
-            c.update();
+            c.update(this.ballList);
         }
         // TODO: check
 //        for (Paddle p : paddleList) {

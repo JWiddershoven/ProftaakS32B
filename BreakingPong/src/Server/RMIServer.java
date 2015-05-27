@@ -24,7 +24,9 @@ import java.util.TimerTask;
 /**
  *
  * @author Jordi
+ * @Deprecated NIET MEER GEBRUIKEN VOOR RMI
  */
+@Deprecated
 public class RMIServer extends UnicastRemoteObject implements IServer
 {
     private final BasicPublisher publisher;

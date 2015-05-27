@@ -5,22 +5,23 @@
  */
 package Client;
 
-import Shared.Paddle;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Lorenzo
  */
 public class GameClient extends Component implements KeyListener {
-    
+
     private int gameId;
     private String username;
-    
-    public GameClient()
-    {
+
+    public GameClient() {
         // Needs component for KeyListener
         addKeyListener(this);
     }
@@ -33,13 +34,24 @@ public class GameClient extends Component implements KeyListener {
     //Keypressed eventhandler
     @Override
     public void keyPressed(KeyEvent e) {
-        
-        switch (e.getKeyCode())
-        {
-            case KeyEvent.VK_LEFT:  break;
-            case KeyEvent.VK_RIGHT: break;
-            case KeyEvent.VK_W: break;
-            case KeyEvent.VK_D: break;
+        try {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    ClientGUI.CurrentSession.getServer().moveLeft(gameId, username);
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    ClientGUI.CurrentSession.getServer().moveRight(gameId, username);
+                    break;
+                case KeyEvent.VK_A:
+                    ClientGUI.CurrentSession.getServer().moveLeft(gameId, username);
+                    break;
+                case KeyEvent.VK_D:
+                    ClientGUI.CurrentSession.getServer().moveRight(gameId, username);
+                    break;
+            }
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(GameClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -56,5 +68,9 @@ public class GameClient extends Component implements KeyListener {
 //            }
 //        }
     }
+
     
+    
+    
+    // TODO: DRAW
 }

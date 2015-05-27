@@ -36,7 +36,7 @@ public class BallTest
     {
         testGame = new Game(1, 180, false, new ArrayList<User>());
         server = new Server();
-        cpu = new CPU("Bot", (byte) 5, testGame);
+        cpu = new CPU("Bot", (byte) 5);
         user = new User("Jelle123", "wachtwoord123", "jelle@gmail.com", server);
         position = new TVector2(50, 30);
         velocity = new TVector2(15, 40);

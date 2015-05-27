@@ -5,7 +5,6 @@
  */
 package Shared;
 
-import Server.Game;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,17 +17,15 @@ public class CPU {
 
     private final String name;
     private final Byte difficulty; // Currently not used
-    private final Game currentGame;
 
     private Paddle myPaddle; // CPU PADDLE KOPPLING VIA PADDLE KLASSE
 
     private Ball closestBall;
     private ArrayList<Ball> currentPosBall;
 
-    public CPU(String name, Byte difficulty, Game myGame) {
+    public CPU(String name, Byte difficulty) {
         this.name = name;
         this.difficulty = difficulty;
-        this.currentGame = myGame;
     }
 
     public Paddle getMyPaddle() {
@@ -49,9 +46,10 @@ public class CPU {
 
     /**
      * Called every update
+     * @param balls
      */
-    public void update() {
-        currentPosBall = currentGame.getBallList();
+    public void update(ArrayList<Ball> balls) {
+        currentPosBall = balls;
         setClosestBall();
         if (closestBall != null) {
             try {
