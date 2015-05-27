@@ -75,7 +75,7 @@ public class RMILobby implements ILobby{
     }
 
     @Override
-    public boolean addUserToLobby(String username, int lobbyid) {
+    public boolean addUserToLobby(String username, int lobbyid) throws RemoteException {
        boolean Breturn = false;
        for(IUser user: joinedPlayers)
        {

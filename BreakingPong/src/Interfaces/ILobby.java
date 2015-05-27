@@ -48,8 +48,8 @@ public interface ILobby{
      */
     public ArrayList<String> getPlayerInformationFromLobby(int lobbyid)throws RemoteException;
     
-    public boolean addUserToLobby(String username, int lobbyid);
+    public boolean addUserToLobby(String username, int lobbyid) throws RemoteException;
     
-    public int getLobbyID();
+    public int getLobbyID() throws RemoteException;
     
 }

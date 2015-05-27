@@ -61,5 +61,5 @@ public interface IGame{
     public void addMap(IMap map)throws RemoteException;
     
     
-    public int getID();
+    public int getID() throws RemoteException;
 }

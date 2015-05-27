@@ -26,6 +26,6 @@ public interface IUser{
      * @param user Won't be used
      * @return  String with the Username
      */
-    public String getUsername(IUser user);
+    public String getUsername(IUser user) throws RemoteException;
     
 }

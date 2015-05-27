@@ -311,7 +311,7 @@ public class Server extends UnicastRemoteObject implements IServer // implements
     }
 
     @Override
-    public String getUsername(IUser user) {
+    public String getUsername(IUser user) throws RemoteException {
         return user.getUsername(user);
     }
 
@@ -348,7 +348,7 @@ public class Server extends UnicastRemoteObject implements IServer // implements
     }
 
     @Override
-    public boolean addUserToLobby(String username, int lobbyid) {
+    public boolean addUserToLobby(String username, int lobbyid) throws RemoteException {
         boolean check = false;
         for (ILobby lobby : currentLobbies) {
             if (lobby.getLobbyID() == lobbyid) {
