@@ -5,16 +5,12 @@
  */
 package RMIPaddleMoveTest;
 
-import RMI.RMIGame;
-import Server.Game;
-import Shared.User;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
@@ -30,31 +26,20 @@ import javafx.stage.Stage;
  */
 public class PaddleMoveClient extends Application implements RemotePropertyListener
 {
-    Game game;
+    int yPos = 200;
+    int xPos = 350;
+    int level = 10;
     Group root;
     Scene scene;
     Stage stage;
     Circle ball;
     IConnection connection;
     RemotePublisher publisher;
-    int playerAmount;
     private Stub stub;
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        RMIgame = new Game(1, 300, true, new ArrayList<User>());
-        playerAmount = 0;
-        System.out.println("Waiting for 4 more players");
-        while(game.getHumanPlayers().size() < 4)
-        {
-            if(RMIgame.getHumanPlayers().size() != playerAmount)
-            {
-                System.out.println("Waiting for " + (4 - game.getHumanPlayers().size()) + "players");
-                playerAmount = RMIgame.getHumanPlayers().size();
-            }
-        }
-        game.setInProgress(true);
-        
+
         stage = primaryStage;
         root = new Group();
         scene = new Scene(root, 700, 400);
