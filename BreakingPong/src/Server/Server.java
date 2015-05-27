@@ -35,12 +35,12 @@ public class Server extends UnicastRemoteObject implements IServer // implements
 //     */
 //    private List<Lobby> lobbys;
 //
-//    /*
-//     List with all the current onlineUsers
-//     */
-//    public List<User> getOnlineUsers() {
-//        return onlineUsers;
-//    }
+    /*
+     List with all the current onlineUsers
+     */
+    public ArrayList<IUser> getOnlineUsers() {
+        return this.loggedInUsers;
+    }
 //
 //    /*
 //     List with all the current lobby's
@@ -333,10 +333,18 @@ public class Server extends UnicastRemoteObject implements IServer // implements
         }
         return false;
     }
+    
+    public boolean logout(String username){
+       
+        return false;
+    }
+    
+    
 
     public boolean login(String username, String password) throws RemoteException {
         // do Database stuff
-        return false;
+
+        return this.loggedInUsers.add((IUser) new User(username, password, "", this));
     }
 
     @Override

@@ -97,19 +97,17 @@ public class LobbySelectFXController implements Initializable
 
             onlineUsersList.clear();
             
-            administration.getServer().getOnlineUsers().add(user1);
-            administration.getServer().getOnlineUsers().add(user2);
-            onlineUsersList.addAll(administration.getServer().getOnlineUsers());
+            //onlineUsersList.addAll(administration.getServer().getOnlineUsers());
             lvOnlineUsers.setItems(onlineUsersList);
             Lobby lobby1 = new Lobby(1, "Test Lobby1", "123", user1, (byte) 4);
             Lobby lobby2 = new Lobby(2, "Test Lobby2", "", user2, (byte) 2);
             lobby1.joinLobby(user1);
             lobby2.joinLobby(user2);
-            administration.getServer().getLobbys().add(lobby1);
-            administration.getServer().getLobbys().add(lobby2);
+            //administration.getServer().getLobbys().add(lobby1);
+            //administration.getServer().getLobbys().add(lobby2);
 
             lobbiesList.clear();
-            lobbiesList.addAll(administration.getServer().getLobbys());
+            //lobbiesList.addAll(administration.getServer().getLobbys());
             lvLobbies.setItems(lobbiesList);
         }
         catch (Exception ex)

@@ -10,6 +10,8 @@ import Helpers.LoggedinUser;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -96,10 +98,13 @@ public class Administration {
         if (userName.equals("username") && password.equals("password")) {
             User user = new User(userName, password, "test@test.nl", getServer());
             users.add(user);
-            server.addUser(user);
+            try {
+                server.login(userName, password);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Administration.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return user;
-        }
-        else {
+        } else {
             LoggedinUser lUser = DatabaseHelper.loginUser(userName, password);
 
             if (lUser.getLoggedIn()) {
@@ -108,11 +113,14 @@ public class Administration {
                 Double rating = lUser.getRating();
                 user.setRating(rating.intValue());
                 users.add(user);
-                server.addUser(user);
+                try {
+                    server.login(user.getUsername(), user.getPassword());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Administration.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 return user;
 
-            }
-            else {
+            } else {
                 throw new IncorrectLoginDataException("Username and password combination is incorrect.");
             }
         }

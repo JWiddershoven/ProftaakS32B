@@ -7,7 +7,6 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import Server.Administration;
-import Server.Lobby;
 import Shared.Map;
 import java.awt.HeadlessException;
 import java.io.IOException;
@@ -112,7 +111,7 @@ public class CreateLobbyFXController implements Initializable
 
         cbGametimes.setItems(administration.getDatabase().getTimesstampString());
         cbGametimes.getSelectionModel().select(0);
-        cbMappen.setItems(administration.getServer().getMappenObservableList());
+        //cbMappen.setItems(administration.getServer().getMappenObservableList());
         cbMappen.getSelectionModel().select(0);
 
     }
@@ -187,9 +186,10 @@ public class CreateLobbyFXController implements Initializable
             {
                 throw new Exception("Dit zou niet mogen gebeuren!");
             }
-            Lobby newLobby = administration.getServer().CreateLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser, maxPlayers, administration.getServer());
-            newLobby.joinLobby(ClientGUI.loggedinUser);
-            ClientGUI.joinedLobby = newLobby;
+            boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
+            
+            //newLobby.joinLobby(ClientGUI.loggedinUser);
+            //ClientGUI.joinedLobby = newLobby;
             return "";
         }
         catch (Exception ex)

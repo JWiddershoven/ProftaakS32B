@@ -77,8 +77,9 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
      * @throws RemoteException 
      */
     @Override
-    public Session logout(String username) throws RemoteException {
-        _administration.logout(username);
+    public Session logout(String username) throws RemoteException {        
+        //_administration.getServer().logout();
+        return null;
     }
 
     /**
