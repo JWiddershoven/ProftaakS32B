@@ -70,9 +70,11 @@ public class GameLobbyFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        try {
+        try
+        {
             administration = Administration.getInstance();
-        } catch (RemoteException ex) {
+        } catch (RemoteException ex)
+        {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
         loadUserInterface();
@@ -92,7 +94,12 @@ public class GameLobbyFXController implements Initializable
     @FXML
     private void onStartGameClick()
     {
-        Game game = new Game(1, 300, true,ClientGUI.joinedLobby.getPlayerList());
+        if (ClientGUI.loggedinUser != ClientGUI.joinedLobby.getOwner())
+        {
+            JOptionPane.showConfirmDialog(null, "Error when starting game: Only the host can start the game.", "Error starting game",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+        Game game = new Game(1, 300, true, ClientGUI.joinedLobby.getPlayerList());
         try
         {
             Thread gameLoopThread = game.setupGame();
@@ -100,8 +107,7 @@ public class GameLobbyFXController implements Initializable
             {
                 gameLoopThread.start();
             }
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -128,8 +134,7 @@ public class GameLobbyFXController implements Initializable
         try
         {
             ClientGUI.joinedLobby.leaveLobby(ClientGUI.loggedinUser);
-        }
-        catch (Exception ex)
+        } catch (Exception ex)
         {
             JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
                     JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);

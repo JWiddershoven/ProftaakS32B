@@ -96,7 +96,14 @@ public class Lobby
         return users;
     }
 
-   
+    /**
+     * Returns the owner of the lobby.
+     * @return The owner of the lobby.
+     */
+    public User getOwner()
+    {
+        return this.owner;
+    }
     
     public ArrayList<User> getPlayerList()
     {

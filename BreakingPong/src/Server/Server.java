@@ -11,6 +11,7 @@ import Interfaces.ILobby;
 import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
+import RMI.ServerRMI;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

@@ -6,7 +6,10 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Interfaces.ILobby;
+import RMI.ServerRMI;
 import Server.Administration;
+import Server.Lobby;
 import Shared.Map;
 import java.awt.HeadlessException;
 import java.io.IOException;
@@ -108,7 +111,6 @@ public class CreateLobbyFXController implements Initializable
 //            timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
 //        }
 //       
-
         cbGametimes.setItems(administration.getDatabase().getTimesstampString());
         cbGametimes.getSelectionModel().select(0);
         //cbMappen.setItems(administration.getServer().getMappenObservableList());
@@ -156,11 +158,12 @@ public class CreateLobbyFXController implements Initializable
         {
             return "Lobby name cannot be empty";
         }
-        Map map = (Map) cbMappen.getSelectionModel().getSelectedItem();
-        if (map == null)
-        {
-            return "Please select a Map";
-        }
+        //Tijdelijk uitgezet totdat er een lijst met maps is.
+//        Map map = (Map) cbMappen.getSelectionModel().getSelectedItem();
+//        if (map == null)
+//        {
+//            return "Please select a Map";
+//        }
         Timestamp gameDuration = new Timestamp(0, 0, 0, 0, 5, 0, 0);
         // TODO: GET INTEGER FROM USERINTERFACE
         //Integer.getInteger((String) cbGametimes.getSelectionModel().getSelectedItem()),
@@ -187,7 +190,8 @@ public class CreateLobbyFXController implements Initializable
                 throw new Exception("Dit zou niet mogen gebeuren!");
             }
             boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
-            
+            ServerRMI serverRMI = new ServerRMI();
+            serverRMI.createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
             //ClientGUI.joinedLobby = newLobby;
             return "";
