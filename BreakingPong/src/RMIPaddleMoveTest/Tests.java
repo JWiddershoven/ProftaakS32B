@@ -104,7 +104,7 @@ public class Tests extends Application {
                         xPos = xPos - (1 * level);
                         try {
                             connection.moveUp();
-                            System.out.println("left");
+                            System.out.println("lef   t");
                         } catch (RemoteException ex) {
                             System.out.println(ex.getMessage());
                         }
@@ -114,6 +114,7 @@ public class Tests extends Application {
                         break;
                     }
                 }
+                 
                 case "D": {
                     if (xPos < scene.getWidth()) {
                         xPos = xPos + (1 * level);
