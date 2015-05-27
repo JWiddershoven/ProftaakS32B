@@ -15,23 +15,35 @@ import java.util.logging.Logger;
 
 /**
  * The database helper
+ *
  * @author sjorsvanmierlo
  */
 public final class DatabaseHelper {
 
     private static Connection connection;
-    private final static String username = "root";
-    private final static String password = "";
-    private final static String url = "jdbc:mysql://localhost:3306/BreakingBusiness";
+
+    //MAC local
+    //private final static String username = "root";
+    //private final static String password = "";
+    //private final static String url = "jdbc:mysql://localhost:3306/BreakingBusiness";
+    
+    //Athena
+    private final static String username = "dbi319081";
+    private final static String password = "gb7tVqUdKI";
+    private final static String url = "jdbc:mysql://athena01.fhict.local:3306/dbi319081";
     private final static EncryptionType encryptionType = EncryptionType.MD5;
 
     /**
      * Register a new user to the game.
+     *
      * @param username The username of the new user. Has to be unique.
-     * @param password The password of the new user. Has to be 6 characters long.
-     * @param email The email of the new user. Must contain @ and a . to be valid.
+     * @param password The password of the new user. Has to be 6 characters
+     * long.
+     * @param email The email of the new user. Must contain @ and a . to be
+     * valid.
      * @return Returns true if the user is registerd else false.
-     * @throws SQLException If SQL fails , excetpion will be thrown to GUI to handle.
+     * @throws SQLException If SQL fails , excetpion will be thrown to GUI to
+     * handle.
      */
     public static boolean registerUser(String username, String password, String email) throws SQLException {
 
@@ -67,7 +79,7 @@ public final class DatabaseHelper {
 
             result = true;
         } catch (SQLException ex) {
-            System.out.println("Error in register user: "  + ex.getMessage());
+            System.out.println("Error in register user: " + ex.getMessage());
             result = false;
             throw ex;
         } finally {
@@ -79,9 +91,11 @@ public final class DatabaseHelper {
 
     /**
      * Logs a user in.
+     *
      * @param username The username cannot be empty or null.
      * @param password The password cannot be empty or null.
-     * @return a object with user info if succeeded else object with false boolean.
+     * @return a object with user info if succeeded else object with false
+     * boolean.
      */
     public static LoggedinUser loginUser(String username, String password) {
 
@@ -136,6 +150,7 @@ public final class DatabaseHelper {
 
     /**
      * Updates the rating of a user.
+     *
      * @param username The username cannot be empty or null.
      * @param newRating The new rating cannot be NaN.
      * @return Returns a boolean is the update is successfull.
@@ -172,6 +187,7 @@ public final class DatabaseHelper {
 
     /**
      * Gets the rating of a user.
+     *
      * @param username The username cannot be empty or null.
      * @return Returns a double with the rating.
      */
