@@ -23,7 +23,7 @@ public class PaddleMoveServer extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        System.setProperty("java.rmi.server.hostname", "127.0.0.1");        
+        System.setProperty("java.rmi.server.hostname", "192.168.1.1");        
         System.out.println("Starting Server");
         try
         {
