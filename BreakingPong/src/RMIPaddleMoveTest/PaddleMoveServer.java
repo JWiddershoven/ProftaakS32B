@@ -5,6 +5,7 @@
  */
 package RMIPaddleMoveTest;
 
+import Shared.Paddle;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -33,8 +34,7 @@ public class PaddleMoveServer extends Application
         }
         catch(RemoteException ex)
         {
-            System.out.println(ex.getMessage());
-            Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, ex.getMessage());
+            Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Gameserver executed. Listening for commands");
     }

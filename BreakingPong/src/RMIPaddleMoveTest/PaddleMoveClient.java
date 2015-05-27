@@ -63,7 +63,7 @@ public class PaddleMoveClient extends Application implements RemotePropertyListe
         }
         catch(Exception ex)
         {
-            System.out.println(ex.getMessage());
+            Logger.getLogger(PaddleMoveClient.class.getName()).log(Level.SEVERE, null, ex);
         }
         keyPressed();
     }
@@ -85,7 +85,7 @@ public class PaddleMoveClient extends Application implements RemotePropertyListe
                     }
                     catch(RemoteException ex)
                     {
-                        System.out.println(ex.getMessage());
+                        Logger.getLogger(PaddleMoveClient.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     root.getChildren().remove(ball);
                     ball = new Circle(xPos, yPos, 20, Color.RED);
@@ -104,7 +104,7 @@ public class PaddleMoveClient extends Application implements RemotePropertyListe
                     }
                     catch(RemoteException ex)
                     {
-                        System.out.println(ex.getMessage());
+                        Logger.getLogger(PaddleMoveClient.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     root.getChildren().remove(ball);
                     ball = new Circle(xPos, yPos, 20, Color.RED);

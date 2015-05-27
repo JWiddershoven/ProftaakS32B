@@ -79,7 +79,7 @@ public final class DatabaseHelper {
 
             result = true;
         } catch (SQLException ex) {
-            System.out.println("Error in register user: " + ex.getMessage());
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
             result = false;
             throw ex;
         } finally {
@@ -136,7 +136,7 @@ public final class DatabaseHelper {
                 }
             }
         } catch (Exception ex) {
-            System.out.println("ERROR in loginUser " + ex.getMessage());
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             closeConnection();
         }
@@ -175,7 +175,7 @@ public final class DatabaseHelper {
 
             closeConnection();
         } catch (Exception ex) {
-            System.out.println("ERROR in updateRating: " + ex.getMessage());
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (updateCount > 0) {
@@ -211,7 +211,7 @@ public final class DatabaseHelper {
             }
             closeConnection();
         } catch (Exception ex) {
-            System.out.println("ERROR in getRating " + ex.getMessage());
+           Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (count == 0) {
@@ -241,7 +241,7 @@ public final class DatabaseHelper {
             connection.close();
             connection = null;
         } catch (SQLException ex) {
-            System.out.println("Error in close connection " + ex.getMessage());
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

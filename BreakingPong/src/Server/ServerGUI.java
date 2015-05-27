@@ -42,7 +42,7 @@ public class ServerGUI extends Application
         }
         catch (RemoteException ex)
         {
-            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, ex.getMessage());
+            Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Gameserver executed. Listening for commands");
         primaryStage.setScene(scene);

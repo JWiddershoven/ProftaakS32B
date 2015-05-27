@@ -5,7 +5,6 @@
  */
 package Server;
 
-import Interfaces.IUser;
 import Shared.User;
 import java.rmi.RemoteException;
 import static org.junit.Assert.fail;

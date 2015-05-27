@@ -60,7 +60,7 @@ public class Stub extends UnicastRemoteObject implements RemotePropertyListener
                     }
                     catch(Exception ex)
                     {
-                        System.out.println(ex.getMessage());
+                        Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -99,7 +99,7 @@ public class Stub extends UnicastRemoteObject implements RemotePropertyListener
         }
         catch(RemoteException | NotBoundException ex )
         {
-            System.out.println(ex.getMessage());
+            Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {
