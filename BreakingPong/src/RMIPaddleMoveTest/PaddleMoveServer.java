@@ -33,6 +33,7 @@ public class PaddleMoveServer extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
+        // Setup RMI Connection
         System.setProperty("java.rmi.server.hostname", "192.168.1.1");        
         System.out.println("Starting Server");
         try
@@ -45,7 +46,11 @@ public class PaddleMoveServer extends Application
         {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //RMIGame game = new RMIGame(1, 300, true,playerList);
+        
+        // Create game
+        RMIGame game = new RMIGame(1, 300, true, null);
+        
+        // Wait for 4 players to connect to the server
         playerAmount = 0;
         System.out.println("Waiting for 4 more players");
         while(game.getUserList().size() < 4)
@@ -56,6 +61,9 @@ public class PaddleMoveServer extends Application
                 playerAmount = game.getUserList().size();
             }
         }
+        
+        // Start the game
+        game.run();
     }
     
     public static void main(String[] args)
