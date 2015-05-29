@@ -37,26 +37,42 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<IGame> currentGames = new ArrayList<>();
 
+    /**
+     * Returns a list of current lobbies.
+     * @return an ArrayList with ILobbies.
+     */
     public ArrayList<ILobby> getCurrentLobbies()
     {
         return this.currentLobbies;
     }
 
+    /**
+     * Kicks a player from a game.
+     * @param username the username of the user that will get kicked.
+     * @return true if the user was removed from the game, otherwise false.
+     * @throws RemoteException 
+     */
     @Override
     public boolean kickPlayer(String username) throws RemoteException
     {
-        boolean returnValue = false;
+        boolean kick = false;
         for (IUser user : loggedInUsers)
         {
             if (user.getUsername(user).equals(username))
             {
                 loggedInUsers.remove(user);
-                returnValue = true;
+                kick = true;
             }
         }
-        return returnValue;
+        return kick;
     }
 
+    /**
+     * Collects the information from each player in an instance of a game.
+     * @param gameid the ID of the game.
+     * @return an ArrayList containing the information of each player in the specified game.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<String> getPlayersInformation(int gameid) throws RemoteException
     {
@@ -71,12 +87,26 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return returnValue;
     }
 
+    /**
+     * Adds a map to the server.
+     * @param map The map object.
+     * @throws RemoteException 
+     */
     @Override
     public void addMap(IMap map) throws RemoteException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Creates a new lobby with the specified parameters.
+     * @param name the lobby name, cannot be empty.
+     * @param Password the lobby password.
+     * @param Owner the host of the lobby, cannot be empty.
+     * @param maxPlayers the maximum amount of players in the lobby. (2/4)
+     * @return true if a new lobby has been created, otherwise false.
+     * @throws RemoteException 
+     */
     @Override
     public boolean createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException
     {
@@ -96,6 +126,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return false;
     }
 
+    /**
+     * Attempts to put a user in a lobby.
+     * @param lobbyid the lobbyid of the lobby that the user wants to join.
+     * @param username the username of the user that wants to join a lobby.
+     * @return a lobby object if successfull, otherwise null;
+     * @throws RemoteException 
+     */
     @Override
     public ILobby joinLobby(int lobbyid, String username) throws RemoteException
     {
@@ -111,6 +148,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return returnValue;
     }
 
+    /**
+     * Attempts to remove a user from a lobby.
+     * @param lobbyid the lobbyid of the lobby that the user wishes to leave.
+     * @param user the username of the user that wishes to leave a lobby.
+     * @return true if successfull, otherwise false.
+     * @throws RemoteException 
+     */
     @Override
     public boolean leaveLobby(int lobbyid, String user) throws RemoteException
     {
@@ -127,6 +171,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return check;
     }
 
+    /**
+     * Attempts to delete a lobby.
+     * @param lobbyid the lobbyid of the lobby that is going to be removed.
+     * @return true if successfull, otherwise false.
+     * @throws RemoteException 
+     */
     @Override
     public boolean removeLobby(int lobbyid) throws RemoteException
     {
@@ -141,18 +191,39 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return false;
     }
 
+    /**
+     * Sends a chat message 
+     * @param message The message that the user wants to send, cannot be empty.
+     * @return true if the message was successfully sent, otherwise false.
+     * @throws RemoteException 
+     */
     @Override
     public boolean sendChat(String message) throws RemoteException
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (message == null || message.isEmpty())
+        {
+            throw new IllegalArgumentException("Message cannot be null or empty!");
+        }
+        return false;
     }
 
+    /**
+     * Receives the chat messages.
+     * @return an ArrayList of chat messages.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<String> receiveChat() throws RemoteException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Collects the user information from each user in the specified lobby.
+     * @param lobbyid the lobbyid 
+     * @return an ArrayList containing the information of each player from that lobby.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<String> getPlayerInformationFromLobby(int lobbyid) throws RemoteException
     {
@@ -167,6 +238,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return returnValue;
     }
 
+    /**
+     * Collects the information of a single user.
+     * @param username the username of the user.
+     * @return a String containing the information of that user.
+     * @throws RemoteException 
+     */
     @Override
     public String getPlayerInformation(String username) throws RemoteException
     {
@@ -180,6 +257,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return null;
     }
 
+    /**
+     * Attempts to put a player in a game.
+     * @param gameid the gameID.
+     * @param username the username of the user.
+     * @return the IGame object if successfull, otherwise null.
+     * @throws RemoteException 
+     */
     @Override
     public IGame joinGame(int gameid, String username) throws RemoteException
     {
@@ -194,12 +278,25 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return returnValue;
     }
 
+    /**
+     * Gets the username of a user.
+     * @param user the user.
+     * @return the username of the user.
+     * @throws RemoteException 
+     */
     @Override
     public String getUsername(IUser user) throws RemoteException
     {
         return user.getUsername(user);
     }
 
+    /**
+     * Attempts to remove a player from a game.
+     * @param gameid the gameID.
+     * @param username the username of the user.
+     * @return true if successfull, otherwise false.
+     * @throws RemoteException 
+     */
     @Override
     public boolean leaveGame(int gameid, String username) throws RemoteException
     {
@@ -214,6 +311,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return returnValue;
     }
 
+    /**
+     * Method used to logout a user.
+     * @param user the user.
+     * @return true if successfull, otherwise false.
+     * @throws RemoteException 
+     */
     public boolean logout(IUser user) throws RemoteException
     {
         if (user != null)
@@ -224,6 +327,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return false;
     }
 
+    /**
+     * Attempts to login a user using the paramaters.
+     * @param username the username of the user who is trying to login.
+     * @param password the password of the user who is trying to login.
+     * @return true if successfull, otherwise false.
+     * @throws RemoteException 
+     */
     public boolean login(String username, String password) throws RemoteException
     {
         LoggedinUser user = null;
@@ -243,6 +353,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return false;
     }
 
+    /**
+     * Attempts to add a user to a lobby.
+     * @param username the username of the user.
+     * @param lobbyid the lobbyid.
+     * @return true if successfull, otherwise false.
+     * @throws RemoteException 
+     */
     @Override
     public boolean addUserToLobby(String username, int lobbyid) throws RemoteException
     {
@@ -265,18 +382,34 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return check;
     }
 
+    /**
+     * Gets the ID of the server.
+     * @return the ID of the server.
+     * @throws RemoteException 
+     */
     @Override
     public int getID() throws RemoteException
     {
         return ID;
     }
 
+    /**
+     * Gets the lobbyID.
+     * @return the lobbyID.
+     * @throws RemoteException 
+     */
     @Override
     public int getLobbyID() throws RemoteException
     {
         return ID;
     }
 
+    /**
+     * Moves the paddle of a user to the left.
+     * @param gameId the gameID.
+     * @param username the username of the user.
+     * @throws RemoteException 
+     */
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException
     {
@@ -289,6 +422,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         }
     }
 
+    /**
+     * Moves the paddle of a user to the right.
+     * @param gameId the gameID.
+     * @param username the username of the user.
+     * @throws RemoteException 
+     */
     @Override
     public void moveRight(int gameId, String username) throws RemoteException
     {
@@ -301,6 +440,11 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         }
     }
 
+    /**
+     * Returns a list containing every online user.
+     * @return an ArrayList containing online users.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<String> getOnlineUsers() throws RemoteException
     {
@@ -314,12 +458,23 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return onlineUsers;
     }
 
+    /**
+     * Returns a list of all lobbies.
+     * @return a list of all lobbies.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<ILobby> getAllLobbies() throws RemoteException
     {
         return this.currentLobbies;
     }
 
+    /**
+     * Returns a list of all gameobjects.
+     * @param gameId the gameID.
+     * @return an ArrayList containing every single gameobject.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException
     {
@@ -333,12 +488,23 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return null;
     }
 
+    /**
+     * Returns a list of all balls.
+     * @param gameId the gameID.
+     * @throws RemoteException 
+     */
     @Override
     public void getAllBalls(int gameId) throws RemoteException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Returns a list of all changed gameobjects.
+     * @param gameId the gameID.
+     * @return an ArrayList containing every single changed gameobject.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException
     {
@@ -352,6 +518,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return new ArrayList<GameObject>();
     }
 
+    /**
+     * Returns a list of all deleted objects.
+     * @param gameId the gameID.
+     * @return an ArrayList containing every single deleted gameobject.
+     * @throws RemoteException 
+     */
     @Override
     public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException
     {

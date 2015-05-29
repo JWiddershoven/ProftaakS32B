@@ -40,5 +40,6 @@
         </Menu>
       </menus>
     </MenuBar>
+      <Button fx:id="btnKickPlayer" layoutX="534.0" layoutY="365.0" mnemonicParsing="false" onAction="#onKickPlayerKick" text="Kick" />
   </children>
 </AnchorPane>

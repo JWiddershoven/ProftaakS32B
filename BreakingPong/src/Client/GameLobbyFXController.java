@@ -43,6 +43,8 @@ public class GameLobbyFXController implements Initializable
     Button btnLeaveGame;
     @FXML
     Button btnSendChat;
+    @FXML
+    Button btnKickPlayer;
 
     // ListViews
     @FXML
@@ -181,6 +183,42 @@ public class GameLobbyFXController implements Initializable
     private void onEditDeleteClick()
     {
         System.out.println("deleted");
+    }
+
+    @FXML
+    private void onKickPlayerClick() throws RemoteException
+    {
+        boolean result = false;
+
+        if (lvPlayersInGame.getSelectionModel().getSelectedItem().toString() == null)
+        {
+            JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (ClientGUI.loggedinUser != ClientGUI.joinedLobby.getOwner())
+        {
+            JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+
+        try
+        {
+            result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString());
+        } catch (IllegalArgumentException exc)
+        {
+
+        }
+
+        if (result)
+        {
+            JOptionPane.showConfirmDialog(null, "Succes: The user has been kicked from the lobby.", "Success",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        } else
+        {
+            JOptionPane.showConfirmDialog(null, "Error: Something went wrong, unable to kick user.\nTry again.", "Error",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 // </editor-fold>
