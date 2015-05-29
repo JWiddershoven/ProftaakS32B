@@ -190,7 +190,7 @@ public class CreateLobbyFXController implements Initializable
             {
                 throw new Exception("Dit zou niet mogen gebeuren!");
             }
-            boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
+            //boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
             ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
             //ClientGUI.joinedLobby = newLobby;
@@ -198,6 +198,7 @@ public class CreateLobbyFXController implements Initializable
         }
         catch (Exception ex)
         {
+            Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             return ex.getMessage();
         }
     }

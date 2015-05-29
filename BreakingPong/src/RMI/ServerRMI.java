@@ -6,6 +6,8 @@
 package RMI;
 
 import Client.ClientGUI;
+import Helpers.DatabaseHelper;
+import Helpers.LoggedinUser;
 import Interfaces.IGame;
 import Interfaces.ILobby;
 import Interfaces.IMap;
@@ -224,7 +226,20 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 
     public boolean login(String username, String password) throws RemoteException
     {
-        // do Database stuff
+        LoggedinUser user = null;
+        try
+        {
+            user = DatabaseHelper.loginUser(username, password);
+        } catch (IllegalArgumentException exc)
+        {
+            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, exc);
+        }
+        
+        if (user != null && user.getLoggedIn())
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -290,47 +305,63 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     public ArrayList<String> getOnlineUsers() throws RemoteException
     {
         ArrayList<String> onlineUsers = new ArrayList<>();
-        
+
         for (IUser user : loggedInUsers)
         {
             onlineUsers.add(user.getPlayerInformation(user.getUsername(user)));
         }
-        
+
         return onlineUsers;
     }
 
     @Override
     public ArrayList<ILobby> getAllLobbies() throws RemoteException
     {
-         return this.currentLobbies;
+        return this.currentLobbies;
     }
 
     @Override
-    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
+    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException
+    {
         for (int i = currentGames.size(); i > 0; i--)
+        {
             if (currentGames.get(i).getID() == gameId)
+            {
                 return currentGames.get(i).getAllGameObjects(gameId);
+            }
+        }
         return null;
     }
 
     @Override
-    public void getAllBalls(int gameId) throws RemoteException {
+    public void getAllBalls(int gameId) throws RemoteException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException
+    {
         for (int i = currentGames.size(); i > 0; i--)
+        {
             if (currentGames.get(i).getID() == gameId)
+            {
                 return currentGames.get(i).getChangedGameObjects(gameId);
+            }
+        }
         return new ArrayList<GameObject>();
     }
 
     @Override
-    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException
+    {
         for (int i = currentGames.size(); i > 0; i--)
+        {
             if (currentGames.get(i).getID() == gameId)
+            {
                 return currentGames.get(i).getRemovedGamesObjects(gameId);
+            }
+        }
         return new ArrayList<GameObject>();
     }
 
