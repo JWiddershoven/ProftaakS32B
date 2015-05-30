@@ -30,6 +30,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     public ServerRMI() throws RemoteException
     {
         this.ID = 1;
+        currentGames.add(this); // Geen create game methode ???
     }
 
     private int ID;

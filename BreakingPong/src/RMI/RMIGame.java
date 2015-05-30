@@ -23,6 +23,7 @@ import Shared.User;
 import Shared.WhiteSpace;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -253,9 +254,10 @@ public class RMIGame implements IGame, Runnable {
         String text = "";
         ArrayList<String> mapLayout = new ArrayList<>();
         try {
+            File file = new File(mapUrl);
             FileInputStream fis = new FileInputStream(mapUrl);
             InputStreamReader in = new InputStreamReader(fis, Charset.forName("UTF-8"));
-            char[] buffer = new char[(int) mapUrl.length()];
+            char[] buffer = new char[(int) file.length()];
             int n = in.read(buffer);
             //Remove whitespaces
             text = new String(buffer, 0, n).replaceAll("\\s+", "");
