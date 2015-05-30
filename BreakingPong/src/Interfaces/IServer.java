@@ -19,7 +19,7 @@ import java.util.HashMap;
  * @author Mnesymne
  */
 
-public interface IServer extends Remote,IGame,ILobby,IUser
+public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
 {
     
    /**

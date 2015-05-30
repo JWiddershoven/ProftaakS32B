@@ -17,20 +17,33 @@ import Server.Lobby;
 import Server.Server;
 import Shared.GameObject;
 import Shared.User;
+import fontys.observer.BasicPublisher;
+import fontys.observer.RemotePropertyListener;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 {
-
+    private BasicPublisher publisher;
     public ServerRMI() throws RemoteException
     {
+        this.publisher = new BasicPublisher(new String[]{"getValues"});
         this.ID = 1;
         currentGames.add(this); // Geen create game methode ???
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+
+            @Override
+            public void run() {
+
+            }
+        }, 0, 1500);
     }
 
     private int ID;
@@ -538,4 +551,15 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return new ArrayList<GameObject>();
     }
 
+    @Override
+    public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+        this.publisher.addListener(listener, property);
+        System.out.println("Listener addded");
+    }
+
+    @Override
+    public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
+        this.publisher.removeListener(listener, property);
+        System.out.println("Listener removed");
+    }
 }

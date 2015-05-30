@@ -5,7 +5,9 @@
  */
 package Interfaces;
 
+import RMI.ClientRMI;
 import Shared.GameObject;
+import fontys.observer.RemotePublisher;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 

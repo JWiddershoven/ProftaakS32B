@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package RMIPaddleMoveTest;
+package RMI;
 
-import Interfaces.IServer;
+import Interfaces.IGame;
+import RMIPaddleMoveTest.Stub;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
@@ -24,15 +25,15 @@ import javafx.application.Platform;
  *
  * @author Jordi
  */
-public class Stub extends UnicastRemoteObject implements RemotePropertyListener
-{
-    private RemotePublisher services;
-    private Registry reg;
-    private PaddleMoveClient client;
+public class ClientRMI extends UnicastRemoteObject implements RemotePropertyListener {
+
+    private IGame game;
+    private RemotePublisher publisher;
+    private Client client;
     private long timeOut;
-    private String newValues;
+    private Registry reg;
     
-    public Stub(PaddleMoveClient client) throws RemoteException
+    public ClientRMI(Client client) throws RemoteException
     {
         this.client = client;
         this.start();
@@ -51,7 +52,7 @@ public class Stub extends UnicastRemoteObject implements RemotePropertyListener
                     super.cancel();
                 }
                
-                if(System.currentTimeMillis() - timeOut > 10*1000 || services == null)
+                if(System.currentTimeMillis() - timeOut > 10*1000 || publisher == null)
                 {
                     System.out.println("Attempting to setup a connection");
                     try
@@ -72,9 +73,9 @@ public class Stub extends UnicastRemoteObject implements RemotePropertyListener
     {
         try
         {
-            if(this.services != null)
+            if(this.publisher != null)
             {
-                this.services.removeListener(this, "getValues");
+                this.publisher.removeListener(this, "getValues");
             }
             UnicastRemoteObject.unexportObject(this, true);
         }
@@ -83,19 +84,14 @@ public class Stub extends UnicastRemoteObject implements RemotePropertyListener
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
-    {
-        newValues = new String(evt.getNewValue().toString());
-    }
     
     public void connect()
     {
-      try
+        try
         {
-            this.reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
-            this.services = (RemotePublisher) this.reg.lookup("gameServer");
-            this.services.addListener(this, "newValues");
+            this.reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
+            this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
+            this.publisher.addListener(this, "getValues");
         }
         catch(RemoteException | NotBoundException ex )
         {
@@ -105,6 +101,10 @@ public class Stub extends UnicastRemoteObject implements RemotePropertyListener
         {
             this.timeOut = System.currentTimeMillis();
         }
+    }
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
+        System.out.println("YAY");
     }
     
 }

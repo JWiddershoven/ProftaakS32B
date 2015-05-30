@@ -33,7 +33,7 @@ public class PaddleMoveServer extends Application
     @Override
     public void start(Stage primaryStage) throws Exception
     {
-        System.setProperty("java.rmi.server.hostname", "192.168.1.1");        
+        System.setProperty("java.rmi.server.hostname", "127.0.0.1");        
         System.out.println("Starting Server");
         try
         {
@@ -46,16 +46,6 @@ public class PaddleMoveServer extends Application
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         //RMIGame game = new RMIGame(1, 300, true,playerList);
-        playerAmount = 0;
-        System.out.println("Waiting for 4 more players");
-        while(game.getUserList().size() < 4)
-        {
-            if(game.getUserList().size() != playerAmount)
-            {
-                System.out.println("Waiting for " + (4 - game.getUserList().size()) + "players");
-                playerAmount = game.getUserList().size();
-            }
-        }
     }
     
     public static void main(String[] args)

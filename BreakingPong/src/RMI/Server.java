@@ -34,7 +34,7 @@ public class Server extends Application {
         try
         {
             rmiService = new ServerRMI();
-            Registry registry = LocateRegistry.createRegistry(1099);
+            Registry registry = LocateRegistry.createRegistry(1098);
             registry.rebind("gameServer", rmiService);
         }
         catch(RemoteException ex)
@@ -45,17 +45,8 @@ public class Server extends Application {
         game.loadMap("C:\\Users\\Jordi\\Documents\\test4x4.txt");
         playerAmount = 0;
         System.out.println("Waiting for 4 players to join the game");
-        // Wait for 4 players to join the game
-        while(game.getUserList().size() < 4)
-        {
-            if(game.getUserList().size() != playerAmount)
-            {
-                System.out.println("Waiting for " + (4 - game.getUserList().size()) + "players");
-                playerAmount = game.getUserList().size();
-            }
-        }
         System.out.println("Starting Game");
-        game.run();
+        //game.run();
     }
     
     public void addPlayerToGame(String username) throws RemoteException
