@@ -39,12 +39,14 @@ public class Client extends Application implements RemotePropertyListener {
             clientRMI = new ClientRMI(this);
             String ip = InetAddress.getLocalHost().getHostAddress();
             connection = (IServer)Naming.lookup("rmi://127.0.0.1:1098/gameServer");
-            System.out.println(connection.receiveChat()); // Throws exception but works
+            //System.out.println(connection.receiveChat()); Throws exception but server method calling works
         }
         catch(Exception ex)
         {
             System.out.println(ex.getMessage());
         }
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
     
     public static void main(String[] args)
