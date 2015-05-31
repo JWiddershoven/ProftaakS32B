@@ -7,14 +7,21 @@ package RMI;
 
 import Interfaces.IGame;
 import Interfaces.IServer;
+import Shared.Ball;
+import Shared.Block;
+import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import java.beans.PropertyChangeEvent;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
@@ -56,7 +63,30 @@ public class Client extends Application implements RemotePropertyListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //Draw all blocks from server
+        ArrayList<Block> blockList = new ArrayList<>();
+        blockList = (ArrayList<Block>) evt.getSource();
+        for(Block block : blockList)
+        {
+            Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
+            root.getChildren().add(r);
+        }
+        //Draw all balls from server
+        ArrayList<Ball> ballList = new ArrayList<>();
+        ballList = (ArrayList<Ball>)evt.getSource();
+        for(Ball ball : ballList)
+        {
+            Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 25, Color.RED);
+            root.getChildren().add(c);
+        }
+        //Draw all paddles from server
+        ArrayList<Paddle> paddleList = new ArrayList<>();
+        paddleList = (ArrayList<Paddle>)evt.getSource();
+        for(Paddle paddle : paddleList)
+        {
+            Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
+            root.getChildren().add(r);
+        }
     }
     
 }
