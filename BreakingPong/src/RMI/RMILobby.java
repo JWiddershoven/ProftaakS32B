@@ -30,7 +30,7 @@ public class RMILobby implements ILobby{
 
     private ServerRMI host;
 
-    private Game game;
+    private RMIGame game;
 
     private ArrayList<IUser> joinedPlayers;
             
@@ -96,6 +96,12 @@ public class RMILobby implements ILobby{
     @Override
     public int getLobbyID() {
         return this.id;
+    }
+
+    @Override
+    public void createGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) throws RemoteException {
+        RMIGame newGame = new RMIGame(id,gameTime,powerUps,players);
+        this.game = newGame;
     }
     
 }

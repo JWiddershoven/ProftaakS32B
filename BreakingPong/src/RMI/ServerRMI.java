@@ -563,4 +563,16 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         this.publisher.removeListener(listener, property);
         System.out.println("Listener removed");
     }
+
+    @Override
+    public void createGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) throws RemoteException {
+        for( int i = currentLobbies.size(); i > 0 ; i--)
+        {
+            if(currentLobbies.get(i).getLobbyID() == id)
+            {
+                currentLobbies.get(i).createGame(id, gameTime, powerUps, players);
+                System.out.println("GameCreated");
+            }
+        }
+    }
 }
