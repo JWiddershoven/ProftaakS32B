@@ -6,7 +6,9 @@
 package Shared;
 
 import Interfaces.IClientSecurity;
+import Interfaces.IServer;
 import Interfaces.IServerSecurity;
+import RMI.ServerRMI;
 import Server.Administration;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -55,16 +57,14 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
     @Override
     public Session login(String UserName, String Password) throws RemoteException {
         try {
-            _administration.login(UserName, Password);
-            Session session = new Session(UserName, _administration.getServer());
+            ServerRMI server = new ServerRMI();
+            server.login(UserName, Password);
+            //_administration.login(UserName, Password);
+            Session session = new Session(UserName, (IServer) server);
             return session;
 
         }
         catch (IllegalArgumentException ex) {
-            return null;
-        }
-        catch (Administration.IncorrectLoginDataException ex) {
-            Logger.getLogger(SecurityRMI.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

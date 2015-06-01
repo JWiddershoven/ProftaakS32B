@@ -84,16 +84,9 @@ public class User implements IUser
      *
      * @param Change
      */
-    public void setRating(int Change)
+    public void setRating(double rating)
     {
-        if (this.rating - Change > 0)
-        {
-            this.rating -= Change;
-        }
-        else
-        {
-            this.rating = 0;
-        }
+        this.rating = (int) Math.round(rating);
     }
 
     /**
