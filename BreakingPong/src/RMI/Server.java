@@ -42,11 +42,11 @@ public class Server extends Application {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         game = new RMIGame(1, 300, true, playerList);
-        game.loadMap("C:\\Users\\Jordi\\Documents\\test4x4.txt");
+        game.loadMap("C:\\Users\\Jordi\\Documents\\test4x4 broken.txt");
         playerAmount = 0;
         System.out.println("Waiting for 4 players to join the game");
         System.out.println("Starting Game");
-        game.run();
+        game.StartGame();
     }
     
     public void addPlayerToGame(String username) throws RemoteException

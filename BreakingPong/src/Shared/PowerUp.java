@@ -6,6 +6,7 @@
 
 package Shared;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.Random;
  *
  * @author Mnesymne
  */
-public class PowerUp {
+public class PowerUp implements Serializable {
 
     /**
      * PowerUpType - see PowerUpType enumeration

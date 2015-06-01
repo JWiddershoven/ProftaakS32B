@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 {
-    private BasicPublisher publisher;
+    public static BasicPublisher publisher;
     public ServerRMI() throws RemoteException
     {
         this.publisher = new BasicPublisher(new String[]{"getBlocks", "getBalls", "getPaddles", "getTime", "getScore"});

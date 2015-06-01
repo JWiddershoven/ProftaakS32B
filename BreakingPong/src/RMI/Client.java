@@ -19,6 +19,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
@@ -38,20 +39,22 @@ import javax.swing.JOptionPane;
 public class Client extends Application implements RemotePropertyListener {
 
     private Stage stage;
-    private Group root;
+    Group root;
     private Scene scene;
     private IServer connection;
     private ClientRMI clientRMI;
     private String name;
-    private ArrayList<Block> blockList;
-    private ArrayList<Ball> ballList;
-    private ArrayList<Paddle> paddleList;
+    public int gameTime;
+    public ArrayList<Block> blockList;
+    public ArrayList<Ball> ballList;
+    public ArrayList<Paddle> paddleList;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         root = new Group();
         scene = new Scene(root, 700, 400);
+        gameTime = 0;
         // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
         name = JOptionPane.showInputDialog(nameInput, "Enter your username");
@@ -72,6 +75,12 @@ public class Client extends Application implements RemotePropertyListener {
                 clientRMI.stop();
             }
         });
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                clientRMI.drawGame();
+            }
+        }.start();
     }
 
     public static void main(String[] args) {
@@ -80,35 +89,7 @@ public class Client extends Application implements RemotePropertyListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        //Draw all blocks from server
-        if (evt.getPropertyName().endsWith("getBlocks")) {
-            blockList = new ArrayList<>();
-            blockList = (ArrayList<Block>) evt.getSource();
-            for (Block block : blockList) {
-                Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
-                root.getChildren().add(r);
-            }
-        }
-        //Draw all balls from server
-        if(evt.getPropertyName().equals("getBalls"))
-        {
-            ballList = new ArrayList<>();
-            ballList = (ArrayList<Ball>) evt.getSource();
-            for (Ball ball : ballList) {
-                Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 25, Color.RED);
-                root.getChildren().add(c);
-            }            
-        }
-        //Draw all paddles from server
-        if(evt.getPropertyName().equals("getPaddles"))
-        {
-            paddleList = new ArrayList<>();
-            paddleList = (ArrayList<Paddle>) evt.getSource();
-            for (Paddle paddle : paddleList) {
-                Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
-                root.getChildren().add(r);
-            }        
-        }
+
     }
 
     public void keyPressed() {

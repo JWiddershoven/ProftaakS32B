@@ -9,18 +9,19 @@ package Shared;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.io.Serializable;
 
 /**
  *
  * @author Mnesymne
  */
-public class GameObject
+public class GameObject implements Serializable
 {
 
     private TVector2 position;
     private TVector2 velocity;
     private TVector2 size;
-    private final Image MyImage;
+    private transient final Image MyImage;
     private Color color;
 
     /**

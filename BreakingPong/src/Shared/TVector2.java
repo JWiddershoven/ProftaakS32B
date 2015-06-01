@@ -5,11 +5,13 @@
  */
 package Shared;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Mnesymne
  */
-public class TVector2
+public class TVector2 implements Serializable
 {
 
     private float x;

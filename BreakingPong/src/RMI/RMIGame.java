@@ -34,6 +34,8 @@ import java.nio.charset.Charset;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -56,12 +58,16 @@ public class RMIGame implements IGame, Runnable {
     private Thread gameLoopThread;
     private Map selectedmap;
     private int gameTimeInSecondsRemaining;
-
+    /**
+     * Ticks per second
+     */
+    private Timer secondsTimer;
     //private ArrayList<Map> selectedMaps;
     private final ArrayList<IUser> userList;
     private final ArrayList<CPU> botList;
     public ArrayList<GameObject> objectList;
     private final ArrayList<Ball> ballList;
+    private final ArrayList<Block> blockList;
     private final ArrayList<Paddle> paddleList;
     private final ArrayList<GameObject> changedObjectsList;
     private final ArrayList<GameObject> removedObjectsList;
@@ -197,6 +203,7 @@ public class RMIGame implements IGame, Runnable {
         this.botList = new ArrayList<>();
         this.userList = new ArrayList<>();
         this.objectList = new ArrayList<>();
+        this.blockList = new ArrayList<>();
         this.ballList = new ArrayList<>();
         this.paddleList = new ArrayList<>();
         this.changedObjectsList = new ArrayList<>();
@@ -369,6 +376,7 @@ public class RMIGame implements IGame, Runnable {
                                 DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
                                 Block wall = new Block(0, false, null, newObjectPosition, velocity, new TVector2(25, 25), DestroyImage);
                                 this.addObject(wall);
+                                this.blockList.add(wall);
                                 break;
                             }
                             // Create white space
@@ -382,6 +390,7 @@ public class RMIGame implements IGame, Runnable {
                                 normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
                                 Block noPower = new Block(1, true, null, newObjectPosition, velocity, Block.standardBlockSize, normalBlockImage);
                                 this.addObject(noPower);
+                                this.blockList.add(noPower);
                                 break;
                             }
                             // Create block with powerup
@@ -391,6 +400,7 @@ public class RMIGame implements IGame, Runnable {
                                 power.getRandomPowerUpType();
                                 Block withPower = new Block(10, true, power, newObjectPosition, velocity, Block.standardBlockSize, PowerUpImage);
                                 this.addObject(withPower);
+                                this.blockList.add(withPower);
                                 break;
                             }
                             // Create horizontal paddle spawn
@@ -529,8 +539,32 @@ public class RMIGame implements IGame, Runnable {
         catch (RemoteException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
+        ServerRMI.publisher.inform(this, "getBlocks", null, this.blockList);
     }
 
+    /**
+     * First Call loadMap !
+     */
+    public void StartGame()
+    {
+        gameTimeInSecondsRemaining = gameTime;
+        secondsTimer = new Timer();
+        secondsTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                gameTimeInSecondsRemaining--;
+                if(ServerRMI.publisher != null)
+                {
+                    ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
+                    ServerRMI.publisher.inform(this, "getBlocks", null, blockList);
+                }
+            }
+        }, 0, 1000);
+        inProgress = true;
+        gameLoopThread = new Thread(this);
+        gameLoopThread.start();
+    }
+    
     /**
      * Add a GameObject to the game object list
      *
@@ -553,6 +587,10 @@ public class RMIGame implements IGame, Runnable {
         }
         if (object instanceof Ball) {
             ballList.remove((Ball) object);
+        }
+        if (object instanceof Block)
+        {
+            blockList.remove((Block) object);
         }
     }
 
@@ -727,6 +765,10 @@ public class RMIGame implements IGame, Runnable {
     public void run() {
         // Do while game is started
         while (inProgress) {
+            if (gameTimeInSecondsRemaining < 1)
+            {
+                // endgame
+            }
             long start, elapsed, wait;
             start = System.nanoTime();
             // calls update function on all objects
