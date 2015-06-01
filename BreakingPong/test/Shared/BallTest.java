@@ -137,7 +137,7 @@ public class BallTest
         b.update();
         b.update();
         b.update();
-        assertEquals("Bounce was incorrect", new TVector2(-1, 1), b.getVelocity());
+        assertEquals("Bounce was incorrect", new TVector2(-1.0f, 1.0f).toString(), b.getVelocity().toString());
         CollisionChecker.gameObjectsList.clear();
     }
 }

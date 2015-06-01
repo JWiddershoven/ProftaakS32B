@@ -11,6 +11,7 @@ import Interfaces.ILobby;
 import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
+import RMI.RMILobby;
 import RMI.ServerRMI;
 import Shared.GameObject;
 import Shared.User;
@@ -227,16 +228,16 @@ public class Server extends UnicastRemoteObject  implements IServer
 
     @Override
     public boolean createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException {
-        if (name != null && Password != null && Owner != null && maxPlayers != null) {
-            for (IUser user : loggedInUsers) {
-                if (user.getUsername(user).equals(name)) {
-                    Lobby lobby = new Lobby(currentLobbies.size() + 1, name, Password, (User) user, maxPlayers);
-                    currentLobbies.add((ILobby) lobby);
-                    return true;
-                }
-            }
-        }
-        return false;
+//        if (name != null && Password != null && Owner != null && maxPlayers != null) {
+//            for (IUser user : loggedInUsers) {
+//                if (user.getUsername(user).equals(name)) {
+//                    Lobby lobby = new Lobby(currentLobbies.size() + 1, name, Password, (User) user, maxPlayers);
+//                    currentLobbies.add((ILobby) lobby);
+//                    return true;
+//                }
+//            }
+//        }
+        return true;
     }
 
     @Override

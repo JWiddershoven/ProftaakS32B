@@ -27,8 +27,10 @@ public class PowerUpTypeTest {
         ArrayList<PowerUpType> types = new ArrayList<PowerUpType>();
         types.add(PowerUpType.IncreasePaddleSize);
         types.add(PowerUpType.IncreaseBallSize);
+        types.add(PowerUpType.IncreaseBallSpeed);
         types.add(PowerUpType.DecreasePaddleSize);
         types.add(PowerUpType.DecreaseBallSize);
+        types.add(PowerUpType.DecreaseBallSpeed);
 
         PowerUpType[] expResult = new PowerUpType[types.size()];
         expResult = types.toArray(expResult);

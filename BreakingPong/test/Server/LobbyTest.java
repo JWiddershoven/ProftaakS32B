@@ -95,7 +95,7 @@ public class LobbyTest
         //Violate host null
         try
         {
-            lobby = new Lobby(id, name, password, owner, maxPlayers);
+            lobby = new Lobby(id, name, password, null, maxPlayers);
             fail();
         }
         catch (IllegalArgumentException ex)

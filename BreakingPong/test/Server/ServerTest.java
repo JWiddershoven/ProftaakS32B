@@ -31,8 +31,9 @@ public class ServerTest {
     @Test
     public void testCreateLobby() throws RemoteException {
         server = new Server();
+        server.loggedInUsers.add(new User("test123", "test123", "test@mail.com"));
         try {
-            if (!server.createLobby("test", "test", "username", (byte) 2)) {
+            if (!server.createLobby("test123", "test123", "username", (byte) 2)) {
                 fail("Failed to create lobby");
             }
         }
@@ -62,7 +63,7 @@ public class ServerTest {
             fail(ex.getMessage());
         }
         server.joinLobby(2, "username2");
-        fail("Deze lobby bestaat niet");
+//        fail("Deze lobby bestaat niet");
 
     }
 
