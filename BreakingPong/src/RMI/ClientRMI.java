@@ -75,7 +75,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         {
             if(this.publisher != null)
             {
-                this.publisher.removeListener(this, "getValues");
+                this.publisher.removeListener(this, "getBlocks");
             }
             UnicastRemoteObject.unexportObject(this, true);
         }
@@ -91,7 +91,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         {
             this.reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
-            this.publisher.addListener(this, "getValues");
+            this.publisher.addListener(this, "getBlocks");
         }
         catch(RemoteException | NotBoundException ex )
         {

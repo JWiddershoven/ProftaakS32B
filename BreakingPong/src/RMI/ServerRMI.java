@@ -33,7 +33,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     private BasicPublisher publisher;
     public ServerRMI() throws RemoteException
     {
-        this.publisher = new BasicPublisher(new String[]{"getValues"});
+        this.publisher = new BasicPublisher(new String[]{"getBlocks", "getBalls", "getPaddles", "getTime", "getScore"});
         this.ID = 1;
         currentGames.add(this); // Geen create game methode ???
         Timer timer = new Timer();
@@ -41,7 +41,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 
             @Override
             public void run() {
-
+                
             }
         }, 0, 1500);
     }

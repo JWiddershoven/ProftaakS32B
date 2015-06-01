@@ -46,7 +46,7 @@ public class Server extends Application {
         playerAmount = 0;
         System.out.println("Waiting for 4 players to join the game");
         System.out.println("Starting Game");
-        //game.run();
+        game.run();
     }
     
     public void addPlayerToGame(String username) throws RemoteException

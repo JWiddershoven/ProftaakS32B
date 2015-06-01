@@ -46,89 +46,90 @@ public class Client extends Application implements RemotePropertyListener {
     private ArrayList<Block> blockList;
     private ArrayList<Ball> ballList;
     private ArrayList<Paddle> paddleList;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         root = new Group();
         scene = new Scene(root, 700, 400);
+        // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
-        name = JOptionPane.showInputDialog(nameInput, "Enter your username?");
+        name = JOptionPane.showInputDialog(nameInput, "Enter your username");
         RMIUser user = new RMIUser(name, null, null, 0);
-        try
-        {
+        // Connect to server
+        try {
             clientRMI = new ClientRMI(this);
             String ip = InetAddress.getLocalHost().getHostAddress();
-            connection = (IServer)Naming.lookup("rmi://127.0.0.1:1098/gameServer");
-            //System.out.println(connection.receiveChat()); Throws exception but server method calling works
-        }
-        catch(Exception ex)
-        {
+            connection = (IServer) Naming.lookup("rmi://127.0.0.1:1098/gameServer");
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         primaryStage.setScene(scene);
         primaryStage.show();
+        // If client closes window disconnect from server
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-          public void handle(WindowEvent we) {
-              clientRMI.stop();
-          }
-      });  
+            public void handle(WindowEvent we) {
+                clientRMI.stop();
+            }
+        });
     }
-    
-    public static void main(String[] args)
-    {
+
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         //Draw all blocks from server
-        blockList = new ArrayList<>();
-        blockList = (ArrayList<Block>) evt.getSource();
-        for(Block block : blockList)
-        {
-            Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
-            root.getChildren().add(r);
+        if (evt.getPropertyName().endsWith("getBlocks")) {
+            blockList = new ArrayList<>();
+            blockList = (ArrayList<Block>) evt.getSource();
+            for (Block block : blockList) {
+                Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
+                root.getChildren().add(r);
+            }
         }
         //Draw all balls from server
-        ballList = new ArrayList<>();
-        ballList = (ArrayList<Ball>)evt.getSource();
-        for(Ball ball : ballList)
+        if(evt.getPropertyName().equals("getBalls"))
         {
-            Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 25, Color.RED);
-            root.getChildren().add(c);
+            ballList = new ArrayList<>();
+            ballList = (ArrayList<Ball>) evt.getSource();
+            for (Ball ball : ballList) {
+                Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 25, Color.RED);
+                root.getChildren().add(c);
+            }            
         }
         //Draw all paddles from server
-        paddleList = new ArrayList<>();
-        paddleList = (ArrayList<Paddle>)evt.getSource();
-        for(Paddle paddle : paddleList)
+        if(evt.getPropertyName().equals("getPaddles"))
         {
-            Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
-            root.getChildren().add(r);
+            paddleList = new ArrayList<>();
+            paddleList = (ArrayList<Paddle>) evt.getSource();
+            for (Paddle paddle : paddleList) {
+                Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
+                root.getChildren().add(r);
+            }        
         }
     }
-    public void keyPressed()
-    {
-        this.stage.getScene().setOnKeyPressed((KeyEvent k) ->
-        {
-        switch(k.getCode().toString())
-        {
-            case "W":
-            {
-            try {
-                connection.moveLeft(1, name);
-            } catch (RemoteException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+
+    public void keyPressed() {
+        // Client movement
+        this.stage.getScene().setOnKeyPressed((KeyEvent k) -> {
+            switch (k.getCode().toString()) {
+                case "W": {
+                    try {
+                        connection.moveLeft(1, name);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                case "S": {
+                    try {
+                        connection.moveRight(1, name);
+                    } catch (RemoteException ex) {
+                        Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
             }
-            }
-            case "S":
-            {
-            try {
-                connection.moveRight(1, name);
-            } catch (RemoteException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            }
-        }
         });
     }
 }

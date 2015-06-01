@@ -55,6 +55,7 @@ public class RMIGame implements IGame, Runnable {
     private boolean inProgress = false;
     private Thread gameLoopThread;
     private Map selectedmap;
+    private int gameTimeInSecondsRemaining;
 
     //private ArrayList<Map> selectedMaps;
     private final ArrayList<IUser> userList;
@@ -747,7 +748,6 @@ public class RMIGame implements IGame, Runnable {
             }
         }
         System.out.println("While exited");
-        exitGame();
     }
 
     /**
