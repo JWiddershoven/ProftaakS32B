@@ -5,10 +5,7 @@
  */
 package Interfaces;
 
-import RMI.ClientRMI;
 import Shared.GameObject;
-import Shared.User;
-import fontys.observer.RemotePublisher;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -21,8 +18,8 @@ public interface IGame{
     /**
      * Pre-condition: User must be in the lobby of the game he/she wants to join.
      * Description: Checks if game exists and has room for another player, adds user to game, returns the IGame of the game.
-     * @param game The IGame the user wants to join.
-     * @param user The user that is using the client.
+     * @param gameID The IGame the user wants to join.
+     * @param username The user that is using the client.
      * @return The IGame of the game the user wants to join.
      * @throws RemoteException 
      */
@@ -31,8 +28,8 @@ public interface IGame{
     /**
      * Pre-condition: User must be in the game he/she wants to leave.
      * Description: Removed the player from the game
-     * @param game The IGame the user wants to leave.
-     * @param user The user that is using the client.
+     * @param gameID The IGameID the user wants to leave.
+     * @param username The user that is using the client.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
@@ -55,7 +52,7 @@ public interface IGame{
      * @return List of Strings of with Username,Score,ranking of all players in the game.
      * @throws RemoteException 
      */
-    public ArrayList<String> getPlayersInformation(int gameid)throws RemoteException;
+    public ArrayList<String> getPlayersInformationInGame(int gameid)throws RemoteException;
     
     /**
      * Pre-condition: Map is of correct format.

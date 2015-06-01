@@ -161,9 +161,9 @@ public class RMILobby implements ILobby
     }
 
     @Override
-    public void createGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) throws RemoteException
+    public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException
     {
-        RMIGame newGame = new RMIGame(id, gameTime, powerUps, players);
+        RMIGame newGame = new RMIGame(id, gameTime,powerUps);
         this.game = newGame;
     }
 }

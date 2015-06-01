@@ -154,14 +154,14 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @throws RemoteException
      */
     @Override
-    public ArrayList<String> getPlayersInformation(int gameid) throws RemoteException
+    public ArrayList<String> getPlayersInformationInGame(int gameid) throws RemoteException
     {
         ArrayList<String> returnValue = new ArrayList<>();
         for (IGame game : currentGames)
         {
             if (game.getID() == gameid)
             {
-                returnValue = game.getPlayersInformation(gameid);
+                returnValue = game.getPlayersInformationInGame(gameid);
             }
         }
         return returnValue;
@@ -682,13 +682,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     }
 
     @Override
-    public void createGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) throws RemoteException
+    public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException
     {
         for (int i = currentLobbies.size(); i > 0; i--)
         {
             if (currentLobbies.get(i).getLobbyID() == id)
             {
-                currentLobbies.get(i).createGame(id, gameTime, powerUps, players);
+                currentLobbies.get(i).createGame(id, gameTime, powerUps);
                 System.out.println("GameCreated");
             }
         }

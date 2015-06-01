@@ -25,6 +25,7 @@ public interface IUser{
      * Description: Returns a string with the username
      * @param user Won't be used
      * @return  String with the Username
+     * @throws java.rmi.RemoteException
      */
     public String getUsername(IUser user) throws RemoteException;
     

@@ -105,7 +105,7 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     }
 
     @Override
-    public ArrayList<String> getPlayersInformation(int gameid) throws RemoteException {
+    public ArrayList<String> getPlayersInformationInGame(int gameid) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -217,7 +217,7 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     }
 
     @Override
-    public void createGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) throws RemoteException
+    public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

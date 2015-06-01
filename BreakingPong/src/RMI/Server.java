@@ -20,15 +20,18 @@ import javafx.stage.Stage;
  *
  * @author Jordi
  */
-public class Server extends Application {
+public class Server extends Application
+{
 
     private ServerRMI rmiService;
     private ArrayList<IUser> playerList;
     private RMIGame game;
     private int playerAmount;
+
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        
+    public void start(Stage primaryStage) throws Exception
+    {
+
         System.out.println("Starting Server");
         playerList = new ArrayList<>();
         try
@@ -37,26 +40,34 @@ public class Server extends Application {
             Registry registry = LocateRegistry.createRegistry(1098);
             registry.rebind("gameServer", rmiService);
         }
-        catch(RemoteException ex)
+        catch (RemoteException ex)
         {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        game = new RMIGame(1, 300, true, playerList);
-        game.loadMap("C:\\Users\\Jordi\\Documents\\test4x4 broken.txt");
         playerAmount = 0;
         System.out.println("Waiting for 4 players to join the game");
+
+        game = new RMIGame(1, 300, true);
+        while (game.getPlayersInformationInGame(1).isEmpty())
+        {
+            Thread.sleep(1000);
+            System.out.println("Waiting for " + Integer.toString(4 - playerAmount) + " players to join the game.");
+        }
+
         System.out.println("Starting Game");
+        
+        game.loadMap("C:\\Users\\Lorenzo\\Dropbox\\School\\FONTYS\\Leerjaar 2\\Proftaak\\S32B Proftaak\\Software\\Test4x4.txt");
         game.StartGame();
     }
-    
+
     public void addPlayerToGame(String username) throws RemoteException
     {
         game.joinGame(game.getID(), username);
     }
-    
+
     public static void main(String[] args)
     {
         launch(args);
     }
-    
+
 }

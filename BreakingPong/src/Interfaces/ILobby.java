@@ -45,6 +45,7 @@ public interface ILobby{
     
     /**
      * Description: Returns a List with Username,ranking of all players in the game.
+     * @param lobbyid
      * @return List of Username and Ranking of all players in the game.
      * @throws RemoteException 
      */
@@ -62,6 +63,6 @@ public interface ILobby{
     
     public int getLobbyID() throws RemoteException;
     
-    public void createGame(int id, int gameTime,boolean powerUps,ArrayList<IUser> players) throws RemoteException;
+    public void createGame(int id, int gameTime,boolean powerUps) throws RemoteException;
 
 }

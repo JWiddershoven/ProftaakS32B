@@ -136,7 +136,7 @@ public class RMIGame implements IGame, Runnable {
     }
 
     @Override
-    public ArrayList<String> getPlayersInformation(int game) throws RemoteException {
+    public ArrayList<String> getPlayersInformationInGame(int game) throws RemoteException {
         ArrayList<String> returnvalue = new ArrayList<>();
         if (this.userList != null) {
             for (IUser user : this.userList) {
@@ -196,7 +196,7 @@ public class RMIGame implements IGame, Runnable {
     }
     // </editor-fold>
 
-    public RMIGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) {
+    public RMIGame(int id, int gameTime, boolean powerUps) {
         this.id = id;
         this.gameTime = gameTime;
         this.powerUps = powerUps;
@@ -209,17 +209,16 @@ public class RMIGame implements IGame, Runnable {
         this.changedObjectsList = new ArrayList<>();
         this.removedObjectsList = new ArrayList<>();
         this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
-        generateBotPlayers(players);
     }
 
     public ArrayList<IUser> getUserList() {
         return userList;
     }
 
-    private void generateBotPlayers(ArrayList<IUser> players) {
+    private void generatePlayers() {
         try {
-            if (players.get(0) != null) {
-                player1 = (User) players.get(0);
+            if (userList.get(0) != null) {
+                player1 = (User) userList.get(0);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -228,24 +227,24 @@ public class RMIGame implements IGame, Runnable {
         }
 
         try {
-            if (players.get(1) != null) {
-                player2 = (User) players.get(1);
+            if (userList.get(1) != null) {
+                player2 = (User) userList.get(1);
             }
         }
         catch (IndexOutOfBoundsException ex) {
             cpu2 = new CPU("Bot2", (byte) 1);
         }
         try {
-            if (players.get(2) != null) {
-                player3 = (User) players.get(2);
+            if (userList.get(2) != null) {
+                player3 = (User) userList.get(2);
             }
         }
         catch (IndexOutOfBoundsException ex) {
             cpu3 = new CPU("Bot3", (byte) 1);
         }
         try {
-            if (players.get(3) != null) {
-                player4 = (User) players.get(3);
+            if (userList.get(3) != null) {
+                player4 = (User) userList.get(3);
             }
         }
         catch (IndexOutOfBoundsException ex) {
@@ -547,6 +546,7 @@ public class RMIGame implements IGame, Runnable {
      */
     public void StartGame()
     {
+        generatePlayers();
         gameTimeInSecondsRemaining = gameTime;
         secondsTimer = new Timer();
         secondsTimer.scheduleAtFixedRate(new TimerTask() {

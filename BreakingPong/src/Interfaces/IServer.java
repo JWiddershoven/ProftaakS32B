@@ -6,13 +6,10 @@
 package Interfaces;
 
 
-import Server.Lobby;
-import Shared.User;
 import fontys.observer.RemotePublisher;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  *
@@ -28,7 +25,7 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
      of lobbies. Returns true if lobby is created.
      * @param name name of the lobby
      * @param Password password of the lobby ( can be left empty )
-     * @param Owner Owner of the lobby / creator
+     * @param username Owner of the lobby / creator
      * @param maxPlayers maximum amount of players that can play.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
@@ -38,8 +35,8 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
     /**
      * Pre-condition: Lobby must exist, must be enough space for a new player and the lobby is not ingame.
      * Description: Checks if lobby has room, and if player isn't already in it. Returns the ILobby.
-     * @param lobby The lobby the player wants to join.
-     * @param user
+     * @param lobbyid The lobby the player wants to join.
+     * @param username The username of the player trying to join.
      * @return The new ILobby
      * @throws RemoteException 
      */
@@ -48,7 +45,7 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
     /**
      * Pre-condition: Lobby must exist.
      * Description: Checks if lobby exists. If it exists checks if user is owner. If both are true removes all leftover players to lobbySelect and deletes the Lobby. Returns true when successfull.
-     * @param lobby The lobby to be removed.
+     * @param lobbyid The lobby to be removed.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */

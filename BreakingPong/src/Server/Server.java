@@ -211,11 +211,11 @@ public class Server extends UnicastRemoteObject  implements IServer
     }
 
     @Override
-    public ArrayList<String> getPlayersInformation(int gameid) throws RemoteException {
+    public ArrayList<String> getPlayersInformationInGame(int gameid) throws RemoteException {
         ArrayList<String> returnValue = new ArrayList<>();
         for (IGame game : currentGames) {
             if (game.getID() == gameid) {
-                returnValue = game.getPlayersInformation(gameid);
+                returnValue = game.getPlayersInformationInGame(gameid);
             }
         }
         return returnValue;
@@ -476,7 +476,7 @@ public class Server extends UnicastRemoteObject  implements IServer
     }
 
     @Override
-    public void createGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) throws RemoteException
+    public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
