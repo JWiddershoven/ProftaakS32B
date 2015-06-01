@@ -5,6 +5,7 @@
  */
 package Client;
 
+import Interfaces.ILobby;
 import Server.Lobby;
 import Shared.Session;
 import Shared.User;
@@ -26,8 +27,8 @@ import javafx.stage.Stage;
 public class ClientGUI extends Application {
 
     public static Stage mainStage;
-    public static User loggedinUser;
-    public static Lobby joinedLobby;
+   /// public static String loggedinUser;
+    public static ILobby joinedLobby;
     private RMIClientController controller;
     public static Session CurrentSession;
     

@@ -7,6 +7,7 @@ package Server;
 
 import Helpers.DatabaseHelper;
 import Helpers.LoggedinUser;
+import RMI.ServerRMI;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class Administration {
      * @throws java.rmi.RemoteException
      */
     public Administration() throws RemoteException {
-        this.server = new Server();
+        this.server = new ServerRMI();
         this.database = new Database();
         this.users = new ArrayList<>();
     }
@@ -63,9 +64,9 @@ public class Administration {
         }
     }
 
-    private final Server server;
+    private final ServerRMI server;
 
-    public Server getServer() {
+    public ServerRMI getServer() {
         return server;
     }
 

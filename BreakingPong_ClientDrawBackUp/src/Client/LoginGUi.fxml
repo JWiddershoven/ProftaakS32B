@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="386.000022070315" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.LoginGUiFXController">
+  <children>
+    <TabPane fx:id="tabControl" layoutX="14.0" layoutY="14.0" prefHeight="372.0" prefWidth="572.0" tabClosingPolicy="UNAVAILABLE">
+      <tabs>
+        <Tab fx:id="loginTab" text="Login">
+          <content>
+            <AnchorPane id="Content" fx:id="loginAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="216.0" prefWidth="572.0">
+              <children>
+                <Label layoutX="123.0" layoutY="57.0" text="Username" />
+                <Label layoutX="127.0" layoutY="95.0" text="Password" />
+                <TextField fx:id="tfLoginUsername" layoutX="186.0" layoutY="54.0" prefWidth="200.0" promptText="Username" text="username" />
+                        <PasswordField fx:id="tfLoginPassword" layoutX="186.0" layoutY="91.0" prefHeight="25.0" prefWidth="200.0" text="password" />
+                <Button fx:id="btnLogin" layoutX="218.0" layoutY="171.0" mnemonicParsing="false" onAction="#onLoginClick" text="Login" />
+                <Button fx:id="btnLoginClear" layoutX="300.0" layoutY="171.0" mnemonicParsing="false" onAction="#onLoginClear" text="Clear" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+        <Tab fx:id="createUserTab" text="Create User">
+          <content>
+            <AnchorPane id="Content" fx:id="createUserAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <children>
+                <Button fx:id="btnCreateUserClear" layoutX="325.0" layoutY="263.0" mnemonicParsing="false" onAction="#onCreateUserClear" text="Clear" />
+                <Button fx:id="btnCreateUserCreate" layoutX="202.0" layoutY="263.0" mnemonicParsing="false" onAction="#onCreateUserCreate" text="Create" />
+                <TextField fx:id="tfCreateUserUsername" layoutX="186.0" layoutY="65.0" prefWidth="200.0" promptText="Preferred username" />
+                <TextField fx:id="tfCreateUserEmail" layoutX="186.0" layoutY="97.0" prefWidth="200.0" promptText="Your emailadress" />
+                        <PasswordField fx:id="tfCreateUserPassword" layoutX="186.0" layoutY="131.0" prefHeight="25.0" prefWidth="200.0" />
+                        <PasswordField fx:id="tfCreateUserReEnterPassword" layoutX="186.0" layoutY="167.0" prefHeight="25.0" prefWidth="200.0" />
+                <Label layoutX="122.0" layoutY="68.0" text="Username" />
+                <Label layoutX="142.0" layoutY="100.0" text="E-mail" />
+                <Label layoutX="127.0" layoutY="135.0" text="Password" />
+                <Label layoutX="76.0" layoutY="171.0" text="Re-enter Password" />
+              </children>
+            </AnchorPane>
+          </content>
+        </Tab>
+      </tabs>
+    </TabPane>
+  </children>
+</AnchorPane>

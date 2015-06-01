@@ -52,6 +52,14 @@ public interface ILobby{
     
     public boolean addUserToLobby(String username, int lobbyid) throws RemoteException;
     
+    /**
+     * Returns the username of the host.
+     * @param lobbyid the lobbyID.
+     * @return the username of the host.
+     * @throws RemoteException 
+     */
+    public String getOwner(int lobbyid) throws RemoteException;
+    
     public int getLobbyID() throws RemoteException;
     
     public void createGame(int id, int gameTime,boolean powerUps,ArrayList<IUser> players) throws RemoteException;

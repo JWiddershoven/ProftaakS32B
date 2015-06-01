@@ -92,7 +92,7 @@ public class GameLobbyFXController implements Initializable
     {
         try
         {
-            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getId())));
+            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
         } catch (RemoteException ex)
         {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
@@ -103,20 +103,25 @@ public class GameLobbyFXController implements Initializable
     @FXML
     private void onStartGameClick()
     {
-        if (ClientGUI.loggedinUser != ClientGUI.joinedLobby.getOwner())
-        {
-            JOptionPane.showConfirmDialog(null, "Error when starting game: Only the host can start the game.", "Error starting game",
-                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
-        }
-        Game game = new Game(1, 300, true, ClientGUI.joinedLobby.getPlayerList());
         try
         {
-            Thread gameLoopThread = game.setupGame();
-            if (gameLoopThread != null)
+            if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
             {
-                gameLoopThread.start();
+                JOptionPane.showConfirmDialog(null, "Error when starting game: Only the host can start the game.", "Error starting game",
+                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
             }
-        } catch (Exception ex)
+       // GameClient game = new GameClient(1, 300, true, ClientGUI.joinedLobby.getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID()));
+//            Thread gameLoopThread = game.setupGame();
+//            if (gameLoopThread != null)
+//            {
+//                gameLoopThread.start();
+//            }
+        } catch (RemoteException ex)
+        {
+             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+         catch (Exception ex)
         {
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -142,7 +147,7 @@ public class GameLobbyFXController implements Initializable
         }
         try
         {
-            ClientGUI.joinedLobby.leaveLobby(ClientGUI.loggedinUser);
+            ClientGUI.joinedLobby.leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
         } catch (Exception ex)
         {
             JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
@@ -196,7 +201,7 @@ public class GameLobbyFXController implements Initializable
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
 
-        if (ClientGUI.loggedinUser != ClientGUI.joinedLobby.getOwner())
+        if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
         {
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -209,7 +214,7 @@ public class GameLobbyFXController implements Initializable
 
         try
         {
-            result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString(), ClientGUI.joinedLobby.getId());
+            result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString(), ClientGUI.joinedLobby.getLobbyID());
         } catch (IllegalArgumentException exc)
         {
 
