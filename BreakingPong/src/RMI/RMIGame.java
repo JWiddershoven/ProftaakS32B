@@ -91,7 +91,7 @@ public class RMIGame implements IGame, Runnable {
     }
 
     @Override
-    public boolean kickPlayer(String username) throws RemoteException {
+    public boolean kickPlayer(String username, int lobbyID) throws RemoteException {
 
         for (IUser user : userList) {
             if (user.getUsername(user).equals(username)) {
@@ -789,5 +789,4 @@ public class RMIGame implements IGame, Runnable {
         gc();
         System.out.println("Exited game");
     }
-
 }

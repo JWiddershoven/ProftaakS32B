@@ -6,10 +6,7 @@
 package RMI;
 
 import Interfaces.ILobby;
-import Interfaces.IServer;
 import Interfaces.IUser;
-import Server.Lobby;
-import Server.Server;
 import Server.Game;
 import Shared.User;
 import java.rmi.RemoteException;

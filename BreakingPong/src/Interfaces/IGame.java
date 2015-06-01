@@ -41,10 +41,11 @@ public interface IGame{
      * Pre-condition: User must be in a lobby and cannot be the owner of this lobby.
      * Description: Checks if player is in the game, if so removes player from game and returns him to the lobby. Returns true if player is removed.
      * @param username User to be removed from the game it is in.-=
+     * @param lobbyID The lobbyID of the lobby the user is in.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException
      */
-    public boolean kickPlayer(String username)throws RemoteException;
+    public boolean kickPlayer(String username, int lobbyID)throws RemoteException;
     
     /**
      * Pre-condition:

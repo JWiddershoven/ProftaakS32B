@@ -100,7 +100,7 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     }
 
     @Override
-    public boolean kickPlayer(String username) throws RemoteException {
+    public boolean kickPlayer(String username, int lobbyID) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

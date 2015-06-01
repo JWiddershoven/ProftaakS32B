@@ -196,15 +196,17 @@ public class Server extends UnicastRemoteObject  implements IServer
     }
 
     @Override
-    public boolean kickPlayer(String username) throws RemoteException {
-        boolean returnValue = false;
-        for (IUser user : loggedInUsers) {
-            if (user.getUsername(user).equals(username)) {
-                loggedInUsers.remove(user);
-                returnValue = true;
+    public boolean kickPlayer(String username, int lobbyID) throws RemoteException {
+        boolean kick = false;
+        for (ILobby lobby : currentLobbies)
+        {
+            if (lobby.getLobbyID() == lobbyID)
+            {
+                lobby.leaveLobby(lobbyID, username);
+                kick = true;
             }
         }
-        return returnValue;
+        return kick;
     }
 
     @Override

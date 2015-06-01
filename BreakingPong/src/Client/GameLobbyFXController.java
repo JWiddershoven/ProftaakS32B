@@ -186,7 +186,7 @@ public class GameLobbyFXController implements Initializable
     }
 
     @FXML
-    private void onKickPlayerClick() throws RemoteException
+    private void onKickPlayerClick() throws RemoteException, Exception
     {
         boolean result = false;
 
@@ -201,10 +201,15 @@ public class GameLobbyFXController implements Initializable
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
+        
+        if (ClientGUI.joinedLobby == null)
+        {
+            throw new Exception("Lobby kan niet null zijn!");
+        }
 
         try
         {
-            result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString());
+            result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString(), ClientGUI.joinedLobby.getId());
         } catch (IllegalArgumentException exc)
         {
 

@@ -30,7 +30,7 @@ public class LobbyTest
         int id = 0;
         String name = "test";
         String password = "test";
-        User owner = new User("testtest", "testtest", "test@test.test", server);
+        User owner = new User("testtest", "testtest", "test@test.test");
 
         byte maxPlayers = 1;
 
@@ -142,7 +142,7 @@ public class LobbyTest
     public void testJoinLobby() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test"), maxPlayers);
 
         try
         {
@@ -156,7 +156,7 @@ public class LobbyTest
 
         try
         {
-            User user1 = new User("Testtest", "Testtest", "test@test.test", new Server());
+            User user1 = new User("Testtest", "Testtest", "test@test.test");
 
             lobby.joinLobby(user1);
             lobby.joinLobby(user1);
@@ -173,7 +173,7 @@ public class LobbyTest
     public void testLeaveLobby() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test"), maxPlayers);
 
         try
         {
@@ -185,7 +185,7 @@ public class LobbyTest
 
         }
 
-        User user = new User("Testtest", "Testtest", "Test@test.test", new Server());
+        User user = new User("Testtest", "Testtest", "Test@test.test");
 
         try
         {
@@ -213,7 +213,7 @@ public class LobbyTest
     public void testKickLobby() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test"), maxPlayers);
 
         try
         {
@@ -227,7 +227,7 @@ public class LobbyTest
 
         try
         {
-            User user = new User("Testtest", "Testtest", "Test@test.test", new Server());
+            User user = new User("Testtest", "Testtest", "Test@test.test");
 
             lobby.joinLobby(user);
             lobby.kickPlayer(user);
@@ -244,7 +244,7 @@ public class LobbyTest
     public void testSendChat() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test"), maxPlayers);
 
         try
         {
@@ -272,7 +272,7 @@ public class LobbyTest
     public void testInviteUser() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test"), maxPlayers);
 
         try
         {
@@ -290,7 +290,7 @@ public class LobbyTest
     public void testJoinGame() throws RemoteException
     {
         byte maxPlayers = 4;
-        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test", new Server()), maxPlayers);
+        lobby = new Lobby(1, "Test", null, new User("Testtest", "Testtest", "test@test.test"), maxPlayers);
 
         try
         {

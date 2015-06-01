@@ -63,18 +63,19 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     /**
      * Kicks a player from a game.
      * @param username the username of the user that will get kicked.
+     * @param lobbyID the lobbyID of the lobby.
      * @return true if the user was removed from the game, otherwise false.
      * @throws RemoteException 
      */
     @Override
-    public boolean kickPlayer(String username) throws RemoteException
+    public boolean kickPlayer(String username, int lobbyID) throws RemoteException
     {
         boolean kick = false;
-        for (IUser user : loggedInUsers)
+        for (ILobby lobby : currentLobbies)
         {
-            if (user.getUsername(user).equals(username))
+            if (lobby.getLobbyID() == lobbyID)
             {
-                loggedInUsers.remove(user);
+                lobby.leaveLobby(lobbyID, username);
                 kick = true;
             }
         }

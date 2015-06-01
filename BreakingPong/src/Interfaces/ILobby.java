@@ -19,7 +19,8 @@ public interface ILobby{
     /**
      * Pre-condition: Player mus be in a lobby.
      * Description: Checks if player is inside the lobby, Removes player. Returns true if player is removed.
-     * @param user The user that is using the client.
+     * @param lobbyid
+     * @param username The user that is using the client.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
