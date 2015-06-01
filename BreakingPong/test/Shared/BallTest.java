@@ -37,7 +37,7 @@ public class BallTest
         testGame = new Game(1, 180, false, new ArrayList<User>());
         server = new Server();
         cpu = new CPU("Bot", (byte) 5);
-        user = new User("Jelle123", "wachtwoord123", "jelle@gmail.com", server);
+        user = new User("Jelle123", "wachtwoord123", "jelle@gmail.com");
         position = new TVector2(50, 30);
         velocity = new TVector2(15, 40);
         size = new TVector2(5, 5);
@@ -52,7 +52,7 @@ public class BallTest
          */
         try
         {
-            b = new Ball(p, position, velocity, size, testGame, null);
+            b = new Ball(p, position, velocity, size,null);
             assertEquals(p, b.getLastPaddleTouched());
             assertEquals(position, b.getPosition());
             assertEquals(velocity, b.getVelocity());
@@ -66,7 +66,7 @@ public class BallTest
         // @param position The position of a GameObject.
         try
         {
-            b = new Ball(p, null, velocity, size, testGame, null);
+            b = new Ball(p, null, velocity, size, null);
             fail("Position of a GameObject cannot be null.");
         }
         catch (IllegalArgumentException exc)
@@ -77,7 +77,7 @@ public class BallTest
         // @param velocity The velocity of a GameObject.
         try
         {
-            b = new Ball(p, position, null, size, testGame, null);
+            b = new Ball(p, position, null, size, null);
             fail("Velocity of a GameObject cannot be null.");
         }
         catch (IllegalArgumentException exc)
@@ -88,7 +88,7 @@ public class BallTest
         // @param size The size of a GameObject.
         try
         {
-            b = new Ball(p, position, velocity, null, testGame, null);
+            b = new Ball(p, position, velocity, null, null);
             fail("Size of a GameObject cannot be null.");
         }
         catch (IllegalArgumentException exc)
@@ -100,7 +100,7 @@ public class BallTest
     @Test
     public void testSetLastPaddleTouched()
     {
-        b = new Ball(p, position, velocity, size, testGame, null);
+        b = new Ball(p, position, velocity, size, null);
         Paddle p2 = new Paddle(100, position, velocity, size, cpu, Paddle.WindowLocation.SOUTH, null);
         try
         {
@@ -129,7 +129,7 @@ public class BallTest
         velocity = new TVector2(1, 1);
         size = new TVector2(10, 10);
         position = new TVector2(10, 10);
-        b = new Ball(p, position, velocity, size, testGame, null);
+        b = new Ball(p, position, velocity, size, null);
         Block block = new Block(0, false, null, new TVector2(21, 11), TVector2.zero, new TVector2(300, 300), null);
         CollisionChecker.gameObjectsList.add(b);
         CollisionChecker.gameObjectsList.add(block);

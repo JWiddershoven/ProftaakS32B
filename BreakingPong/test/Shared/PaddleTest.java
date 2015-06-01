@@ -32,9 +32,9 @@ public class PaddleTest {
         selectedServer = new Server();
         game  = new Game(1, 300,true, new ArrayList<User>());
         
-        player1 = new User("PongLord666","123456", "Email@Pong.com", selectedServer);
-        player2 = new User("TestAccount1", "Test01", "Test@Pong.com", selectedServer);
-        player3 = new User("TestAccount2", "Test02", "Anothertest@Pong.com", selectedServer);
+        player1 = new User("PongLord666","123456", "Email@Pong.com");
+        player2 = new User("TestAccount1", "Test01", "Test@Pong.com");
+        player3 = new User("TestAccount2", "Test02", "Anothertest@Pong.com");
         
         standardSize = new TVector2(25,10);
         position = new TVector2(50,50);

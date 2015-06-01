@@ -36,7 +36,7 @@ public class TestUser {
        //Valid User
        try
        {
-       ValidUser = new User("Tester","tester","test@test.nl",s);
+       ValidUser = new User("Tester","tester","test@test.nl");
        }
        catch(IllegalArgumentException ex)
        {
@@ -46,7 +46,7 @@ public class TestUser {
        //Invalid User
         try
        {
-       ValidUser = new User("Test","tester","test@test.nl",s);
+       ValidUser = new User("Test","tester","test@test.nl");
        fail();
        }
        catch(IllegalArgumentException ex)
@@ -56,7 +56,7 @@ public class TestUser {
         //Invalid Password
          try
        {
-       ValidUser = new User("Tester","test","test@test.nl",s);
+       ValidUser = new User("Tester","test","test@test.nl");
        fail();
        }
        catch(IllegalArgumentException ex)
@@ -66,7 +66,7 @@ public class TestUser {
         //Invalid Email
           try
        {
-       ValidUser = new User("Tester","tester","testtest.nl",s);
+       ValidUser = new User("Tester","tester","testtest.nl");
        fail();
        }
        catch(IllegalArgumentException ex)

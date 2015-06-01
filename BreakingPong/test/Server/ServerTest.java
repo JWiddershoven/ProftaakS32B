@@ -71,14 +71,14 @@ public class ServerTest {
         server = new Server();
 
         try {
-            server.logout(new User("test","test", "es@bl.nl",server));
+            server.logout(new User("test","test", "es@bl.nl"));
             fail("user does not exist");
         }
         catch (IllegalArgumentException ex) {
 
         }
 
-        User user1 = new User("Testtest", "Testtest", "test@test.test", new Server());
+        User user1 = new User("Testtest", "Testtest", "test@test.test");
         try {
             server.logout(user1);
         }
