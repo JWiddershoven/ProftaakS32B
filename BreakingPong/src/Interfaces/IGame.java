@@ -7,6 +7,7 @@ package Interfaces;
 
 import RMI.ClientRMI;
 import Shared.GameObject;
+import Shared.User;
 import fontys.observer.RemotePublisher;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -118,4 +119,5 @@ public interface IGame{
      * @throws RemoteException 
      */
     public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException;
+    
 }

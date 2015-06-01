@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Shared.User;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -61,4 +62,6 @@ public interface ILobby{
     
     public int getLobbyID() throws RemoteException;
     
+    public void createGame(int id, int gameTime,boolean powerUps,ArrayList<IUser> players) throws RemoteException;
+
 }

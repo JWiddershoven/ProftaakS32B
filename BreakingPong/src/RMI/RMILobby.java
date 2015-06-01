@@ -16,8 +16,9 @@ import java.util.ArrayList;
  *
  * @author Mnesymne
  */
-public class RMILobby implements ILobby{
-    
+public class RMILobby implements ILobby
+{
+
     private int id;
 
     public int getId()
@@ -80,40 +81,43 @@ public class RMILobby implements ILobby{
 
     private ServerRMI host;
 
-    private Game game;
+    private RMIGame game;
 
     private ArrayList<IUser> joinedPlayers;
-            
-    @Override
-    public boolean leaveLobby(int lobbyid ,String username) throws RemoteException {
-       for(IUser user : joinedPlayers)
-       {
-           if(user.getUsername(user).equals(username))
-           {
-               joinedPlayers.remove(user);
-               return true;
-           }
-       }
-       return false;
-    }
-
 
     @Override
-    public boolean sendChat(String message) throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> receiveChat() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ArrayList<String> getPlayerInformationFromLobby(int lobbyid) throws RemoteException {
-        ArrayList<String> returnvalue = new ArrayList<String>();
-        if(joinedPlayers != null && !joinedPlayers.isEmpty())
+    public boolean leaveLobby(int lobbyid, String username) throws RemoteException
+    {
+        for (IUser user : joinedPlayers)
         {
-            for(IUser user : joinedPlayers)
+            if (user.getUsername(user).equals(username))
+            {
+                joinedPlayers.remove(user);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean sendChat(String message) throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String> receiveChat() throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ArrayList<String> getPlayerInformationFromLobby(int lobbyid) throws RemoteException
+    {
+        ArrayList<String> returnvalue = new ArrayList<String>();
+        if (joinedPlayers != null && !joinedPlayers.isEmpty())
+        {
+            for (IUser user : joinedPlayers)
             {
                 returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
             }
@@ -122,29 +126,31 @@ public class RMILobby implements ILobby{
     }
 
     @Override
-    public boolean addUserToLobby(String username, int lobbyid) throws RemoteException {
-       boolean Breturn = false;
-       for(IUser user: joinedPlayers)
-       {
-           if(user.getUsername(user).equals(username))
-           {
-               Breturn = false;
-           }
-       }
-       
-       for(IUser user: host.loggedInUsers)
-       {
-           if(user.getUsername(user).equals(username))
-           {
-               joinedPlayers.add(user);
-               Breturn = true;
-           }
-     }
-       return Breturn;
+    public boolean addUserToLobby(String username, int lobbyid) throws RemoteException
+    {
+        boolean Breturn = false;
+        for (IUser user : joinedPlayers)
+        {
+            if (user.getUsername(user).equals(username))
+            {
+                Breturn = false;
+            }
+        }
+
+        for (IUser user : host.loggedInUsers)
+        {
+            if (user.getUsername(user).equals(username))
+            {
+                joinedPlayers.add(user);
+                Breturn = true;
+            }
+        }
+        return Breturn;
     }
 
     @Override
-    public int getLobbyID() {
+    public int getLobbyID()
+    {
         return this.id;
     }
 
@@ -153,5 +159,11 @@ public class RMILobby implements ILobby{
     {
         return this.owner.getUsername();
     }
-    
+
+    @Override
+    public void createGame(int id, int gameTime, boolean powerUps, ArrayList<IUser> players) throws RemoteException
+    {
+        RMIGame newGame = new RMIGame(id, gameTime, powerUps, players);
+        this.game = newGame;
+    }
 }

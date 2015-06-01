@@ -21,6 +21,7 @@ import Shared.PowerUp;
 import Shared.TVector2;
 import Shared.User;
 import Shared.WhiteSpace;
+import com.sun.deploy.net.protocol.ProtocolType;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -54,6 +55,7 @@ public class RMIGame implements IGame, Runnable {
     private boolean inProgress = false;
     private Thread gameLoopThread;
     private Map selectedmap;
+    private int gameTimeInSecondsRemaining;
 
     //private ArrayList<Map> selectedMaps;
     private final ArrayList<IUser> userList;
@@ -746,7 +748,6 @@ public class RMIGame implements IGame, Runnable {
             }
         }
         System.out.println("While exited");
-        exitGame();
     }
 
     /**
