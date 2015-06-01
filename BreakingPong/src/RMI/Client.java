@@ -17,12 +17,14 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -54,6 +56,11 @@ public class Client extends Application implements RemotePropertyListener {
         }
         primaryStage.setScene(scene);
         primaryStage.show();
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+          public void handle(WindowEvent we) {
+              clientRMI.stop();
+          }
+      });  
     }
     
     public static void main(String[] args)
