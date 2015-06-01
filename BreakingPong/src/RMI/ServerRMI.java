@@ -22,6 +22,7 @@ import fontys.observer.RemotePropertyListener;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -81,6 +82,47 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         }
         return kick;
     }
+    
+    /**
+     * Creates a new user and adds it to the database.
+     * @param username the username of the user. Must be at least 6 characters and cannot be empty.
+     * @param email the email of the user. Must contain a dot (.) and @. Cannot be empty.
+     * @param password the password of the user. Must be at least 6 characters and cannot be empty.
+     * @return 
+     * @throws RemoteException 
+     */
+    public String createUser(String username, String email, String password) throws RemoteException {
+        if (username == null || username.trim().isEmpty()) {
+            return "Username cannot be empty.";
+        }
+        if (password == null || password.isEmpty()) {
+            return "Password cannot be empty.";
+        }
+        if (email == null || email.trim().isEmpty()) {
+            return "Email address cannot be empty.";
+        }
+        if (!(email.contains("@") && email.contains("."))) {
+            return "Email address is not of correct format.";
+        }
+        if (username.length() < 6) {
+            return "Username must be at least 6 characters";
+        }
+        if (password.length() < 6) {
+            return "Password must be at least 6 characters";
+        }
+
+        try {
+            boolean dbActionWorked = DatabaseHelper.registerUser(username, password, email);
+            System.out.println("DBworked = " + dbActionWorked);
+
+            Shared.User newUser = new Shared.User(username, password, email);
+
+            this.loggedInUsers.add((IUser) newUser);
+        } catch (SQLException ex) {
+            return "Username is already taken";
+        }
+        return "";
+    }
 
     /**
      * Collects the information from each player in an instance of a game.
@@ -131,7 +173,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             {
                 if (user.getUsername(user).equals(Owner))
                 {
-                    Lobby lobby = new Lobby(currentLobbies.size() + 1, name, Password, (User) user, maxPlayers);
+                    RMILobby lobby = new RMILobby();
+                    lobby.setId(currentLobbies.size() + 1);
+                    lobby.setMaxPlayers(maxPlayers);
+                    lobby.setName(name);
+                    lobby.setPassword(Password);
+                    lobby.setOwner((User) user);
                     currentLobbies.add((ILobby) lobby);
                     ClientGUI.joinedLobby = lobby;
                     return true;
@@ -355,6 +402,11 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         try
         {
             user = DatabaseHelper.loginUser(username, password);
+            
+            if (user != null)
+            {
+                loggedInUsers.add(new User(user.getUsername(), user.getPassword(), user.getEmail()));
+            }
         } catch (IllegalArgumentException exc)
         {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, exc);
@@ -562,5 +614,18 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
         this.publisher.removeListener(listener, property);
         System.out.println("Listener removed");
+    }
+
+    @Override
+    public String getOwner(int lobbyid) throws RemoteException
+    {
+        for (int i = 0; i < currentLobbies.size(); i++)
+        {
+            if (currentLobbies.get(i).getLobbyID() == lobbyid)
+            {
+                return currentLobbies.get(i).getOwner(lobbyid);
+            }
+        }
+        return null;
     }
 }

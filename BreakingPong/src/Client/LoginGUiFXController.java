@@ -7,8 +7,12 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import Helpers.DatabaseHelper;
+import Interfaces.IClientSecurity;
+import Interfaces.IJoin;
+import RMI.RMIJoin;
 import RMI.ServerRMI;
 import Server.Administration;
+import Shared.SecurityRMI;
 import java.awt.EventQueue;
 import java.awt.TrayIcon;
 import java.io.IOException;
@@ -121,9 +125,13 @@ public class LoginGUiFXController implements Initializable {
             try {
                 //LoggedinUser ingelogd = DatabaseHelper.loginUser(username, password);
 
-                ClientGUI.loggedinUser = administration.login(username, password);
+                IClientSecurity ics = new SecurityRMI();
+                ClientGUI.CurrentSession = ics.login(username, password);
+                //ClientGUI.loggedinUser = administration.login(username, password);
                 //serverRMI.loggedInUsers.add(ClientGUI.loggedinUser);
-
+                if (ClientGUI.CurrentSession != null)
+                {
+                   
                 System.out.println("succesfully logged in.");
 
                 // succesvol ingelogd.
@@ -132,26 +140,22 @@ public class LoginGUiFXController implements Initializable {
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
-                clearLogin();
 
+                }
+                else
+                {
+                     EventQueue.invokeLater(() -> {
+                    JOptionPane.showMessageDialog(null, "Incorrect login info!",
+                            "Incorrect login info!", TrayIcon.MessageType.WARNING.ordinal());
+                });
+
+                }
+                clearLogin();
             }
             catch (IllegalArgumentException ex) {
                 EventQueue.invokeLater(() -> {
                     JOptionPane.showMessageDialog(null, ex.getMessage(),
                             "Fields cannot be empty", TrayIcon.MessageType.WARNING.ordinal());
-                });
-
-            }
-            catch (Server.Administration.IncorrectLoginDataException ex) {
-                EventQueue.invokeLater(() -> {
-                    if (ex.getMessage().isEmpty()) {
-                        JOptionPane.showMessageDialog(null, "Username and password combination is incorrect",
-                                "Login failed", TrayIcon.MessageType.WARNING.ordinal());
-                    }
-                    else {
-                        JOptionPane.showMessageDialog(null, ex.getMessage(),
-                                "Login failed", TrayIcon.MessageType.WARNING.ordinal());
-                    }
                 });
 
             }

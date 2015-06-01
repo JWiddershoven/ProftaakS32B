@@ -20,6 +20,56 @@ public class RMILobby implements ILobby{
     
     private int id;
 
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id)
+    {
+        this.id = id;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public User getOwner()
+    {
+        return owner;
+    }
+
+    public void setOwner(User owner)
+    {
+        this.owner = owner;
+    }
+
+    public byte getMaxPlayers()
+    {
+        return maxPlayers;
+    }
+
+    public void setMaxPlayers(byte maxPlayers)
+    {
+        this.maxPlayers = maxPlayers;
+    }
+
     private String name;
 
     private String password;
@@ -96,6 +146,12 @@ public class RMILobby implements ILobby{
     @Override
     public int getLobbyID() {
         return this.id;
+    }
+
+    @Override
+    public String getOwner(int lobbyid) throws RemoteException
+    {
+        return this.owner.getUsername();
     }
     
 }

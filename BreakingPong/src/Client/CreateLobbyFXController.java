@@ -186,12 +186,12 @@ public class CreateLobbyFXController implements Initializable
 
         try
         {
-            if (ClientGUI.loggedinUser == null)
+            if (ClientGUI.CurrentSession == null)
             {
                 throw new Exception("Dit zou niet mogen gebeuren!");
             }
             //boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
-            ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
+            ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
             //ClientGUI.joinedLobby = newLobby;
             return "";

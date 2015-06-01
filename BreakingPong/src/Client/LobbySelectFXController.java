@@ -6,6 +6,7 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import RMI.RMILobby;
 import RMI.ServerRMI;
 import Server.Administration;
 import Server.Lobby;
@@ -109,28 +110,28 @@ public class LobbySelectFXController implements Initializable
     private void onJoinLobbyClick()
     {
         System.out.println("on lobby join click");
-        Lobby selectedLobby = (Lobby) lvLobbies.getSelectionModel().getSelectedItem();
-        if (selectedLobby != null)
-        {
-            try
-            {
-                selectedLobby.joinLobby(ClientGUI.loggedinUser);
-                // joinLobby throws exceptions, if no exception continue
-                ClientGUI.joinedLobby = selectedLobby;
-                Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
-                Scene scene = new Scene(root);
-                mainStage.setScene(scene);
-                mainStage.show();
-            } catch (Exception ex)
-            {
-                JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
-                        "Join error", TrayIcon.MessageType.INFO.ordinal());
-            }
-        } else
-        {
-            JOptionPane.showMessageDialog(null, "Please select a lobby first",
-                    "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
-        }
+//        RMILobby selectedLobby = (RMILobby) lvLobbies.getSelectionModel().getSelectedItem();
+//        if (selectedLobby != null)
+//        {
+//            try
+//            {
+//                selectedLobby.joinLobby(ClientGUI.loggedinUser);
+//                // joinLobby throws exceptions, if no exception continue
+//                ClientGUI.joinedLobby = selectedLobby;
+//                Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
+//                Scene scene = new Scene(root);
+//                mainStage.setScene(scene);
+//                mainStage.show();
+//            } catch (Exception ex)
+//            {
+//                JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
+//                        "Join error", TrayIcon.MessageType.INFO.ordinal());
+//            }
+//        } else
+//        {
+//            JOptionPane.showMessageDialog(null, "Please select a lobby first",
+//                    "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
+//        }
     }
 
     @FXML
