@@ -557,6 +557,8 @@ public class RMIGame implements IGame, Runnable {
                 {
                     ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
                     ServerRMI.publisher.inform(this, "getBlocks", null, blockList);
+                    ServerRMI.publisher.inform(this, "getBalls", null, ballList);
+                    ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 }
             }
         }, 0, 1000);

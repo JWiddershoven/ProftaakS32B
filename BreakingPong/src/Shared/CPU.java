@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
  *
  * @author Mnesymne
  */
-public class CPU {
+public class CPU implements Serializable {
 
     private final String name;
     private final Byte difficulty; // Currently not used

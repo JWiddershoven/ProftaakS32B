@@ -84,6 +84,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             {
                 this.publisher.removeListener(this, "getBlocks");
                 this.publisher.removeListener(this, "getTime");
+                this.publisher.removeListener(this, "getBalls");
+                this.publisher.removeListener(this, "getPaddles");
             }
             UnicastRemoteObject.unexportObject(this, true);
         }
@@ -101,6 +103,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
             this.publisher.addListener(this, "getBlocks");
             this.publisher.addListener(this,"getTime");
+            this.publisher.addListener(this, "getBalls");
+            this.publisher.addListener(this, "getPaddles");
         }
         catch(RemoteException | NotBoundException ex )
         {
@@ -114,7 +118,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         System.out.println("kut");
-                //Draw all blocks from server
+        //Draw all blocks from server
         if (evt.getPropertyName().equals("getBlocks")) {
             client.blockList = new ArrayList<>();
             client.blockList = (ArrayList<Block>) evt.getNewValue();
@@ -135,36 +139,13 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         if(evt.getPropertyName().equals("getBalls"))
         {
             client.ballList = new ArrayList<>();
-            client.ballList = (ArrayList<Ball>) evt.getSource();
-//            for (Ball ball : client.ballList) {
-//                Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 25, Color.RED);
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run()
-//                    {
-//                       
-//                        client.root.getChildren().clear();
-//                        client.root.getChildren().add(c);
-//                    }
-//                });
-//            }            
+            client.ballList = (ArrayList<Ball>) evt.getNewValue();          
         }
         //Draw all paddles from server
         if(evt.getPropertyName().equals("getPaddles"))
         {
             client.paddleList = new ArrayList<>();
-            client.paddleList = (ArrayList<Paddle>) evt.getNewValue();
-//            for (Paddle paddle : client.paddleList) {
-//                Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
-//              Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run()
-//                    {
-//                        client.root.getChildren().clear();
-//                        client.root.getChildren().add(r);
-//                    }
-//                });
-//            }        
+            client.paddleList = (ArrayList<Paddle>) evt.getNewValue();   
         }
         // Get the gametime from server
         if(evt.getPropertyName().equals("getTime"))
@@ -178,10 +159,19 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     
     public void drawGame()
     {
+        Platform.runLater(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        client.root.getChildren().clear();
+                    }
+                });
         if(client.paddleList != null)
         {
             for (Paddle paddle : client.paddleList) {
             Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
+            r.setFill(Color.GREEN);
+            r.setStroke(Color.BLACK);
             Platform.runLater(new Runnable() {
                     @Override
                     public void run()
@@ -195,7 +185,9 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         if(client.ballList != null)
         {
             for (Ball ball : client.ballList) {
-            Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 25, Color.RED);
+            Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 5);
+            c.setStroke(Color.BLACK);
+            c.setFill(Color.LIGHTBLUE);
             Platform.runLater(new Runnable() {
                 @Override
                 public void run()
