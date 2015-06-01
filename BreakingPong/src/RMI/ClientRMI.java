@@ -210,6 +210,22 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         {
             for (Block block : client.blockList) {
             Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
+            r.setStroke(Color.BLACK);
+            if(block.isDestructable() == true)
+            {
+                r.setFill(Color.DARKGRAY);
+            }
+            else
+            {
+                if(block.getPowerUp() == null)
+                {
+                    r.setFill(Color.YELLOW);
+                }
+                else
+                {
+                    r.setFill(Color.RED);
+                }
+            }
             Platform.runLater(new Runnable() {
                 @Override
                 public void run()
