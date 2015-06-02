@@ -115,7 +115,7 @@ public class RMIGame implements IGame, Runnable {
     @Override
     public void joinGame(int gameid, String username) throws RemoteException {
         boolean add = true;
-        
+
         for (IUser user : userList) {
             if (user.getUsername(user).equals(username)) {
                 add = false;
@@ -123,7 +123,7 @@ public class RMIGame implements IGame, Runnable {
             }
         }
         if (add) {
-            userList.add(new RMIUser(username,"doesnotexist","doesnotexist@gmail.com",10));
+            userList.add(new RMIUser(username, "doesnotexist", "doesnotexist@gmail.com", 10));
             //System.out.println(Juser.getUsername(Juser));
             //return this;
         }
@@ -135,10 +135,13 @@ public class RMIGame implements IGame, Runnable {
         ArrayList<String> returnvalue = new ArrayList<>();
         if (this.userList != null) {
             for (IUser user : this.userList) {
-                if (user == null || user.getUsername(user).equals(null))
+                if (user == null || user.getUsername(user).equals(null)) {
                     System.out.println("Player information - PLAYER IS NULL");
-                else
+                }
+                else {
+
                     returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
+                }
             }
         }
         return returnvalue;
@@ -215,36 +218,56 @@ public class RMIGame implements IGame, Runnable {
     }
 
     private void generatePlayers() {
+
         try {
             if (userList.get(0) != null) {
                 player1 = (User) userList.get(0);
+                System.out.println("Fakakayomama");
             }
-        } catch (IndexOutOfBoundsException ex) {
+        }
+        catch (IndexOutOfBoundsException ex) {
             cpu1 = new CPU("Bot1", (byte) 1);
             cpu1.setMyPaddle(P1Paddle);
-        }
 
+            System.out.println("PAddle for USER!!!!!!");
+        }
         try {
             if (userList.get(1) != null) {
                 player2 = (User) userList.get(1);
             }
-        } catch (IndexOutOfBoundsException ex) {
-            cpu2 = new CPU("Bot2", (byte) 1);
         }
+        catch (IndexOutOfBoundsException ex) {
+            cpu2 = new CPU("Bot2", (byte) 1);
+            cpu2.setMyPaddle(P2Paddle);
+
+            System.out.println("PAddle for USER!!!!!!");
+        }
+
         try {
             if (userList.get(2) != null) {
                 player3 = (User) userList.get(2);
+
             }
-        } catch (IndexOutOfBoundsException ex) {
-            cpu3 = new CPU("Bot3", (byte) 1);
         }
+        catch (IndexOutOfBoundsException ex) {
+            cpu3 = new CPU("Bot3", (byte) 1);
+            cpu3.setMyPaddle(P3Paddle);
+
+            System.out.println("PAddle for USER!!!!!!");
+        }
+
         try {
             if (userList.get(3) != null) {
                 player4 = (User) userList.get(3);
             }
-        } catch (IndexOutOfBoundsException ex) {
-            cpu4 = new CPU("Bot4", (byte) 1);
         }
+        catch (IndexOutOfBoundsException ex) {
+            cpu4 = new CPU("Bot4", (byte) 1);
+            cpu4.setMyPaddle(P4Paddle);
+
+            System.out.println("PAddle for USER!!!!!!");
+        }
+
     }
 
     /**
@@ -287,16 +310,20 @@ public class RMIGame implements IGame, Runnable {
                 mapLayout.add(row);
             }
             readMap(mapLayout);
-        } catch (FileNotFoundException ex) {
+        }
+        catch (FileNotFoundException ex) {
             System.out.println("File could not be found");
             return "File could not be found";
-        } catch (IOException IOex) {
+        }
+        catch (IOException IOex) {
             System.out.println("Filesize is incorrect, use 40 rows with 40 characters");
             return "Filesize is incorrect, use 40 rows with 40 characters";
-        } catch (IllegalArgumentException ifex) {
+        }
+        catch (IllegalArgumentException ifex) {
             System.out.println("File incorrect");
             return "File incorrect";
-        } catch (RuntimeException ex) {
+        }
+        catch (RuntimeException ex) {
             System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
             return "Textfile size is incorrect, use 40 rows with 40 characters";
         }
@@ -343,13 +370,16 @@ public class RMIGame implements IGame, Runnable {
                                 // East of West
                                 if (diffX < 0) {
                                     paddleLocation = Paddle.WindowLocation.EAST;
-                                } else {
+                                }
+                                else {
                                     paddleLocation = Paddle.WindowLocation.WEST;
                                 }
-                            } else {
+                            }
+                            else {
                                 if (diffY < 0) {
                                     paddleLocation = Paddle.WindowLocation.SOUTH;
-                                } else {
+                                }
+                                else {
                                     paddleLocation = Paddle.WindowLocation.NORTH;
                                 }
                             }
@@ -405,7 +435,8 @@ public class RMIGame implements IGame, Runnable {
                                         playerAmount++;
                                         System.out.println("P1 " + P1Paddle.getWindowLocation());
                                         break;
-                                    } else {
+                                    }
+                                    else {
                                         P1Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu1, paddleLocation, PaddleImage);
                                         cpu1.setMyPaddle(P1Paddle);
                                         this.addObject(P1Paddle);
@@ -416,7 +447,9 @@ public class RMIGame implements IGame, Runnable {
                                         break;
                                     }
 
-                                } else if (playerAmount == 4) {
+                                }
+
+                                else if (playerAmount == 4) {
 
                                     PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
                                     size = new TVector2(100f, 20f);
@@ -429,7 +462,8 @@ public class RMIGame implements IGame, Runnable {
                                         playerAmount++;
                                         System.out.println("P4 " + P4Paddle.getWindowLocation());
                                         break;
-                                    } else {
+                                    }
+                                    else {
                                         P4Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu4, paddleLocation, PaddleImage);
                                         cpu4.setMyPaddle(P4Paddle);
                                         this.addObject(P4Paddle);
@@ -448,7 +482,8 @@ public class RMIGame implements IGame, Runnable {
                                 SpawnNumber++;
                                 if (SpawnNumber == 1) {
                                     PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle.png"));
-                                } else if (SpawnNumber == 2) {
+                                }
+                                else if (SpawnNumber == 2) {
                                     PaddleImage = ImageIO.read(new FileInputStream("Images/Images/VerticalPaddle2.png"));
                                 }
                                 if (playerAmount == 2) {
@@ -461,7 +496,8 @@ public class RMIGame implements IGame, Runnable {
                                         playerAmount++;
                                         System.out.println("P2 " + P2Paddle.getWindowLocation());
                                         break;
-                                    } else {
+                                    }
+                                    else {
                                         P2Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu2, paddleLocation, PaddleImage);
                                         cpu2.setMyPaddle(P2Paddle);
                                         this.addObject(P2Paddle);
@@ -471,7 +507,8 @@ public class RMIGame implements IGame, Runnable {
                                         System.out.println("P2 " + P2Paddle.getWindowLocation());
                                         break;
                                     }
-                                } else if (playerAmount == 3) {
+                                }
+                                else if (playerAmount == 3) {
                                     size = new TVector2(20f, 100f);
 
                                     if (player3 != null) {
@@ -483,7 +520,8 @@ public class RMIGame implements IGame, Runnable {
                                         playerAmount++;
                                         System.out.println("P3 " + P3Paddle.getWindowLocation());
                                         break;
-                                    } else {
+                                    }
+                                    else {
                                         P3Paddle = new Paddle(0, newObjectPosition, velocity, size, cpu3, paddleLocation, PaddleImage);
                                         cpu3.setMyPaddle(P3Paddle);
                                         this.addObject(P3Paddle);
@@ -509,10 +547,12 @@ public class RMIGame implements IGame, Runnable {
                     rowcount++;
                     y += 20;
                 }
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } catch (RemoteException ex) {
+        }
+        catch (RemoteException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
         ServerRMI.publisher.inform(this, "getBlocks", null, this.blockList);
@@ -521,8 +561,7 @@ public class RMIGame implements IGame, Runnable {
     /**
      * First Call loadMap !
      */
-    public void StartGame()
-    {
+    public void StartGame() {
         gameTimeInSecondsRemaining = gameTime;
         secondsTimer = new Timer();
         secondsTimer.scheduleAtFixedRate(new TimerTask() {
@@ -538,12 +577,15 @@ public class RMIGame implements IGame, Runnable {
             public void run() {
                 if (ServerRMI.publisher != null && inProgress) {
                     ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
-                    ServerRMI.publisher.inform(this, "getBlocks", null, blockList);
+
+                    Block[] blocks = new Block[blockList.size()];
+                    blocks = blockList.toArray(blocks);
+                    ServerRMI.publisher.inform(this, "getBlocks", null, blocks);
                     ServerRMI.publisher.inform(this, "getBalls", null, ballList);
                     ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 }
             }
-        }, 0, 500);
+        }, 0, 200);
         inProgress = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
@@ -646,7 +688,8 @@ public class RMIGame implements IGame, Runnable {
                                     maxWidthSize - blockSize.getY()),
                                     TVector2.zero, blockSize, DestroyImage));
                         }
-                    } else {
+                    }
+                    else {
                         // left side
                         for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
                             this.addObject(new Block(0, false, null, new TVector2(0, i * blockSize.getY()),
@@ -727,7 +770,8 @@ public class RMIGame implements IGame, Runnable {
         float y;
         if (x < 0) {
             y = Ball.maxSpeed - (x * -1);
-        } else {
+        }
+        else {
             y = Ball.maxSpeed - x;
         }
         TVector2 returnVector = new TVector2(x, y);
@@ -773,7 +817,8 @@ public class RMIGame implements IGame, Runnable {
                 // Deze sleep verwijderen ( dit is alleen voor test )
                 gameLoopThread.sleep(10);
                 gameLoopThread.sleep(wait);
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -796,12 +841,17 @@ public class RMIGame implements IGame, Runnable {
     public void tick() {
         for (int bCounter = ballList.size(); bCounter > 0; bCounter--) {
             Ball b = ballList.get(bCounter - 1);
-            b.update();
+            ArrayList<GameObject> listToRemove = b.update();
+            for (int i = 0; i < listToRemove.size(); i++) {
+                removeObject(listToRemove.get(i));
+            }
             checkResetBall(b);
             try {
                 checkBallExitedPlay(b);
 
-            } catch (Exception ex) {
+            }
+
+            catch (Exception ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -832,6 +882,7 @@ public class RMIGame implements IGame, Runnable {
         this.paddleList.clear();
         this.ballList.clear();
         gc();
+        ServerRMI.publisher.inform(this, "getGameOver", null, true);
         System.out.println("Exited game");
     }
 }
