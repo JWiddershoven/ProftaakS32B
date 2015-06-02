@@ -44,6 +44,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private Registry reg;
     private String newGameTime;
     private Text gameTimeLabel;
+    private Text fpsLabel;
+    
+    
+        long nextSecond = System.currentTimeMillis() + 1000;
+    int frameInLastSecond = 0;
+    int framesInCurrentSecond = 0;
 
     public ClientRMI(Client client) throws RemoteException {
         this.client = client;
@@ -140,12 +146,14 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     }
 
     public void drawGame() {
+        
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 client.root.getChildren().clear();
             }
         });
+        
         if (client.paddleList != null) {
             for (Paddle paddle : client.paddleList) {
                 Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
@@ -197,6 +205,15 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 });
             }
         }
+        
+        long currentTime = System.currentTimeMillis();
+        if (currentTime > nextSecond) {
+            nextSecond += 1000;
+            frameInLastSecond = framesInCurrentSecond;
+            framesInCurrentSecond = 0;
+        }
+        framesInCurrentSecond++;
+        
         Platform.runLater(new Runnable() {
             @Override
             public void run()
@@ -205,6 +222,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 gameTimeLabel.setFont(Font.font ("Verdana", 20));
                 gameTimeLabel.setFill(Color.WHITE);
                 client.root.getChildren().add(gameTimeLabel);
+                fpsLabel = new Text(25,50,"FPS " + frameInLastSecond);
+                fpsLabel.setFont(Font.font("Verdana", 20));
+                fpsLabel.setFill(Color.WHITE);
+                client.root.getChildren().add(fpsLabel);
             }
         });
     }
