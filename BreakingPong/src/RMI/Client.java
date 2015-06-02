@@ -53,7 +53,7 @@ public class Client extends Application implements RemotePropertyListener {
         stage = primaryStage;
         root = new Group();        
         scene = new Scene(root, heightWindow, widthWindow);
-        stage.sizeToScene();
+        
         gameTime = 0;
         // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
