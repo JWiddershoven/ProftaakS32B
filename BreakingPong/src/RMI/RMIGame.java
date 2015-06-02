@@ -495,7 +495,6 @@ public class RMIGame implements IGame, Runnable {
                                     }
                                 }
                             }
-
                             // Create a ball spawn
                             case "6": {
                                 BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
