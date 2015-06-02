@@ -219,71 +219,54 @@ public class RMIGame implements IGame, Runnable {
 
     private void generatePlayers() {
 
-        Thread t;
-        t = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                boolean p1 = true;
-                boolean p2 = true;
-                boolean p3 = true;
-                boolean p4 = true;
-
-                while (p1 || p2 || p3 || p4) {
-                    if (p1) {
-                        try {
-                            if (userList.get(0) != null) {
-                                player1 = (User) userList.get(0);
-                                System.out.println("Fakakayomama");
-                            }
-                        }
-                        catch (IndexOutOfBoundsException ex) {
-                            cpu1 = new CPU("Bot1", (byte) 1);
-                            cpu1.setMyPaddle(P1Paddle);
-                            p1 = false;
-                            System.out.println("Fakaka you");
-                        }
-                    }
-                    if (p2) {
-                        try {
-                            if (userList.get(1) != null) {
-                                player2 = (User) userList.get(1);
-                            }
-                        }
-                        catch (IndexOutOfBoundsException ex) {
-                            cpu2 = new CPU("Bot2", (byte) 1);
-                            cpu2.setMyPaddle(P2Paddle);
-                            p2 = false;
-                        }
-                    }
-                    if (p3) {
-                        try {
-                            if (userList.get(2) != null) {
-                                player3 = (User) userList.get(2);
-                            }
-                        }
-                        catch (IndexOutOfBoundsException ex) {
-                            cpu3 = new CPU("Bot3", (byte) 1);
-                            cpu3.setMyPaddle(P3Paddle);
-                            p3 = false;
-                        }
-                    }
-                    if (p4) {
-                        try {
-                            if (userList.get(3) != null) {
-                                player4 = (User) userList.get(3);
-                            }
-                        }
-                        catch (IndexOutOfBoundsException ex) {
-                            cpu4 = new CPU("Bot4", (byte) 1);
-                            cpu4.setMyPaddle(P4Paddle);
-                            p4 = false;
-                        }
-                    }
-                }
+        try {
+            if (userList.get(0) != null) {
+                player1 = (User) userList.get(0);
+                System.out.println("Fakakayomama");
             }
-        });
-        t.start();
+        }
+        catch (IndexOutOfBoundsException ex) {
+            cpu1 = new CPU("Bot1", (byte) 1);
+            cpu1.setMyPaddle(P1Paddle);
+
+            System.out.println("PAddle for USER!!!!!!");
+        }
+        try {
+            if (userList.get(1) != null) {
+                player2 = (User) userList.get(1);
+            }
+        }
+        catch (IndexOutOfBoundsException ex) {
+            cpu2 = new CPU("Bot2", (byte) 1);
+            cpu2.setMyPaddle(P2Paddle);
+
+            System.out.println("PAddle for USER!!!!!!");
+        }
+
+        try {
+            if (userList.get(2) != null) {
+                player3 = (User) userList.get(2);
+
+            }
+        }
+        catch (IndexOutOfBoundsException ex) {
+            cpu3 = new CPU("Bot3", (byte) 1);
+            cpu3.setMyPaddle(P3Paddle);
+
+            System.out.println("PAddle for USER!!!!!!");
+        }
+
+        try {
+            if (userList.get(3) != null) {
+                player4 = (User) userList.get(3);
+            }
+        }
+        catch (IndexOutOfBoundsException ex) {
+            cpu4 = new CPU("Bot4", (byte) 1);
+            cpu4.setMyPaddle(P4Paddle);
+
+            System.out.println("PAddle for USER!!!!!!");
+        }
 
     }
 
@@ -465,6 +448,7 @@ public class RMIGame implements IGame, Runnable {
                                     }
 
                                 }
+
                                 else if (playerAmount == 4) {
 
                                     PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
@@ -866,6 +850,7 @@ public class RMIGame implements IGame, Runnable {
                 checkBallExitedPlay(b);
 
             }
+
             catch (Exception ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
