@@ -48,7 +48,7 @@ public class Client extends Application implements RemotePropertyListener {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         root = new Group();
-        scene = new Scene(root, 700, 400);
+        scene = new Scene(root, 819, 848);
         gameTime = 0;
         // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
