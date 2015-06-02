@@ -105,7 +105,6 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        System.out.println("kut");
         //Draw all blocks from server
         if (evt.getPropertyName().equals("getBlocks")) {
             client.blockList = new ArrayList<>();
@@ -135,10 +134,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         }
         // Get the gametime from server
         if (evt.getPropertyName().equals("getTime")) {
-            client.gameTime = (int) evt.getNewValue();
-            System.out.println(client.gameTime);
+            client.gameTimeLabel.setText((String) evt.getNewValue());
         }
-
         drawGame();
     }
 

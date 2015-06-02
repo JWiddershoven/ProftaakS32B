@@ -22,6 +22,7 @@ import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -42,7 +43,7 @@ public class Client extends Application implements RemotePropertyListener {
     public ArrayList<Block> blockList;
     public ArrayList<Ball> ballList;
     public ArrayList<Paddle> paddleList;
-    
+    public Label gameTimeLabel;
     public String Name;
     private int heightWindow = 819;
     private int widthWindow = 848;
@@ -66,6 +67,8 @@ public class Client extends Application implements RemotePropertyListener {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
+        gameTimeLabel = new Label("GameTime");
+        root.getChildren().add(gameTimeLabel);
         primaryStage.setScene(scene);
         primaryStage.show();
         // If client closes window disconnect from server
