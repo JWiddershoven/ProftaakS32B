@@ -204,8 +204,8 @@ public class RMIGame implements IGame, Runnable {
         this.paddleList = new ArrayList<>();
         this.changedObjectsList = new ArrayList<>();
         this.removedObjectsList = new ArrayList<>();
-        //this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
-        this.windowSize = new TVector2(819, 848);
+        this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
+
     }
 
     public ArrayList<IUser> getUserList() {
