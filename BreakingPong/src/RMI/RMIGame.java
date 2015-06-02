@@ -240,7 +240,8 @@ public class RMIGame implements IGame, Runnable {
                             cpu1 = new CPU("Bot1", (byte) 1);
                             cpu1.setMyPaddle(P1Paddle);
                             p1 = false;
-                            System.out.println("Fakaka you");
+                           
+                            System.out.println("PAddle for USER!!!!!!");
                         }
                     }
                     if (p2) {
@@ -252,6 +253,7 @@ public class RMIGame implements IGame, Runnable {
                             cpu2 = new CPU("Bot2", (byte) 1);
                             cpu2.setMyPaddle(P2Paddle);
                             p2 = false;
+                            System.out.println("PAddle for USER!!!!!!");
                         }
                     }
                     if (p3) {
@@ -263,6 +265,7 @@ public class RMIGame implements IGame, Runnable {
                             cpu3 = new CPU("Bot3", (byte) 1);
                             cpu3.setMyPaddle(P3Paddle);
                             p3 = false;
+                            System.out.println("PAddle for USER!!!!!!");
                         }
                     }
                     if (p4) {
@@ -274,6 +277,7 @@ public class RMIGame implements IGame, Runnable {
                             cpu4 = new CPU("Bot4", (byte) 1);
                             cpu4.setMyPaddle(P4Paddle);
                             p4 = false;
+                            System.out.println("PAddle for USER!!!!!!");
                         }
                     }
                 }
