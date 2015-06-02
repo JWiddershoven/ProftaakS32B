@@ -5,11 +5,19 @@
  */
 package Client;
 
+import Interfaces.ILobby;
+import Server.Lobby;
+import Shared.Session;
 import Shared.User;
+import java.rmi.RemoteException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 /**
@@ -19,18 +27,34 @@ import javafx.stage.Stage;
 public class ClientGUI extends Application {
 
     public static Stage mainStage;
-    public static User loggedinUser;
+   /// public static String loggedinUser;
+    public static ILobby joinedLobby;
+    private RMIClientController controller;
+    public static Session CurrentSession;
     
+    @FXML     
+       Label labelLevel;
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LoginGUi.fxml"));
         Scene scene = new Scene(root);
+        
+        try {
+            this.controller = new RMIClientController(this);
+        } catch (RemoteException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         mainStage = primaryStage;
         mainStage.setTitle("Breaking Pong");
         mainStage.setScene(scene);
         mainStage.show();
         
+    }
+    
+    public void setLabel(String s)
+    {
+        labelLevel.setText(s);
     }
 
     /**

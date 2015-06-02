@@ -6,11 +6,22 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Helpers.DatabaseHelper;
+import Interfaces.IClientSecurity;
+import Interfaces.IJoin;
+import RMI.RMIJoin;
+import RMI.ServerRMI;
 import Server.Administration;
+import Shared.SecurityRMI;
+import java.awt.EventQueue;
 import java.awt.TrayIcon;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -59,7 +70,13 @@ public class LoginGUiFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        administration = Administration.getInstance();
+        try
+        {
+            administration = Administration.getInstance();
+        } catch (RemoteException ex)
+        {
+            Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
@@ -112,39 +129,52 @@ public class LoginGUiFXController implements Initializable
 
         } else
         {
+
             try
             {
-                ClientGUI.loggedinUser = administration.login(username, password);
+                //LoggedinUser ingelogd = DatabaseHelper.loginUser(username, password);
 
-                System.out.println("succesfully logged in.");
+                IClientSecurity ics = new SecurityRMI();
+                ClientGUI.CurrentSession = ics.login(username, password);
+                //ClientGUI.loggedinUser = administration.login(username, password);
+                //serverRMI.loggedInUsers.add(ClientGUI.loggedinUser);
+                if (ClientGUI.CurrentSession != null)
+                {
+
+                    System.out.println("succesfully logged in.");
 
                 // succesvol ingelogd.
-                // TODO: Open LobbySelect.fxml
-                Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
-                Scene scene = new Scene(root);
-                mainStage.setScene(scene);
-                mainStage.show();
-                clearLogin();
+                    // TODO: Open LobbySelect.fxml
+                    Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
+                    Scene scene = new Scene(root);
+                    mainStage.setScene(scene);
+                    mainStage.show();
 
-            } catch (IllegalArgumentException ex)
-            {
-                JOptionPane.showMessageDialog(null, ex.getMessage(),
-                        "Fields cannot be empty", TrayIcon.MessageType.WARNING.ordinal());
-            } catch (Server.Administration.IncorrectLoginDataException ex)
-            {
-                if (ex.getMessage().isEmpty())
-                {
-                    JOptionPane.showMessageDialog(null, "Username and password combination is incorrect",
-                            "Login failed", TrayIcon.MessageType.WARNING.ordinal());
                 } else
                 {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(),
-                            "Login failed", TrayIcon.MessageType.WARNING.ordinal());
+                    EventQueue.invokeLater(() ->
+                    {
+                        JOptionPane.showMessageDialog(null, "Incorrect login info!",
+                                "Incorrect login info!", TrayIcon.MessageType.WARNING.ordinal());
+                    });
+
                 }
+                clearLogin();
+            } catch (IllegalArgumentException ex)
+            {
+                EventQueue.invokeLater(() ->
+                {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(),
+                            "Fields cannot be empty", TrayIcon.MessageType.WARNING.ordinal());
+                });
+
             } catch (IOException ex)
             {
-                JOptionPane.showMessageDialog(null, ex.getMessage(),
-                        "Unexpected error in Login()", TrayIcon.MessageType.ERROR.ordinal());
+                EventQueue.invokeLater(() ->
+                {
+                    JOptionPane.showMessageDialog(null, ex.getMessage(),
+                            "Unexpected error in Login()", TrayIcon.MessageType.ERROR.ordinal());
+                });
             }
         }
 
@@ -158,70 +188,99 @@ public class LoginGUiFXController implements Initializable
     @FXML
     private void onCreateUserCreate(ActionEvent evt)
     {
-        String message = createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfLoginPassword.getText(),
-                tfCreateUserReEnterPassword.getText());
-        if (!message.isEmpty())
+        String message = null;
+        try
         {
-            JOptionPane.showMessageDialog(null, message,
-                    "Create user failed", TrayIcon.MessageType.WARNING.ordinal());
+            if (tfCreateUserPassword.getText().equals(tfCreateUserReEnterPassword.getText()))
+            {
+                message = administration.getServer().createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfCreateUserPassword.getText());
+            } else
+            {
+                message = "Passwords do not match or are both empty.";
+            }
+        } catch (RemoteException ex)
+        {
+            Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        final String messageForDialog = message;
+
+        if (messageForDialog != null && !messageForDialog.isEmpty())
+        {
+            EventQueue.invokeLater(() ->
+            {
+                JOptionPane.showMessageDialog(null, messageForDialog);
+            });
+
         } else
         {
-            JOptionPane.showMessageDialog(null, "Account created!",
-                    "Account created!", TrayIcon.MessageType.WARNING.ordinal());
+            clearCreateUser();
+            EventQueue.invokeLater(() ->
+            {
+                JOptionPane.showMessageDialog(null, "Gebruiker toegevoegd!");
+
+            });
         }
     }
 
     /**
-     * Validates input fields and creates the user account if all fields are valid.
+     * Validates input fields and creates the user account if all fields are
+     * valid.
+     *
      * @param username
      * @param email
      * @param password
      * @param repassword
      * @return Error message or empty string if account is created.
      */
-    private String createUser(String username, String email, String password, String repassword)
-    {
-        if (username == null || username.trim().isEmpty())
-        {
-            return "Username cannot be empty.";
-        }
-        if (password == null || password.isEmpty())
-        {
-            return "Password cannot be empty.";
-        }
-        if (email == null || email.trim().isEmpty())
-        {
-            return "Email address cannot be empty.";
-        }
-        if (!(email.contains("@") && email.contains(".")))
-        {
-            return "Email address is not of correct format.";
-        }
-        if (username.length() < 6)
-        {
-            return "Username must be at least 6 characters";
-        }
-        if (password.length() < 6)
-        {
-            return "Password must be at least 6 characters";
-        }
-        try
-        {
-            Shared.User newUser = new Shared.User(username, password, email, Administration.getInstance().getServer());
-            Administration.getInstance().getServer().addUser(newUser);
-        } catch (Exception ex)
-        {
-            return ex.getMessage();
-        }
-        return "";
-    }
-
+//    private String createUser(String username, String email, String password, String repassword) throws RemoteException {
+//        if (username == null || username.trim().isEmpty()) {
+//            return "Username cannot be empty.";
+//        }
+//        if (password == null || password.isEmpty()) {
+//            return "Password cannot be empty.";
+//        }
+//        if (email == null || email.trim().isEmpty()) {
+//            return "Email address cannot be empty.";
+//        }
+//        if (!(email.contains("@") && email.contains("."))) {
+//            return "Email address is not of correct format.";
+//        }
+//        if (username.length() < 6) {
+//            return "Username must be at least 6 characters";
+//        }
+//        if (password.length() < 6) {
+//            return "Password must be at least 6 characters";
+//        }
+//        if (repassword == null || repassword.isEmpty()) {
+//            return "Re-password cannot be empty";
+//        }
+//        if (!password.equals(repassword)) {
+//            return "Passwords must match";
+//        }
+//
+//        try {
+//            boolean dbActionWorked = DatabaseHelper.registerUser(username, password, email);
+//            System.out.println("DBworked = " + dbActionWorked);
+//
+//            Shared.User newUser = new Shared.User(username, password, email, Administration.getInstance().getServer());
+//            Administration.getInstance().getServer().addUser(newUser);
+//        } catch (SQLException ex) {
+//            return "Username is already taken";
+//        }
+//        return "";
+//    }
     /**
      *
      * @param evt
      */
     @FXML
     private void onCreateUserClear(ActionEvent evt)
+    {
+        clearCreateUser();
+    }
+
+    private void clearCreateUser()
     {
         tfCreateUserEmail.clear();
         tfCreateUserPassword.clear();

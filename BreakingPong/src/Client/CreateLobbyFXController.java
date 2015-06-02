@@ -6,14 +6,19 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Interfaces.ILobby;
+import RMI.ServerRMI;
 import Server.Administration;
+import Server.Lobby;
 import Shared.Map;
 import java.awt.HeadlessException;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -86,8 +91,14 @@ public class CreateLobbyFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        try
+        {
         administration = Administration.getInstance();
-
+        }
+        catch(RemoteException ex)
+        {
+            
+        }
         fillComboboxes();
     }
 
@@ -102,10 +113,9 @@ public class CreateLobbyFXController implements Initializable
 //            timeStamps.add(Integer.toString(ts.getHours()) + ":" + Integer.toString(ts.getMinutes()) + ":" + Integer.toString(ts.getSeconds()));
 //        }
 //       
-
         cbGametimes.setItems(administration.getDatabase().getTimesstampString());
         cbGametimes.getSelectionModel().select(0);
-        cbMappen.setItems(administration.getServer().getMappenObservableList());
+        //cbMappen.setItems(administration.getServer().getMappenObservableList());
         cbMappen.getSelectionModel().select(0);
 
     }
@@ -119,7 +129,6 @@ public class CreateLobbyFXController implements Initializable
             String errorMessage = createLobby();
             if (errorMessage.isEmpty())
             {
-
                 Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
@@ -133,7 +142,7 @@ public class CreateLobbyFXController implements Initializable
         }
         catch (IOException | HeadlessException ex)
         {
-
+            Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -150,14 +159,15 @@ public class CreateLobbyFXController implements Initializable
         {
             return "Lobby name cannot be empty";
         }
-        Map map = (Map) cbMappen.getSelectionModel().getSelectedItem();
-        if (map == null)
-        {
-            return "Please select a Map";
-        }
+        //Tijdelijk uitgezet totdat er een lijst met maps is.
+//        Map map = (Map) cbMappen.getSelectionModel().getSelectedItem();
+//        if (map == null)
+//        {
+//            return "Please select a Map";
+//        }
         Timestamp gameDuration = new Timestamp(0, 0, 0, 0, 5, 0, 0);
         // TODO: GET INTEGER FROM USERINTERFACE
-                //Integer.getInteger((String) cbGametimes.getSelectionModel().getSelectedItem()),
+        //Integer.getInteger((String) cbGametimes.getSelectionModel().getSelectedItem()),
         //0, 0);
         if (gameDuration == null)
         {
@@ -176,15 +186,19 @@ public class CreateLobbyFXController implements Initializable
 
         try
         {
-            if (ClientGUI.loggedinUser == null)
+            if (ClientGUI.CurrentSession == null)
             {
                 throw new Exception("Dit zou niet mogen gebeuren!");
             }
-            administration.getServer().CreateLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser, maxPlayers, administration.getServer());
+            //boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
+            ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
+            //newLobby.joinLobby(ClientGUI.loggedinUser);
+            //ClientGUI.joinedLobby = newLobby;
             return "";
         }
         catch (Exception ex)
         {
+            Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             return ex.getMessage();
         }
     }
@@ -202,7 +216,8 @@ public class CreateLobbyFXController implements Initializable
         }
         catch (Exception ex)
         {
-
+            JOptionPane.showConfirmDialog(null, ex.getMessage(), "Cancel game error",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }
     }
 

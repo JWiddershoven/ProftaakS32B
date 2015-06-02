@@ -6,23 +6,21 @@
 package Shared;
 
 import Server.CollisionChecker;
-import java.awt.Color;
+import Shared.Paddle.WindowLocation;
+import java.awt.Image;
 import java.util.ArrayList;
-import java.util.Date;
-import javafx.application.Platform;
 import javax.swing.Timer;
 
 /**
  * @author Jelle
  */
-public class Ball extends GameObject
-{
+public class Ball extends GameObject {
 
-    private final Game game;
     private Paddle lastPaddleTouched;
+    public TVector2 spawnPos;
     Timer timer;
     public static final float maxSpeed = 1.5f;
-    private Date lastTimePaddleTouched;
+    private long lastTimePaddleTouched;
 
     /**
      * Creates a new ball object with a TVector2 and lastPaddleTouched.
@@ -31,19 +29,15 @@ public class Ball extends GameObject
      * @param position The position of a GameObject.
      * @param velocity The velocity of a GameObject.
      * @param size The size of a GameObject.
-     * @param game The game of where this ball is in.
-     * @param color JAVA AWT
+     * @param image
      */
-    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Game game, Color color)
-    {
-        super(position, velocity, size, color);
-        this.game = game;
-        if (position != null && velocity != null && size != null)
-        {
+    public Ball(Paddle lastPaddleTouched, TVector2 position, TVector2 velocity, TVector2 size, Image image) {
+        super(position, velocity, size, image);
+        this.spawnPos = position;
+        if (position != null && velocity != null && size != null) {
             this.lastPaddleTouched = lastPaddleTouched;
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException();
         }
     }
@@ -51,22 +45,18 @@ public class Ball extends GameObject
     /**
      * @return The last paddle which touched the ball.
      */
-    public Paddle getLastPaddleTouched()
-    {
+    public Paddle getLastPaddleTouched() {
         return this.lastPaddleTouched;
     }
 
     /**
      * @param lastPaddleTouched The last Paddle which touched the ball.
      */
-    public void setLastPaddleTouched(Paddle lastPaddleTouched)
-    {
-        if (lastPaddleTouched != null)
-        {
+    public void setLastPaddleTouched(Paddle lastPaddleTouched) {
+        if (lastPaddleTouched != null) {
             this.lastPaddleTouched = lastPaddleTouched;
         }
-        else
-        {
+        else {
             throw new IllegalArgumentException();
         }
     }
@@ -74,33 +64,74 @@ public class Ball extends GameObject
     /**
      * updates the position of the ball
      */
-    public void update()
-    {
+    public ArrayList<GameObject> update() {
         ArrayList<GameObject> collidedWith = new ArrayList<>();
+        ArrayList<GameObject> returnList = new ArrayList<>();
         collidedWith.addAll(CollisionChecker.collidesWithMultiple(this));
         boolean hasBounced = false;
         // If ball collides with something that is not a WhiteSpace.
-        for (GameObject go : collidedWith)
-        {
-            if (go != null && !go.getClass().equals(WhiteSpace.class))
-            {
+        for (GameObject go : collidedWith) {
+            if (go != null && !go.getClass().equals(WhiteSpace.class)) {
                 //System.out.println("Collided" + go.toString());
-                if (hasBounced == false)
-                {
+                if (hasBounced == false) {
                     bounce(go);
                     hasBounced = true;
                 }
-                if (go.getClass().equals(Block.class))
-                {
+                if (go.getClass().equals(Block.class)) {
                     Block b = (Block) go;
-                    if (lastPaddleTouched != null)
-                    {
-                        lastPaddleTouched.addScore(b.getPoints());
-                    }
+                    // CHECK UNSTRCUTBALE
                     if (b.isDestructable())
-                    {
-                        game.objectList.remove(go);
-                        CollisionChecker.gameObjectsList.remove(go);
+                        returnList.add(b);
+                    if (lastPaddleTouched != null) {
+                        if (b.getPowerUp() != null) {
+                            switch (b.getPowerUp().getType()) {
+                                case IncreasePaddleSize: {
+                                    if (lastPaddleTouched.getWindowLocation() == WindowLocation.NORTH || lastPaddleTouched.getWindowLocation() == WindowLocation.SOUTH) {
+                                        TVector2 newSize = new TVector2(150f, 20f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break;
+                                    }
+                                    else {
+                                        TVector2 newSize = new TVector2(20f, 150f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break;
+                                    }
+                                }
+                                case DecreasePaddleSize: {
+                                    if (lastPaddleTouched.getWindowLocation() == WindowLocation.NORTH || lastPaddleTouched.getWindowLocation() == WindowLocation.SOUTH) {
+                                        TVector2 newSize = new TVector2(75f, 20f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break;
+                                    }
+                                    else {
+                                        TVector2 newSize = new TVector2(20f, 75f);
+                                        lastPaddleTouched.setSize(newSize);
+                                        break;
+                                    }
+                                }
+                                case IncreaseBallSize: {
+                                    TVector2 newSize = new TVector2(30f, 30f);
+                                    this.setSize(newSize);
+                                    break;
+                                }
+                                case DecreaseBallSize: {
+                                    TVector2 newSize = new TVector2(7.5f, 7.5f);
+                                    this.setSize(newSize);
+                                    break;
+                                }
+                                case IncreaseBallSpeed: {
+                                    TVector2 newSpeed = new TVector2(1.5f, 1.5f);
+                                    this.setVelocity(newSpeed);
+                                    break;
+                                }
+                                case DecreaseBallSpeed: {
+                                    TVector2 newSpeed = new TVector2(0.5f, 0.5f);
+                                    this.setVelocity(newSpeed);
+                                    break;
+                                }
+                            }
+                        }
+                        lastPaddleTouched.addScore(b.getPoints());
                     }
                 }
             }
@@ -110,69 +141,133 @@ public class Ball extends GameObject
         // Increments x/y coordinates with (positive or negative) movement.
         // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
 
-        Platform.runLater(() ->
-        {
-            this.setPosition(newPos);
-        });
+        /// Platform.runLater(() -> {
+        this.setPosition(newPos);
 
+        //});
+//        //Check if the ball is out of the screen bounds
+        
+        // DIT GEBEURD AL IN GAME.java checkBallExited?
+        
+//        if (this.getMiddlePosition().getX() < 0 || this.getMiddlePosition().getY() < 0
+//                || this.getMiddlePosition().getX() > game.getGameSize().getX()
+//                || this.getMiddlePosition().getY() > game.getGameSize().getY()) {
+//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
+//                Paddle p = game.getPaddles().get(i);
+//                if (p.isEnabled() == false) {
+//                    p.setEnabled(false);
+//                    System.out.println("Paddle disabled");
+//                }
+//            }
+//        }
+
+//        if (this.getPosition().getX() < 0) {
+//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
+//                Paddle p = game.getPaddles().get(i);
+//                if (p.getWindowLocation() == WindowLocation.WEST) {
+//                    if (p.getCPU() != null) {
+//                        game.removeBot(p.getCPU().getName());
+//                    }
+//                    else {
+//                        game.removePlayer(p.getPlayer().getUsername());
+//                    }
+//                    game.removePaddle(p);
+//                    System.out.println("Paddle removed");
+//                }
+//            }
+//        }
+//        else if (this.getPosition().getX() > game.getSize().getWidth()) {
+//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
+//                Paddle p = game.getPaddles().get(i);
+//                if (p.getWindowLocation() == WindowLocation.EAST) {
+//                    if (p.getCPU() != null) {
+//                        game.removeBot(p.getCPU().getName());
+//                    }
+//                    else {
+//                        game.removePlayer(p.getPlayer().getUsername());
+//                    }
+//                    game.removeObject(p);
+//                    System.out.println("Paddle removed");
+//                }
+//            }
+//        }
+//        else if (this.getPosition().getY() < 0) {
+//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
+//                Paddle p = game.getPaddles().get(i);
+//                if (p.getWindowLocation() == WindowLocation.NORTH) {
+//                    if (p.getCPU() != null) {
+//                        game.removeBot(p.getCPU().getName());
+//                    }
+//                    else {
+//                        game.removePlayer(p.getPlayer().getUsername());
+//                    }
+//                    game.removeObject(p);
+//                    game.removePaddle(p);
+//                    System.out.println("Paddle removed");
+//                }
+//            }
+//        }
+//        else if (this.getPosition().getY() > this.game.getSize().getHeight()) {
+//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
+//                Paddle p = game.getPaddles().get(i - 1);
+//                if (p.getWindowLocation() == WindowLocation.SOUTH) {
+//                    if (p.getCPU() != null) {
+//                        game.removeBot(p.getCPU().getName());
+//                    }
+//                    else {
+//                        game.removePlayer(p.getPlayer().getUsername());
+//                    }
+//                    game.removeObject(p);
+//                    game.removePaddle(p);
+//                    System.out.println("Paddle removed");
+//                }
+//            }
+//        }
+        return returnList;
     }
 
     /**
      *
      * @param go
      */
-    public void bounce(GameObject go)
-    {
-        if (go instanceof Paddle)
-        {
-            Paddle p = (Paddle) go;
-            lastPaddleTouched = p;
-            boolean difference = true;
-            Date now = new Date();
-            if (lastTimePaddleTouched != null)
-            {
-                if (now.getSeconds() == lastTimePaddleTouched.getSeconds())
-                {
-                    System.out.println("Too many collisions with paddle");
-                    difference = false;
-                }
-            }
-            if (difference == true)
-            {
-                lastTimePaddleTouched = new Date();
-                if (bouncePaddle(p) == true)
-                {
-                    return;
-                }
-            }
-
-        }
+    public void bounce(GameObject go) {
         TVector2 position = this.getPosition();
-        TVector2 goPos = go.getPosition();
+        TVector2 goPos = go.getMiddlePosition();
         float f1, f2;
-        TVector2 vel = this.getVelocity();
-        if (position.getY() > goPos.getY())
-        {
-            f1 = goPos.getY() - position.getY();
+        TVector2 vel = new TVector2(this.getVelocity().getX(), this.getVelocity().getY());
+
+        if (go instanceof Paddle) {
+            Paddle p = (Paddle) go;
+            if (p.isEnabled()) {
+                this.lastPaddleTouched = p;
+                if (p.getWindowLocation() == Paddle.WindowLocation.NORTH || p.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
+                    vel.setY(bounceFloat(vel.getY()));
+                }
+                if (p.getWindowLocation() == Paddle.WindowLocation.WEST || p.getWindowLocation() == Paddle.WindowLocation.EAST) {
+                    vel.setX(bounceFloat(vel.getX()));
+                }
+                this.setVelocity(vel);
+            }
+            return;
         }
-        else
-        {
-            f1 = position.getY() - goPos.getY();
+
+        //Hit was on right
+        if (getMiddlePosition().getY() > goPos.getY()) {
+            f1 = goPos.getY() - getMiddlePosition().getY();
         }
-        if (position.getX() > goPos.getX())
-        {
-            f2 = goPos.getX() - position.getX();
+        else {
+            f1 = getMiddlePosition().getY() - goPos.getY();
         }
-        else
-        {
-            f2 = position.getX() - goPos.getX();
+        if (getMiddlePosition().getX() > goPos.getX()) {
+            f2 = goPos.getX() - getMiddlePosition().getX();
         }
-        if (f1 < f2)
-        {
+        else {
+            f2 = getMiddlePosition().getX() - goPos.getX();
+        }
+        if (f1 < f2) {
             vel.setY(bounceFloat(this.getVelocity().getY()));
         }
-        else
-        {
+        else {
             vel.setX(bounceFloat(this.getVelocity().getX()));
         }
 
@@ -182,85 +277,10 @@ public class Ball extends GameObject
 
     /**
      *
-     * @param p
-     * @return FALSE if nothing changed.
-     */
-    private boolean bouncePaddle(Paddle p)
-    {
-        if (p.getWindowLocation() == Paddle.windowLocation.NORTH || p.getWindowLocation() == Paddle.windowLocation.SOUTH)
-        {
-            float x, y;
-            float distance = 0.0f;
-            boolean left = false;
-            boolean right = false;
-            if (this.getMiddlePosition().getX() > p.getMiddlePosition().getX())
-            {
-                distance = this.getMiddlePosition().getX() - p.getMiddlePosition().getX();
-                right = true;
-            }
-            else if (this.getMiddlePosition().getX() < p.getMiddlePosition().getX())
-            {
-                distance = p.getMiddlePosition().getX() - this.getMiddlePosition().getX();
-                left = true;
-            }
-            if (right == true)
-            {
-                x = this.getVelocity().getX() + (distance / (maxSpeed * 25));
-            }
-            else if (left == true)
-            {
-                x = this.getVelocity().getX() - (distance / (maxSpeed * 25));
-            }
-            else
-            {
-                return false;
-            }
-            if (x > (maxSpeed - 0.2f))
-            {
-                x = maxSpeed - 0.2f;
-            }
-            if (x < (-maxSpeed + 0.2f))
-            {
-                x = -maxSpeed + 0.2f;
-            }
-            if (x < 0)
-            {
-                y = maxSpeed - (x * -1);
-            }
-            else
-            {
-                y = maxSpeed - x;
-            }
-
-            if (this.getVelocity().getY() > 0)
-            {
-                y = -y;
-            }
-            else if (y < 0)
-            {
-                y *= -1;
-            }
-
-            System.out.println("old vel: " + this.getVelocity().toString());
-            this.setVelocity(new TVector2(x, y));
-            System.out.println("new vel: " + this.getVelocity().toString());
-        }
-        else
-        {
-            // TODO:
-
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     *
      * @param x
      * @return
      */
-    public float bounceFloat(float x)
-    {
+    public float bounceFloat(float x) {
         x *= -1;
         return x;
     }

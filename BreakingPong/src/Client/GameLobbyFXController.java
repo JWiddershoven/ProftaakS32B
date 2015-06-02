@@ -5,12 +5,20 @@
  */
 package Client;
 
+import static Client.ClientGUI.mainStage;
 import Server.Administration;
-import Shared.Game;
+import Server.Game;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -35,6 +43,8 @@ public class GameLobbyFXController implements Initializable
     Button btnLeaveGame;
     @FXML
     Button btnSendChat;
+    @FXML
+    Button btnKickPlayer;
 
     // ListViews
     @FXML
@@ -63,19 +73,55 @@ public class GameLobbyFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        administration = Administration.getInstance();
+        try
+        {
+            administration = Administration.getInstance();
+        } catch (RemoteException ex)
+        {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        loadUserInterface();
+    }
+
+    private void loadUserInterface()
+    {
+        fillListViews();
+    }
+
+    private void fillListViews()
+    {
+        try
+        {
+            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
+        } catch (RemoteException ex)
+        {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
     @FXML
     private void onStartGameClick()
     {
-
-        Game game = new Game(1, 300, true);
         try
         {
-            game.setupGame();
-        } catch (Exception ex)
+            if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
+            {
+                JOptionPane.showConfirmDialog(null, "Error when starting game: Only the host can start the game.", "Error starting game",
+                        JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            }
+       // GameClient game = new GameClient(1, 300, true, ClientGUI.joinedLobby.getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID()));
+//            Thread gameLoopThread = game.setupGame();
+//            if (gameLoopThread != null)
+//            {
+//                gameLoopThread.start();
+//            }
+        } catch (RemoteException ex)
+        {
+             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+         catch (Exception ex)
         {
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -93,15 +139,31 @@ public class GameLobbyFXController implements Initializable
     }
 
     @FXML
-    private void onLeaveGameClick()
+    private void onLeaveGameClick() throws Exception
     {
-
+        if (ClientGUI.joinedLobby == null)
+        {
+            throw new Exception("Wat heb ik gedaan? joinedLobby mag niet null zijn");
+        }
+        try
+        {
+            ClientGUI.joinedLobby.leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
+        } catch (Exception ex)
+        {
+            JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        }
+        Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
+        Scene scene = new Scene(root);
+        mainStage.setScene(scene);
+        mainStage.show();
     }
 
     @FXML
     private void onSendChatClick()
     {
-
+        System.out.println("Sent chat");
+        // TODO: Fix
     }
 
     @FXML
@@ -126,6 +188,47 @@ public class GameLobbyFXController implements Initializable
     private void onEditDeleteClick()
     {
         System.out.println("deleted");
+    }
+
+    @FXML
+    private void onKickPlayerClick() throws RemoteException, Exception
+    {
+        boolean result = false;
+
+        if (lvPlayersInGame.getSelectionModel().getSelectedItem().toString() == null)
+        {
+            JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
+        {
+            JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
+        
+        if (ClientGUI.joinedLobby == null)
+        {
+            throw new Exception("Lobby kan niet null zijn!");
+        }
+
+        try
+        {
+            result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString(), ClientGUI.joinedLobby.getLobbyID());
+        } catch (IllegalArgumentException exc)
+        {
+
+        }
+
+        if (result)
+        {
+            JOptionPane.showConfirmDialog(null, "Succes: The user has been kicked from the lobby.", "Success",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        } else
+        {
+            JOptionPane.showConfirmDialog(null, "Error: Something went wrong, unable to kick user.\nTry again.", "Error",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }
 
 // </editor-fold>

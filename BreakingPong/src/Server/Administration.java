@@ -5,8 +5,15 @@
  */
 package Server;
 
+import Helpers.DatabaseHelper;
+import Helpers.LoggedinUser;
+import RMI.RMIGame;
+import RMI.ServerRMI;
 import Shared.User;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,9 +26,11 @@ public class Administration {
     /**
      * The administration constructor. Here will the server, database and user
      * list be created.
+     *
+     * @throws java.rmi.RemoteException
      */
-    protected Administration() {
-        this.server = new Server();
+    public Administration() throws RemoteException {
+        this.server = new ServerRMI(new RMIGame(1,1,false));
         this.database = new Database();
         this.users = new ArrayList<>();
     }
@@ -30,8 +39,9 @@ public class Administration {
      * The singleton for administration
      *
      * @return the administration
+     * @throws java.rmi.RemoteException
      */
-    public static Administration getInstance() {
+    public static Administration getInstance() throws RemoteException {
         if (instance == null) {
             instance = new Administration();
         }
@@ -45,20 +55,23 @@ public class Administration {
      */
     public class IncorrectLoginDataException extends Exception {
 
-        //Constructor that accepts a message
+        /**
+         * Custom exception for incorrect Login data
+         *
+         * @param message
+         */
         public IncorrectLoginDataException(String message) {
             super(message);
         }
     }
 
-    private final Server server;
+    private final ServerRMI server;
 
-    public Server getServer() {
+    public ServerRMI getServer() {
         return server;
     }
 
     private final Database database;
-
 
     public Database getDatabase() {
         return database;
@@ -84,25 +97,36 @@ public class Administration {
             throw new IllegalArgumentException("Password cannot be null or empty!");
         }
 
-        // login gegevens voor eerste iteratie
-        String checkUsername = "username";
-        String checkPassword = "password";
-
-        if (userName.contentEquals(checkUsername) && password.contentEquals(checkPassword)) {
-
-            User user = new User(userName, password, "test@test.nl", getServer());
+        if (userName.equals("username") && password.equals("password")) {
+            User user = new User(userName, password, "test@test.nl");
             users.add(user);
-            server.addUser(user);
+            try {
+                server.login(userName, password);
+            } catch (RemoteException ex) {
+                Logger.getLogger(Administration.class.getName()).log(Level.SEVERE, null, ex);
+            }
             return user;
-
         } else {
-            throw new IncorrectLoginDataException("Username and password combination is incorrect.");
+            LoggedinUser lUser = DatabaseHelper.loginUser(userName, password);
+
+            if (lUser.getLoggedIn()) {
+
+                User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail());
+                Double rating = lUser.getRating();
+                user.setRating(rating.intValue());
+                users.add(user);
+                try {
+                    server.login(user.getUsername(), user.getPassword());
+                } catch (RemoteException ex) {
+                    Logger.getLogger(Administration.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return user;
+
+            } else {
+                throw new IncorrectLoginDataException("Username and password combination is incorrect.");
+            }
         }
 
-        //Check in the database if the user exists
-        //check the username with the password
-        //Create a User
-        //Add user to users
     }
 
 }
