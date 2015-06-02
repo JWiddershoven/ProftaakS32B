@@ -19,6 +19,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -27,6 +28,8 @@ import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -39,6 +42,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private Client client;
     private long timeOut;
     private Registry reg;
+    private String newGameTime;
+    private Text gameTimeLabel;
 
     public ClientRMI(Client client) throws RemoteException {
         this.client = client;
@@ -109,18 +114,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         if (evt.getPropertyName().equals("getBlocks")) {
             client.blockList = new ArrayList<>();
             client.blockList = (ArrayList<Block>) evt.getNewValue();
-            System.out.println(client.blockList.size());
-//            for (Block block : client.blockList) {
-//                Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run()
-//                    {
-//                        client.root.getChildren().clear();
-//                        client.root.getChildren().add(r);
-//                    }
-//                });
-//            }
+            System.out.println(client.blockList.size() + new Date().toString());
         }
         //Draw all balls from server
         if (evt.getPropertyName().equals("getBalls")) {
@@ -134,7 +128,13 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         }
         // Get the gametime from server
         if (evt.getPropertyName().equals("getTime")) {
-            client.gameTimeLabel.setText((String) evt.getNewValue());
+            Platform.runLater(new Runnable() {
+            @Override
+            public void run()
+            {
+                newGameTime = evt.getNewValue().toString();
+            }
+        });
         }
         drawGame();
     }
@@ -178,7 +178,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             for (Block block : client.blockList) {
                 Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
                 r.setStroke(Color.BLACK);
-                if (block.isDestructable() == true) {
+                if (block.isDestructable() == false) {
                     r.setFill(Color.DARKGRAY);
                 }
                 else {
@@ -197,5 +197,15 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 });
             }
         }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run()
+            {
+                gameTimeLabel = new Text(25,25,"Time Left: " + newGameTime);
+                gameTimeLabel.setFont(Font.font ("Verdana", 20));
+                gameTimeLabel.setFill(Color.WHITE);
+                client.root.getChildren().add(gameTimeLabel);
+            }
+        });
     }
 }

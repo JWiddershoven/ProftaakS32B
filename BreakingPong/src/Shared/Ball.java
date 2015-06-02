@@ -64,8 +64,9 @@ public class Ball extends GameObject {
     /**
      * updates the position of the ball
      */
-    public void update() {
+    public ArrayList<GameObject> update() {
         ArrayList<GameObject> collidedWith = new ArrayList<>();
+        ArrayList<GameObject> returnList = new ArrayList<>();
         collidedWith.addAll(CollisionChecker.collidesWithMultiple(this));
         boolean hasBounced = false;
         // If ball collides with something that is not a WhiteSpace.
@@ -78,6 +79,9 @@ public class Ball extends GameObject {
                 }
                 if (go.getClass().equals(Block.class)) {
                     Block b = (Block) go;
+                    // CHECK UNSTRCUTBALE
+                    if (b.isDestructable())
+                        returnList.add(b);
                     if (lastPaddleTouched != null) {
                         if (b.getPowerUp() != null) {
                             switch (b.getPowerUp().getType()) {
@@ -219,6 +223,7 @@ public class Ball extends GameObject {
 //                }
 //            }
 //        }
+        return returnList;
     }
 
     /**
