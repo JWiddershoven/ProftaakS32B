@@ -48,15 +48,16 @@ public class Server extends Application
         System.out.println("Waiting for 4 players to join the game");
 
         game = new RMIGame(1, 300, true);
-        while (game.getPlayersInformationInGame(1).isEmpty())
+        
+        /*while (game.getPlayersInformationInGame(1).isEmpty())
         {
             Thread.sleep(1000);
             System.out.println("Waiting for " + Integer.toString(4 - playerAmount) + " players to join the game.");
-        }
+        }*/
 
         System.out.println("Starting Game");
         
-        game.loadMap("C:\\Users\\Lorenzo\\Dropbox\\School\\FONTYS\\Leerjaar 2\\Proftaak\\S32B Proftaak\\Software\\Test4x4.txt");
+        game.loadMap("src/RMI/test4x4.txt");
         game.StartGame();
     }
 

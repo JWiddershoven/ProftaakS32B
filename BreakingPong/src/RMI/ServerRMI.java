@@ -40,7 +40,6 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             "getBlocks", "getBalls", "getPaddles", "getTime", "getScore"
         });
         this.ID = 1;
-        currentGames.add(this); // Geen create game methode ???
         Timer timer = new Timer();
         timer.schedule(new TimerTask()
         {

@@ -219,11 +219,13 @@ public class RMIGame implements IGame, Runnable {
         try {
             if (userList.get(0) != null) {
                 player1 = (User) userList.get(0);
+                System.out.println("Fakakayomama");
             }
         }
         catch (IndexOutOfBoundsException ex) {
             cpu1 = new CPU("Bot1", (byte) 1);
             cpu1.setMyPaddle(P1Paddle);
+            System.out.println("Fakaka you");
         }
 
         try {
@@ -321,7 +323,7 @@ public class RMIGame implements IGame, Runnable {
      * LoadMapMethod
      */
     private void readMap(ArrayList<String> mapLayout) {
-
+        generatePlayers();
         try {
             CollisionChecker.gameObjectsList.clear();
             int SpawnNumber = 0;
@@ -546,7 +548,6 @@ public class RMIGame implements IGame, Runnable {
      */
     public void StartGame()
     {
-        generatePlayers();
         gameTimeInSecondsRemaining = gameTime;
         secondsTimer = new Timer();
         secondsTimer.scheduleAtFixedRate(new TimerTask() {
