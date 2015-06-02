@@ -532,6 +532,14 @@ public class RMIGame implements IGame, Runnable {
             @Override
             public void run() {
                 gameTimeInSecondsRemaining--;
+
+            }
+        }, 0, 1000);
+        Timer updateRMITimer = new Timer();
+        updateRMITimer.scheduleAtFixedRate(new TimerTask() {
+
+            @Override
+            public void run() {
                 if (ServerRMI.publisher != null) {
                     ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
                     ServerRMI.publisher.inform(this, "getBlocks", null, blockList);
@@ -539,7 +547,7 @@ public class RMIGame implements IGame, Runnable {
                     ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 }
             }
-        }, 0, 1000);
+        }, 0, 50);
         inProgress = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
@@ -774,6 +782,7 @@ public class RMIGame implements IGame, Runnable {
             }
         }
         System.out.println("While exited");
+        exitGame();
     }
 
     /**
