@@ -50,8 +50,9 @@ public class Client extends Application implements RemotePropertyListener {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        root = new Group();
+        root = new Group();        
         scene = new Scene(root, heightWindow, widthWindow);
+        stage.sizeToScene();
         gameTime = 0;
         // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
