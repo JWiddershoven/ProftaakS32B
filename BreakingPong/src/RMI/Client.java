@@ -36,13 +36,14 @@ public class Client extends Application implements RemotePropertyListener {
     private Stage stage;
     Group root;
     private Scene scene;
-    private IServer connection;
+    public IServer connection;
     private ClientRMI clientRMI;
-    private String name;
     public int gameTime;
     public ArrayList<Block> blockList;
     public ArrayList<Ball> ballList;
     public ArrayList<Paddle> paddleList;
+    
+    public String Name;
     private int heightWindow = 819;
     private int widthWindow = 848;
 
@@ -54,8 +55,8 @@ public class Client extends Application implements RemotePropertyListener {
         gameTime = 0;
         // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
-        name = JOptionPane.showInputDialog(nameInput, "Enter your username");
-        RMIUser user = new RMIUser(name, null, null, 0);
+        Name = JOptionPane.showInputDialog(nameInput, "Enter your username");
+        RMIUser user = new RMIUser(Name, null, null, 0);
         // Connect to server
         try {
             clientRMI = new ClientRMI(this);
@@ -95,14 +96,14 @@ public class Client extends Application implements RemotePropertyListener {
             switch (k.getCode().toString()) {
                 case "W": {
                     try {
-                        connection.moveLeft(1, name);
+                        connection.moveLeft(1, Name);
                     } catch (RemoteException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
                 case "S": {
                     try {
-                        connection.moveRight(1, name);
+                        connection.moveRight(1, Name);
                     } catch (RemoteException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }

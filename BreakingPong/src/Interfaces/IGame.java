@@ -23,7 +23,7 @@ public interface IGame{
      * @return The IGame of the game the user wants to join.
      * @throws RemoteException 
      */
-    public IGame joinGame(int gameID , String username) throws RemoteException;
+    public void joinGame(int gameID , String username) throws RemoteException;
     
     /**
      * Pre-condition: User must be in the game he/she wants to leave.

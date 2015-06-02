@@ -8,6 +8,7 @@ package Shared;
 import Interfaces.IClientSecurity;
 import Interfaces.IServer;
 import Interfaces.IServerSecurity;
+import RMI.RMIGame;
 import RMI.ServerRMI;
 import Server.Administration;
 import java.rmi.RemoteException;
@@ -57,7 +58,7 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
     @Override
     public Session login(String UserName, String Password) throws RemoteException {
         try {
-            ServerRMI server = new ServerRMI();
+            ServerRMI server = new ServerRMI(new RMIGame(1,1,false));
             server.login(UserName, Password);
             //_administration.login(UserName, Password);
             Session session = new Session(UserName, (IServer) server);

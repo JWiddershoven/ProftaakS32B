@@ -90,7 +90,7 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     }
 
     @Override
-    public IGame joinGame(int gameID, String username) throws RemoteException {
+    public void joinGame(int gameID, String username) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
