@@ -218,12 +218,10 @@ public class RMIGame implements IGame, Runnable {
         try {
             if (userList.get(0) != null) {
                 player1 = (User) userList.get(0);
-                System.out.println("Fakakayomama");
             }
         } catch (IndexOutOfBoundsException ex) {
             cpu1 = new CPU("Bot1", (byte) 1);
             cpu1.setMyPaddle(P1Paddle);
-            System.out.println("Fakaka you");
         }
 
         try {
@@ -532,7 +530,6 @@ public class RMIGame implements IGame, Runnable {
             @Override
             public void run() {
                 gameTimeInSecondsRemaining--;
-
             }
         }, 0, 1000);
         Timer updateRMITimer = new Timer();
@@ -540,14 +537,14 @@ public class RMIGame implements IGame, Runnable {
 
             @Override
             public void run() {
-                if (ServerRMI.publisher != null) {
+                if (ServerRMI.publisher != null && inProgress) {
                     ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
                     ServerRMI.publisher.inform(this, "getBlocks", null, blockList);
                     ServerRMI.publisher.inform(this, "getBalls", null, ballList);
                     ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 }
             }
-        }, 0, 50);
+        }, 0, 500);
         inProgress = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
@@ -759,7 +756,7 @@ public class RMIGame implements IGame, Runnable {
     public void run() {
         // Do while game is started
         while (inProgress) {
-            if (checkGameTime()) {
+            if (!checkGameTime()) {
                 inProgress = false;
             }
             long start, elapsed, wait;

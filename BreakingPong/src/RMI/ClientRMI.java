@@ -19,6 +19,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -109,7 +110,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         if (evt.getPropertyName().equals("getBlocks")) {
             client.blockList = new ArrayList<>();
             client.blockList = (ArrayList<Block>) evt.getNewValue();
-            System.out.println(client.blockList.size());
+            System.out.println(client.blockList.size() + new Date().toString());
 //            for (Block block : client.blockList) {
 //                Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
 //                Platform.runLater(new Runnable() {
@@ -134,7 +135,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         }
         // Get the gametime from server
         if (evt.getPropertyName().equals("getTime")) {
-            client.gameTimeLabel.setText((String) evt.getNewValue());
+            //client.gameTimeLabel.setText((String) evt.getNewValue());
         }
         drawGame();
     }
