@@ -39,49 +39,39 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private Client client;
     private long timeOut;
     private Registry reg;
-    
-    public ClientRMI(Client client) throws RemoteException
-    {
+
+    public ClientRMI(Client client) throws RemoteException {
         this.client = client;
         this.start();
     }
-    
-    public void start()
-    {
+
+    public void start() {
         Timer timer = new Timer();
-        timer.schedule(new TimerTask()
-        {
+        timer.schedule(new TimerTask() {
             @Override
-            public void run()
-            {
-                if(Platform.isImplicitExit()) 
-                {
+            public void run() {
+                if (Platform.isImplicitExit()) {
                     super.cancel();
                 }
-               
-                if(System.currentTimeMillis() - timeOut > 10*1000 || publisher == null)
-                {
+
+                if (System.currentTimeMillis() - timeOut > 10 * 1000 || publisher == null) {
                     System.out.println("Attempting to setup a connection");
-                    try
-                    {
+                    try {
                         connect();
+                        System.out.println("Connected!");
                     }
-                    catch(Exception ex)
-                    {
+                    catch (Exception ex) {
                         Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
-            
+
         }, 0, 2500);
     }
-    
-    public void stop()
-    {
-        try
-        {
-            if(this.publisher != null)
-            {
+
+    public void stop() {
+        try {
+            if (this.publisher != null) {
                 this.publisher.removeListener(this, "getBlocks");
                 this.publisher.removeListener(this, "getTime");
                 this.publisher.removeListener(this, "getBalls");
@@ -89,32 +79,30 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
             UnicastRemoteObject.unexportObject(this, true);
         }
-        catch(RemoteException ex)
-        {
+        catch (RemoteException ex) {
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public void connect()
-    {
-        try
-        {
+
+    public void connect() {
+        try {
             this.reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
             this.publisher.addListener(this, "getBlocks");
-            this.publisher.addListener(this,"getTime");
+            this.publisher.addListener(this, "getTime");
             this.publisher.addListener(this, "getBalls");
             this.publisher.addListener(this, "getPaddles");
+            this.client.connection.joinGame(1, client.Name);
+            System.out.println("Game joined");
         }
-        catch(RemoteException | NotBoundException ex )
-        {
+        catch (RemoteException | NotBoundException ex) {
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
         }
-        finally
-        {
+        finally {
             this.timeOut = System.currentTimeMillis();
         }
     }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         System.out.println("kut");
@@ -136,95 +124,81 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
 //            }
         }
         //Draw all balls from server
-        if(evt.getPropertyName().equals("getBalls"))
-        {
+        if (evt.getPropertyName().equals("getBalls")) {
             client.ballList = new ArrayList<>();
-            client.ballList = (ArrayList<Ball>) evt.getNewValue();          
+            client.ballList = (ArrayList<Ball>) evt.getNewValue();
         }
         //Draw all paddles from server
-        if(evt.getPropertyName().equals("getPaddles"))
-        {
+        if (evt.getPropertyName().equals("getPaddles")) {
             client.paddleList = new ArrayList<>();
-            client.paddleList = (ArrayList<Paddle>) evt.getNewValue();   
+            client.paddleList = (ArrayList<Paddle>) evt.getNewValue();
         }
         // Get the gametime from server
-        if(evt.getPropertyName().equals("getTime"))
-        {
+        if (evt.getPropertyName().equals("getTime")) {
             client.gameTime = (int) evt.getNewValue();
             System.out.println(client.gameTime);
         }
-        
+
         drawGame();
     }
-    
-    public void drawGame()
-    {
+
+    public void drawGame() {
         Platform.runLater(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        client.root.getChildren().clear();
-                    }
-                });
-        if(client.paddleList != null)
-        {
+            @Override
+            public void run() {
+                client.root.getChildren().clear();
+            }
+        });
+        if (client.paddleList != null) {
             for (Paddle paddle : client.paddleList) {
-            Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
-            r.setFill(Color.GREEN);
-            r.setStroke(Color.BLACK);
-            Platform.runLater(new Runnable() {
+                Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
+                r.setFill(Color.GREEN);
+                r.setStroke(Color.BLACK);
+                Platform.runLater(new Runnable() {
                     @Override
-                    public void run()
-                    {
+                    public void run() {
                         client.root.getChildren().add(r);
                     }
                 });
             }
         }
-        
-        if(client.ballList != null)
-        {
+
+        if (client.ballList != null) {
             for (Ball ball : client.ballList) {
-            Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 5);
-            c.setStroke(Color.BLACK);
-            c.setFill(Color.LIGHTBLUE);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run()
-                {
-                    client.root.getChildren().add(c);
-                }
-            });
-            }    
+                Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 5);
+                c.setStroke(Color.BLACK);
+                c.setFill(Color.LIGHTBLUE);
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        client.root.getChildren().add(c);
+                    }
+                });
+            }
         }
-        
-        if(client.blockList != null)
-        {
+
+        if (client.blockList != null) {
             for (Block block : client.blockList) {
-            Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
-            r.setStroke(Color.BLACK);
-            if(block.isDestructable() == true)
-            {
-                r.setFill(Color.DARKGRAY);
+                Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
+                r.setStroke(Color.BLACK);
+                if (block.isDestructable() == true) {
+                    r.setFill(Color.DARKGRAY);
+                }
+                else {
+                    if (block.getPowerUp() == null) {
+                        r.setFill(Color.YELLOW);
+                    }
+                    else {
+                        r.setFill(Color.RED);
+                    }
+                }
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        client.root.getChildren().add(r);
+                    }
+                });
             }
-            else
-            {
-                if(block.getPowerUp() == null)
-                {
-                    r.setFill(Color.YELLOW);
-                }
-                else
-                {
-                    r.setFill(Color.RED);
-                }
-            }
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run()
-                {
-                    client.root.getChildren().add(r);
-                }
-            });
-        }}
+        }
     }
 }

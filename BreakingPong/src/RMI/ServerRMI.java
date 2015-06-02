@@ -14,6 +14,7 @@ import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
 import Server.Administration;
+import Server.Game;
 import Server.Lobby;
 import Server.Server;
 import Shared.GameObject;
@@ -33,14 +34,20 @@ import java.util.logging.Logger;
 public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 {
     public static BasicPublisher publisher;
-    public ServerRMI() throws RemoteException
+
+    private int ID;
+    public ArrayList<IUser> loggedInUsers = new ArrayList<>();
+    private ArrayList<ILobby> currentLobbies = new ArrayList<>();
+    private ArrayList<IGame> currentGames = new ArrayList<>();
+
+    public ServerRMI(IGame game) throws RemoteException
     {
         this.publisher = new BasicPublisher(new String[]
         {
             "getBlocks", "getBalls", "getPaddles", "getTime", "getScore"
         });
         this.ID = 1;
-        currentGames.add(this); // Geen create game methode ???
+        currentGames.add(game); // Geen create game methode ???
         Timer timer = new Timer();
         timer.schedule(new TimerTask()
         {
@@ -52,12 +59,6 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             }
         }, 0, 1500);
     }
-
-    private int ID;
-    public ArrayList<IUser> loggedInUsers = new ArrayList<>();
-    private ArrayList<ILobby> currentLobbies = new ArrayList<>();
-    private ArrayList<IGame> currentGames = new ArrayList<>();
-
     /**
      * Returns a list of current lobbies.
      *
@@ -361,17 +362,20 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @throws RemoteException
      */
     @Override
-    public IGame joinGame(int gameid, String username) throws RemoteException
+    public void joinGame(int gameid, String username) throws RemoteException
     {
-        IGame returnValue = null;
+        //IGame returnValue = null;
         for (IGame game : currentGames)
         {
             if (game.getID() == gameid)
             {
-                returnValue = game.joinGame(gameid, username);
+                //returnValue = 
+               //RMIGame newGame = (RMIGame) game;
+               game.joinGame(gameid, username);
+                break;
             }
         }
-        return returnValue;
+        //return returnValue;
     }
 
     /**

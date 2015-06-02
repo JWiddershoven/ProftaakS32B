@@ -309,14 +309,15 @@ public class Server extends UnicastRemoteObject  implements IServer
     }
 
     @Override
-    public IGame joinGame(int gameid, String username) throws RemoteException {
-        IGame returnValue = null;
+    public void joinGame(int gameid, String username) throws RemoteException {
+        //IGame returnValue = null;
         for (IGame game : currentGames) {
             if (game.getID() == gameid) {
-                returnValue = game.joinGame(gameid, username);
+                //returnValue = 
+                        game.joinGame(gameid, username);
             }
         }
-        return returnValue;
+        //return returnValue;
     }
 
     @Override

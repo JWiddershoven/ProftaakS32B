@@ -116,23 +116,21 @@ public class RMIGame implements IGame, Runnable {
     }
 
     @Override
-    public IGame joinGame(int gameid, String username) throws RemoteException {
-        boolean check = false;
-        IUser Juser = null;
+    public void joinGame(int gameid, String username) throws RemoteException {
+        boolean add = true;
+        
         for (IUser user : userList) {
-            if (!user.getUsername(user).equals(username)) {
-                Juser = user;
-                check = false;
-            }
-            else {
-                check = true;
+            if (user.getUsername(user).equals(username)) {
+                add = false;
+                break;
             }
         }
-        if (!check) {
-            userList.add(Juser);
-            return this;
+        if (add) {
+            userList.add(new RMIUser(username,"doesnotexist","doesnotexist@gmail.com",10));
+            //System.out.println(Juser.getUsername(Juser));
+            //return this;
         }
-        return null;
+        //return null;
     }
 
     @Override
@@ -140,7 +138,10 @@ public class RMIGame implements IGame, Runnable {
         ArrayList<String> returnvalue = new ArrayList<>();
         if (this.userList != null) {
             for (IUser user : this.userList) {
-                returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
+                if (user == null || user.getUsername(user).equals(null))
+                    System.out.println("Player information - PLAYER IS NULL");
+                else
+                    returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
             }
         }
         return returnvalue;

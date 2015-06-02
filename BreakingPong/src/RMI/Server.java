@@ -36,7 +36,8 @@ public class Server extends Application
         playerList = new ArrayList<>();
         try
         {
-            rmiService = new ServerRMI();
+        game = new RMIGame(1, 300, true);
+            rmiService = new ServerRMI(game);
             Registry registry = LocateRegistry.createRegistry(1098);
             registry.rebind("gameServer", rmiService);
         }
@@ -47,10 +48,9 @@ public class Server extends Application
         playerAmount = 0;
         System.out.println("Waiting for 4 players to join the game");
 
-        game = new RMIGame(1, 300, true);
         while (game.getPlayersInformationInGame(1).isEmpty())
         {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
             System.out.println("Waiting for " + Integer.toString(4 - playerAmount) + " players to join the game.");
         }
 
