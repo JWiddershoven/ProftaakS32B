@@ -362,7 +362,7 @@ public class RMIGame implements IGame, Runnable {
                             // Create undestructable block
                             case "0": {
                                 DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
-                                Block wall = new Block(0, false, null, newObjectPosition, velocity, new TVector2(25, 25), DestroyImage);
+                                Block wall = new Block(0, false, null, newObjectPosition, velocity, Block.standardBlockSize, DestroyImage);
                                 this.addObject(wall);
                                 this.blockList.add(wall);
                                 break;
