@@ -137,12 +137,8 @@ public class RMIGame implements IGame, Runnable {
             for (IUser user : this.userList) {
                 if (user == null || user.getUsername(user).equals(null)) {
                     System.out.println("Player information - PLAYER IS NULL");
-<<<<<<< HEAD
                 } else {
-=======
-                }
-                else {
->>>>>>> origin/master
+
                     returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
                 }
             }
@@ -221,7 +217,7 @@ public class RMIGame implements IGame, Runnable {
     }
     
     private void generatePlayers() {
-<<<<<<< HEAD
+
 
         Thread t;
         t = new Thread(new Runnable() {
@@ -284,42 +280,7 @@ public class RMIGame implements IGame, Runnable {
             }
         });
         t.start();
-=======
-        try {
-            if (userList.get(0) != null) {
-                player1 = (User) userList.get(0);
-            }
-        }
-        catch (IndexOutOfBoundsException ex) {
-            cpu1 = new CPU("Bot1", (byte) 1);
-            cpu1.setMyPaddle(P1Paddle);
-        }
-        
-        try {
-            if (userList.get(1) != null) {
-                player2 = (User) userList.get(1);
-            }
-        }
-        catch (IndexOutOfBoundsException ex) {
-            cpu2 = new CPU("Bot2", (byte) 1);
-        }
-        try {
-            if (userList.get(2) != null) {
-                player3 = (User) userList.get(2);
-            }
-        }
-        catch (IndexOutOfBoundsException ex) {
-            cpu3 = new CPU("Bot3", (byte) 1);
-        }
-        try {
-            if (userList.get(3) != null) {
-                player4 = (User) userList.get(3);
-            }
-        }
-        catch (IndexOutOfBoundsException ex) {
-            cpu4 = new CPU("Bot4", (byte) 1);
-        }
->>>>>>> origin/master
+
     }
 
     /**
