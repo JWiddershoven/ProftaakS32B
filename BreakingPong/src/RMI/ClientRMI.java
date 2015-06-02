@@ -35,7 +35,8 @@ import javafx.scene.text.Text;
  *
  * @author Jordi
  */
-public class ClientRMI extends UnicastRemoteObject implements RemotePropertyListener {
+public class ClientRMI extends UnicastRemoteObject implements RemotePropertyListener
+{
 
     private IGame game;
     private RemotePublisher publisher;
@@ -45,27 +46,34 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private String newGameTime;
     private Text gameTimeLabel;
 
-    public ClientRMI(Client client) throws RemoteException {
+    public ClientRMI(Client client) throws RemoteException
+    {
         this.client = client;
         this.start();
     }
 
-    public void start() {
+    public void start()
+    {
         Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        timer.schedule(new TimerTask()
+        {
             @Override
-            public void run() {
-                if (Platform.isImplicitExit()) {
+            public void run()
+            {
+                if (Platform.isImplicitExit())
+                {
                     super.cancel();
                 }
 
-                if (System.currentTimeMillis() - timeOut > 10 * 1000 || publisher == null) {
+                if (System.currentTimeMillis() - timeOut > 10 * 1000 || publisher == null)
+                {
                     System.out.println("Attempting to setup a connection");
-                    try {
+                    try
+                    {
                         connect();
                         System.out.println("Connected!");
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex)
+                    {
                         Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -74,135 +82,180 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         }, 0, 2500);
     }
 
-    public void stop() {
-        try {
-            if (this.publisher != null) {
+    public void stop()
+    {
+        try
+        {
+            if (this.publisher != null)
+            {
                 this.publisher.removeListener(this, "getBlocks");
                 this.publisher.removeListener(this, "getTime");
                 this.publisher.removeListener(this, "getBalls");
                 this.publisher.removeListener(this, "getPaddles");
+                this.publisher.removeListener(this, "getGameOver");
             }
             UnicastRemoteObject.unexportObject(this, true);
-        }
-        catch (RemoteException ex) {
+        } catch (RemoteException ex)
+        {
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public void connect() {
-        try {
+    public void connect()
+    {
+        try
+        {
             this.reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
             this.publisher.addListener(this, "getBlocks");
             this.publisher.addListener(this, "getTime");
             this.publisher.addListener(this, "getBalls");
             this.publisher.addListener(this, "getPaddles");
+            this.publisher.addListener(this, "getGameOver");
             this.client.connection.joinGame(1, client.Name);
             System.out.println("Game joined");
-        }
-        catch (RemoteException | NotBoundException ex) {
+        } catch (RemoteException | NotBoundException ex)
+        {
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
+        } finally
+        {
             this.timeOut = System.currentTimeMillis();
         }
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
+    {
         //Draw all blocks from server
-        if (evt.getPropertyName().equals("getBlocks")) {
+        if (evt.getPropertyName().equals("getBlocks"))
+        {
             client.blockList = new ArrayList<>();
             client.blockList = (ArrayList<Block>) evt.getNewValue();
             System.out.println(client.blockList.size() + new Date().toString());
         }
         //Draw all balls from server
-        if (evt.getPropertyName().equals("getBalls")) {
+        if (evt.getPropertyName().equals("getBalls"))
+        {
             client.ballList = new ArrayList<>();
             client.ballList = (ArrayList<Ball>) evt.getNewValue();
         }
         //Draw all paddles from server
-        if (evt.getPropertyName().equals("getPaddles")) {
+        if (evt.getPropertyName().equals("getPaddles"))
+        {
             client.paddleList = new ArrayList<>();
             client.paddleList = (ArrayList<Paddle>) evt.getNewValue();
         }
         // Get the gametime from server
-        if (evt.getPropertyName().equals("getTime")) {
-            Platform.runLater(new Runnable() {
-            @Override
-            public void run()
+        if (evt.getPropertyName().equals("getTime"))
+        {
+            Platform.runLater(new Runnable()
             {
-                newGameTime = evt.getNewValue().toString();
+                @Override
+                public void run()
+                {
+                    newGameTime = evt.getNewValue().toString();
+                }
+            });
+        }
+
+        if (evt.getPropertyName().equals("getGameOver"))
+        {
+            try
+            {
+                System.out.println("GameOver!");
+                stop();
+                client.shutDown();
+                return;
+            } catch (Exception ex)
+            {
+                Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-        });
         }
         drawGame();
     }
 
-    public void drawGame() {
-        Platform.runLater(new Runnable() {
+    public void drawGame()
+    {
+        Platform.runLater(new Runnable()
+        {
             @Override
-            public void run() {
+            public void run()
+            {
                 client.root.getChildren().clear();
             }
         });
-        if (client.paddleList != null) {
-            for (Paddle paddle : client.paddleList) {
+        if (client.paddleList != null)
+        {
+            for (Paddle paddle : client.paddleList)
+            {
                 Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
                 r.setFill(Color.GREEN);
                 r.setStroke(Color.BLACK);
-                Platform.runLater(new Runnable() {
+                Platform.runLater(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         client.root.getChildren().add(r);
                     }
                 });
             }
         }
 
-        if (client.ballList != null) {
-            for (Ball ball : client.ballList) {
+        if (client.ballList != null)
+        {
+            for (Ball ball : client.ballList)
+            {
                 Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 5);
                 c.setStroke(Color.BLACK);
                 c.setFill(Color.LIGHTBLUE);
-                Platform.runLater(new Runnable() {
+                Platform.runLater(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         client.root.getChildren().add(c);
                     }
                 });
             }
         }
 
-        if (client.blockList != null) {
-            for (Block block : client.blockList) {
+        if (client.blockList != null)
+        {
+            for (Block block : client.blockList)
+            {
                 Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
                 r.setStroke(Color.BLACK);
-                if (block.isDestructable() == false) {
+                if (block.isDestructable() == false)
+                {
                     r.setFill(Color.DARKGRAY);
-                }
-                else {
-                    if (block.getPowerUp() == null) {
+                } else
+                {
+                    if (block.getPowerUp() == null)
+                    {
                         r.setFill(Color.YELLOW);
-                    }
-                    else {
+                    } else
+                    {
                         r.setFill(Color.RED);
                     }
                 }
-                Platform.runLater(new Runnable() {
+                Platform.runLater(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         client.root.getChildren().add(r);
                     }
                 });
             }
         }
-        Platform.runLater(new Runnable() {
+        Platform.runLater(new Runnable()
+        {
             @Override
             public void run()
             {
-                gameTimeLabel = new Text(25,25,"Time Left: " + newGameTime);
-                gameTimeLabel.setFont(Font.font ("Verdana", 20));
+                gameTimeLabel = new Text(25, 25, "Time Left: " + newGameTime);
+                gameTimeLabel.setFont(Font.font("Verdana", 20));
                 gameTimeLabel.setFill(Color.WHITE);
                 client.root.getChildren().add(gameTimeLabel);
             }

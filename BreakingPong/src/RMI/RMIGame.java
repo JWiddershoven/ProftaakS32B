@@ -832,6 +832,7 @@ public class RMIGame implements IGame, Runnable {
         this.paddleList.clear();
         this.ballList.clear();
         gc();
+        ServerRMI.publisher.inform(this, "getGameOver", null, true);
         System.out.println("Exited game");
     }
 }

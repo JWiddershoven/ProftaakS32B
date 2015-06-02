@@ -19,6 +19,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -34,7 +35,8 @@ import javax.swing.JOptionPane;
  *
  * @author Jordi
  */
-public class Client extends Application implements RemotePropertyListener {
+public class Client extends Application implements RemotePropertyListener
+{
 
     private Stage stage;
     Group root;
@@ -52,72 +54,103 @@ public class Client extends Application implements RemotePropertyListener {
     private int widthWindow = 800;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception
+    {
         stage = primaryStage;
-        root = new Group();        
+        root = new Group();
         scene = new Scene(root, widthWindow, heightWindow);
-        
+
         gameTime = 0;
         // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
         Name = JOptionPane.showInputDialog(nameInput, "Enter your username");
         RMIUser user = new RMIUser(Name, null, null, 0);
         // Connect to server
-        try {
+        try
+        {
             clientRMI = new ClientRMI(this);
             String ip = InetAddress.getLocalHost().getHostAddress();
             connection = (IServer) Naming.lookup("rmi://127.0.0.1:1098/gameServer");
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             System.out.println(ex.getMessage());
         }
         hbox = new HBox();
-        gameTimeLabel = new Text(10,10,"GameTime");
+        gameTimeLabel = new Text(10, 10, "GameTime");
         gameTimeLabel.setFill(Color.BLUE);
         hbox.getChildren().add(gameTimeLabel);
         root.getChildren().add(hbox);
         primaryStage.setScene(scene);
         primaryStage.show();
         // If client closes window disconnect from server
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            public void handle(WindowEvent we) {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>()
+        {
+            public void handle(WindowEvent we)
+            {
                 clientRMI.stop();
             }
         });
-        new AnimationTimer() {
+        new AnimationTimer()
+        {
             @Override
-            public void handle(long now) {
+            public void handle(long now)
+            {
                 clientRMI.drawGame();
             }
         }.start();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
+    {
 
     }
 
-    public void keyPressed() {
+    public void keyPressed()
+    {
         // Client movement
-        this.stage.getScene().setOnKeyPressed((KeyEvent k) -> {
-            switch (k.getCode().toString()) {
-                case "W": {
-                    try {
+        this.stage.getScene().setOnKeyPressed((KeyEvent k) ->
+        {
+            switch (k.getCode().toString())
+            {
+                case "W":
+                {
+                    try
+                    {
                         connection.moveLeft(1, Name);
-                    } catch (RemoteException ex) {
+                    } catch (RemoteException ex)
+                    {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                case "S": {
-                    try {
+                case "S":
+                {
+                    try
+                    {
                         connection.moveRight(1, Name);
-                    } catch (RemoteException ex) {
+                    } catch (RemoteException ex)
+                    {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
+            }
+        });
+    }
+
+    public void shutDown()
+    {
+        Platform.runLater(new Runnable()
+        {
+
+            @Override
+            public void run()
+            {
+                stage.close();
             }
         });
     }
