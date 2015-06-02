@@ -115,7 +115,7 @@ public class RMIGame implements IGame, Runnable {
     @Override
     public void joinGame(int gameid, String username) throws RemoteException {
         boolean add = true;
-        
+
         for (IUser user : userList) {
             if (user.getUsername(user).equals(username)) {
                 add = false;
@@ -123,7 +123,7 @@ public class RMIGame implements IGame, Runnable {
             }
         }
         if (add) {
-            userList.add(new RMIUser(username,"doesnotexist","doesnotexist@gmail.com",10));
+            userList.add(new RMIUser(username, "doesnotexist", "doesnotexist@gmail.com", 10));
             //System.out.println(Juser.getUsername(Juser));
             //return this;
         }
@@ -135,10 +135,11 @@ public class RMIGame implements IGame, Runnable {
         ArrayList<String> returnvalue = new ArrayList<>();
         if (this.userList != null) {
             for (IUser user : this.userList) {
-                if (user == null || user.getUsername(user).equals(null))
+                if (user == null || user.getUsername(user).equals(null)) {
                     System.out.println("Player information - PLAYER IS NULL");
-                else
+                } else {
                     returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
+                }
             }
         }
         return returnvalue;
@@ -215,38 +216,68 @@ public class RMIGame implements IGame, Runnable {
     }
 
     private void generatePlayers() {
-        try {
-            if (userList.get(0) != null) {
-                player1 = (User) userList.get(0);
-                System.out.println("Fakakayomama");
-            }
-        } catch (IndexOutOfBoundsException ex) {
-            cpu1 = new CPU("Bot1", (byte) 1);
-            cpu1.setMyPaddle(P1Paddle);
-            System.out.println("Fakaka you");
-        }
 
-        try {
-            if (userList.get(1) != null) {
-                player2 = (User) userList.get(1);
+        Thread t;
+        t = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                boolean p1 = true;
+                boolean p2 = true;
+                boolean p3 = true;
+                boolean p4 = true;
+
+                while (p1 || p2 || p3 || p4) {
+                    if (p1) {
+                        try {
+                            if (userList.get(0) != null) {
+                                player1 = (User) userList.get(0);
+                                System.out.println("Fakakayomama");
+                            }
+                        } catch (IndexOutOfBoundsException ex) {
+                            cpu1 = new CPU("Bot1", (byte) 1);
+                            cpu1.setMyPaddle(P1Paddle);
+                            p1 = false;
+                            System.out.println("Fakaka you");
+                        }
+                    }
+                    if (p2) {
+                        try {
+                            if (userList.get(1) != null) {
+                                player2 = (User) userList.get(1);
+                            }
+                        } catch (IndexOutOfBoundsException ex) {
+                            cpu2 = new CPU("Bot2", (byte) 1);
+                            cpu2.setMyPaddle(P2Paddle);
+                            p2 = false;
+                        }
+                    }
+                    if (p3) {
+                        try {
+                            if (userList.get(2) != null) {
+                                player3 = (User) userList.get(2);
+                            }
+                        } catch (IndexOutOfBoundsException ex) {
+                            cpu3 = new CPU("Bot3", (byte) 1);
+                            cpu3.setMyPaddle(P3Paddle);
+                            p3 = false;
+                        }
+                    }
+                    if (p4) {
+                        try {
+                            if (userList.get(3) != null) {
+                                player4 = (User) userList.get(3);
+                            }
+                        } catch (IndexOutOfBoundsException ex) {
+                            cpu4 = new CPU("Bot4", (byte) 1);
+                            cpu4.setMyPaddle(P4Paddle);
+                            p4 = false;
+                        }
+                    }
+                }
             }
-        } catch (IndexOutOfBoundsException ex) {
-            cpu2 = new CPU("Bot2", (byte) 1);
-        }
-        try {
-            if (userList.get(2) != null) {
-                player3 = (User) userList.get(2);
-            }
-        } catch (IndexOutOfBoundsException ex) {
-            cpu3 = new CPU("Bot3", (byte) 1);
-        }
-        try {
-            if (userList.get(3) != null) {
-                player4 = (User) userList.get(3);
-            }
-        } catch (IndexOutOfBoundsException ex) {
-            cpu4 = new CPU("Bot4", (byte) 1);
-        }
+        });
+        t.start();
     }
 
     /**
@@ -524,8 +555,7 @@ public class RMIGame implements IGame, Runnable {
     /**
      * First Call loadMap !
      */
-    public void StartGame()
-    {
+    public void StartGame() {
         gameTimeInSecondsRemaining = gameTime;
         secondsTimer = new Timer();
         secondsTimer.scheduleAtFixedRate(new TimerTask() {
