@@ -204,7 +204,8 @@ public class RMIGame implements IGame, Runnable {
         this.paddleList = new ArrayList<>();
         this.changedObjectsList = new ArrayList<>();
         this.removedObjectsList = new ArrayList<>();
-        this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
+        //this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
+        this.windowSize = new TVector2(819, 848);
     }
 
     public ArrayList<IUser> getUserList() {
@@ -705,6 +706,7 @@ public class RMIGame implements IGame, Runnable {
 
     /**
      * Checks if the number of paddles is there is 1 left.
+     *
      * @return true when if there is 1 paddle left , false if there are more!
      */
     private boolean checkNumberOfPaddles() {
@@ -746,7 +748,7 @@ public class RMIGame implements IGame, Runnable {
         // Do while game is started
         while (inProgress) {
             if (checkGameTime()) {
-               inProgress = false;
+                inProgress = false;
             }
             long start, elapsed, wait;
             start = System.nanoTime();
@@ -772,12 +774,13 @@ public class RMIGame implements IGame, Runnable {
 
     /**
      * Checks the game time!
+     *
      * @return false if the game has to exit, else true if the game can continue
      */
-    private boolean checkGameTime(){
+    private boolean checkGameTime() {
         return gameTimeInSecondsRemaining > 0;
     }
-    
+
     /**
      * Updates all objects
      */
@@ -788,7 +791,7 @@ public class RMIGame implements IGame, Runnable {
             checkResetBall(b);
             try {
                 checkBallExitedPlay(b);
-                
+
             } catch (Exception ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -804,11 +807,10 @@ public class RMIGame implements IGame, Runnable {
         if (numberOfPLayersLeft == 0) {
             inProgress = false;
         }
-        
-        if(checkNumberOfPaddles()){
+
+        if (checkNumberOfPaddles()) {
             inProgress = false;
         }
-        
 
     }
 
