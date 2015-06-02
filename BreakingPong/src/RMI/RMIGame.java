@@ -745,8 +745,8 @@ public class RMIGame implements IGame, Runnable {
     public void run() {
         // Do while game is started
         while (inProgress) {
-            if (gameTimeInSecondsRemaining < 1) {
-                // endgame
+            if (checkGameTime()) {
+               inProgress = false;
             }
             long start, elapsed, wait;
             start = System.nanoTime();
@@ -770,6 +770,14 @@ public class RMIGame implements IGame, Runnable {
         System.out.println("While exited");
     }
 
+    /**
+     * Checks the game time!
+     * @return false if the game has to exit, else true if the game can continue
+     */
+    private boolean checkGameTime(){
+        return gameTimeInSecondsRemaining > 0;
+    }
+    
     /**
      * Updates all objects
      */
