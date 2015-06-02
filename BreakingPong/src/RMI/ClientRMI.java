@@ -28,6 +28,8 @@ import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 /**
  *
@@ -40,6 +42,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private Client client;
     private long timeOut;
     private Registry reg;
+    private String newGameTime;
+    private Text gameTimeLabel;
 
     public ClientRMI(Client client) throws RemoteException {
         this.client = client;
@@ -111,17 +115,6 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             client.blockList = new ArrayList<>();
             client.blockList = (ArrayList<Block>) evt.getNewValue();
             System.out.println(client.blockList.size() + new Date().toString());
-//            for (Block block : client.blockList) {
-//                Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
-//                Platform.runLater(new Runnable() {
-//                    @Override
-//                    public void run()
-//                    {
-//                        client.root.getChildren().clear();
-//                        client.root.getChildren().add(r);
-//                    }
-//                });
-//            }
         }
         //Draw all balls from server
         if (evt.getPropertyName().equals("getBalls")) {
@@ -135,7 +128,13 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         }
         // Get the gametime from server
         if (evt.getPropertyName().equals("getTime")) {
-            //client.gameTimeLabel.setText((String) evt.getNewValue());
+            Platform.runLater(new Runnable() {
+            @Override
+            public void run()
+            {
+                newGameTime = evt.getNewValue().toString();
+            }
+        });
         }
         drawGame();
     }
@@ -198,5 +197,15 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 });
             }
         }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run()
+            {
+                gameTimeLabel = new Text(25,25,"Time Left: " + newGameTime);
+                gameTimeLabel.setFont(Font.font ("Verdana", 20));
+                gameTimeLabel.setFill(Color.WHITE);
+                client.root.getChildren().add(gameTimeLabel);
+            }
+        });
     }
 }
