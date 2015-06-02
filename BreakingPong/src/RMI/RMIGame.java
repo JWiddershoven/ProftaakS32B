@@ -44,7 +44,7 @@ import javax.imageio.ImageIO;
  * @author Mnesymne
  */
 public class RMIGame implements IGame, Runnable {
-    
+
     int playerAmount = 1;
     private int id;
     private int gameTime;
@@ -68,24 +68,24 @@ public class RMIGame implements IGame, Runnable {
     private final ArrayList<Paddle> paddleList;
     private final ArrayList<GameObject> changedObjectsList;
     private final ArrayList<GameObject> removedObjectsList;
-    
+
     private User player1, player2, player3, player4;
     private CPU cpu1, cpu2, cpu3, cpu4;
     private Paddle P1Paddle, P2Paddle, P3Paddle, P4Paddle;
     private int numberOfPLayersLeft = 4;
-    
+
     private final TVector2 windowSize;
-    
+
     public TVector2 getWindowSize() {
         return windowSize;
     }
-    
+
     private BufferedImage BallImage, DestroyImage, normalBlockImage, PowerUpImage, PaddleImage, WhiteSpaceImage;
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - I n t e r f a c e s   O V E R R I D E - - - - - - - - - - -">>
     @Override
     public boolean leaveGame(int gameid, String username) throws RemoteException {
-        
+
         for (IUser user : userList) {
             if (user.getUsername(user).equals(username)) {
                 userList.remove(user);
@@ -94,10 +94,10 @@ public class RMIGame implements IGame, Runnable {
         }
         return false;
     }
-    
+
     @Override
     public boolean kickPlayer(String username, int lobbyID) throws RemoteException {
-        
+
         for (IUser user : userList) {
             if (user.getUsername(user).equals(username)) {
                 userList.remove(user);
@@ -106,12 +106,12 @@ public class RMIGame implements IGame, Runnable {
         }
         return false;
     }
-    
+
     @Override
     public void addMap(IMap map) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
     public void joinGame(int gameid, String username) throws RemoteException {
         boolean add = true;
@@ -129,7 +129,7 @@ public class RMIGame implements IGame, Runnable {
         }
         //return null;
     }
-    
+
     @Override
     public ArrayList<String> getPlayersInformationInGame(int game) throws RemoteException {
         ArrayList<String> returnvalue = new ArrayList<>();
@@ -137,7 +137,8 @@ public class RMIGame implements IGame, Runnable {
             for (IUser user : this.userList) {
                 if (user == null || user.getUsername(user).equals(null)) {
                     System.out.println("Player information - PLAYER IS NULL");
-                } else {
+                }
+                else {
 
                     returnvalue.add(user.getPlayerInformation(user.getUsername(user)));
                 }
@@ -145,12 +146,12 @@ public class RMIGame implements IGame, Runnable {
         }
         return returnvalue;
     }
-    
+
     @Override
     public int getID() {
         return this.id;
     }
-    
+
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException {
         for (int i = paddleList.size(); i > 0; i--) {
@@ -162,7 +163,7 @@ public class RMIGame implements IGame, Runnable {
             }
         }
     }
-    
+
     @Override
     public void moveRight(int gameId, String username) throws RemoteException {
         for (int i = paddleList.size(); i > 0; i--) {
@@ -174,22 +175,22 @@ public class RMIGame implements IGame, Runnable {
             }
         }
     }
-    
+
     @Override
     public void getAllBalls(int gameId) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
         return this.objectList;
     }
-    
+
     @Override
     public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
         return this.changedObjectsList;
     }
-    
+
     @Override
     public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
         return this.removedObjectsList;
@@ -209,15 +210,14 @@ public class RMIGame implements IGame, Runnable {
         this.changedObjectsList = new ArrayList<>();
         this.removedObjectsList = new ArrayList<>();
         this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
-        
+
     }
-    
+
     public ArrayList<IUser> getUserList() {
         return userList;
     }
-    
-    private void generatePlayers() {
 
+    private void generatePlayers() {
 
         Thread t;
         t = new Thread(new Runnable() {
@@ -236,7 +236,8 @@ public class RMIGame implements IGame, Runnable {
                                 player1 = (User) userList.get(0);
                                 System.out.println("Fakakayomama");
                             }
-                        } catch (IndexOutOfBoundsException ex) {
+                        }
+                        catch (IndexOutOfBoundsException ex) {
                             cpu1 = new CPU("Bot1", (byte) 1);
                             cpu1.setMyPaddle(P1Paddle);
                             p1 = false;
@@ -248,7 +249,8 @@ public class RMIGame implements IGame, Runnable {
                             if (userList.get(1) != null) {
                                 player2 = (User) userList.get(1);
                             }
-                        } catch (IndexOutOfBoundsException ex) {
+                        }
+                        catch (IndexOutOfBoundsException ex) {
                             cpu2 = new CPU("Bot2", (byte) 1);
                             cpu2.setMyPaddle(P2Paddle);
                             p2 = false;
@@ -259,7 +261,8 @@ public class RMIGame implements IGame, Runnable {
                             if (userList.get(2) != null) {
                                 player3 = (User) userList.get(2);
                             }
-                        } catch (IndexOutOfBoundsException ex) {
+                        }
+                        catch (IndexOutOfBoundsException ex) {
                             cpu3 = new CPU("Bot3", (byte) 1);
                             cpu3.setMyPaddle(P3Paddle);
                             p3 = false;
@@ -270,7 +273,8 @@ public class RMIGame implements IGame, Runnable {
                             if (userList.get(3) != null) {
                                 player4 = (User) userList.get(3);
                             }
-                        } catch (IndexOutOfBoundsException ex) {
+                        }
+                        catch (IndexOutOfBoundsException ex) {
                             cpu4 = new CPU("Bot4", (byte) 1);
                             cpu4.setMyPaddle(P4Paddle);
                             p4 = false;
@@ -341,7 +345,7 @@ public class RMIGame implements IGame, Runnable {
             return "Textfile size is incorrect, use 40 rows with 40 characters";
         }
         return "";
-        
+
     }
 
     /**
@@ -376,9 +380,9 @@ public class RMIGame implements IGame, Runnable {
                         TVector2 middleOfScreen = new TVector2((float) windowSize.getX() / 2, (float) windowSize.getY() / 2);
                         float diffX = middleOfScreen.getX() - newObjectPosition.getX();
                         float diffY = middleOfScreen.getY() - newObjectPosition.getY();
-                        
+
                         if (type.equals("4") || type.equals("5")) {
-                            
+
                             if (Math.abs(diffX) > Math.abs(diffY)) {
                                 // East of West
                                 if (diffX < 0) {
@@ -410,12 +414,12 @@ public class RMIGame implements IGame, Runnable {
                             }
                             // Create white space
                             case "1": {
-                                
+
                                 break;
                             }
                             // Create block without powerup
                             case "2": {
-                                
+
                                 normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
                                 Block noPower = new Block(1, true, null, newObjectPosition, velocity, Block.standardBlockSize, normalBlockImage);
                                 this.addObject(noPower);
@@ -459,10 +463,10 @@ public class RMIGame implements IGame, Runnable {
                                         System.out.println("P1 " + P1Paddle.getWindowLocation());
                                         break;
                                     }
-                                    
+
                                 }
                                 else if (playerAmount == 4) {
-                                    
+
                                     PaddleImage = ImageIO.read(new FileInputStream("Images/Images/HorizontalPaddle2.png"));
                                     size = new TVector2(100f, 20f);
                                     if (player4 != null) {
@@ -486,7 +490,7 @@ public class RMIGame implements IGame, Runnable {
                                         break;
                                     }
                                 }
-                                
+
                             }
                             // Create vertical paddle spawn
                             case "5": {
@@ -522,7 +526,7 @@ public class RMIGame implements IGame, Runnable {
                                 }
                                 else if (playerAmount == 3) {
                                     size = new TVector2(20f, 100f);
-                                    
+
                                     if (player3 != null) {
                                         P3Paddle = new Paddle(0, newObjectPosition, velocity, size, player3, paddleLocation, PaddleImage);
                                         player3.setPaddle(P3Paddle);
@@ -584,17 +588,20 @@ public class RMIGame implements IGame, Runnable {
         }, 0, 1000);
         Timer updateRMITimer = new Timer();
         updateRMITimer.scheduleAtFixedRate(new TimerTask() {
-            
+
             @Override
             public void run() {
                 if (ServerRMI.publisher != null && inProgress) {
                     ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
-                    ServerRMI.publisher.inform(this, "getBlocks", null, blockList);
+
+                    Block[] blocks = new Block[blockList.size()];
+                    blocks = blockList.toArray(blocks);
+                    ServerRMI.publisher.inform(this, "getBlocks", null, blocks);
                     ServerRMI.publisher.inform(this, "getBalls", null, ballList);
                     ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 }
             }
-        }, 0, 500);
+        }, 0, 200);
         inProgress = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
@@ -627,7 +634,7 @@ public class RMIGame implements IGame, Runnable {
             blockList.remove((Block) object);
         }
     }
-    
+
     public void removeBall(Ball ball) {
         for (int i = 0; i < ballList.size(); i++) {
             Ball b = ballList.get(i);
@@ -772,7 +779,7 @@ public class RMIGame implements IGame, Runnable {
     private boolean checkNumberOfPaddles() {
         return paddleList.size() <= 1;
     }
-    
+
     public TVector2 generateRandomVelocity() {
         Random rand = new Random();
         float x = generateRandomFloat(-Ball.maxSpeed + (Ball.maxSpeed / 8), Ball.maxSpeed - (Ball.maxSpeed / 8), rand);
@@ -803,7 +810,7 @@ public class RMIGame implements IGame, Runnable {
         }
         return finalFloat;
     }
-    
+
     @Override
     public void run() {
         // Do while game is started
@@ -815,13 +822,13 @@ public class RMIGame implements IGame, Runnable {
             start = System.nanoTime();
             // calls update function on all objects
             tick();
-            
+
             elapsed = System.nanoTime() - start;
             wait = targetTime - elapsed / 10000;
             if (wait <= 0) {
                 wait = 5;
             }
-            
+
             try {
                 // Deze sleep verwijderen ( dit is alleen voor test )
                 gameLoopThread.sleep(10);
@@ -857,7 +864,7 @@ public class RMIGame implements IGame, Runnable {
             checkResetBall(b);
             try {
                 checkBallExitedPlay(b);
-                
+
             }
             catch (Exception ex) {
                 Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
@@ -874,13 +881,13 @@ public class RMIGame implements IGame, Runnable {
         if (numberOfPLayersLeft == 0) {
             inProgress = false;
         }
-        
+
         if (checkNumberOfPaddles()) {
             inProgress = false;
         }
-        
+
     }
-    
+
     private void exitGame() {
         gameLoopThread.interrupt();
         gameLoopThread = null;

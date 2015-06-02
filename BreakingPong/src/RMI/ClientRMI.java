@@ -135,8 +135,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         if (evt.getPropertyName().equals("getBlocks"))
         {
             client.blockList = new ArrayList<>();
-            client.blockList = (ArrayList<Block>) evt.getNewValue();
-            System.out.println(client.blockList.size() + new Date().toString());
+            Block[] blocks = (Block[]) evt.getNewValue();
+            for (int i = 0; i < blocks.length; i++)
+            {
+                client.blockList.add(blocks[i]);
+            }
+            //System.out.println(client.blockList.size() + new Date().toString());
         }
         //Draw all balls from server
         if (evt.getPropertyName().equals("getBalls"))

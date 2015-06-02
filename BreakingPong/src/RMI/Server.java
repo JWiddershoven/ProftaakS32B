@@ -20,8 +20,7 @@ import javafx.stage.Stage;
  *
  * @author Jordi
  */
-public class Server extends Application
-{
+public class Server extends Application {
 
     private ServerRMI rmiService;
     private ArrayList<IUser> playerList;
@@ -29,44 +28,38 @@ public class Server extends Application
     private int playerAmount;
 
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
+    public void start(Stage primaryStage) throws Exception {
 
         System.out.println("Starting Server");
         playerList = new ArrayList<>();
-        try
-        {
-        game = new RMIGame(1, 300, true);
+        try {
+            game = new RMIGame(1, 300, true);
             rmiService = new ServerRMI(game);
             Registry registry = LocateRegistry.createRegistry(1098);
             registry.rebind("gameServer", rmiService);
         }
-        catch (RemoteException ex)
-        {
+        catch (RemoteException ex) {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
         playerAmount = 0;
         System.out.println("Waiting for 4 players to join the game");
 
         /*while (game.getPlayersInformationInGame(1).isEmpty())
-        {
-            Thread.sleep(2000);
-            System.out.println("Waiting for " + Integer.toString(4 - playerAmount) + " players to join the game.");
-        }*/
-
+         {
+         Thread.sleep(2000);
+         System.out.println("Waiting for " + Integer.toString(4 - playerAmount) + " players to join the game.");
+         }*/
         System.out.println("Starting Game");
-        
+
         game.loadMap("src/RMI/test4x4.txt");
         game.StartGame();
     }
 
-    public void addPlayerToGame(String username) throws RemoteException
-    {
+    public void addPlayerToGame(String username) throws RemoteException {
         game.joinGame(game.getID(), username);
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
 
