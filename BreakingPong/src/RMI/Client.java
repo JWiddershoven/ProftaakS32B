@@ -44,12 +44,14 @@ public class Client extends Application implements RemotePropertyListener {
     public ArrayList<Paddle> paddleList;
     
     public String Name;
+    private int heightWindow = 819;
+    private int widthWindow = 848;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         root = new Group();
-        scene = new Scene(root, 700, 400);
+        scene = new Scene(root, heightWindow, widthWindow);
         gameTime = 0;
         // Input field for username
         JOptionPane nameInput = new JOptionPane("Input username");
