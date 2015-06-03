@@ -118,7 +118,7 @@ public class Client extends Application implements RemotePropertyListener
         {
             switch (k.getCode().toString())
             {
-                case "W":
+                case "A":
                 {
                     try
                     {
@@ -128,7 +128,7 @@ public class Client extends Application implements RemotePropertyListener
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                case "S":
+                case "D":
                 {
                     try
                     {
