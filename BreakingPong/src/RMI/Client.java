@@ -123,9 +123,11 @@ public class Client extends Application implements RemotePropertyListener
         // Client movement
         this.stage.getScene().setOnKeyPressed((KeyEvent k) ->
         {
-            switch (k.getCode().toString())
+            switch (k.getCode())
             {
-                case "A":
+                case A:
+                case LEFT:
+                case NUMPAD4:
                 {
                     try
                     {
@@ -135,7 +137,9 @@ public class Client extends Application implements RemotePropertyListener
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                case "D":
+                case D:
+                case RIGHT:
+                case NUMPAD6:
                 {
                     try
                     {
