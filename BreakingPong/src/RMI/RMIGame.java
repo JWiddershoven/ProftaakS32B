@@ -161,7 +161,6 @@ public class RMIGame implements IGame, Runnable {
             RMIUser u = (RMIUser) p.getPlayer();
             if (u != null && u.getUsername(u).equals(username)) {
                 p.MoveDirection(Paddle.Direction.LEFT);
-                ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 break;
             }
         }
@@ -175,7 +174,6 @@ public class RMIGame implements IGame, Runnable {
             RMIUser u = (RMIUser) p.getPlayer();
             if (u != null && u.getUsername(u).equals(username)) {
                 p.MoveDirection(Paddle.Direction.RIGHT);
-                ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 break;
             }
         }
