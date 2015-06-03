@@ -15,6 +15,8 @@ import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
@@ -44,9 +46,10 @@ public class Client extends Application implements RemotePropertyListener
     public IServer connection;
     private ClientRMI clientRMI;
     public int gameTime;
-    public ArrayList<Block> blockList;
+    public ArrayList<Block> undestroyableblockList;
     public ArrayList<Ball> ballList;
     public ArrayList<Paddle> paddleList;
+    public ArrayList<Block> destroyableList;
     private HBox hbox;
     public Text gameTimeLabel;
     public String Name;
@@ -94,8 +97,9 @@ public class Client extends Application implements RemotePropertyListener
         {
             @Override
             public void handle(long now)
-            {
-                clientRMI.drawGame();
+            {           
+                
+                clientRMI.drawGame();                
             }
         }.start();
     }

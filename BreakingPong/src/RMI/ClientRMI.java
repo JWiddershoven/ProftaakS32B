@@ -46,7 +46,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private String newGameTime;
     private Text gameTimeLabel;
     private Text fpsLabel;
-
+    private boolean finished = true;
     long nextSecond = System.currentTimeMillis() + 1000;
     int frameInLastSecond = 0;
     int framesInCurrentSecond = 0;
@@ -98,6 +98,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 this.publisher.removeListener(this, "getBalls");
                 this.publisher.removeListener(this, "getPaddles");
                 this.publisher.removeListener(this, "getGameOver");
+                this.publisher.removeListener(this, "getDestroys");
             }
             UnicastRemoteObject.unexportObject(this, true);
         } catch (RemoteException ex)
@@ -117,6 +118,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             this.publisher.addListener(this, "getBalls");
             this.publisher.addListener(this, "getPaddles");
             this.publisher.addListener(this, "getGameOver");
+            this.publisher.addListener(this, "getDestroys");
             this.client.connection.joinGame(1, client.Name);
             System.out.println("Game joined");
         } catch (RemoteException | NotBoundException ex)
@@ -132,15 +134,28 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException
     {
         //Draw all blocks from server
+
         if (evt.getPropertyName().equals("getBlocks"))
         {
-            client.blockList = new ArrayList<>();
+            client.undestroyableblockList = new ArrayList<>();
             Block[] blocks = (Block[]) evt.getNewValue();
             for (int i = 0; i < blocks.length; i++)
             {
-                client.blockList.add(blocks[i]);
+                client.undestroyableblockList.add(blocks[i]);
             }
             //System.out.println(client.blockList.size() + new Date().toString());
+        }
+        
+        if(evt.getPropertyName().equals("getDestroys"))
+        {
+            client.destroyableList = new ArrayList<>();
+            Block[] destroyBlocks = (Block[]) evt.getNewValue();
+            for(int i = 0; i < destroyBlocks.length;i++)
+            {
+                client.destroyableList.add(destroyBlocks[i]);
+            }
+                    
+            
         }
         //Draw all balls from server
         if (evt.getPropertyName().equals("getBalls"))
@@ -185,7 +200,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
 
     public void drawGame()
     {
-
+        
         Platform.runLater(new Runnable()
         {
             @Override
@@ -231,9 +246,9 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
         }
 
-        if (client.blockList != null)
+        if (client.undestroyableblockList != null)
         {
-            for (Block block : client.blockList)
+            for (Block block : client.undestroyableblockList)
             {
                 Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
                 r.setStroke(Color.BLACK);
@@ -259,6 +274,38 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     }
                 });
             }
+        }
+        
+          if (client.destroyableList != null)
+        {
+            for (Block block : client.destroyableList)
+            {
+                Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
+                r.setStroke(Color.BLACK);
+                if (block.isDestructable() == false)
+                {
+                    r.setFill(Color.DARKGRAY);
+                } else
+                {
+                    if (block.getPowerUp() == null)
+                    {
+                        r.setFill(Color.YELLOW);
+                    } else
+                    {
+                        r.setFill(Color.RED);
+                    }
+                }
+                Platform.runLater(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        client.root.getChildren().add(r);
+                    }
+                });
+            }
+            
+      
         }
 
         long currentTime = System.currentTimeMillis();

@@ -40,7 +40,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     {
         this.publisher = new BasicPublisher(new String[]
         {
-            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver"
+            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys"
         });
         this.ID = 1;
         currentGames.add(game); // Geen create game methode ???

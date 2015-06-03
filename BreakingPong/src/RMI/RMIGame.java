@@ -48,7 +48,8 @@ public class RMIGame implements IGame, Runnable {
     int playerAmount = 1;
     private int id;
     private int gameTime;
-    private boolean powerUps;
+    private boolean powerUps;      
+    private int startup = 0;
     private final int FPS = 60;
     private final long targetTime = 1000 / FPS;
     private boolean inProgress = false;
@@ -66,6 +67,7 @@ public class RMIGame implements IGame, Runnable {
     private final ArrayList<Ball> ballList;
     private final ArrayList<Block> blockList;
     private final ArrayList<Paddle> paddleList;
+    private final ArrayList<Block> destroyableBlockList;
     private final ArrayList<GameObject> changedObjectsList;
     private final ArrayList<GameObject> removedObjectsList;
 
@@ -209,6 +211,7 @@ public class RMIGame implements IGame, Runnable {
         this.paddleList = new ArrayList<>();
         this.changedObjectsList = new ArrayList<>();
         this.removedObjectsList = new ArrayList<>();
+        this.destroyableBlockList = new ArrayList<>();
         this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
 
     }
@@ -392,6 +395,7 @@ public class RMIGame implements IGame, Runnable {
                                 DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
                                 Block wall = new Block(0, false, null, newObjectPosition, velocity, Block.standardBlockSize, DestroyImage);
                                 this.addObject(wall);
+                             
                                 this.blockList.add(wall);
                                 break;
                             }
@@ -406,7 +410,7 @@ public class RMIGame implements IGame, Runnable {
                                 normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
                                 Block noPower = new Block(1, true, null, newObjectPosition, velocity, Block.standardBlockSize, normalBlockImage);
                                 this.addObject(noPower);
-                                this.blockList.add(noPower);
+                                this.destroyableBlockList.add(noPower);
                                 break;
                             }
                             // Create block with powerup
@@ -416,7 +420,7 @@ public class RMIGame implements IGame, Runnable {
                                 power.getRandomPowerUpType();
                                 Block withPower = new Block(10, true, power, newObjectPosition, velocity, Block.standardBlockSize, PowerUpImage);
                                 this.addObject(withPower);
-                                this.blockList.add(withPower);
+                                this.destroyableBlockList.add(withPower);
                                 break;
                             }
                             // Create horizontal paddle spawn
@@ -555,7 +559,7 @@ public class RMIGame implements IGame, Runnable {
         catch (RemoteException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ServerRMI.publisher.inform(this, "getBlocks", null, this.blockList);
+        
     }
 
     /**
@@ -563,6 +567,7 @@ public class RMIGame implements IGame, Runnable {
      */
     public void StartGame() {
         gameTimeInSecondsRemaining = gameTime;
+  
         secondsTimer = new Timer();
         secondsTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -575,17 +580,26 @@ public class RMIGame implements IGame, Runnable {
 
             @Override
             public void run() {
-                if (ServerRMI.publisher != null && inProgress) {
-                    ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
-
+                if (ServerRMI.publisher != null && inProgress) 
+                {
+                    if(startup < 50)
+                    {
                     Block[] blocks = new Block[blockList.size()];
                     blocks = blockList.toArray(blocks);
                     ServerRMI.publisher.inform(this, "getBlocks", null, blocks);
+                    startup++;
+                    }
+                
+                    ServerRMI.publisher.inform(this, "getTime", null, gameTimeInSecondsRemaining);
+
+                    Block[] blocks = new Block[destroyableBlockList.size()];
+                    blocks = destroyableBlockList.toArray(blocks);
+                    ServerRMI.publisher.inform(this, "getDestroys", null, blocks);
                     ServerRMI.publisher.inform(this, "getBalls", null, ballList);
                     ServerRMI.publisher.inform(this, "getPaddles", null, paddleList);
                 }
             }
-        }, 0, 200);
+        }, 0, 150);
         inProgress = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();
@@ -615,7 +629,7 @@ public class RMIGame implements IGame, Runnable {
             ballList.remove((Ball) object);
         }
         if (object instanceof Block) {
-            blockList.remove((Block) object);
+            destroyableBlockList.remove((Block) object);
         }
     }
 
