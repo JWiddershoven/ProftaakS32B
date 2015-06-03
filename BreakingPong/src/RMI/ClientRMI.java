@@ -115,7 +115,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     {
         try
         {
-            this.reg = LocateRegistry.getRegistry("169.254.168.254", 7654);
+            this.reg = LocateRegistry.getRegistry("169.254.151.104", 7654);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
             this.publisher.addListener(this, "getBlocks");
             this.publisher.addListener(this, "getTime");
