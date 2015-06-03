@@ -183,7 +183,7 @@ public class Game extends JPanel implements Runnable {
     }
 
     public void removePaddle(Paddle p1) {
-        for (int i = paddleList.size() - 1; i > 0; i--) {
+        for (int i = paddleList.size() - 1; i >= 0; i--) {
             Paddle p = paddleList.get(i);
             if (p.getWindowLocation() == p1.getWindowLocation()) {
                 paddleList.remove(p);

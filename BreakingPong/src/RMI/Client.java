@@ -71,9 +71,15 @@ public class Client extends Application implements RemotePropertyListener
         // Connect to server
         try
         {
-            clientRMI = new ClientRMI(this);
             String ip = InetAddress.getLocalHost().getHostAddress();
             connection = (IServer) Naming.lookup("rmi://127.0.0.1:1098/gameServer");
+            if (connection != null)
+            {
+                clientRMI = new ClientRMI(this);
+            }
+            else{
+                System.out.println("NOT CONNECTED TO THE SERVER.");
+            }
         } catch (Exception ex)
         {
             System.out.println(ex.getMessage());
@@ -85,6 +91,7 @@ public class Client extends Application implements RemotePropertyListener
         root.getChildren().add(hbox);
         primaryStage.setScene(scene);
         primaryStage.show();
+        keyPressed();
         // If client closes window disconnect from server
         stage.setOnCloseRequest(new EventHandler<WindowEvent>()
         {
@@ -120,9 +127,11 @@ public class Client extends Application implements RemotePropertyListener
         // Client movement
         this.stage.getScene().setOnKeyPressed((KeyEvent k) ->
         {
-            switch (k.getCode().toString())
+            switch (k.getCode())
             {
-                case "W":
+                case A:
+                case LEFT:
+                case NUMPAD4:
                 {
                     try
                     {
@@ -132,7 +141,9 @@ public class Client extends Application implements RemotePropertyListener
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
-                case "S":
+                case D:
+                case RIGHT:
+                case NUMPAD6:
                 {
                     try
                     {

@@ -25,10 +25,14 @@ public class Server extends Application {
     private ServerRMI rmiService;
     private ArrayList<IUser> playerList;
     private RMIGame game;
-    private int playerAmount;
+    
+    /**
+     * AMOUNT OF PLAYERS BEFORE THE GAME STARTS.
+     */
+    private final int playerAmount = 2;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {    
 
         System.out.println("Starting Server");
         playerList = new ArrayList<>();
@@ -41,17 +45,16 @@ public class Server extends Application {
         catch (RemoteException ex) {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-        playerAmount = 0;
-        System.out.println("Waiting for 4 players to join the game");
+        System.out.println("Waiting for " + playerAmount + " players to join the game");
 
-        /*while (game.getPlayersInformationInGame(1).isEmpty())
-         {
-         Thread.sleep(2000);
-         System.out.println("Waiting for " + Integer.toString(4 - playerAmount) + " players to join the game.");
-         }*/
-        System.out.println("Starting Game");
+        while (game.getPlayersInformationInGame(1).size() < playerAmount) {
+            Thread.sleep(2000);
+            System.out.println("Waiting for " + Integer.toString(playerAmount - game.getPlayersInformationInGame(1).size()) + " players to join the game.");
+        }
+        System.out.println("Loading map...");
 
         game.loadMap("src/RMI/test4x4.txt");
+        System.out.println("Starting game...");
         game.StartGame();
     }
 

@@ -47,6 +47,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private Text gameTimeLabel;
     private Text fpsLabel;
     private boolean finished = true;
+    private Text scoreLabel1;
+    private Text scoreLabel2;
+    private Text scoreLabel3;
+    private Text scoreLabel4;
     long nextSecond = System.currentTimeMillis() + 1000;
     int frameInLastSecond = 0;
     int framesInCurrentSecond = 0;
@@ -316,20 +320,43 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             framesInCurrentSecond = 0;
         }
         framesInCurrentSecond++;
+
         Platform.runLater(new Runnable()
         {
 
             @Override
             public void run()
             {
-                gameTimeLabel = new Text(25, 25, "Time Left: " + newGameTime);
-                gameTimeLabel.setFont(Font.font("Verdana", 20));
-                gameTimeLabel.setFill(Color.WHITE);
-                client.root.getChildren().add(gameTimeLabel);
-                fpsLabel = new Text(25, 50, "FPS " + frameInLastSecond);
-                fpsLabel.setFont(Font.font("Verdana", 20));
-                fpsLabel.setFill(Color.WHITE);
-                client.root.getChildren().add(fpsLabel);
+                try
+                {
+                    gameTimeLabel = new Text(25, 25, "Time Left: " + newGameTime);
+                    gameTimeLabel.setFont(Font.font("Verdana", 20));
+                    gameTimeLabel.setFill(Color.WHITE);
+                    client.root.getChildren().add(gameTimeLabel);
+
+                    fpsLabel = new Text(25, 140, "FPS " + frameInLastSecond);
+                    fpsLabel.setFont(Font.font("Verdana", 20));
+                    fpsLabel.setFill(Color.WHITE);
+                    client.root.getChildren().add(fpsLabel);
+
+                    if (client != null && client.paddleList != null)
+                        for (int i =0; i < client.paddleList.size(); i++)
+                        {
+                            Text scoreText;
+                            if (client.paddleList.get(i).getPlayer() != null)
+                            scoreText = new Text(25, 50 + (i*20), client.paddleList.get(i).getPlayer().getUsername(null) + " : " + client.paddleList.get(i).getScore());
+                            else if (client.paddleList.get(i).getCPU() != null)
+                                scoreText = new Text(25, 50 + (i*20), client.paddleList.get(i).getCPU().getName() + " : " + client.paddleList.get(i).getScore());
+                            else
+                                break;
+                            scoreText.setFont(Font.font("Verdana", 20));
+                            scoreText.setFill(Color.WHITE);
+                            client.root.getChildren().add(scoreText);
+                        }
+                } catch (RemoteException ex)
+                {
+                    Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
