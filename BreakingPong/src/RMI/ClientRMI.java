@@ -252,8 +252,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
 
         if (client.undestroyableblockList != null)
         {
-            for (Block block : client.undestroyableblockList)
+            ArrayList<Block> blocks = new ArrayList(client.undestroyableblockList);
+            for(int i = blocks.size(); i > 0; i--)
             {
+                Block block = blocks.get(i-1);
                 Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
                 r.setStroke(Color.BLACK);
                 if (block.isDestructable() == false)
