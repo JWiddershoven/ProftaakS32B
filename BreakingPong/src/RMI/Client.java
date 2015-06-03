@@ -136,11 +136,12 @@ public class Client extends Application implements RemotePropertyListener
                     try
                     {
                         connection.moveLeft(1, Name);
+                        
                     } catch (RemoteException ex)
                     {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+                }break;
                 case D:
                 case RIGHT:
                 case NUMPAD6:
@@ -152,7 +153,7 @@ public class Client extends Application implements RemotePropertyListener
                     {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+                }break;
             }
         });
     }
