@@ -50,10 +50,6 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private Text scoreLabel2;
     private Text scoreLabel3;
     private Text scoreLabel4;
-    private Text username1;
-    private Text username2;
-    private Text username3;
-    private Text username4;
     long nextSecond = System.currentTimeMillis() + 1000;
     int frameInLastSecond = 0;
     int framesInCurrentSecond = 0;
@@ -289,36 +285,26 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     gameTimeLabel.setFont(Font.font("Verdana", 20));
                     gameTimeLabel.setFill(Color.WHITE);
                     client.root.getChildren().add(gameTimeLabel);
-                    
-                    fpsLabel = new Text(25, 130, "FPS " + frameInLastSecond);
+
+                    fpsLabel = new Text(25, 140, "FPS " + frameInLastSecond);
                     fpsLabel.setFont(Font.font("Verdana", 20));
                     fpsLabel.setFill(Color.WHITE);
                     client.root.getChildren().add(fpsLabel);
-                    
-//                    scoreLabel1 = new Text(25, 50, "Score1: " + client.paddleList.get(0).getScore());
-//                    scoreLabel1.setFont(Font.font("Verdana", 20));
-//                    scoreLabel1.setFill(Color.WHITE);
-//                    client.root.getChildren().add(scoreLabel1);
-//                    
-//                    scoreLabel2 = new Text(25, 70, "Score2: " + client.paddleList.get(1).getScore());
-//                    scoreLabel2.setFont(Font.font("Verdana", 20));
-//                    scoreLabel2.setFill(Color.WHITE);
-//                    client.root.getChildren().add(scoreLabel2);
-//                    
-//                    scoreLabel3 = new Text(25, 90, "Score3: " + client.paddleList.get(2).getScore());
-//                    scoreLabel3.setFont(Font.font("Verdana", 20));
-//                    scoreLabel3.setFill(Color.WHITE);
-//                    client.root.getChildren().add(scoreLabel3);
-//                    
-//                    scoreLabel4 = new Text(25, 110, "Score4: " + client.paddleList.get(3).getScore());
-//                    scoreLabel4.setFont(Font.font("Verdana", 20));
-//                    scoreLabel4.setFill(Color.WHITE);
-//                    client.root.getChildren().add(scoreLabel4);
-//                    
-//                    username1 = new Text(25, 120, "Username1: " + client.paddleList.get(0).getPlayer().getUsername(null));
-//                    username1.setFont(Font.font("Verdana", 20));
-//                    username1.setFill(Color.WHITE);
-//                    client.root.getChildren().add(username1);
+
+                    if (client != null && client.paddleList != null)
+                        for (int i =0; i < client.paddleList.size(); i++)
+                        {
+                            Text scoreText;
+                            if (client.paddleList.get(i).getPlayer() != null)
+                            scoreText = new Text(25, 50 + (i*20), client.paddleList.get(i).getPlayer().getUsername(null) + " : " + client.paddleList.get(i).getScore());
+                            else if (client.paddleList.get(i).getCPU() != null)
+                                scoreText = new Text(25, 50 + (i*20), client.paddleList.get(i).getCPU().getName() + " : " + client.paddleList.get(i).getScore());
+                            else
+                                break;
+                            scoreText.setFont(Font.font("Verdana", 20));
+                            scoreText.setFill(Color.WHITE);
+                            client.root.getChildren().add(scoreText);
+                        }
                 } catch (RemoteException ex)
                 {
                     Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
