@@ -46,6 +46,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     private String newGameTime;
     private Text gameTimeLabel;
     private Text fpsLabel;
+    private Text scoreLabel1;
+    private Text scoreLabel2;
+    private Text scoreLabel3;
+    private Text scoreLabel4;
 
     long nextSecond = System.currentTimeMillis() + 1000;
     int frameInLastSecond = 0;
@@ -269,6 +273,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             framesInCurrentSecond = 0;
         }
         framesInCurrentSecond++;
+
         Platform.runLater(new Runnable()
         {
 
@@ -279,10 +284,31 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 gameTimeLabel.setFont(Font.font("Verdana", 20));
                 gameTimeLabel.setFill(Color.WHITE);
                 client.root.getChildren().add(gameTimeLabel);
-                fpsLabel = new Text(25, 50, "FPS " + frameInLastSecond);
+
+                fpsLabel = new Text(25, 130, "FPS " + frameInLastSecond);
                 fpsLabel.setFont(Font.font("Verdana", 20));
                 fpsLabel.setFill(Color.WHITE);
                 client.root.getChildren().add(fpsLabel);
+
+                scoreLabel1 = new Text(25, 50, "Score1: " + client.paddleList.get(0).getScore());
+                scoreLabel1.setFont(Font.font("Verdana", 20));
+                scoreLabel1.setFill(Color.WHITE);
+                client.root.getChildren().add(scoreLabel1);
+
+                scoreLabel2 = new Text(25, 70, "Score2: " + client.paddleList.get(1).getScore());
+                scoreLabel2.setFont(Font.font("Verdana", 20));
+                scoreLabel2.setFill(Color.WHITE);
+                client.root.getChildren().add(scoreLabel2);
+
+                scoreLabel3 = new Text(25, 90, "Score3: " + client.paddleList.get(2).getScore());
+                scoreLabel3.setFont(Font.font("Verdana", 20));
+                scoreLabel3.setFill(Color.WHITE);
+                client.root.getChildren().add(scoreLabel3);
+
+                scoreLabel4 = new Text(25, 110, "Score4: " + client.paddleList.get(3).getScore());
+                scoreLabel4.setFont(Font.font("Verdana", 20));
+                scoreLabel4.setFill(Color.WHITE);
+                client.root.getChildren().add(scoreLabel4);
             }
         });
     }
