@@ -69,7 +69,7 @@ public class RMIGame implements IGame, Runnable {
     private final ArrayList<GameObject> changedObjectsList;
     private final ArrayList<GameObject> removedObjectsList;
 
-    private User player1, player2, player3, player4;
+    private RMIUser player1, player2, player3, player4;
     private CPU cpu1, cpu2, cpu3, cpu4;
     private Paddle P1Paddle, P2Paddle, P3Paddle, P4Paddle;
     private int numberOfPLayersLeft = 4;
@@ -154,11 +154,12 @@ public class RMIGame implements IGame, Runnable {
 
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException {
-        for (int i = paddleList.size(); i > 0; i--) {
+        System.out.println("moveLeft received");
+        for (int i = paddleList.size() - 1; i >= 0; i--) {
             Paddle p = paddleList.get(i);
-            User u = (User) p.getPlayer();
-            if (u.getUsername().equals(username)) {
-                p.Move(Paddle.Direction.LEFT);
+            RMIUser u = (RMIUser) p.getPlayer();
+            if (u != null && u.getUsername(u).equals(username)) {
+                p.MoveDirection(Paddle.Direction.LEFT);
                 break;
             }
         }
@@ -166,11 +167,12 @@ public class RMIGame implements IGame, Runnable {
 
     @Override
     public void moveRight(int gameId, String username) throws RemoteException {
-        for (int i = paddleList.size(); i > 0; i--) {
+        System.out.println("moveRight received");
+        for (int i = paddleList.size() - 1; i >= 0; i--) {
             Paddle p = paddleList.get(i);
-            User u = (User) p.getPlayer();
-            if (u.getUsername().equals(username)) {
-                p.Move(Paddle.Direction.RIGHT);
+            RMIUser u = (RMIUser) p.getPlayer();
+            if (u != null && u.getUsername(u).equals(username)) {
+                p.MoveDirection(Paddle.Direction.RIGHT);
                 break;
             }
         }
@@ -221,51 +223,51 @@ public class RMIGame implements IGame, Runnable {
 
         try {
             if (userList.get(0) != null) {
-                player1 = (User) userList.get(0);
-                System.out.println("Fakakayomama");
+                player1 = (RMIUser) userList.get(0);
+                System.out.println("Added paddle for user 1");
             }
         }
         catch (IndexOutOfBoundsException ex) {
             cpu1 = new CPU("Bot1", (byte) 1);
             cpu1.setMyPaddle(P1Paddle);
-
-            System.out.println("PAddle for USER!!!!!!");
+            System.out.println("Added paddle for CPU 1");
         }
+        
         try {
             if (userList.get(1) != null) {
-                player2 = (User) userList.get(1);
+                player2 = (RMIUser) userList.get(1);
+                System.out.println("Added paddle for user 2");
             }
         }
         catch (IndexOutOfBoundsException ex) {
             cpu2 = new CPU("Bot2", (byte) 1);
             cpu2.setMyPaddle(P2Paddle);
-
-            System.out.println("PAddle for USER!!!!!!");
+            System.out.println("Added paddle for CPU 2");
         }
 
         try {
             if (userList.get(2) != null) {
-                player3 = (User) userList.get(2);
-
+                player3 = (RMIUser) userList.get(2);
+                System.out.println("Added paddle for user 3");
             }
         }
         catch (IndexOutOfBoundsException ex) {
             cpu3 = new CPU("Bot3", (byte) 1);
             cpu3.setMyPaddle(P3Paddle);
-
-            System.out.println("PAddle for USER!!!!!!");
+            System.out.println("Added paddle for CPU 3");
         }
 
         try {
             if (userList.get(3) != null) {
-                player4 = (User) userList.get(3);
+                player4 = (RMIUser) userList.get(3);
+                System.out.println("Added paddle for user 4");
             }
         }
         catch (IndexOutOfBoundsException ex) {
             cpu4 = new CPU("Bot4", (byte) 1);
             cpu4.setMyPaddle(P4Paddle);
 
-            System.out.println("PAddle for USER!!!!!!");
+            System.out.println("Added paddle for CPU 4");
         }
 
     }
@@ -309,22 +311,33 @@ public class RMIGame implements IGame, Runnable {
                 }
                 mapLayout.add(row);
             }
-            readMap(mapLayout);
+            try {
+                readMap(mapLayout);
+            }
+            catch (Exception ex) {
+                System.out.println("Read Map gave the following error");
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         }
         catch (FileNotFoundException ex) {
             System.out.println("File could not be found");
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             return "File could not be found";
         }
         catch (IOException IOex) {
             System.out.println("Filesize is incorrect, use 40 rows with 40 characters");
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, IOex);
             return "Filesize is incorrect, use 40 rows with 40 characters";
         }
         catch (IllegalArgumentException ifex) {
             System.out.println("File incorrect");
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ifex);
             return "File incorrect";
         }
         catch (RuntimeException ex) {
             System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             return "Textfile size is incorrect, use 40 rows with 40 characters";
         }
         return "";
@@ -555,7 +568,9 @@ public class RMIGame implements IGame, Runnable {
         catch (RemoteException ex) {
             Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
-        ServerRMI.publisher.inform(this, "getBlocks", null, this.blockList);
+        Block[] blocks = new Block[blockList.size()];
+        blocks = blockList.toArray(blocks);
+        ServerRMI.publisher.inform(this, "getBlocks", null, blocks);
     }
 
     /**
