@@ -39,7 +39,7 @@ public class Server extends Application {
         try {
             game = new RMIGame(1, 300, true);
             rmiService = new ServerRMI(game);
-            Registry registry = LocateRegistry.createRegistry(1098);
+            Registry registry = LocateRegistry.createRegistry(7654);
             registry.rebind("gameServer", rmiService);
         }
         catch (RemoteException ex) {
@@ -53,7 +53,7 @@ public class Server extends Application {
         }
         System.out.println("Loading map...");
 
-        game.loadMap("src/RMI/test4x4.txt");
+        game.loadMap("src/RMI/test4x4 - minder.txt");
         System.out.println("Starting game...");
         game.StartGame();
     }
