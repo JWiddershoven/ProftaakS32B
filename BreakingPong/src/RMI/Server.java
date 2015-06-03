@@ -29,10 +29,10 @@ public class Server extends Application {
     /**
      * AMOUNT OF PLAYERS BEFORE THE GAME STARTS.
      */
-    private final int playerAmount = 1;
+    private final int playerAmount = 2;
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws Exception {    
 
         System.out.println("Starting Server");
         playerList = new ArrayList<>();
