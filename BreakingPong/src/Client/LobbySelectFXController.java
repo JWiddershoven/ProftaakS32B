@@ -6,17 +6,14 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
-import RMI.RMILobby;
-import RMI.ServerRMI;
-import Server.Administration;
 import Server.Lobby;
 import Shared.User;
 import java.awt.TrayIcon;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -34,8 +31,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class LobbySelectFXController implements Initializable
-{
+public class LobbySelectFXController implements Initializable {
 
     // Textfields
     @FXML
@@ -72,15 +68,13 @@ public class LobbySelectFXController implements Initializable
     MenuItem miHelpAbout;
 
     //private static Administration administration;
-
     private final ObservableList<User> onlineUsersList
             = FXCollections.observableArrayList();
     private final ObservableList<Lobby> lobbiesList
             = FXCollections.observableArrayList();
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
+    public void initialize(URL location, ResourceBundle resources) {
 //        try
 //        {
 //            //administration = Administration.getInstance();
@@ -90,47 +84,48 @@ public class LobbySelectFXController implements Initializable
 //        }
 
         fillListViews();
-        
-        Thread t = new Thread(new Runnable(){
+
+        Thread t = new Thread(new Runnable() {
 
             @Override
-            public void run()
-            {
-                while(true){
-                    try
-                    {
+            public void run() {
+
+                while (true) {
+                    try {
                         Thread.sleep(500);
                         fillListViews();
-                    } catch (InterruptedException ex)
-                    {
+                    } catch (InterruptedException ex) {
                         Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
+
                 }
             }
-            
+
         });
         t.start();
-        
+
     }
 
-    public void fillListViews()
-    {
-        try
-        {
-            lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
-            lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
-        } catch (Exception ex)
-        {
-            System.out.println("ERROR in fillListViews : " + ex.getMessage());
-            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void fillListViews() {
+        Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
+                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
+                } catch (Exception ex) {
+                    System.out.println("ERROR in fillListViews : " + ex.getMessage());
+                    Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">>
     @FXML
-    private void onJoinLobbyClick()
-    {
+    private void onJoinLobbyClick() {
         System.out.println("on lobby join click");
 //        RMILobby selectedLobby = (RMILobby) lvLobbies.getSelectionModel().getSelectedItem();
 //        if (selectedLobby != null)
@@ -157,50 +152,42 @@ public class LobbySelectFXController implements Initializable
     }
 
     @FXML
-    private void onCreateLobbyClick()
-    {
+    private void onCreateLobbyClick() {
         System.out.println("on lobby create click");
-        try
-        {
+        try {
             Parent root = FXMLLoader.load(getClass().getResource("CreateLobby.fxml"));
 
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
                     "Create error", TrayIcon.MessageType.INFO.ordinal());
         }
     }
 
     @FXML
-    private void onSendChatClick()
-    {
+    private void onSendChatClick() {
         System.out.println("sent chat!");
     }
 
     @FXML
-    private void onHelpAboutClick()
-    {
+    private void onHelpAboutClick() {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    private void onFileExitClick()
-    {
+    private void onFileExitClick() {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION)
-        {
+        if (dialogResult == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
 
     @FXML
-    private void onEditDeleteClick()
-    {
+    private void onEditDeleteClick() {
         System.out.println("deleted");
     }
     // </editor-fold>
