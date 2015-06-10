@@ -11,6 +11,9 @@ import Interfaces.IServerSecurity;
 import RMI.RMIGame;
 import RMI.ServerRMI;
 import Server.Administration;
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
@@ -59,21 +62,21 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
     public Session login(String UserName, String Password) throws RemoteException {
         Session session = null;
         try {
-            ServerRMI server = new ServerRMI();
-            
-            
-            if (server.login(UserName, Password))
-            {
-               session = new Session(UserName, (IServer) server);
-            }
+            IServer server = (IServer) Naming.lookup("rmi://169.254.44.97:1098/gameServer");
+                    
+//            if (server.login(UserName, Password))
+//            {
+//               session = new Session(UserName, (IServer) server);
+//            }
             //_administration.login(UserName, Password);
 
-            return session;
-
         }
-        catch (IllegalArgumentException ex) {
-            return null;
+        catch (NotBoundException | MalformedURLException ex)
+        {
+            Logger.getLogger(SecurityRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return session;
     }
 
     /**

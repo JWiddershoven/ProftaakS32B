@@ -28,35 +28,38 @@ import javafx.application.Platform;
  */
 public class RMIClientController extends UnicastRemoteObject implements RemotePropertyListener, IClient
 {
+
     private RemotePublisher services;
     private Registry reg;
     private ClientGUI client;
     private long timeOut;
-    
+
     public RMIClientController(ClientGUI client) throws RemoteException
     {
         this.client = client;
         this.start();
     }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException
     {
         System.out.print(evt.getNewValue().toString());
     }
-    
+
     private void start()
     {
         Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        timer.schedule(new TimerTask()
+        {
             @Override
             public void run()
             {
-                if(Platform.isImplicitExit())
+                if (Platform.isImplicitExit())
                 {
                     super.cancel();
                 }
-                
-                if(System.currentTimeMillis() - timeOut > 10*1000 || services == null)
+
+                if (System.currentTimeMillis() - timeOut > 10 * 1000 || services == null)
                 {
                     System.out.println("Attempting to setup a connection");
                     try
@@ -65,52 +68,53 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                     } catch (MalformedURLException ex)
                     {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NotBoundException ex) {
+                    } catch (NotBoundException ex)
+                    {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
-        }, 0 , 2500);
+        }, 0, 2500);
     }
-    
+
     private void stop()
     {
         try
         {
-            if(this.services != null)
+            if (this.services != null)
             {
                 this.services.removeListener(this, "getPlayers");
                 this.services.removeListener(this, "getLobbys");
             }
             UnicastRemoteObject.unexportObject(this, true);
-        }
-        catch(RemoteException ex)
+        } catch (RemoteException ex)
         {
             Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void connect() throws MalformedURLException, NotBoundException
     {
         try
         {
-            this.reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
+            this.reg = LocateRegistry.getRegistry("169.254.44.97", 1098);
             this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getPlayers");
+
             this.services.addListener(this, "getLobbys");
-        }
-        catch(RemoteException | NotBoundException ex )
+
+        } catch (RemoteException | NotBoundException ex)
         {
             System.out.println("Could not connect to server");
-        }
-        finally
+        } finally
         {
             this.timeOut = System.currentTimeMillis();
         }
     }
 
     @Override
-    public void returnToLobby() throws RemoteException {
+    public void returnToLobby() throws RemoteException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
