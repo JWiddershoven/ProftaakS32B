@@ -97,10 +97,9 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
     {
         try
         {
-            this.reg = LocateRegistry.getRegistry("169.254.44.97", 1098);
+            this.reg = LocateRegistry.getRegistry(ClientGUI.IP_ADDRESS, ClientGUI.PORT);
             this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getPlayers");
-
             this.services.addListener(this, "getLobbys");
 
         } catch (RemoteException | NotBoundException ex)

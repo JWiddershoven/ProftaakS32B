@@ -40,7 +40,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     {
         this.publisher = new BasicPublisher(new String[]
         {
-            "getPlayers", "getLobbys"
+            "getPlayers", "getLobbys", "getChat"
         });
         this.ID = 1;
         Timer timer = new Timer();
@@ -291,7 +291,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
-        return false;
+        publisher.inform(1,"getChat", null, message);
+        return true;
     }
 
     /**
@@ -433,6 +434,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @return true if successfull, otherwise false.
      * @throws RemoteException
      */
+    @Override
     public boolean login(String username, String password) throws RemoteException
     {
         System.out.println("Logging in user");
