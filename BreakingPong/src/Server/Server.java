@@ -11,8 +11,6 @@ import Interfaces.ILobby;
 import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
-import RMI.RMILobby;
-import RMI.ServerRMI;
 import Shared.GameObject;
 import Shared.User;
 import fontys.observer.RemotePropertyListener;

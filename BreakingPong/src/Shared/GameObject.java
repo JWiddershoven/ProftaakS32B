@@ -22,7 +22,7 @@ public class GameObject implements Serializable
     private TVector2 velocity;
     private TVector2 size;
     private transient final Image MyImage;
-    private transient Color color;
+    private Color color;
 
     /**
      * JFX Color

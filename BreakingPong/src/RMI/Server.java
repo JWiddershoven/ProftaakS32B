@@ -24,16 +24,12 @@ public class Server extends Application {
 
     private ServerRMI rmiService;
     private ArrayList<IUser> playerList;
-<<<<<<< HEAD
     private RMIGame game;
     
     /**
      * AMOUNT OF PLAYERS BEFORE THE GAME STARTS.
      */
     private final int playerAmount = 2;
-=======
-    private int playerAmount;
->>>>>>> origin/master
 
     @Override
     public void start(Stage primaryStage) throws Exception {    
@@ -41,20 +37,14 @@ public class Server extends Application {
         System.out.println("Starting Server");
         playerList = new ArrayList<>();
         try {
-<<<<<<< HEAD
             game = new RMIGame(1, 300, true);
             rmiService = new ServerRMI(game);
             Registry registry = LocateRegistry.createRegistry(7654);
-=======
-            rmiService = new ServerRMI();
-            Registry registry = LocateRegistry.createRegistry(1098);
->>>>>>> origin/master
             registry.rebind("gameServer", rmiService);
         }
         catch (RemoteException ex) {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-<<<<<<< HEAD
         System.out.println("Waiting for " + playerAmount + " players to join the game");
 
         while (game.getPlayersInformationInGame(1).size() < playerAmount) {
@@ -70,9 +60,6 @@ public class Server extends Application {
 
     public void addPlayerToGame(String username) throws RemoteException {
         game.joinGame(game.getID(), username);
-=======
-        System.out.println("Server Started");
->>>>>>> origin/master
     }
 
     public static void main(String[] args) {

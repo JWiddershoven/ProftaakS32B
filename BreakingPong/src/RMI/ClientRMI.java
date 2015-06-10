@@ -13,23 +13,19 @@ import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -203,28 +199,15 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        try {
-            drawGame();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        drawGame();
     }
 
-<<<<<<< HEAD
     public void drawGame()
     {
         
         Platform.runLater(new Runnable()
         {
             @Override
-=======
-    public void drawGame() throws FileNotFoundException {
-        ImagePattern pattern;
-        File file;
-        FileInputStream fis;
-        Image img;
-        Platform.runLater(new Runnable() {
->>>>>>> origin/master
             public void run()
             {
                 client.root.getChildren().clear();
@@ -304,27 +287,18 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             for (Block block : client.destroyableList)
             {
                 Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
-                if (block.isDestructable() == false) {
-                    file = new File("src/RMI/GreyBlock.png");
-                    fis = new FileInputStream(file);
-                    img = new Image(fis);
-                    pattern = new ImagePattern(img);
-                    r.setFill(pattern);
-                }
-                else {
-                    if (block.getPowerUp() == null) {
-                        file = new File("src/RMI/YellowBlock.png");
-                        fis = new FileInputStream(file);
-                        img = new Image(fis);
-                        pattern = new ImagePattern(img);
-                        r.setFill(pattern);
-                    }
-                    else {
-                        file = new File("src/RMI/RedBlock.png");
-                        fis = new FileInputStream(file);
-                        img = new Image(fis);
-                        pattern = new ImagePattern(img);
-                        r.setFill(pattern);
+                r.setStroke(Color.BLACK);
+                if (block.isDestructable() == false)
+                {
+                    r.setFill(Color.DARKGRAY);
+                } else
+                {
+                    if (block.getPowerUp() == null)
+                    {
+                        r.setFill(Color.YELLOW);
+                    } else
+                    {
+                        r.setFill(Color.RED);
                     }
                 }
                 Platform.runLater(new Runnable()
@@ -334,7 +308,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     {
                         client.root.getChildren().add(r);
                     }
-                });            
+                });
             }
             
       

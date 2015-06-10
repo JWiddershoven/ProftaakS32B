@@ -36,7 +36,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<IGame> currentGames = new ArrayList<>();
 
-    public ServerRMI() throws RemoteException
+    public ServerRMI(IGame game) throws RemoteException
     {
         this.publisher = new BasicPublisher(new String[]
         {
@@ -44,14 +44,15 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             "getPlayers", "getLobbys"
         });
         this.ID = 1;
+        currentGames.add(game); // Geen create game methode ???
         Timer timer = new Timer();
         timer.schedule(new TimerTask()
         {
+
             @Override
             public void run()
-            {   
-                publisher.inform(this, "getPlayers", null, ID);
-                ID++;
+            {
+
             }
         }, 0, 1500);
     }
@@ -693,6 +694,5 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                 System.out.println("GameCreated");
             }
         }
-
     }
 }

@@ -5,15 +5,11 @@
  */
 package Client;
 
-import Interfaces.IClient;
-import Interfaces.IServer;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
 import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Timer;
@@ -26,7 +22,7 @@ import javafx.application.Platform;
  *
  * @author Jordi
  */
-public class RMIClientController extends UnicastRemoteObject implements RemotePropertyListener, IClient
+public class RMIClientController extends UnicastRemoteObject implements RemotePropertyListener
 {
     private RemotePublisher services;
     private Registry reg;
@@ -65,8 +61,6 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                     } catch (MalformedURLException ex)
                     {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NotBoundException ex) {
-                        Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -79,8 +73,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         {
             if(this.services != null)
             {
-                this.services.removeListener(this, "getPlayers");
-                this.services.removeListener(this, "getLobbys");
+                this.services.removeListener(this, "getValues");
             }
             UnicastRemoteObject.unexportObject(this, true);
         }
@@ -90,27 +83,22 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         }
     }
     
-    private void connect() throws MalformedURLException, NotBoundException
-    {
+    private void connect() throws MalformedURLException
+    {/*
         try
         {
-            this.reg = LocateRegistry.getRegistry("127.0.0.1", 1098);
-            this.services = (IServer) this.reg.lookup("gameServer");
-            this.services.addListener(this, "getPlayers");
-            this.services.addListener(this, "getLobbys");
+            this.reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
+          //  this.services = (IServer) this.reg.lookup("gameServer");
+            this.services.addListener(this, "getValues");
+        ClientGUI.currentSession = 
         }
         catch(RemoteException | NotBoundException ex )
         {
-            System.out.println("Could not connect to server");
+            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally
         {
             this.timeOut = System.currentTimeMillis();
-        }
-    }
-
-    @Override
-    public void returnToLobby() throws RemoteException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }*/
     }
 }

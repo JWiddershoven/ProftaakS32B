@@ -11,7 +11,6 @@ import Shared.Block;
 import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import java.beans.PropertyChangeEvent;
-import java.io.FileNotFoundException;
 import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
@@ -104,19 +103,10 @@ public class Client extends Application implements RemotePropertyListener
         new AnimationTimer()
         {
             @Override
-<<<<<<< HEAD
             public void handle(long now)
             {           
                 
                 clientRMI.drawGame();                
-=======
-            public void handle(long now) {
-                try {
-                    clientRMI.drawGame();
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
->>>>>>> origin/master
             }
         }.start();
     }

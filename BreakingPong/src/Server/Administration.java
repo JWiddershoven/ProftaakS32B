@@ -30,7 +30,7 @@ public class Administration {
      * @throws java.rmi.RemoteException
      */
     public Administration() throws RemoteException {
-        this.server = new ServerRMI();
+        this.server = new ServerRMI(new RMIGame(1,1,false));
         this.database = new Database();
         this.users = new ArrayList<>();
     }

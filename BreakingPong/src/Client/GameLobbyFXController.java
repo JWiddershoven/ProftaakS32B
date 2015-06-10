@@ -29,8 +29,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class GameLobbyFXController implements Initializable
-{
+public class GameLobbyFXController implements Initializable {
 
     // Textfields
     @FXML
@@ -71,25 +70,21 @@ public class GameLobbyFXController implements Initializable
     private Administration administration;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        try
-        {
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
             administration = Administration.getInstance();
-        } catch (RemoteException ex)
-        {
+        }
+        catch (RemoteException ex) {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
         loadUserInterface();
     }
 
-    private void loadUserInterface()
-    {
+    private void loadUserInterface() {
         fillListViews();
     }
 
-    private void fillListViews()
-    {
+    private void fillListViews() {
 //        try
 //        {
 //            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
@@ -101,28 +96,24 @@ public class GameLobbyFXController implements Initializable
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
     @FXML
-    private void onStartGameClick()
-    {
-        try
-        {
-            if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
-            {
+    private void onStartGameClick() {
+        try {
+            if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID()))) {
                 JOptionPane.showConfirmDialog(null, "Error when starting game: Only the host can start the game.", "Error starting game",
                         JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
             }
-       // GameClient game = new GameClient(1, 300, true, ClientGUI.joinedLobby.getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID()));
+            // GameClient game = new GameClient(1, 300, true, ClientGUI.joinedLobby.getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID()));
 //            Thread gameLoopThread = game.setupGame();
 //            if (gameLoopThread != null)
 //            {
 //                gameLoopThread.start();
 //            }
-        } catch (RemoteException ex)
-        {
-             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
+        }
+        catch (RemoteException ex) {
+            JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
-         catch (Exception ex)
-        {
+        catch (Exception ex) {
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
@@ -139,19 +130,16 @@ public class GameLobbyFXController implements Initializable
     }
 
     @FXML
-    private void onLeaveGameClick() throws Exception
-    {
-        if (ClientGUI.joinedLobby == null)
-        {
+    private void onLeaveGameClick() throws Exception {
+        if (ClientGUI.joinedLobby == null) {
             throw new Exception("Wat heb ik gedaan? joinedLobby mag niet null zijn");
         }
-        try
-        {
+        try {
             ClientGUI.joinedLobby.leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
-        } catch (Exception ex)
-        {
+        }
+        catch (Exception ex) {
             JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
-                    JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
         }
         Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
         Scene scene = new Scene(root);
@@ -160,74 +148,73 @@ public class GameLobbyFXController implements Initializable
     }
 
     @FXML
-    private void onSendChatClick()
-    {
-        System.out.println("Sent chat");
-        // TODO: Fix
+    private void onSendChatClick() {
+        try {
+            if (!tfChatInput.getText().trim().isEmpty()) {
+                System.out.println("Sent chat");
+                ClientGUI.CurrentSession.getServer().sendChat(tfChatInput.getText());
+                tfChatInput.setText("");
+            }
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showConfirmDialog(null, ex.getMessage(), "Sending chat error",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @FXML
-    private void onHelpAboutClick()
-    {
+    private void onHelpAboutClick() {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    private void onFileExitClick()
-    {
+    private void onFileExitClick() {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION)
-        {
+        if (dialogResult == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
     }
 
     @FXML
-    private void onEditDeleteClick()
-    {
+    private void onEditDeleteClick() {
         System.out.println("deleted");
     }
 
     @FXML
-    private void onKickPlayerClick() throws RemoteException, Exception
-    {
+    private void onKickPlayerClick() throws RemoteException, Exception {
         boolean result = false;
 
-        if (lvPlayersInGame.getSelectionModel().getSelectedItem() == null)
-        {
+        if (lvPlayersInGame.getSelectionModel().getSelectedItem() == null) {
             JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
                     JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
-        {
+        if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID()))) {
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
                     JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        if (ClientGUI.joinedLobby == null)
-        {
+
+        if (ClientGUI.joinedLobby == null) {
             throw new Exception("Lobby kan niet null zijn!");
         }
 
-        try
-        {
+        try {
             result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString(), ClientGUI.joinedLobby.getLobbyID());
-        } catch (IllegalArgumentException exc)
-        {
+        }
+        catch (IllegalArgumentException exc) {
 
         }
 
-        if (result)
-        {
+        if (result) {
             JOptionPane.showConfirmDialog(null, "Succes: The user has been kicked from the lobby.", "Success",
                     JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
-        } else
-        {
+        }
+        else {
             JOptionPane.showConfirmDialog(null, "Error: Something went wrong, unable to kick user.\nTry again.", "Error",
                     JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
         }
