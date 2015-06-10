@@ -429,6 +429,9 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             {
                 this.loggedInUsers.remove(user);
                 System.out.println("User: " + username + " has logged out.");
+                
+                publisher.inform(this, "getPlayers", null, this.loggedInUsers);
+                
                 return true;
             }
         }
