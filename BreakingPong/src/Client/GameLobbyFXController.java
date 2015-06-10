@@ -90,13 +90,13 @@ public class GameLobbyFXController implements Initializable
 
     private void fillListViews()
     {
-        try
-        {
-            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
-        } catch (RemoteException ex)
-        {
-            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try
+//        {
+//            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
+//        } catch (RemoteException ex)
+//        {
+//            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
@@ -195,16 +195,18 @@ public class GameLobbyFXController implements Initializable
     {
         boolean result = false;
 
-        if (lvPlayersInGame.getSelectionModel().getSelectedItem().toString() == null)
+        if (lvPlayersInGame.getSelectionModel().getSelectedItem() == null)
         {
             JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
-                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
         {
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
-                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
+            return;
         }
         
         if (ClientGUI.joinedLobby == null)
@@ -223,11 +225,11 @@ public class GameLobbyFXController implements Initializable
         if (result)
         {
             JOptionPane.showConfirmDialog(null, "Succes: The user has been kicked from the lobby.", "Success",
-                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
         } else
         {
             JOptionPane.showConfirmDialog(null, "Error: Something went wrong, unable to kick user.\nTry again.", "Error",
-                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.CLOSED_OPTION, JOptionPane.ERROR_MESSAGE);
         }
     }
 

@@ -20,7 +20,8 @@ import java.util.logging.Logger;
  *
  * @author Lorenzo
  */
-public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity, IClientSecurity {
+public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity, IClientSecurity
+{
 
     private final Administration _administration;
 
@@ -28,7 +29,8 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
      *
      * @throws RemoteException
      */
-    public SecurityRMI() throws RemoteException {
+    public SecurityRMI() throws RemoteException
+    {
         _administration = new Administration();
     }
 
@@ -40,7 +42,8 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
      * @throws RemoteException
      */
     @Override
-    public void returnToLobbySelect() throws RemoteException {
+    public void returnToLobbySelect() throws RemoteException
+    {
 
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -56,29 +59,38 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
      * @throws RemoteException
      */
     @Override
-    public Session login(String UserName, String Password) throws RemoteException {
-        try {
-            ServerRMI server = new ServerRMI(new RMIGame(1,1,false));
-            server.login(UserName, Password);
+    public Session login(String UserName, String Password) throws RemoteException
+    {
+        Session session = null;
+        try
+        {
+            ServerRMI server = new ServerRMI(new RMIGame(1, 1, false));
+
+            if (server.login(UserName, Password))
+            {
+                session = new Session(UserName, (IServer) server);
+            }
             //_administration.login(UserName, Password);
-            Session session = new Session(UserName, (IServer) server);
+
             return session;
 
-        }
-        catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex)
+        {
             return null;
         }
     }
 
     /**
-     * Pre-condition: User must be logged in.
-     * Description: Logs the player out, exits the game and sets Session to Null.
+     * Pre-condition: User must be logged in. Description: Logs the player out,
+     * exits the game and sets Session to Null.
+     *
      * @param username username of the logged in user.
      * @return TRUE if succeeded - FALSE if failed.
-     * @throws RemoteException 
+     * @throws RemoteException
      */
     @Override
-    public Session logout(String username) throws RemoteException {        
+    public Session logout(String username) throws RemoteException
+    {
         //_administration.getServer().logout();
         return null;
     }
@@ -95,10 +107,13 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
      * @throws RemoteException
      */
     @Override
-    public boolean createUser(String username, String Password, String email) throws RemoteException {
+    public boolean createUser(String username, String Password, String email) throws RemoteException
+    {
         String errorMessage = _administration.getServer().createUser(username, email, Password);
         if (errorMessage != null)
+        {
             return false;
+        }
         return true;
     }
 

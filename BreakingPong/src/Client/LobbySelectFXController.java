@@ -162,7 +162,7 @@ public class LobbySelectFXController implements Initializable
     private void onHelpAboutClick()
     {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
-                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.CLOSED_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
