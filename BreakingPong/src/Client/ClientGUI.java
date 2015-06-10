@@ -7,9 +7,7 @@ package Client;
 
 import Interfaces.ILobby;
 import Interfaces.IServer;
-import Server.Lobby;
 import Shared.Session;
-import Shared.User;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -32,7 +30,7 @@ public class ClientGUI extends Application {
    /// public static String loggedinUser;
     public static ILobby joinedLobby;
     private RMIClientController controller;
-    private IServer connection;
+    public static IServer connection;
     public static Session CurrentSession;
     
     @FXML     

@@ -63,4 +63,6 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
      * @throws RemoteException
      */
     public ArrayList<ILobby> getAllLobbies() throws RemoteException;
+    
+    public boolean login(String username, String password) throws RemoteException;
 }

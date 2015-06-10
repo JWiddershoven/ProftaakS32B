@@ -49,8 +49,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             @Override
             public void run()
             {   
-                publisher.inform(this, "getPlayers", null, ID);
-                ID++;
+                
             }
         }, 0, 1500);
     }
@@ -435,6 +434,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      */
     public boolean login(String username, String password) throws RemoteException
     {
+        System.out.println("Logging in user");
         try
         {
             LoggedinUser lUser = DatabaseHelper.loginUser(username, password);

@@ -6,11 +6,7 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
-import Helpers.DatabaseHelper;
 import Interfaces.IClientSecurity;
-import Interfaces.IJoin;
-import RMI.RMIJoin;
-import RMI.ServerRMI;
 import Server.Administration;
 import Shared.SecurityRMI;
 import java.awt.EventQueue;
@@ -18,7 +14,6 @@ import java.awt.TrayIcon;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -132,12 +127,11 @@ public class LoginGUiFXController implements Initializable
 
             try
             {
-                //LoggedinUser ingelogd = DatabaseHelper.loginUser(username, password);
-
                 IClientSecurity ics = new SecurityRMI();
-                ClientGUI.CurrentSession = ics.login(username, password);
-                //ClientGUI.loggedinUser = administration.login(username, password);
-                //serverRMI.loggedInUsers.add(ClientGUI.loggedinUser);
+                if(ClientGUI.connection.login(username, password))
+                {
+                    System.out.println("yay");
+                }
                 if (ClientGUI.CurrentSession != null)
                 {
 
