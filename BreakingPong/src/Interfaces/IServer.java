@@ -64,6 +64,7 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
      */
     public ArrayList<ILobby> getAllLobbies() throws RemoteException;
     
+
     /**
      * Creates a new user and adds it to the database.
      *

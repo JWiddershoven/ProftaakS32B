@@ -7,9 +7,7 @@ package Client;
 
 import Interfaces.ILobby;
 import Interfaces.IServer;
-import Server.Lobby;
 import Shared.Session;
-import Shared.User;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -44,7 +42,7 @@ public class ClientGUI extends Application {
         
         try {
             this.controller = new RMIClientController(this);
-            this.connection = (IServer) Naming.lookup("rmi://127.0.0.1:1098/gameServer");
+            this.connection = (IServer) Naming.lookup("rmi://169.254.44.97:1098/gameServer");
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

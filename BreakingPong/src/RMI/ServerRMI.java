@@ -49,8 +49,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             @Override
             public void run()
             {   
-                publisher.inform(this, "getPlayers", null, ID);
-                ID++;
+                
             }
         }, 0, 1500);
     }
