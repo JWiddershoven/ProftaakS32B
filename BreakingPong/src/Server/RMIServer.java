@@ -6,7 +6,6 @@
  */
 package Server;
 
-import Interfaces.IGame;
 import Interfaces.ILobby;
 import Interfaces.IMap;
 import Interfaces.IServer;
@@ -15,8 +14,6 @@ import Shared.GameObject;
 import fontys.observer.BasicPublisher;
 import fontys.observer.RemotePropertyListener;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Timer;
@@ -219,6 +216,11 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     @Override
     public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException
     {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String createUser(String username, String email, String password) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

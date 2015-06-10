@@ -162,8 +162,18 @@ public class GameLobbyFXController implements Initializable
     @FXML
     private void onSendChatClick()
     {
-        System.out.println("Sent chat");
-        // TODO: Fix
+         try {
+            if (!tfChatInput.getText().trim().isEmpty()) {
+                ClientGUI.CurrentSession.getServer().sendChat(tfChatInput.getText());
+                tfChatInput.setText("");
+                System.out.println("Sent chat");
+            }
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showConfirmDialog(null, ex.getMessage(), "Sending chat error",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @FXML
