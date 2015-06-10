@@ -130,7 +130,7 @@ public class BallTest
         size = new TVector2(10, 10);
         position = new TVector2(10, 10);
         b = new Ball(p, position, velocity, size, null);
-        Block block = new Block(0, false, null, new TVector2(21, 11), TVector2.zero, new TVector2(300, 300), null);
+        Block block = new Block(1,0, false, null, new TVector2(21, 11), TVector2.zero, new TVector2(300, 300), null);
         CollisionChecker.gameObjectsList.add(b);
         CollisionChecker.gameObjectsList.add(block);
         b.update();

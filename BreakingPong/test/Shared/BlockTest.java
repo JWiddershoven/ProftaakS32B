@@ -5,7 +5,6 @@
  */
 package Shared;
 
-import java.awt.Color;
 import org.junit.Test;
 
 /**
@@ -20,7 +19,7 @@ public class BlockTest {
 
     @Test
     public void testBlock() {
-        Block b = new Block(25, false, null, new TVector2(25.0f, 25.0f), new TVector2(0.0f, 0.0f), new TVector2(10.0f, 10.0f),null);
+        Block b = new Block(1,25, false, null, new TVector2(25.0f, 25.0f), new TVector2(0.0f, 0.0f), new TVector2(10.0f, 10.0f),null);
         
    }
 }

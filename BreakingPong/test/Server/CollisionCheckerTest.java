@@ -5,13 +5,11 @@
  */
 package Server;
 
-import Shared.Ball;
 import Shared.Block;
 import Shared.CPU;
 import Shared.GameObject;
 import Shared.Paddle;
 import Shared.TVector2;
-import Shared.User;
 import java.awt.Image;
 import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
@@ -27,7 +25,6 @@ public class CollisionCheckerTest
 
     private Paddle paddle1, paddle2;
     private Block block1, block2;
-    private Ball ball;
     private ArrayList<GameObject> gameObjects;
     private Image image;
 
@@ -51,9 +48,9 @@ public class CollisionCheckerTest
         paddle2 = new Paddle(10, position, velocity, paddleSize, cpu, Paddle.WindowLocation.SOUTH, image);
         
         position = new TVector2(30, 55);
-        block1 = new Block(10, false, null, position, velocity, blockSize, image);
+        block1 = new Block(1,10, false, null, position, velocity, blockSize, image);
         position = new TVector2(50, 45);
-        block2 = new Block(10, false, null, position, velocity, blockSize, image);
+        block2 = new Block(2,10, false, null, position, velocity, blockSize, image);
         position = new TVector2(45,45);
         gameObjects.add(paddle1);
         gameObjects.add(paddle2);
