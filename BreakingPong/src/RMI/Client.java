@@ -72,7 +72,7 @@ public class Client extends Application implements RemotePropertyListener
         try
         {
             String ip = InetAddress.getLocalHost().getHostAddress();
-            connection = (IServer) Naming.lookup("rmi://169.254.151.104:7654/gameServer");
+            connection = (IServer) Naming.lookup("rmi://localhost:7654/gameServer");
             if (connection != null)
             {
                 clientRMI = new ClientRMI(this);
@@ -102,11 +102,13 @@ public class Client extends Application implements RemotePropertyListener
         });
         new AnimationTimer()
         {
+            
             @Override
             public void handle(long now)
-            {           
-                
+            {      
+             //   root.requestLayout();;
                 clientRMI.drawGame();                
+                 
             }
         }.start();
     }

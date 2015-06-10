@@ -29,7 +29,7 @@ public class Server extends Application {
     /**
      * AMOUNT OF PLAYERS BEFORE THE GAME STARTS.
      */
-    private final int playerAmount = 2;
+    private final int playerAmount = 1;
 
     @Override
     public void start(Stage primaryStage) throws Exception {    
@@ -53,7 +53,7 @@ public class Server extends Application {
         }
         System.out.println("Loading map...");
 
-        game.loadMap("src/RMI/test4x4 - minder.txt");
+        game.loadMap("src/RMI/test4x4.txt");
         System.out.println("Starting game...");
         game.StartGame();
     }
