@@ -65,6 +65,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                     try
                     {
                         connect();
+                        System.out.println("Connected!");
                     } catch (MalformedURLException ex)
                     {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
