@@ -90,6 +90,28 @@ public class LobbySelectFXController implements Initializable
 //        }
 
         fillListViews();
+        
+        Thread t = new Thread(new Runnable(){
+
+            @Override
+            public void run()
+            {
+                while(true){
+                    try
+                    {
+                        Thread.sleep(500);
+                        fillListViews();
+                    } catch (InterruptedException ex)
+                    {
+                        Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
+                }
+            }
+            
+        });
+        t.start();
+        
     }
 
     public void fillListViews()
