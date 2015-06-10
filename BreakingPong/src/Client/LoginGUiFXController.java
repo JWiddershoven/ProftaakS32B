@@ -188,20 +188,9 @@ public class LoginGUiFXController implements Initializable
     @FXML
     private void onCreateUserCreate(ActionEvent evt)
     {
-        String message = null;
-        try
-        {
-            if (tfCreateUserPassword.getText().equals(tfCreateUserReEnterPassword.getText()))
-            {
-                message = administration.getServer().createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(), tfCreateUserPassword.getText());
-            } else
-            {
-                message = "Passwords do not match or are both empty.";
-            }
-        } catch (RemoteException ex)
-        {
-            Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String  message = createUser(tfCreateUserUsername.getText(), tfCreateUserEmail.getText(),
+                        tfCreateUserPassword.getText(), tfCreateUserReEnterPassword.getText());
+ 
 
         final String messageForDialog = message;
 
@@ -233,43 +222,41 @@ public class LoginGUiFXController implements Initializable
      * @param repassword
      * @return Error message or empty string if account is created.
      */
-//    private String createUser(String username, String email, String password, String repassword) throws RemoteException {
-//        if (username == null || username.trim().isEmpty()) {
-//            return "Username cannot be empty.";
-//        }
-//        if (password == null || password.isEmpty()) {
-//            return "Password cannot be empty.";
-//        }
-//        if (email == null || email.trim().isEmpty()) {
-//            return "Email address cannot be empty.";
-//        }
-//        if (!(email.contains("@") && email.contains("."))) {
-//            return "Email address is not of correct format.";
-//        }
-//        if (username.length() < 6) {
-//            return "Username must be at least 6 characters";
-//        }
-//        if (password.length() < 6) {
-//            return "Password must be at least 6 characters";
-//        }
-//        if (repassword == null || repassword.isEmpty()) {
-//            return "Re-password cannot be empty";
-//        }
-//        if (!password.equals(repassword)) {
-//            return "Passwords must match";
-//        }
-//
-//        try {
-//            boolean dbActionWorked = DatabaseHelper.registerUser(username, password, email);
-//            System.out.println("DBworked = " + dbActionWorked);
-//
-//            Shared.User newUser = new Shared.User(username, password, email, Administration.getInstance().getServer());
-//            Administration.getInstance().getServer().addUser(newUser);
-//        } catch (SQLException ex) {
-//            return "Username is already taken";
-//        }
-//        return "";
-//    }
+    private String createUser(String username, String email, String password, String repassword){
+        if (username == null || username.trim().isEmpty()) {
+            return "Username cannot be empty.";
+        }
+        if (password == null || password.isEmpty()) {
+            return "Password cannot be empty.";
+        }
+        if (email == null || email.trim().isEmpty()) {
+            return "Email address cannot be empty.";
+        }
+        if (!(email.contains("@") && email.contains("."))) {
+            return "Email address is not of correct format.";
+        }
+        if (username.length() < 6) {
+            return "Username must be at least 6 characters";
+        }
+        if (password.length() < 6) {
+            return "Password must be at least 6 characters";
+        }
+        if (repassword == null || repassword.isEmpty()) {
+            return "Re-password cannot be empty";
+        }
+        if (!password.equals(repassword)) {
+            return "Passwords must match";
+        }
+
+        try {
+            String returnValue = ClientGUI.connection.createUser(username,email, password);
+            return returnValue;
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
+            return ex.getMessage();
+        }
+    }
     /**
      *
      * @param evt

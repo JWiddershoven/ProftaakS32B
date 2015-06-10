@@ -31,9 +31,9 @@ public class ClientGUI extends Application {
     public static Stage mainStage;
    /// public static String loggedinUser;
     public static ILobby joinedLobby;
-    private RMIClientController controller;
-    private IServer connection;
+    public static IServer connection;
     public static Session CurrentSession;
+    private RMIClientController controller;
     
     @FXML     
        Label labelLevel;
@@ -44,7 +44,7 @@ public class ClientGUI extends Application {
         
         try {
             this.controller = new RMIClientController(this);
-            this.connection = (IServer) Naming.lookup("rmi://127.0.0.1:1098/gameServer");
+            connection = (IServer) Naming.lookup("rmi://127.0.0.1:1098/gameServer");
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

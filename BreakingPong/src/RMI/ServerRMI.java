@@ -40,11 +40,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     {
         this.publisher = new BasicPublisher(new String[]
         {
-<<<<<<< HEAD
-            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys"
-=======
+            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys",
             "getPlayers", "getLobbys"
->>>>>>> origin/master
         });
         this.ID = 1;
         Timer timer = new Timer();
@@ -103,6 +100,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @return
      * @throws RemoteException
      */
+    @Override
     public String createUser(String username, String email, String password) throws RemoteException
     {
         if (username == null || username.trim().isEmpty())
