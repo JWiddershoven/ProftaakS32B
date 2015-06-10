@@ -42,7 +42,7 @@ public class RMIJoin implements IJoin{
                 foundUser = user;                
             }
         }
-        server.logout(foundUser);
+        server.logout(foundUser.getUsername(null));
         return true;
         }
         return false;

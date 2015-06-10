@@ -64,10 +64,10 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
         try {
             IServer server = (IServer) Naming.lookup("rmi://169.254.44.97:1098/gameServer");
                     
-//            if (server.login(UserName, Password))
-//            {
-//               session = new Session(UserName, (IServer) server);
-//            }
+            if (server.login(UserName, Password))
+            {
+               session = new Session(UserName, (IServer) server);
+            }
             //_administration.login(UserName, Password);
 
         }

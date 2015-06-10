@@ -119,17 +119,18 @@ public class LoginGUiFXController implements Initializable {
             try
             {
                 IClientSecurity ics = new SecurityRMI();
-                if(ClientGUI.connection.login(username, password))
+                try
                 {
+                    ClientGUI.CurrentSession = ics.login(username, password);
                     System.out.println("yay");
+                }
+                catch (Exception ex) 
+                {
+                    
                 }
                 if (ClientGUI.CurrentSession != null)
                 {
-
                     System.out.println("succesfully logged in.");
-
-                    // succesvol ingelogd.
-                    // TODO: Open LobbySelect.fxml
                     Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
                     Scene scene = new Scene(root);
                     mainStage.setScene(scene);

@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 
 public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 {
+
     public static BasicPublisher publisher;
 
     private int ID;
@@ -40,7 +41,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     {
         this.publisher = new BasicPublisher(new String[]
         {
-            "getPlayers", "getLobbys", "getChat"
+            "getPlayers", "getLobbys", "getChat",
+            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys","getChanged"
         });
         this.ID = 1;
         Timer timer = new Timer();
@@ -48,11 +50,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         {
             @Override
             public void run()
-            {   
-                
+            {
+
             }
         }, 0, 1500);
     }
+
     /**
      * Returns a list of current lobbies.
      *
@@ -366,8 +369,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             if (game.getID() == gameid)
             {
                 //returnValue = 
-               //RMIGame newGame = (RMIGame) game;
-               game.joinGame(gameid, username);
+                //RMIGame newGame = (RMIGame) game;
+                game.joinGame(gameid, username);
                 break;
             }
         }
@@ -412,16 +415,24 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     /**
      * Method used to logout a user.
      *
-     * @param user the user.
+     * @param username the username of the user.
      * @return true if successfull, otherwise false.
      * @throws RemoteException
      */
-    public boolean logout(IUser user) throws RemoteException
+    @Override
+    public boolean logout(String username) throws RemoteException
     {
-        if (user != null)
+        for (IUser user : loggedInUsers)
         {
-            this.loggedInUsers.remove(user);
-            return true;
+            if (user.getUsername(null).equals(username))
+            {
+                this.loggedInUsers.remove(user);
+                System.out.println("User: " + username + " has logged out.");
+                
+                publisher.inform(this, "getPlayers", null, this.loggedInUsers);
+                
+                return true;
+            }
         }
         return false;
     }
@@ -525,7 +536,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException
     {
-        for (int i = currentGames.size(); i > 0; i--)
+        for (int i = currentGames.size() -1; i >= 0; i--)
         {
             if (currentGames.get(i).getID() == gameId)
             {
@@ -544,7 +555,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public void moveRight(int gameId, String username) throws RemoteException
     {
-        for (int i = currentGames.size(); i > 0; i--)
+        for (int i = currentGames.size() - 1; i >= 0; i--)
         {
             if (currentGames.get(i).getID() == gameId)
             {
@@ -594,7 +605,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException
     {
-        for (int i = currentGames.size(); i > 0; i--)
+        for (int i = currentGames.size() - 1; i >= 0; i--)
         {
             if (currentGames.get(i).getID() == gameId)
             {
@@ -626,7 +637,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException
     {
-        for (int i = currentGames.size(); i > 0; i--)
+        for (int i = currentGames.size() - 1; i >= 0; i--)
         {
             if (currentGames.get(i).getID() == gameId)
             {
@@ -646,7 +657,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException
     {
-        for (int i = currentGames.size(); i > 0; i--)
+        for (int i = currentGames.size() - 1; i >= 0; i--)
         {
             if (currentGames.get(i).getID() == gameId)
             {
@@ -686,7 +697,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException
     {
-        for (int i = currentLobbies.size(); i > 0; i--)
+        for (int i = currentLobbies.size() - 1; i >= 0; i--)
         {
             if (currentLobbies.get(i).getLobbyID() == id)
             {

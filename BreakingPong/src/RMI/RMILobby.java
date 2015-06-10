@@ -7,7 +7,6 @@ package RMI;
 
 import Interfaces.ILobby;
 import Interfaces.IUser;
-import Server.Game;
 import Shared.User;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -133,7 +132,8 @@ public class RMILobby implements ILobby
         {
             if (user.getUsername(user).equals(username))
             {
-                Breturn = false;
+                return false;
+                //Breturn = false;
             }
         }
 
