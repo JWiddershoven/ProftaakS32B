@@ -202,7 +202,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                     lobby.setMaxPlayers(maxPlayers);
                     lobby.setName(name);
                     lobby.setPassword(Password);
-                    lobby.setOwner((User) user);
+                    lobby.setOwner((RMIUser) user);
                     currentLobbies.add((ILobby) lobby);
                     ClientGUI.joinedLobby = lobby;
                     return true;

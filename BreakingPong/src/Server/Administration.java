@@ -19,6 +19,7 @@ import java.util.logging.Logger;
  *
  * @author Mnesymne
  */
+@Deprecated
 public class Administration {
 
     private static Administration instance = null;

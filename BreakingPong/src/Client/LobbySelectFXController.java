@@ -71,7 +71,7 @@ public class LobbySelectFXController implements Initializable
     @FXML
     MenuItem miHelpAbout;
 
-    private static Administration administration;
+    //private static Administration administration;
 
     private final ObservableList<User> onlineUsersList
             = FXCollections.observableArrayList();
@@ -81,13 +81,13 @@ public class LobbySelectFXController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        try
-        {
-            administration = Administration.getInstance();
-        } catch (RemoteException ex)
-        {
-            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try
+//        {
+//            //administration = Administration.getInstance();
+//        } catch (RemoteException ex)
+//        {
+//            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
         fillListViews();
     }

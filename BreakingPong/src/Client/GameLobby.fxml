@@ -39,7 +39,7 @@
         </Menu>
       </menus>
     </MenuBar>
-      <Button fx:id="btnKickPlayer" layoutX="534.0" layoutY="365.0" mnemonicParsing="false" onAction="#onKickPlayerKick" text="Kick" />
+      <Button fx:id="btnKickPlayer" layoutX="383.0" layoutY="293.0" mnemonicParsing="false" onAction="#onKickPlayerClick" text="Kick" />
       <TextArea fx:id="taChat" editable="false" layoutX="13.0" layoutY="299.0" prefHeight="59.0" prefWidth="330.0" />
   </children>
 </AnchorPane>

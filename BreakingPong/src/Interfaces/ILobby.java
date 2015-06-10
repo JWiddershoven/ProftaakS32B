@@ -5,7 +5,7 @@
  */
 package Interfaces;
 
-import Shared.User;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 

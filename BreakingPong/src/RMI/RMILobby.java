@@ -7,7 +7,7 @@ package RMI;
 
 import Interfaces.ILobby;
 import Interfaces.IUser;
-import Shared.User;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Mnesymne
  */
-public class RMILobby implements ILobby
+public class RMILobby implements ILobby, Serializable
 {
 
     private int id;
@@ -50,12 +50,12 @@ public class RMILobby implements ILobby
         this.password = password;
     }
 
-    public User getOwner()
+    public RMIUser getOwner()
     {
         return owner;
     }
 
-    public void setOwner(User owner)
+    public void setOwner(RMIUser owner)
     {
         this.owner = owner;
     }
@@ -74,13 +74,13 @@ public class RMILobby implements ILobby
 
     private String password;
 
-    private User owner;
+    private transient RMIUser owner;
 
     private byte maxPlayers;
 
-    private ServerRMI host;
+    private transient ServerRMI host;
 
-    private RMIGame game;
+    private transient RMIGame game;
 
     private ArrayList<IUser> joinedPlayers;
 
@@ -157,7 +157,7 @@ public class RMILobby implements ILobby
     @Override
     public String getOwner(int lobbyid) throws RemoteException
     {
-        return this.owner.getUsername();
+        return this.owner.getUsername(null);
     }
 
     @Override

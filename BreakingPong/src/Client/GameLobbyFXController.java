@@ -41,41 +41,41 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
 
     // Textfields
     @FXML
-    TextField tfChatInput;
+   transient TextField tfChatInput;
 
     // Buttons
     @FXML
-    Button btnStartGame;
+    transient Button btnStartGame;
     @FXML
-    Button btnLeaveGame;
+    transient Button btnLeaveGame;
     @FXML
-    Button btnSendChat;
+    transient Button btnSendChat;
     @FXML
-    Button btnKickPlayer;
+   transient Button btnKickPlayer;
 
     // ListViews
     @FXML
-    ListView lvPlayersInGame;
+   transient ListView lvPlayersInGame;
     @FXML
-    ListView lvPlayersInLobby;
+   transient ListView lvPlayersInLobby;
 
     // TextAreas
     @FXML
-    TextArea taChat;
+   transient TextArea taChat;
 
     // Menuitems
     @FXML
-    MenuItem miFile;
+   transient MenuItem miFile;
     @FXML
-    MenuItem miFileClose;
+   transient MenuItem miFileClose;
     @FXML
-    MenuItem miEdit;
+   transient MenuItem miEdit;
     @FXML
-    MenuItem miEditDelete;
+  transient  MenuItem miEditDelete;
     @FXML
-    MenuItem miHelp;
+   transient MenuItem miHelp;
     @FXML
-    MenuItem miHelpAbout;
+   transient MenuItem miHelpAbout;
 
     private RemotePublisher publisher;
     private Registry reg;

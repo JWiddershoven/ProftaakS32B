@@ -19,7 +19,7 @@ public class RMIUser implements IUser, Serializable {
     //--------------------------------------------//
 
     private String username, password, email;
-    private Paddle paddle;
+    private transient Paddle paddle;
     //private Server selectedServer;
     private int rating;
 
