@@ -6,11 +6,9 @@
 package Client;
 
 import Interfaces.ILobby;
-import Interfaces.IServer;
 import Server.Lobby;
 import Shared.Session;
 import Shared.User;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +30,6 @@ public class ClientGUI extends Application {
    /// public static String loggedinUser;
     public static ILobby joinedLobby;
     private RMIClientController controller;
-    private IServer connection;
     public static Session CurrentSession;
     
     @FXML     
@@ -44,7 +41,6 @@ public class ClientGUI extends Application {
         
         try {
             this.controller = new RMIClientController(this);
-            this.connection = (IServer) Naming.lookup("rmi://127.0.0.1:1098/gameServer");
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
