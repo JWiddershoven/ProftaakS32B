@@ -58,7 +58,7 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
     @Override
     public Session login(String UserName, String Password) throws RemoteException {
         try {
-            ServerRMI server = new ServerRMI(new RMIGame(1,1,false));
+            ServerRMI server = new ServerRMI();
             server.login(UserName, Password);
             //_administration.login(UserName, Password);
             Session session = new Session(UserName, (IServer) server);
