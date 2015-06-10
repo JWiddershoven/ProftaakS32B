@@ -92,7 +92,7 @@ public class LobbySelectFXController implements Initializable
         fillListViews();
     }
 
-    private void fillListViews()
+    public void fillListViews()
     {
         try
         {
