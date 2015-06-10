@@ -85,41 +85,43 @@ public class LobbySelectFXController implements Initializable {
 
         fillListViews();
 
-        Thread t = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-
-                while (true) {
-                    try {
-                        Thread.sleep(500);
-                        fillListViews();
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                }
-            }
-
-        });
-        t.start();
-
-    }
-
-    public void fillListViews() {
         Platform.runLater(new Runnable() {
 
             @Override
             public void run() {
-                try {
-                    lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
-                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
-                } catch (Exception ex) {
-                    System.out.println("ERROR in fillListViews : " + ex.getMessage());
-                    Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                Thread t = new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        while (true) {
+                            try {
+                                Thread.sleep(500);
+                                fillListViews();
+                            } catch (InterruptedException ex) {
+                                Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+
+                        }
+                    }
+
+                });
+                t.start();
             }
-        });
+        }
+        );
+
+    }
+
+    public void fillListViews() {
+
+        try {
+            lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
+            lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
+        } catch (Exception ex) {
+            System.out.println("ERROR in fillListViews : " + ex.getMessage());
+            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
