@@ -103,13 +103,13 @@ public class Client extends Application implements RemotePropertyListener
         });
         new AnimationTimer()
         {
-            
+        private long lastUpdate = 0 ;
+    
             @Override
-
-            public void handle(long now)
-            {      
-             //   root.requestLayout();;
-                clientRMI.drawGame();                
+            public void handle(long now) {
+                    if (now - lastUpdate >= 28_000_000) {
+                clientRMI.drawGame(); 
+                    }
             }
         }.start();
     }
