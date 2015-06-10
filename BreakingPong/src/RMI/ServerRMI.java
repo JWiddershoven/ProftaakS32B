@@ -34,6 +34,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 
     private int ID;
     public ArrayList<IUser> loggedInUsers = new ArrayList<>();
+    private ArrayList<IUser> oldLoggedInUsers = new ArrayList<>();
+    private String[] usernames;
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<IGame> currentGames = new ArrayList<>();
 
@@ -51,9 +53,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             @Override
             public void run()
             {
-
+                try {
+                    checkLoggedInUsers();
+                } catch (RemoteException ex) {
+                    Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }, 0, 1500);
+        }, 0, 1000);
     }
 
     /**
@@ -706,5 +712,19 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             }
         }
 
+    }
+    
+    public void checkLoggedInUsers() throws RemoteException
+    {
+        if(this.loggedInUsers != this.oldLoggedInUsers)
+        {
+            usernames = new String[loggedInUsers.size()];
+            for(int i = 0; i < loggedInUsers.size(); i++)
+            {
+                usernames[i] = loggedInUsers.get(i).getUsername(null);
+            }
+            publisher.inform(this, "getPlayers", null, this.loggedInUsers);
+            oldLoggedInUsers = loggedInUsers;
+        }
     }
 }
