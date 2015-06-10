@@ -58,7 +58,7 @@ public class PaddleMoveClient extends Application implements RemotePropertyListe
         try
         {
             String ip = InetAddress.getLocalHost().getHostAddress();
-            connection = (IConnection)Naming.lookup("rmi://127.0.0.1:1099/gameServer");
+            connection = (IConnection)Naming.lookup("rmi://169.254.44.97:1098/gameServer");
         }
         catch(Exception ex)
         {
