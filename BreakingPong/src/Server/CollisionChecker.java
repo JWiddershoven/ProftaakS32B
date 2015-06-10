@@ -69,7 +69,7 @@ public class CollisionChecker
             throw new IllegalStateException("gameObjectsList is empty ColliderChecker.java");
         }
         ArrayList<GameObject> collidedObjects = new ArrayList<>();
-        for (int i = gameObjectsList.size() - 1; i > 0; i--)
+        for (int i = gameObjectsList.size() - 1; i >= 0; i--)
         {
             // Game is closed
             if (gameObjectsList == null)

@@ -6,15 +6,15 @@
 package RMI;
 
 import Interfaces.IUser;
-import Server.Server;
 import Shared.Paddle;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
 /**
  *
  * @author Mnesymne
  */
-public class RMIUser implements IUser {
+public class RMIUser implements IUser, Serializable {
 
     //--------------------------------------------//
 

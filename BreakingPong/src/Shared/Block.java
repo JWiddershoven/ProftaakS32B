@@ -14,13 +14,14 @@ import java.util.ArrayList;
  *
  * @author Lorenzo
  */
-public class Block extends GameObject
-{
+public class Block extends GameObject {
+
+    public int ID;
     /**
      * TVector2(20f,20f)
      */
-    public static TVector2 standardBlockSize = new TVector2(20f,20f);
-    
+    public static TVector2 standardBlockSize = new TVector2(20f, 20f);
+
     /**
      * The amount of points this block gives when it is destroyed.
      */
@@ -48,12 +49,12 @@ public class Block extends GameObject
      * @param velocity as TVector2. The velocity of the GameObject in the game.
      * @param size as TVector2. The size of the GameObject in the game.
      */
-    public Block(int points, boolean isDestructable, PowerUp powerUp, TVector2 position, TVector2 velocity, TVector2 size, Image image)
-    {
+    public Block(int id, int points, boolean isDestructable, PowerUp powerUp, TVector2 position, TVector2 velocity, TVector2 size, Image image) {
         super(position, velocity, size, image);
         this.points = points;
         this.isDestructable = isDestructable;
         this.powerUp = powerUp;
+        this.ID = id;
     }
 
     /**
@@ -61,8 +62,7 @@ public class Block extends GameObject
      *
      * @return
      */
-    public boolean isDestructable()
-    {
+    public boolean isDestructable() {
         return isDestructable;
     }
 
@@ -71,8 +71,7 @@ public class Block extends GameObject
      *
      * @param isDestructable
      */
-    public void setDestructable(boolean isDestructable)
-    {
+    public void setDestructable(boolean isDestructable) {
         this.isDestructable = isDestructable;
     }
 
@@ -81,8 +80,7 @@ public class Block extends GameObject
      *
      * @return The amount of points this block gives when it is destroyed.
      */
-    public int getPoints()
-    {
+    public int getPoints() {
         return points;
     }
 
@@ -91,8 +89,7 @@ public class Block extends GameObject
      *
      * @param points The amount of points this block gives when it is destroyed.
      */
-    public void setPoints(int points)
-    {
+    public void setPoints(int points) {
         this.points = points;
     }
 
@@ -101,8 +98,7 @@ public class Block extends GameObject
      *
      * @return The Powerup of this Block - See PowerUp class. Can be null.
      */
-    public PowerUp getPowerUp()
-    {
+    public PowerUp getPowerUp() {
         return powerUp;
     }
 
@@ -112,35 +108,32 @@ public class Block extends GameObject
      * @param powerUp The Powerup of this Block - See PowerUp class. Can be
      * null.
      */
-    public void setPowerUp(PowerUp powerUp)
-    {
+    public void setPowerUp(PowerUp powerUp) {
         this.powerUp = powerUp;
     }
 
     /**
-     *  if (powerUp == null)
-            return Color.YELLOW;
-        else
-            return Color.RED;
-     * @return  if (powerUp == null)
-            return Color.YELLOW;
-        else
-            return Color.RED;
+     * if (powerUp == null) return Color.YELLOW; else return Color.RED;
+     *
+     * @return if (powerUp == null) return Color.YELLOW; else return Color.RED;
      */
     @Override
-    public Color getColor()
-    {
-        if (powerUp == null)
+    public Color getColor() {
+        if (powerUp == null) {
             return Color.YELLOW;
-        else
+        } else {
             return Color.RED;
+        }
     }
 
     /**
      * Destroys this object.
      */
-    public void destroyObject()
-    {
+    public void destroyObject() {
 
+    }
+
+    public int getID() {
+        return this.ID;
     }
 }

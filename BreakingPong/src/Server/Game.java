@@ -183,7 +183,7 @@ public class Game extends JPanel implements Runnable {
     }
 
     public void removePaddle(Paddle p1) {
-        for (int i = paddleList.size() - 1; i > 0; i--) {
+        for (int i = paddleList.size() - 1; i >= 0; i--) {
             Paddle p = paddleList.get(i);
             if (p.getWindowLocation() == p1.getWindowLocation()) {
                 paddleList.remove(p);
@@ -523,7 +523,7 @@ public class Game extends JPanel implements Runnable {
                             case "0": {
 
                                 DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
-                                Block wall = new Block(0, false, null, newObjectPosition, velocity, new TVector2(25, 25), DestroyImage);
+                                Block wall = new Block(id--,0, false, null, newObjectPosition, velocity, new TVector2(25, 25), DestroyImage);
                                 this.addObject(wall);
 
                                 break;
@@ -537,7 +537,7 @@ public class Game extends JPanel implements Runnable {
                             case "2": {
 
                                 normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
-                                Block noPower = new Block(1, true, null, newObjectPosition, velocity, Block.standardBlockSize, normalBlockImage);
+                                Block noPower = new Block(id--,1, true, null, newObjectPosition, velocity, Block.standardBlockSize, normalBlockImage);
                                 this.addObject(noPower);
                                 break;
                             }
@@ -546,7 +546,7 @@ public class Game extends JPanel implements Runnable {
                                 PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
                                 PowerUp power = new PowerUp(1, null);
                                 power.getRandomPowerUpType();
-                                Block withPower = new Block(10, true, power, newObjectPosition, velocity, Block.standardBlockSize, PowerUpImage);
+                                Block withPower = new Block(id--,10, true, power, newObjectPosition, velocity, Block.standardBlockSize, PowerUpImage);
                                 this.addObject(withPower);
                                 break;
                             }
@@ -1074,7 +1074,7 @@ public class Game extends JPanel implements Runnable {
                     P1Paddle.setEnabled(false);
                     // fill top side with indestructable blocks
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
-                        this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(), 0),
+                        this.addObject(new Block(id--,0, false, null, new TVector2(i * blockSize.getX(), 0),
                                 TVector2.zero, blockSize, DestroyImage));
                     }
                     break;
@@ -1085,7 +1085,7 @@ public class Game extends JPanel implements Runnable {
                     if (playerAmount == 2) {
                         // bottom side
                         for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
-                            this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(),
+                            this.addObject(new Block(id--,0, false, null, new TVector2(i * blockSize.getX(),
                                     maxWidthSize - blockSize.getY()),
                                     TVector2.zero, blockSize, DestroyImage));
                         }
@@ -1093,7 +1093,7 @@ public class Game extends JPanel implements Runnable {
                     else {
                         // left side
                         for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
-                            this.addObject(new Block(0, false, null, new TVector2(0, i * blockSize.getY()),
+                            this.addObject(new Block(id--,0, false, null, new TVector2(0, i * blockSize.getY()),
                                     TVector2.zero, blockSize, DestroyImage));
                         }
                     }
@@ -1104,7 +1104,7 @@ public class Game extends JPanel implements Runnable {
                     P3Paddle.setVelocity(TVector2.zero);
                     P3Paddle.setEnabled(false);
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
-                        this.addObject(new Block(0, false, null, new TVector2(maxWidthSize - blockSize.getX(),
+                        this.addObject(new Block(id--,0, false, null, new TVector2(maxWidthSize - blockSize.getX(),
                                 i * blockSize.getY()),
                                 TVector2.zero, new TVector2(25, 25), DestroyImage));
                     }
@@ -1115,7 +1115,7 @@ public class Game extends JPanel implements Runnable {
                     P4Paddle.setEnabled(false);
                     // bottom side
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
-                        this.addObject(new Block(0, false, null, new TVector2(i * blockSize.getX(),
+                        this.addObject(new Block(0,0, false, null, new TVector2(i * blockSize.getX(),
                                 maxWidthSize - blockSize.getY()),
                                 TVector2.zero, blockSize, DestroyImage));
                     }
