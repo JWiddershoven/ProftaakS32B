@@ -32,7 +32,7 @@ public class ClientGUI extends Application {
    /// public static String loggedinUser;
     public static ILobby joinedLobby;
     private RMIClientController controller;
-    private IServer connection;
+    public static IServer connection;
     public static Session CurrentSession;
     
     @FXML     

@@ -63,4 +63,18 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
      * @throws RemoteException
      */
     public ArrayList<ILobby> getAllLobbies() throws RemoteException;
+    
+    /**
+     * Creates a new user and adds it to the database.
+     *
+     * @param username the username of the user. Must be at least 6 characters
+     * and cannot be empty.
+     * @param email the email of the user. Must contain a dot (.) and @. Cannot
+     * be empty.
+     * @param password the password of the user. Must be at least 6 characters
+     * and cannot be empty.
+     * @return
+     * @throws RemoteException
+     */
+    public String createUser(String username, String email, String password) throws RemoteException;
 }

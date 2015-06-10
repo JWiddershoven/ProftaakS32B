@@ -99,6 +99,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @return
      * @throws RemoteException
      */
+    @Override
     public String createUser(String username, String email, String password) throws RemoteException
     {
         if (username == null || username.trim().isEmpty())
