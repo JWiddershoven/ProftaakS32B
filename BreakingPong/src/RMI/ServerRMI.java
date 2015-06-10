@@ -436,6 +436,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      */
     public boolean login(String username, String password) throws RemoteException
     {
+        System.out.println("Logging in user");
         try
         {
             LoggedinUser lUser = DatabaseHelper.loginUser(username, password);

@@ -77,4 +77,6 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
      * @throws RemoteException
      */
     public String createUser(String username, String email, String password) throws RemoteException;
+    
+    public boolean login(String username, String password) throws RemoteException;
 }

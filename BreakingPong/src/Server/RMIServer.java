@@ -223,4 +223,9 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     public String createUser(String username, String email, String password) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public boolean login(String username, String password) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
