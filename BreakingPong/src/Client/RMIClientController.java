@@ -77,7 +77,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         }, 0, 2500);
     }
 
-    private void stop()
+    public void stop()
     {
         try
         {

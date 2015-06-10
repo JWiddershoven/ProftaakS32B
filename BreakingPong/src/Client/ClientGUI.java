@@ -13,12 +13,15 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -52,6 +55,32 @@ public class ClientGUI extends Application {
         mainStage.setScene(scene);
         mainStage.show();
         
+        mainStage.setOnCloseRequest(new EventHandler<WindowEvent>()
+        {
+
+            @Override
+            public void handle(WindowEvent event)
+            {
+                Platform.runLater(new Runnable()
+                {
+
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            connection.logout(CurrentSession.getUsername());
+                        } catch (RemoteException ex)
+                        {
+                            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        CurrentSession = null;
+                        controller.stop();
+                    }
+                    
+                });
+            }
+        });
     }
     
     public void setLabel(String s)

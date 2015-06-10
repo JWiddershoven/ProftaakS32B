@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 
 public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 {
+
     public static BasicPublisher publisher;
 
     private int ID;
@@ -48,11 +49,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         {
             @Override
             public void run()
-            {   
-                
+            {
+
             }
         }, 0, 1500);
     }
+
     /**
      * Returns a list of current lobbies.
      *
@@ -365,8 +367,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             if (game.getID() == gameid)
             {
                 //returnValue = 
-               //RMIGame newGame = (RMIGame) game;
-               game.joinGame(gameid, username);
+                //RMIGame newGame = (RMIGame) game;
+                game.joinGame(gameid, username);
                 break;
             }
         }
@@ -411,16 +413,20 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     /**
      * Method used to logout a user.
      *
-     * @param user the user.
+     * @param username the username of the user.
      * @return true if successfull, otherwise false.
      * @throws RemoteException
      */
-    public boolean logout(IUser user) throws RemoteException
+    @Override
+    public boolean logout(String username) throws RemoteException
     {
-        if (user != null)
+        for (IUser user : loggedInUsers)
         {
-            this.loggedInUsers.remove(user);
-            return true;
+            if (user.getUsername(null).equals(username))
+            {
+                this.loggedInUsers.remove(user);
+                return true;
+            }
         }
         return false;
     }
