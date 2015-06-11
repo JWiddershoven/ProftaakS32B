@@ -5,11 +5,11 @@
  */
 package Shared;
 
-
 import java.awt.Color;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.io.Serializable;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  *
@@ -130,9 +130,9 @@ public class GameObject implements Serializable
      * 
      * @return Rectangle made of Pos.X, Pos.Y with size X and Y
      */
-    public Rectangle getBounds()
+    public Shape getBounds()
     {
-        return new Rectangle((int)position.getX(),(int) position.getY(),(int) size.getX(),(int) size.getY());
+        return new Rectangle(position.getX(),position.getY(),size.getX(),size.getY());
     }
     
     @Override

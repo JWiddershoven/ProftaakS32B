@@ -20,7 +20,6 @@ import Shared.Paddle;
 import Shared.PowerUp;
 import Shared.TVector2;
 import Shared.User;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,6 +35,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.shape.Rectangle;
 import javax.imageio.ImageIO;
 
 /**
@@ -647,7 +647,7 @@ public class RMIGame implements IGame, Runnable {
             if (s instanceof Block) {
                 Block block = (Block) s;
                 if (block.isDestructable() == false) {
-                    if (r.intersects(s.getBounds())) {
+                    if (r.intersects(s.getBounds().getBoundsInParent())) {
                         System.out.println("reset ball!");
                         // Set position to middle of the window.
                         b.setVelocity(generateRandomVelocity());
