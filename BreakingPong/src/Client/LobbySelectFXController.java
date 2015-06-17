@@ -99,7 +99,7 @@ public class LobbySelectFXController implements Initializable {
             public void run() {
                 try {
                     lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
-                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies().toString()));
+                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
                 } catch (Exception ex) {
                     System.out.println("ERROR in fillListViews : " + ex.getMessage());
                     Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);

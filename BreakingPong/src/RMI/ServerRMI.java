@@ -68,7 +68,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 
     private void fillWithTestData()
     {
-        RMILobby lobby = new RMILobby();
+        RMILobby lobby = new RMILobby(this);
         lobby.setId(currentLobbies.size() + 1);
         lobby.setMaxPlayers((byte)4);
         lobby.setName("Test Lobby");
@@ -219,11 +219,14 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             {
                 if (user.getUsername(user).equals(Owner))
                 {
-                    RMILobby lobby = new RMILobby();
+                    RMILobby lobby = new RMILobby(this);
                     lobby.setId(currentLobbies.size() + 1);
                     lobby.setMaxPlayers(maxPlayers);
                     lobby.setName(name);
-                    lobby.setPassword(Password);
+                    if(Password != null || Password != "")
+                    {
+                        lobby.setPassword(Password);  
+                    }
                     lobby.setOwner((RMIUser) user);
                     currentLobbies.add((ILobby) lobby);
                     // TODO : WERKT NIET MET RMI

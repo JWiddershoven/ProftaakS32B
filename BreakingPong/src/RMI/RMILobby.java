@@ -86,9 +86,9 @@ public class RMILobby implements ILobby, Serializable
     private ArrayList<IUser> joinedPlayers = new ArrayList<>();
   
     
-    public RMILobby()
+    public RMILobby(ServerRMI  server)
     {
-        host = (ServerRMI) ClientGUI.CurrentSession.getServer();
+        host = server;
     }
     
     @Override
