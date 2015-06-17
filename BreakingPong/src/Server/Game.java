@@ -978,8 +978,8 @@ public class Game extends JPanel implements Runnable {
                 gameLoopThread.sleep(10);
                 gameLoopThread.sleep(wait);
             }
-            catch (Exception e) {
-                e.printStackTrace();
+            catch (Exception ex) {
+                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         System.out.println("While exited");

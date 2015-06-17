@@ -228,7 +228,7 @@ public final class DatabaseHelper {
             connection = DriverManager.getConnection(url, username, password);
             System.out.println("Connected");
         } catch (Exception ex) {
-            System.out.println("Error in initConnection " + ex.getMessage());
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

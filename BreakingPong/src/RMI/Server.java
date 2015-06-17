@@ -7,7 +7,6 @@ package RMI;
 
 import Helpers.StaticConstants;
 import Interfaces.IUser;
-import RMIPaddleMoveTest.PaddleMoveServer;
 import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -46,7 +45,7 @@ public class Server extends Application {
             System.out.println(InetAddress.getLocalHost().getHostAddress());
         }
         catch (RemoteException ex) {
-            Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Server Started");
 

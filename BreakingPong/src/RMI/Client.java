@@ -12,13 +12,9 @@ import Shared.Block;
 import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import java.beans.PropertyChangeEvent;
-import java.io.FileNotFoundException;
-import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
@@ -80,7 +76,7 @@ public class Client extends Application implements RemotePropertyListener {
             }
         }
         catch (Exception ex) {
-            System.out.println(ex.getMessage());
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
         hbox = new HBox();
         gameTimeLabel = new Text(10, 10, "GameTime");

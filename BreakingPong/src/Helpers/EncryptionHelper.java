@@ -8,6 +8,8 @@ package Helpers;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The encryption helper.
@@ -52,6 +54,7 @@ public final class EncryptionHelper {
 
             return convertByteArrayToHexString(hashedBytes);
         } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(EncryptionHelper.class.getName()).log(Level.SEVERE, null, ex);
             throw new Exception(
                     "Could not generate hash from String", ex);
         }

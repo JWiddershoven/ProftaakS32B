@@ -5,7 +5,6 @@
  */
 package RMIPaddleMoveTest;
 
-import Interfaces.IServer;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;

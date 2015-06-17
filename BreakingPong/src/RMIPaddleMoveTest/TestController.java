@@ -11,10 +11,8 @@ import java.beans.PropertyChangeEvent;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import static javafx.application.Application.launch;
-import javafx.application.Platform;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,7 +37,7 @@ public class TestController extends UnicastRemoteObject implements RemotePropert
             connection.addListener(this, "getValuesX");
             connection.addListener(this, "getValuesY");
         } catch (Exception ex) {
-            System.out.println(ex);
+            Logger.getLogger(TestController.class.getName()).log(Level.SEVERE, null, ex);
         }
         return connection;
     }

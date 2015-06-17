@@ -7,12 +7,10 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import RMI.RMILobby;
-import Interfaces.IServer;
 import Server.Lobby;
 import Shared.User;
 import java.awt.TrayIcon;
 import java.net.URL;
-import java.rmi.Naming;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -129,6 +127,7 @@ public class LobbySelectFXController implements Initializable {
                 mainStage.show();
             } catch (Exception ex)
             {
+                Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
                         "Join error", TrayIcon.MessageType.INFO.ordinal());
             }
@@ -149,6 +148,7 @@ public class LobbySelectFXController implements Initializable {
             mainStage.setScene(scene);
             mainStage.show();
         } catch (Exception ex) {
+            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
                     "Create error", TrayIcon.MessageType.INFO.ordinal());
         }

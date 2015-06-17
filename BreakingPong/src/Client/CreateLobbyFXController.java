@@ -6,11 +6,7 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
-import Interfaces.ILobby;
-import RMI.ServerRMI;
 import Server.Administration;
-import Server.Lobby;
-import Shared.Map;
 import java.awt.HeadlessException;
 import java.io.IOException;
 import java.net.URL;
@@ -97,7 +93,7 @@ public class CreateLobbyFXController implements Initializable
         }
         catch(RemoteException ex)
         {
-            
+            Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
         fillComboboxes();
     }
@@ -216,6 +212,7 @@ public class CreateLobbyFXController implements Initializable
         }
         catch (Exception ex)
         {
+            Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, ex.getMessage(), "Cancel game error",
                     JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }

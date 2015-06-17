@@ -5,13 +5,8 @@
  */
 package RMIPaddleMoveTest;
 
-import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
-import java.beans.PropertyChangeEvent;
-import java.net.InetAddress;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;

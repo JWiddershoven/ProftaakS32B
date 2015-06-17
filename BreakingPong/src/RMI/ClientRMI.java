@@ -7,16 +7,12 @@ package RMI;
 
 import Helpers.StaticConstants;
 import Interfaces.IGame;
-import RMIPaddleMoveTest.Stub;
 import Shared.Ball;
 import Shared.Block;
 import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -85,7 +81,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         System.out.println("Connected!");
                     }
                     catch (Exception ex) {
-                        Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -107,7 +103,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             UnicastRemoteObject.unexportObject(this, true);
         }
         catch (RemoteException ex) {
-            Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -126,7 +122,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             System.out.println("Game joined");
         }
         catch (RemoteException | NotBoundException ex) {
-            Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally {
             this.timeOut = System.currentTimeMillis();

@@ -161,6 +161,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             this.loggedInUsers.add((IUser) newUser);
         } catch (SQLException ex)
         {
+            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
             return "Username is already taken";
         }
         return "";

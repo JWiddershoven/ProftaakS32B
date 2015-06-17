@@ -126,7 +126,7 @@ public class LoginGUiFXController implements Initializable {
                 }
                 catch (Exception ex) 
                 {
-                    ex.printStackTrace();
+                   Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 if (ClientGUI.CurrentSession != null)
                 {
@@ -154,6 +154,7 @@ public class LoginGUiFXController implements Initializable {
 
             }
             catch (IOException ex) {
+                Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
                 EventQueue.invokeLater(() -> {
                     JOptionPane.showMessageDialog(null, ex.getMessage(),
                             "Unexpected error in Login()", TrayIcon.MessageType.ERROR.ordinal());

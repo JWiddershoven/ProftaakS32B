@@ -7,8 +7,6 @@ package RMIPaddleMoveTest;
 
 import RMI.RMIGame;
 import RMI.RMIUser;
-import Shared.Paddle;
-import Shared.User;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -16,8 +14,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**

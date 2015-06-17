@@ -9,7 +9,6 @@ import Interfaces.IGame;
 import Interfaces.IMap;
 import Interfaces.IUser;
 import Server.CollisionChecker;
-import Server.Game;
 import Server.Server;
 import Shared.Ball;
 import Shared.Block;
@@ -19,7 +18,6 @@ import Shared.Map;
 import Shared.Paddle;
 import Shared.PowerUp;
 import Shared.TVector2;
-import Shared.User;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -313,24 +311,24 @@ public class RMIGame implements IGame, Runnable {
                 readMap(mapLayout);
             } catch (Exception ex) {
                 System.out.println("Read Map gave the following error");
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         } catch (FileNotFoundException ex) {
             System.out.println("File could not be found");
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
             return "File could not be found";
         } catch (IOException IOex) {
             System.out.println("Filesize is incorrect, use 40 rows with 40 characters");
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, IOex);
+            Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, IOex);
             return "Filesize is incorrect, use 40 rows with 40 characters";
         } catch (IllegalArgumentException ifex) {
             System.out.println("File incorrect");
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ifex);
+            Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ifex);
             return "File incorrect";
         } catch (RuntimeException ex) {
             System.out.println("Textfile size is incorrect, use 40 rows with 40 characters");
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
             return "Textfile size is incorrect, use 40 rows with 40 characters";
         }
         return "";
@@ -545,10 +543,10 @@ public class RMIGame implements IGame, Runnable {
                     y += 20;
                 }
             } catch (Exception ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (RemoteException ex) {
-            Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         Block[] blocks = new Block[blockList.size()];
@@ -846,8 +844,8 @@ public class RMIGame implements IGame, Runnable {
                 // Deze sleep verwijderen ( dit is alleen voor test )
                 gameLoopThread.sleep(10);
                 gameLoopThread.sleep(wait);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+               Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         System.out.println("While exited");
@@ -878,7 +876,7 @@ public class RMIGame implements IGame, Runnable {
                 checkBallExitedPlay(b);
 
             } catch (Exception ex) {
-                Logger.getLogger(Game.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         for (CPU c : botList) {

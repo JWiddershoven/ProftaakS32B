@@ -10,6 +10,7 @@ import Helpers.StaticConstants;
 import RMIPaddleMoveTest.Stub;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
+import java.awt.HeadlessException;
 import java.beans.PropertyChangeEvent;
 import java.net.URL;
 import java.rmi.NotBoundException;
@@ -146,10 +147,12 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 //            }
         }
         catch (RemoteException ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
-        catch (Exception ex) {
+        catch (HeadlessException ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
@@ -174,6 +177,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             ClientGUI.joinedLobby.leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
         }
         catch (Exception ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
                     JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }
@@ -250,8 +254,8 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         try {
             result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString(), ClientGUI.joinedLobby.getLobbyID());
         }
-        catch (IllegalArgumentException exc) {
-            exc.printStackTrace();
+        catch (IllegalArgumentException ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (result) {

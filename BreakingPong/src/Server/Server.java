@@ -18,6 +18,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The server class
@@ -410,6 +412,7 @@ public class Server extends UnicastRemoteObject  implements IServer
 
             this.loggedInUsers.add((IUser) newUser);
         } catch (SQLException ex) {
+            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             return "Username is already taken";
         }
         return "";

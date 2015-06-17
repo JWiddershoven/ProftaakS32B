@@ -7,7 +7,6 @@ package Server;
 
 import Helpers.DatabaseHelper;
 import Helpers.LoggedinUser;
-import RMI.RMIGame;
 import RMI.ServerRMI;
 import Shared.User;
 import java.rmi.RemoteException;
