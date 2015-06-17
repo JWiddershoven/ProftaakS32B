@@ -16,6 +16,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,7 +39,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class GameLobbyFXController implements Initializable, RemotePropertyListener {
+public class GameLobbyFXController extends UnicastRemoteObject implements Initializable, RemotePropertyListener {
 
     // Textfields
     @FXML
@@ -85,6 +86,11 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
     public void initialize(URL location, ResourceBundle resources) {
         connect();
         loadUserInterface();
+    }
+    
+    public GameLobbyFXController() throws RemoteException
+    {
+        
     }
 
     public void connect() {
