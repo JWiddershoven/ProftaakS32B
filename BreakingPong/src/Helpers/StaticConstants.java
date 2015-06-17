@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class StaticConstants {
     
     public static final String SERVER_BIND_NAME = "gameServer";
-    public static String SERVER_IP_ADDRESS = "127.0.0.1";
+    public static String SERVER_IP_ADDRESS = "169.254.175.97";
     public static final int SERVER_PORT = 1098;
     
     /**

@@ -56,7 +56,7 @@ public class RMILobby implements ILobby, Serializable
         return owner;
     }
 
-    public void setOwner(RMIUser owner)
+    public void setOwner(IUser owner)
     {
         this.owner = owner;
     }

@@ -227,7 +227,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                     {
                         lobby.setPassword(Password);  
                     }
-                    lobby.setOwner((RMIUser) user);
+                    lobby.setOwner(user);
                     currentLobbies.add((ILobby) lobby);
                     // TODO : WERKT NIET MET RMI
                     ClientGUI.joinedLobby = lobby;
