@@ -42,7 +42,7 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
 
     // Textfields
     @FXML
-   transient TextField tfChatInput;
+    transient TextField tfChatInput;
 
     // Buttons
     @FXML
@@ -52,31 +52,31 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
     @FXML
     transient Button btnSendChat;
     @FXML
-   transient Button btnKickPlayer;
+    transient Button btnKickPlayer;
 
     // ListViews
     @FXML
-   transient ListView lvPlayersInGame;
+    transient ListView lvPlayersInGame;
     @FXML
-   transient ListView lvPlayersInLobby;
+    transient ListView lvPlayersInLobby;
 
     // TextAreas
     @FXML
-   transient TextArea taChat;
+    transient TextArea taChat;
 
     // Menuitems
     @FXML
-   transient MenuItem miFile;
+    transient MenuItem miFile;
     @FXML
-   transient MenuItem miFileClose;
+    transient MenuItem miFileClose;
     @FXML
-   transient MenuItem miEdit;
+    transient MenuItem miEdit;
     @FXML
-  transient  MenuItem miEditDelete;
+    transient MenuItem miEditDelete;
     @FXML
-   transient MenuItem miHelp;
+    transient MenuItem miHelp;
     @FXML
-   transient MenuItem miHelpAbout;
+    transient MenuItem miHelpAbout;
 
     private RemotePublisher publisher;
     private Registry reg;
@@ -228,6 +228,9 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
     private void onKickPlayerClick() throws RemoteException, Exception {
         boolean result = false;
 
+        if (ClientGUI.joinedLobby == null) {
+            throw new Exception("Lobby kan niet null zijn!");
+        }
         if (lvPlayersInGame.getSelectionModel().getSelectedItem().toString() == null) {
             JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -238,15 +241,11 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
 
-        if (ClientGUI.joinedLobby == null) {
-            throw new Exception("Lobby kan niet null zijn!");
-        }
-
         try {
             result = ClientGUI.CurrentSession.getServer().kickPlayer(lvPlayersInGame.getSelectionModel().getSelectedItem().toString(), ClientGUI.joinedLobby.getLobbyID());
         }
         catch (IllegalArgumentException exc) {
-
+            exc.printStackTrace();
         }
 
         if (result) {

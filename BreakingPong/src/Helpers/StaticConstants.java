@@ -17,12 +17,17 @@ import java.util.logging.Logger;
 public class StaticConstants {
     
     public static final String SERVER_BIND_NAME = "gameServer";
-    public static final String SERVER_IP_ADDRESS = "169.254.175.97";
+    public static String SERVER_IP_ADDRESS = "127.0.0.1";
     public static final int SERVER_PORT = 1098;
+    
+    /**
+     * SERVER_IP_ADDRESS + ":"+ SERVER_PORT;
+     */
+    public static String SERVER_IP_PORT = SERVER_IP_ADDRESS + ":"+ SERVER_PORT;
     /**
      * rmi://" + SERVER_IP_ADDRESS + ":" + SERVER_PORT + "/" + SERVER_BIND_NAME;
      */
-    public static final String SERVER_RMI_STRING = "rmi://" + SERVER_IP_ADDRESS + ":" + SERVER_PORT + "/" + SERVER_BIND_NAME;
+    public static String SERVER_RMI_STRING = "rmi://" + SERVER_IP_ADDRESS + ":" + SERVER_PORT + "/" + SERVER_BIND_NAME;
     
     public static String getLocalIp()
     {

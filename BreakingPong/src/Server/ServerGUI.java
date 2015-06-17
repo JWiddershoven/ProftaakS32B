@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -25,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
@@ -40,10 +42,28 @@ public class ServerGUI extends Application {
     @FXML
     private Label lblStatus;
 
+    private boolean serverOnline;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("ServerMain.fxml"));
         Scene scene = new Scene(root);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+            @Override
+            public void handle(WindowEvent t) {
+                try {
+                    if (serverOnline) {
+                        turnServerOff();
+                    }
+                }
+                catch (RemoteException ex) {
+                    Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                Platform.exit();
+            }
+
+        });
         primaryStage.setScene(scene);
         primaryStage.setTitle("Server Application");
         primaryStage.show();
@@ -85,18 +105,21 @@ public class ServerGUI extends Application {
             }
             rmiService = new ServerRMI();
             registry.rebind(StaticConstants.SERVER_BIND_NAME, rmiService);
-            Platform.runLater(() -> lblStatus.setText("Online at " + StaticConstants.SERVER_IP_ADDRESS + ":"+ StaticConstants.SERVER_PORT));
+            StaticConstants.SERVER_IP_ADDRESS = StaticConstants.getLocalIp();
+            Platform.runLater(() -> lblStatus.setText("Online at " + StaticConstants.SERVER_IP_PORT));
+            System.out.println("Server online on " + StaticConstants.SERVER_RMI_STRING);
+            serverOnline = true;
         }
         catch (RemoteException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("Gameserver executed. Listening for commands");
     }
 
     private void turnServerOff() throws RemoteException {
         try {
             registry.unbind(StaticConstants.SERVER_BIND_NAME);
             Platform.runLater(() -> lblStatus.setText("Offline"));
+            serverOnline = false;
         }
         catch (NotBoundException | AccessException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
