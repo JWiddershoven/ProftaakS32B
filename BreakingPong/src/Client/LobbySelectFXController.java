@@ -6,10 +6,12 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Interfaces.IServer;
 import Server.Lobby;
 import Shared.User;
 import java.awt.TrayIcon;
 import java.net.URL;
+import java.rmi.Naming;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,7 +86,6 @@ public class LobbySelectFXController implements Initializable {
 //        {
 //            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
         fillListViews();
 
     }
@@ -97,7 +98,7 @@ public class LobbySelectFXController implements Initializable {
             public void run() {
                 try {
                     lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
-                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
+                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies().toString()));
                 } catch (Exception ex) {
                     System.out.println("ERROR in fillListViews : " + ex.getMessage());
                     Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
