@@ -475,20 +475,19 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public boolean login(String username, String password) throws RemoteException
     {
-        System.out.println("Logging in user");
         try
         {
             LoggedinUser lUser = DatabaseHelper.loginUser(username, password);
 
             if (lUser.getLoggedIn())
             {
-
                 User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail());
                 user.setRating(lUser.getRating());
                 loggedInUsers.add((IUser) user);
                 System.out.println(user.getUsername());
                 System.out.println(user.getEmail());
                 System.out.println(user.getRating());
+                System.out.println("Logging in user");
                 return true;
             }
             return false;

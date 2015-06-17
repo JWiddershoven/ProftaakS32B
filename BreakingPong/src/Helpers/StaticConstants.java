@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class StaticConstants {
     
     public static final String SERVER_BIND_NAME = "gameServer";
-    public static String SERVER_IP_ADDRESS = "169.254.175.97";
+    public static String SERVER_IP_ADDRESS = "169.254.175.90";
     public static final int SERVER_PORT = 1098;
     
     /**
@@ -32,7 +32,9 @@ public class StaticConstants {
     public static String getLocalIp()
     {
         try {
-            return InetAddress.getLocalHost().getHostAddress();
+            String localIp = InetAddress.getLocalHost().getHostAddress();
+            System.out.println("Local IP: " + localIp);
+            return localIp;
         }
         catch (UnknownHostException ex) {
             Logger.getLogger(StaticConstants.class.getName()).log(Level.SEVERE, null, ex);

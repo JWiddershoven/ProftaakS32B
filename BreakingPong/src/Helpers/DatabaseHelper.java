@@ -97,10 +97,14 @@ public final class DatabaseHelper {
      * boolean.
      */
     public static LoggedinUser loginUser(String username, String password) {
-
         if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
             throw new IllegalArgumentException("Parameters niet correct ingevuld!");
         }
+
+        // For testing without database
+        if (username.trim().toLowerCase().equals("database") && password.trim().toLowerCase().equals("database"))
+            return new LoggedinUser(true,"database","database","email@gmail.com",300);
+        
         String hashedPassword = "";
         String databasePassword = "";
         String databaseUsername = "";
