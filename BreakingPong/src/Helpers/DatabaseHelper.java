@@ -26,7 +26,6 @@ public final class DatabaseHelper {
     //private final static String username = "root";
     //private final static String password = "";
     //private final static String url = "jdbc:mysql://localhost:3306/BreakingBusiness";
-    
     //Athena
     private final static String username = "dbi319081";
     private final static String password = "gb7tVqUdKI";
@@ -211,7 +210,7 @@ public final class DatabaseHelper {
             }
             closeConnection();
         } catch (Exception ex) {
-           Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (count == 0) {
