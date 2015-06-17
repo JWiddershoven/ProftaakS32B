@@ -11,6 +11,8 @@ import Interfaces.IUser;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -55,9 +57,7 @@ public class RMILobby implements ILobby, Serializable
     {
         return owner;
     }
-
-    public void setOwner(IUser owner)
-    {
+    public void setOwner(IUser owner) {
         this.owner = owner;
     }
 
@@ -76,6 +76,7 @@ public class RMILobby implements ILobby, Serializable
     private String password;
 
     private transient IUser owner;
+
 
     private byte maxPlayers;
 
@@ -177,5 +178,17 @@ public class RMILobby implements ILobby, Serializable
     {
         RMIGame newGame = new RMIGame(id, gameTime,powerUps);
         this.game = newGame;
+    }
+    
+    @Override
+    public void setNextOwner() throws RemoteException
+    {
+        try {
+             this.owner = this.joinedPlayers.get(0);
+        }
+        catch (Exception ex) {
+            Logger.getLogger(RMILobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
     }
 }

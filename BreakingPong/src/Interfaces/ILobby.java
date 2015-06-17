@@ -64,5 +64,6 @@ public interface ILobby{
     public int getLobbyID() throws RemoteException;
     
     public void createGame(int id, int gameTime,boolean powerUps) throws RemoteException;
-
+    
+    public void setNextOwner() throws RemoteException;
 }

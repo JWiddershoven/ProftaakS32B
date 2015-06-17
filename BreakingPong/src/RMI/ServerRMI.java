@@ -274,14 +274,31 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     public boolean leaveLobby(int lobbyid, String user) throws RemoteException
     {
 
+        ILobby lobbyToRemove = null;
         boolean check = false;
         for (ILobby lobby : currentLobbies)
         {
             if (lobby.getLobbyID() == lobbyid)
             {
                 lobby.leaveLobby(lobbyid, user);
+                if (lobby.getOwner(0).equals(user) && lobby.getPlayerInformationFromLobby(0).size() > 0)
+                {
+                    // er zijn nog players in de game
+                    lobby.setNextOwner();
+                    System.out.println("New lobby owner "  + lobby.getOwner(0));
+                }
+                else
+                {
+                    // remove lobby
+                    lobbyToRemove = lobby;
+                }
                 check = true;
             }
+        }
+        if (lobbyToRemove != null)
+        {
+            System.out.println("No players left in lobby - removing lobby.");
+            currentLobbies.remove(lobbyToRemove);
         }
         return check;
     }
@@ -434,6 +451,10 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             if (game.getID() == gameid)
             {
                 returnValue = game.leaveGame(gameid, username);
+                if (game.getPlayersInformationInGame(gameid).size() == 0)
+                {
+                    // remove game
+                }
             }
         }
         return returnValue;
@@ -761,5 +782,11 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             publisher.inform(this, "getLobbys", null, currentLobbies);
             oldLobbies = currentLobbies;
         }
+    }
+
+    @Override
+    public void setNextOwner() throws RemoteException {
+       // hoeft niet geimplementeerd te worden.
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
