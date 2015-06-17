@@ -5,6 +5,7 @@
  */
 package RMI;
 
+import Client.ClientGUI;
 import Interfaces.ILobby;
 import Interfaces.IUser;
 import java.io.Serializable;
@@ -50,7 +51,7 @@ public class RMILobby implements ILobby, Serializable
         this.password = password;
     }
 
-    public RMIUser getOwner()
+    public IUser getOwner()
     {
         return owner;
     }
@@ -74,7 +75,7 @@ public class RMILobby implements ILobby, Serializable
 
     private String password;
 
-    private transient RMIUser owner;
+    private transient IUser owner;
 
     private byte maxPlayers;
 
@@ -82,8 +83,14 @@ public class RMILobby implements ILobby, Serializable
 
     private transient RMIGame game;
 
-    private ArrayList<IUser> joinedPlayers;
-
+    private ArrayList<IUser> joinedPlayers = new ArrayList<>();
+  
+    
+    public RMILobby()
+    {
+        host = (ServerRMI) ClientGUI.CurrentSession.getServer();
+    }
+    
     @Override
     public boolean leaveLobby(int lobbyid, String username) throws RemoteException
     {
@@ -128,15 +135,20 @@ public class RMILobby implements ILobby, Serializable
     public boolean addUserToLobby(String username, int lobbyid) throws RemoteException
     {
         boolean Breturn = false;
-        for (IUser user : joinedPlayers)
-        {
-            if (user.getUsername(user).equals(username))
-            {
-                return false;
-                //Breturn = false;
-            }
-        }
-
+        
+        if(joinedPlayers == null)
+            joinedPlayers = new ArrayList<>();
+        
+//        for (IUser user : joinedPlayers)
+//        {
+//            if (user.getUsername(user).equals(username))
+//            {
+//                return false;
+//                //Breturn = false;
+//            }
+//        }
+        
+       
         for (IUser user : host.loggedInUsers)
         {
             if (user.getUsername(user).equals(username))
