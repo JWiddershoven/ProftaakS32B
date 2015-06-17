@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Helpers.StaticConstants;
 import Interfaces.IServer;
 import fontys.observer.BasicPublisher;
 import java.rmi.RemoteException;
@@ -32,10 +33,10 @@ public class ServerGUI extends Application
         Scene scene = new Scene(root);
         try
         {
-            Registry registry = LocateRegistry.createRegistry(1099);
+            Registry registry = LocateRegistry.createRegistry(StaticConstants.PORT);
             if(registry == null)
             {
-                registry = LocateRegistry.getRegistry(1099);
+                registry = LocateRegistry.getRegistry(StaticConstants.PORT);
             }
             services = new RMIServer();
             registry.rebind("gameServer", services);
