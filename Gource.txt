@@ -1,1 +1,2 @@
-gource --auto-skip-seconds 1 "C:\Users\Lorenzo\School lokaal\ProftaakS32B/.git"
+gource --auto-skip-seconds 1 "C:\Users\Lorenzo\School lokaal\ProftaakS32B\.git"
+gource --auto-skip-seconds 1 --seconds-per-day 1 "C:\Users\Lorenzo\School lokaal\ProftaakS32B\.git"
