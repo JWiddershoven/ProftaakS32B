@@ -9,8 +9,6 @@ import Helpers.StaticConstants;
 import Interfaces.IClientSecurity;
 import Interfaces.IServer;
 import Interfaces.IServerSecurity;
-import RMI.RMIGame;
-import RMI.ServerRMI;
 import Server.Administration;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -63,32 +61,31 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
     public Session login(String UserName, String Password) throws RemoteException {
         Session session = null;
         try {
+            //IServer server = (IServer) Naming.lookup("rmi://" + StaticConstants.IP_ADDRESS + ":" + StaticConstants.PORT + "/gameServer");
             IServer server = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
-                    
-            if (server.login(UserName, Password))
-            {
-               session = new Session(UserName, (IServer) server);
+
+            if (server.login(UserName, Password)) {
+                session = new Session(UserName, (IServer) server);
             }
             //_administration.login(UserName, Password);
 
-        }
-        catch (NotBoundException | MalformedURLException ex)
-        {
+        } catch (NotBoundException | MalformedURLException ex) {
             Logger.getLogger(SecurityRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return session;
     }
 
     /**
-     * Pre-condition: User must be logged in.
-     * Description: Logs the player out, exits the game and sets Session to Null.
+     * Pre-condition: User must be logged in. Description: Logs the player out,
+     * exits the game and sets Session to Null.
+     *
      * @param username username of the logged in user.
      * @return TRUE if succeeded - FALSE if failed.
-     * @throws RemoteException 
+     * @throws RemoteException
      */
     @Override
-    public Session logout(String username) throws RemoteException {        
+    public Session logout(String username) throws RemoteException {
         //_administration.getServer().logout();
         return null;
     }
@@ -107,8 +104,9 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
     @Override
     public boolean createUser(String username, String Password, String email) throws RemoteException {
         String errorMessage = _administration.getServer().createUser(username, email, Password);
-        if (errorMessage != null)
+        if (errorMessage != null) {
             return false;
+        }
         return true;
     }
 

@@ -8,6 +8,7 @@ package RMI;
 import Helpers.StaticConstants;
 import Interfaces.IUser;
 import RMIPaddleMoveTest.PaddleMoveServer;
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -42,6 +43,7 @@ public class Server extends Application {
             rmiService = new ServerRMI();
             Registry registry = LocateRegistry.createRegistry(StaticConstants.SERVER_PORT);
             registry.rebind("gameServer", rmiService);
+            System.out.println(InetAddress.getLocalHost().getHostAddress());
         }
         catch (RemoteException ex) {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
