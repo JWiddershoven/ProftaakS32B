@@ -13,6 +13,9 @@ import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -25,11 +28,14 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -53,6 +59,11 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     long nextSecond = System.currentTimeMillis() + 1000;
     int frameInLastSecond = 0;
     int framesInCurrentSecond = 0;
+    Image imagePaddle;
+    Image imageBall;
+    Image imageDestructableBlock;
+    Image imageUndestructableBlock;
+    Image imagePowerUp;
 
     public ClientRMI(Client client) throws RemoteException {
         this.client = client;
@@ -80,6 +91,15 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
 
         }, 0, 500);
+        try {
+            this.imageBall = new Image(new FileInputStream("Images/Images/Ball.png"));
+            this.imageDestructableBlock = new Image(new FileInputStream("Images/Images/YellowBlock.png"));
+            this.imageUndestructableBlock = new Image(new FileInputStream("Images/Images/GreyBlock.png"));
+            this.imagePaddle = new Image(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
+            this.imagePowerUp = new Image(new FileInputStream("Images/Images/RedBlock.png"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void stop() {
@@ -205,6 +225,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
                         r.setFill(Color.GREEN);
                         r.setStroke(Color.BLACK);
+                        ImagePattern pattern = new ImagePattern(imagePaddle);
+                        r.setFill(pattern);
                         client.root.getChildren().add(r);
                     }
                 }
@@ -220,6 +242,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 5);
                         c.setStroke(Color.BLACK);
                         c.setFill(Color.LIGHTBLUE);
+                        ImagePattern pattern = new ImagePattern(imageBall);
+                        c.setFill(pattern);
                         client.root.getChildren().add(c);
                     }
                 }
@@ -236,15 +260,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         Block block = blocks.get(i - 1);
                         Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
                         r.setStroke(Color.BLACK);
-                        if (block.isDestructable() == false) {
-                            r.setFill(Color.DARKGRAY);
-                        } else {
-                            if (block.getPowerUp() == null) {
-                                r.setFill(Color.YELLOW);
-                            } else {
-                                r.setFill(Color.RED);
-                            }
-                        }
+                        ImagePattern pattern = new ImagePattern(imageUndestructableBlock);
+                        r.setFill(pattern);
                         client.root.getChildren().add(r);
                     }
                 }
@@ -266,15 +283,19 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         } else {
                             if (block.getPowerUp() == null) {
                                 r.setFill(Color.YELLOW);
+                                ImagePattern pattern = new ImagePattern(imageDestructableBlock);
+                                r.setFill(pattern);
                             } else {
                                 r.setFill(Color.RED);
+                                ImagePattern pattern = new ImagePattern(imagePowerUp);
+                                r.setFill(pattern);
                             }
                         }
                         client.root.getChildren().add(r);
                     }
                 }
-            }
-            );
+            });
+
         }
 
         long currentTime = System.currentTimeMillis();

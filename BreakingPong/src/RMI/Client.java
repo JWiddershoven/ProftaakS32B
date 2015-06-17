@@ -106,8 +106,8 @@ public class Client extends Application implements RemotePropertyListener
             @Override
             public void handle(long now)
             {      
-             //   root.requestLayout();;
-                clientRMI.drawGame();                
+              root.requestLayout();;
+             //   clientRMI.drawGame();                
                  
             }
         }.start();
