@@ -40,7 +40,7 @@ public class Server extends Application {
         try {
             game = new RMIGame(1, 300, true);
             rmiService = new ServerRMI();
-            Registry registry = LocateRegistry.createRegistry(StaticConstants.PORT);
+            Registry registry = LocateRegistry.createRegistry(StaticConstants.SERVER_PORT);
             registry.rebind("gameServer", rmiService);
         }
         catch (RemoteException ex) {

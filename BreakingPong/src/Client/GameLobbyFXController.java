@@ -89,7 +89,7 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
 
     public void connect() {
         try {
-            this.reg = LocateRegistry.getRegistry(StaticConstants.IP_ADDRESS, StaticConstants.PORT);
+            this.reg = LocateRegistry.getRegistry(StaticConstants.SERVER_IP_ADDRESS, StaticConstants.SERVER_PORT);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
             this.publisher.addListener(this, "getChat");
             System.out.println("PropertyListener active for chat.");

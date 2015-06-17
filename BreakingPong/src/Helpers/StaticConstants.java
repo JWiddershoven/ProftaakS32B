@@ -5,15 +5,33 @@
  */
 package Helpers;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Lorenzo
  */
 public class StaticConstants {
     
-    public static final String IP_ADDRESS = "169.254.44.97";
-    public static final int PORT = 1098;
+    public static final String SERVER_BIND_NAME = "gameServer";
+    public static final String SERVER_IP_ADDRESS = "127.0.0.1";
+    public static final int SERVER_PORT = 1098;
+    /**
+     * rmi://" + SERVER_IP_ADDRESS + ":" + SERVER_PORT + "/" + SERVER_BIND_NAME;
+     */
+    public static final String SERVER_RMI_STRING = "rmi://" + SERVER_IP_ADDRESS + ":" + SERVER_PORT + "/" + SERVER_BIND_NAME;
     
-    
-    
+    public static String getLocalIp()
+    {
+        try {
+            return InetAddress.getLocalHost().getHostAddress();
+        }
+        catch (UnknownHostException ex) {
+            Logger.getLogger(StaticConstants.class.getName()).log(Level.SEVERE, null, ex);
+            return "";
+        }
+    }
 }

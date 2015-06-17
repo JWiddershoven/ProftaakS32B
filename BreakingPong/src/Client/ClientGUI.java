@@ -47,7 +47,7 @@ public class ClientGUI extends Application {
         
         try {
             this.controller = new RMIClientController(this);
-            this.connection = (IServer) Naming.lookup("rmi://" + StaticConstants.IP_ADDRESS + ":" + StaticConstants.PORT + "/gameServer");
+            this.connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

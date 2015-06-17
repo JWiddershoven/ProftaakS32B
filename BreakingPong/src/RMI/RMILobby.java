@@ -157,6 +157,8 @@ public class RMILobby implements ILobby, Serializable
     @Override
     public String getOwner(int lobbyid) throws RemoteException
     {
+        if (this.owner == null)
+            return "No owner!";
         return this.owner.getUsername(null);
     }
 

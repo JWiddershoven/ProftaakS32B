@@ -5,6 +5,7 @@
  */
 package Shared;
 
+import Helpers.StaticConstants;
 import Interfaces.IClientSecurity;
 import Interfaces.IServer;
 import Interfaces.IServerSecurity;
@@ -62,7 +63,7 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
     public Session login(String UserName, String Password) throws RemoteException {
         Session session = null;
         try {
-            IServer server = (IServer) Naming.lookup("rmi://169.254.44.97:1098/gameServer");
+            IServer server = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
                     
             if (server.login(UserName, Password))
             {

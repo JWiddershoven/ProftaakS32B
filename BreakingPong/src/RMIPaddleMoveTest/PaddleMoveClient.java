@@ -5,6 +5,7 @@
  */
 package RMIPaddleMoveTest;
 
+import Helpers.StaticConstants;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
@@ -58,7 +59,7 @@ public class PaddleMoveClient extends Application implements RemotePropertyListe
         try
         {
             String ip = InetAddress.getLocalHost().getHostAddress();
-            connection = (IConnection)Naming.lookup("rmi://169.254.44.97:1098/gameServer");
+            connection = (IConnection)Naming.lookup(StaticConstants.SERVER_RMI_STRING);
         }
         catch(Exception ex)
         {

@@ -49,6 +49,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys","getChanged"
         });
         this.ID = 1;
+        fillWithTestData();
         Timer timer = new Timer();
         timer.schedule(new TimerTask()
         {
@@ -65,6 +66,18 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         }, 0, 1000);
     }
 
+    private void fillWithTestData()
+    {
+        RMILobby lobby = new RMILobby();
+        lobby.setId(currentLobbies.size() + 1);
+        lobby.setMaxPlayers((byte)4);
+        lobby.setName("Test Lobby");
+        RMIUser user = new RMIUser("test user", "password", "test@gmai.com", 20);
+        lobby.setOwner((RMIUser)user);
+        currentLobbies.add(lobby);
+        loggedInUsers.add(user);
+    }
+    
     /**
      * Returns a list of current lobbies.
      *
@@ -213,6 +226,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                     lobby.setPassword(Password);
                     lobby.setOwner((RMIUser) user);
                     currentLobbies.add((ILobby) lobby);
+                    // TODO : WERKT NIET MET RMI
                     ClientGUI.joinedLobby = lobby;
                     return true;
                 }
@@ -740,6 +754,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             {
                 lobbynames[i] = currentLobbies.get(i).getLobbyID() + ": " + currentLobbies.get(i).getOwner(currentLobbies.get(i).getLobbyID());
             }
+            // TODO: inform lobbynames?
             publisher.inform(this, "getLobbys", null, currentLobbies);
             oldLobbies = currentLobbies;
         }

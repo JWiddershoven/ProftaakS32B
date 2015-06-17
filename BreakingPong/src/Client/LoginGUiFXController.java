@@ -126,7 +126,7 @@ public class LoginGUiFXController implements Initializable {
                 }
                 catch (Exception ex) 
                 {
-                    
+                    ex.printStackTrace();
                 }
                 if (ClientGUI.CurrentSession != null)
                 {

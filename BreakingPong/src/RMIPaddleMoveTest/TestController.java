@@ -5,6 +5,7 @@
  */
 package RMIPaddleMoveTest;
 
+import Helpers.StaticConstants;
 import fontys.observer.RemotePropertyListener;
 import java.beans.PropertyChangeEvent;
 import java.rmi.Naming;
@@ -34,7 +35,7 @@ public class TestController extends UnicastRemoteObject implements RemotePropert
     public IConnection register() {
 
         try {
-            connection = (IConnection) Naming.lookup("rmi://192.168.1.1:1099/gameServer");
+            connection = (IConnection) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
             connection.addListener(this, "getValuesX");
             connection.addListener(this, "getValuesY");
         } catch (Exception ex) {

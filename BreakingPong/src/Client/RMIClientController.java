@@ -100,7 +100,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
     {
         try
         {
-            this.reg = LocateRegistry.getRegistry(StaticConstants.IP_ADDRESS, StaticConstants.PORT);
+            this.reg = LocateRegistry.getRegistry(StaticConstants.SERVER_IP_ADDRESS, StaticConstants.SERVER_PORT);
             this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getPlayers");
             this.services.addListener(this, "getLobbys");
