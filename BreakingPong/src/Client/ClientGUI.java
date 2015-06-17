@@ -5,6 +5,7 @@
  */
 package Client;
 
+import Helpers.StaticConstants;
 import Interfaces.ILobby;
 import Interfaces.IServer;
 import Shared.Session;
@@ -36,8 +37,6 @@ public class ClientGUI extends Application {
     public static IServer connection;
     public static Session CurrentSession;
     
-    public static String IP_ADDRESS = "169.254.44.97";
-    public static int PORT = 1098;
     
     @FXML     
        Label labelLevel;
@@ -48,7 +47,7 @@ public class ClientGUI extends Application {
         
         try {
             this.controller = new RMIClientController(this);
-            this.connection = (IServer) Naming.lookup("rmi://" + IP_ADDRESS + ":" + PORT + "/gameServer");
+            this.connection = (IServer) Naming.lookup("rmi://" + StaticConstants.IP_ADDRESS + ":" + StaticConstants.PORT + "/gameServer");
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }

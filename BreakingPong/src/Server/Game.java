@@ -20,9 +20,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
-
 import java.awt.image.BufferedImage;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.shape.Rectangle;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -1041,7 +1041,7 @@ public class Game extends JPanel implements Runnable {
             if (s instanceof Block) {
                 Block block = (Block) s;
                 if (block.isDestructable() == false) {
-                    if (r.intersects(s.getBounds())) {
+                    if (r.intersects(s.getBounds().getBoundsInParent())) {
                         System.out.println("reset ball!");
                         // Set position to middle of the window.
                         b.setVelocity(generateRandomVelocity());

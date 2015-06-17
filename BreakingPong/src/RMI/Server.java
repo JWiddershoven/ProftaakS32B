@@ -5,6 +5,7 @@
  */
 package RMI;
 
+import Helpers.StaticConstants;
 import Interfaces.IUser;
 import RMIPaddleMoveTest.PaddleMoveServer;
 import java.rmi.RemoteException;
@@ -39,17 +40,15 @@ public class Server extends Application {
         try {
             game = new RMIGame(1, 300, true);
             rmiService = new ServerRMI();
-            Registry registry = LocateRegistry.createRegistry(1098);
+            Registry registry = LocateRegistry.createRegistry(StaticConstants.PORT);
             registry.rebind("gameServer", rmiService);
         }
         catch (RemoteException ex) {
             Logger.getLogger(PaddleMoveServer.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         System.out.println("Server Started");
 
         System.out.println("Waiting for " + playerAmount + " players to join the game");
-
         while (game.getPlayersInformationInGame(1).size() < playerAmount) {
             Thread.sleep(2000);
             System.out.println("Waiting for " + Integer.toString(playerAmount - game.getPlayersInformationInGame(1).size()) + " players to join the game.");

@@ -5,6 +5,7 @@
  */
 package RMI;
 
+import Helpers.StaticConstants;
 import Interfaces.IServer;
 import Shared.Ball;
 import Shared.Block;
@@ -38,8 +39,7 @@ import javax.swing.JOptionPane;
  *
  * @author Jordi
  */
-public class Client extends Application implements RemotePropertyListener
-{
+public class Client extends Application implements RemotePropertyListener {
 
     private Stage stage;
     Group root;
@@ -58,8 +58,7 @@ public class Client extends Application implements RemotePropertyListener
     private int widthWindow = 800;
 
     @Override
-    public void start(Stage primaryStage) throws Exception
-    {
+    public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         root = new Group();
         scene = new Scene(root, widthWindow, heightWindow);
@@ -70,19 +69,17 @@ public class Client extends Application implements RemotePropertyListener
         Name = JOptionPane.showInputDialog(nameInput, "Enter your username");
         RMIUser user = new RMIUser(Name, null, null, 0);
         // Connect to server
-        try
-        {
-            String ip = InetAddress.getLocalHost().getHostAddress();
-            connection = (IServer) Naming.lookup("rmi://169.254.44.97:1098/gameServer");
-            if (connection != null)
-            {
+        try {
+            //String ip = InetAddress.getLocalHost().getHostAddress();
+            connection = (IServer) Naming.lookup("rmi://" + StaticConstants.IP_ADDRESS + ":" + StaticConstants.PORT + "/gameServer");
+            if (connection != null) {
                 clientRMI = new ClientRMI(this);
             }
-            else{
+            else {
                 System.out.println("NOT CONNECTED TO THE SERVER.");
             }
-        } catch (Exception ex)
-        {
+        }
+        catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
         hbox = new HBox();
@@ -94,81 +91,70 @@ public class Client extends Application implements RemotePropertyListener
         primaryStage.show();
         keyPressed();
         // If client closes window disconnect from server
-        stage.setOnCloseRequest(new EventHandler<WindowEvent>()
-        {
-            public void handle(WindowEvent we)
-            {
+        stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            public void handle(WindowEvent we) {
                 clientRMI.stop();
             }
         });
-        new AnimationTimer()
-        {
-        private long lastUpdate = 0 ;
-    
+        new AnimationTimer() {
+            private long lastUpdate = 0;
+
             @Override
             public void handle(long now) {
-                    if (now - lastUpdate >= 28_000_000) {
-                clientRMI.drawGame(); 
-                    }
+                if (now - lastUpdate >= 28_000_000) {
+                    //   root.requestLayout();;
+                    clientRMI.drawGame();
+                    lastUpdate = now;
+                }
             }
         }.start();
     }
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
-    {
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
 
     }
 
-    public void keyPressed()
-    {
+    public void keyPressed() {
         // Client movement
-        this.stage.getScene().setOnKeyPressed((KeyEvent k) ->
-        {
-            switch (k.getCode())
-            {
+        this.stage.getScene().setOnKeyPressed((KeyEvent k) -> {
+            switch (k.getCode()) {
                 case A:
                 case LEFT:
-                case NUMPAD4:
-                {
-                    try
-                    {
+                case NUMPAD4: {
+                    try {
                         connection.moveLeft(1, Name);
-                        
-                    } catch (RemoteException ex)
-                    {
+
+                    }
+                    catch (RemoteException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }break;
+                }
+                break;
                 case D:
                 case RIGHT:
-                case NUMPAD6:
-                {
-                    try
-                    {
+                case NUMPAD6: {
+                    try {
                         connection.moveRight(1, Name);
-                    } catch (RemoteException ex)
-                    {
+                    }
+                    catch (RemoteException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }break;
+                }
+                break;
             }
         });
     }
 
-    public void shutDown()
-    {
-        Platform.runLater(new Runnable()
-        {
+    public void shutDown() {
+        Platform.runLater(new Runnable() {
 
             @Override
-            public void run()
-            {
+            public void run() {
                 stage.close();
             }
         });

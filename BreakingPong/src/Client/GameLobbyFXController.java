@@ -6,6 +6,7 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Helpers.StaticConstants;
 import RMIPaddleMoveTest.Stub;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
@@ -88,7 +89,7 @@ public class GameLobbyFXController implements Initializable, RemotePropertyListe
 
     public void connect() {
         try {
-            this.reg = LocateRegistry.getRegistry(ClientGUI.IP_ADDRESS, ClientGUI.PORT);
+            this.reg = LocateRegistry.getRegistry(StaticConstants.IP_ADDRESS, StaticConstants.PORT);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
             this.publisher.addListener(this, "getChat");
             System.out.println("PropertyListener active for chat.");

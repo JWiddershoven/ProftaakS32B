@@ -65,4 +65,11 @@ public class CollisionCheckerTest
         assertEquals(block2, CollisionChecker.collidesWithFirst(paddle1));    
         CollisionChecker.gameObjectsList.clear();  
     }
+    
+    @Test
+    public void testCollision()
+    {
+        
+    }
+    
 }

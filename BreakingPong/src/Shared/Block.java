@@ -40,6 +40,7 @@ public class Block extends GameObject {
     /**
      * The Block constructor. Calls the super constructor of GameObject.
      *
+     * @param id
      * @param points as integer, The amount of points this blocks gives when it
      * is destroyed.
      * @param isDestructable as boolean. Whether this block can be destroyed by
@@ -48,6 +49,7 @@ public class Block extends GameObject {
      * @param position as TVector2. The position of the GameObject in the game.
      * @param velocity as TVector2. The velocity of the GameObject in the game.
      * @param size as TVector2. The size of the GameObject in the game.
+     * @param image
      */
     public Block(int id, int points, boolean isDestructable, PowerUp powerUp, TVector2 position, TVector2 velocity, TVector2 size, Image image) {
         super(position, velocity, size, image);

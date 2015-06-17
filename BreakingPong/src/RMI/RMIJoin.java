@@ -6,9 +6,7 @@
 package RMI;
 
 import Interfaces.IJoin;
-import Interfaces.IServer;
 import Interfaces.IUser;
-import Shared.User;
 import java.rmi.RemoteException;
 
 /**

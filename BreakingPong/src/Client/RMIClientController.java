@@ -5,6 +5,7 @@
  */
 package Client;
 
+import Helpers.StaticConstants;
 import Interfaces.IClient;
 import Interfaces.IServer;
 import fontys.observer.RemotePropertyListener;
@@ -99,7 +100,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
     {
         try
         {
-            this.reg = LocateRegistry.getRegistry(ClientGUI.IP_ADDRESS, ClientGUI.PORT);
+            this.reg = LocateRegistry.getRegistry(StaticConstants.IP_ADDRESS, StaticConstants.PORT);
             this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getPlayers");
             this.services.addListener(this, "getLobbys");

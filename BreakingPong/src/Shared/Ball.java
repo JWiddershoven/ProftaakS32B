@@ -9,6 +9,8 @@ import Server.CollisionChecker;
 import Shared.Paddle.WindowLocation;
 import java.awt.Image;
 import java.util.ArrayList;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import javax.swing.Timer;
 
 /**
@@ -236,20 +238,20 @@ public class Ball extends GameObject {
         float f1, f2;
         TVector2 vel = new TVector2(this.getVelocity().getX(), this.getVelocity().getY());
 
-        if (go instanceof Paddle) {
-            Paddle p = (Paddle) go;
-            if (p.isEnabled()) {
-                this.lastPaddleTouched = p;
-                if (p.getWindowLocation() == Paddle.WindowLocation.NORTH || p.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
-                    vel.setY(bounceFloat(vel.getY()));
-                }
-                if (p.getWindowLocation() == Paddle.WindowLocation.WEST || p.getWindowLocation() == Paddle.WindowLocation.EAST) {
-                    vel.setX(bounceFloat(vel.getX()));
-                }
-                this.setVelocity(vel);
-            }
-            return;
-        }
+//        if (go instanceof Paddle) {
+//            Paddle p = (Paddle) go;
+//            if (p.isEnabled()) {
+//                this.lastPaddleTouched = p;
+//                if (p.getWindowLocation() == Paddle.WindowLocation.NORTH || p.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
+//                    vel.setY(bounceFloat(vel.getY()));
+//                }
+//                if (p.getWindowLocation() == Paddle.WindowLocation.WEST || p.getWindowLocation() == Paddle.WindowLocation.EAST) {
+//                    vel.setX(bounceFloat(vel.getX()));
+//                }
+//                this.setVelocity(vel);
+//            }
+//            return;
+//        }
 
         //Hit was on right
         if (getMiddlePosition().getY() > goPos.getY()) {
@@ -285,4 +287,14 @@ public class Ball extends GameObject {
         return x;
     }
 
+    /**
+     *  return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
+     * @return  return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
+     */
+    @Override
+    public Shape getBounds()
+    {
+        return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
+    }
+    
 }
