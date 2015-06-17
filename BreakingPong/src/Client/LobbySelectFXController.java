@@ -44,6 +44,8 @@ public class LobbySelectFXController implements Initializable {
     Button btnCreateLobby;
     @FXML
     Button btnSendChat;
+    @FXML
+    Button btnRefresh;
 
     // Listviews
     @FXML
@@ -147,6 +149,12 @@ public class LobbySelectFXController implements Initializable {
             JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
                     "Create error", TrayIcon.MessageType.INFO.ordinal());
         }
+    }
+    
+    @FXML
+    private void onRefreshClick()
+    {
+        fillListViews();
     }
 
     @FXML
