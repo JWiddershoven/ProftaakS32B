@@ -44,49 +44,49 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 
     // Textfields
     @FXML
-    transient TextField tfChatInput;
+    TextField tfChatInput;
 
     // Buttons
     @FXML
-    transient Button btnStartGame;
+    Button btnStartGame;
     @FXML
-    transient Button btnLeaveGame;
+    Button btnLeaveGame;
     @FXML
-    transient Button btnSendChat;
+    Button btnSendChat;
     @FXML
-    transient Button btnKickPlayer;
+    Button btnKickPlayer;
 
     // ListViews
     @FXML
-    transient ListView lvPlayersInGame;
+    ListView lvPlayersInGame;
     @FXML
-    transient ListView lvPlayersInLobby;
+    ListView lvPlayersInLobby;
 
     // TextAreas
     @FXML
-    transient TextArea taChat;
+    TextArea taChat;
 
     // Menuitems
     @FXML
-    transient MenuItem miFile;
+    MenuItem miFile;
     @FXML
-    transient MenuItem miFileClose;
+    MenuItem miFileClose;
     @FXML
-    transient MenuItem miEdit;
+    MenuItem miEdit;
     @FXML
-    transient MenuItem miEditDelete;
+    MenuItem miEditDelete;
     @FXML
-    transient MenuItem miHelp;
+    MenuItem miHelp;
     @FXML
-    transient MenuItem miHelpAbout;
+    MenuItem miHelpAbout;
 
     private RemotePublisher publisher;
     private Registry reg;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        connect();
-        loadUserInterface();
+        //connect();
+        //loadUserInterface();
     }
     
     public GameLobbyFXController() throws RemoteException

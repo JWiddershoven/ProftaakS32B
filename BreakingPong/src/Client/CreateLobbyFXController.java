@@ -190,13 +190,13 @@ public class CreateLobbyFXController implements Initializable
             ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
             //ClientGUI.joinedLobby = newLobby;
-            return "";
         }
         catch (Exception ex)
         {
             Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             return ex.getMessage();
         }
+        return "";
     }
 
     @FXML
