@@ -591,7 +591,7 @@ public class RMIGame implements IGame, Runnable {
                     ServerRMI.publisher.inform(i, "getPaddles", null, paddleList);
                 }
             }
-        }, 0, 150);
+        }, 0, 50);
         inProgress = true;
         gameLoopThread = new Thread(this);
         gameLoopThread.start();

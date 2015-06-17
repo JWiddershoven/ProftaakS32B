@@ -58,6 +58,11 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     long nextSecond = System.currentTimeMillis() + 1000;
     int frameInLastSecond = 0;
     int framesInCurrentSecond = 0;
+    Image imageBall;
+    Image imagePaddle;
+    Image imageDestructable;
+    Image imageUndestructable;
+    Image ImagePowerup;
 
     public ClientRMI(Client client) throws RemoteException {
         this.client = client;
@@ -226,7 +231,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         }
     }
 
-    public void drawGame() {
+  public void drawGame() {
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -243,6 +249,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
                         r.setFill(Color.GREEN);
                         r.setStroke(Color.BLACK);
+                        ImagePattern pattern = new ImagePattern(imagePaddle);
+                        r.setFill(pattern);
                         client.root.getChildren().add(r);
                     }
                 }
@@ -258,6 +266,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         Circle c = new Circle(ball.getPosition().getX(), ball.getPosition().getY(), 5);
                         c.setStroke(Color.BLACK);
                         c.setFill(Color.LIGHTBLUE);
+                        ImagePattern pattern = new ImagePattern(imageBall);
+                        c.setFill(pattern);
                         client.root.getChildren().add(c);
                     }
                 }
@@ -274,17 +284,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         Block block = blocks.get(i - 1);
                         Rectangle r = new Rectangle(block.getPosition().getX(), block.getPosition().getY(), block.getSize().getX(), block.getSize().getY());
                         r.setStroke(Color.BLACK);
-                        if (block.isDestructable() == false) {
-                            r.setFill(Color.DARKGRAY);
-                        }
-                        else {
-                            if (block.getPowerUp() == null) {
-                                r.setFill(Color.YELLOW);
-                            }
-                            else {
-                                r.setFill(Color.RED);
-                            }
-                        }
+                        ImagePattern pattern = new ImagePattern(imageUndestructable);
+                        r.setFill(pattern);
                         client.root.getChildren().add(r);
                     }
                 }
@@ -303,20 +304,22 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         r.setStroke(Color.BLACK);
                         if (block.isDestructable() == false) {
                             r.setFill(Color.DARKGRAY);
-                        }
-                        else {
+                        } else {
                             if (block.getPowerUp() == null) {
                                 r.setFill(Color.YELLOW);
-                            }
-                            else {
+                                ImagePattern pattern = new ImagePattern(imageDestructable);
+                                r.setFill(pattern);
+                            } else {
                                 r.setFill(Color.RED);
+                                ImagePattern pattern = new ImagePattern(ImagePowerup);
+                                r.setFill(pattern);
                             }
                         }
                         client.root.getChildren().add(r);
                     }
                 }
-            }
-            );
+            });
+
         }
 
         long currentTime = System.currentTimeMillis();
@@ -347,11 +350,9 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                             Text scoreText;
                             if (client.paddleList.get(i).getPlayer() != null) {
                                 scoreText = new Text(25, 50 + (i * 20), client.paddleList.get(i).getPlayer().getUsername(null) + " : " + client.paddleList.get(i).getScore());
-                            }
-                            else if (client.paddleList.get(i).getCPU() != null) {
+                            } else if (client.paddleList.get(i).getCPU() != null) {
                                 scoreText = new Text(25, 50 + (i * 20), client.paddleList.get(i).getCPU().getName() + " : " + client.paddleList.get(i).getScore());
-                            }
-                            else {
+                            } else {
                                 break;
                             }
                             scoreText.setFont(Font.font("Verdana", 20));
@@ -359,8 +360,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                             client.root.getChildren().add(scoreText);
                         }
                     }
-                }
-                catch (RemoteException ex) {
+                } catch (RemoteException ex) {
                     Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
