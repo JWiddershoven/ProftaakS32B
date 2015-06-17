@@ -11,7 +11,7 @@ package Helpers;
  */
 public class StaticConstants {
     
-    public static final String IP_ADDRESS = "169.254.44.97";
+    public static final String IP_ADDRESS = "169.254.175.97";
     public static final int PORT = 1098;
     
     
