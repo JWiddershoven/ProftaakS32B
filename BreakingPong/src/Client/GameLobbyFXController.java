@@ -272,6 +272,16 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         taChat.appendText(evt.getNewValue().toString());
     }
+    
+    public void addUserToList()
+    {
+        
+    }
+    
+    public void addLobbyToList()
+    {
+        
+    }
 
 // </editor-fold>
 }

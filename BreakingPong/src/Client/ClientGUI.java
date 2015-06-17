@@ -9,6 +9,7 @@ import Helpers.StaticConstants;
 import Interfaces.ILobby;
 import Interfaces.IServer;
 import Shared.Session;
+import java.io.InputStream;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
@@ -18,9 +19,12 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -33,7 +37,7 @@ public class ClientGUI extends Application {
     public static Stage mainStage;
    /// public static String loggedinUser;
     public static ILobby joinedLobby;
-    private RMIClientController controller;
+    public RMIClientController controller;
     public static IServer connection;
     public static Session CurrentSession;
     
@@ -101,5 +105,4 @@ public class ClientGUI extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 }

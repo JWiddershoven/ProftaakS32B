@@ -7,6 +7,7 @@ package Client;
 
 import static Client.ClientGUI.mainStage;
 import RMI.RMILobby;
+import RMI.RMIUser;
 import Server.Lobby;
 import Shared.User;
 import java.awt.TrayIcon;
@@ -183,6 +184,16 @@ public class LobbySelectFXController implements Initializable {
     @FXML
     private void onEditDeleteClick() {
         System.out.println("deleted");
+    }
+    
+    public void addUserToList(ObservableList<RMILobby> lobbys)
+    {
+        lvOnlineUsers.setItems(lobbys);
+    }
+    
+    public void addLobbyToList(ObservableList<RMIUser> users)
+    {
+        lvOnlineUsers.setItems(users);
     }
     // </editor-fold>
 }
