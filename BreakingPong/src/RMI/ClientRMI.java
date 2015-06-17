@@ -130,6 +130,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             this.publisher.addListener(this, "getGameOver");
             this.publisher.addListener(this, "getDestroys");
             this.publisher.addListener(this, "getChanged");
+            this.publisher.addListener(this, "GetCurrentPaddles");
             this.client.connection.joinGame(1, client.Name);
             System.out.println("Game joined");
         } catch (RemoteException | NotBoundException ex) {
@@ -168,7 +169,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         else if (evt.getPropertyName().equals("getPaddles")) {
             client.paddleList = new ArrayList<>();
             client.paddleList = (ArrayList<Paddle>) evt.getNewValue();
-        } // Get the gametime from server
+        }
+        else if(evt.getPropertyName().equals("GetCurrentPaddles"))
+        {
+            client.paddlesIngame = new ArrayList<>();
+            client.paddlesIngame = (ArrayList<Paddle>) evt.getNewValue();
+        }// Get the gametime from server
         else if (evt.getPropertyName().equals("getTime")) {
             Platform.runLater(new Runnable() {
                 @Override
@@ -216,12 +222,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
         });
 
-        if (client.paddleList != null) {
+        if (client.paddlesIngame != null) {
 
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    for (Paddle paddle : client.paddleList) {
+                    for (Paddle paddle : client.paddlesIngame) {
                         Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
                         r.setFill(Color.GREEN);
                         r.setStroke(Color.BLACK);
@@ -321,13 +327,13 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     fpsLabel.setFill(Color.WHITE);
                     client.root.getChildren().add(fpsLabel);
 
-                    if (client != null && client.paddleList != null) {
-                        for (int i = 0; i < client.paddleList.size(); i++) {
+                    if (client != null && client.paddlesIngame != null) {
+                        for (int i = 0; i < client.paddlesIngame.size(); i++) {
                             Text scoreText;
                             if (client.paddleList.get(i).getPlayer() != null) {
-                                scoreText = new Text(25, 50 + (i * 20), client.paddleList.get(i).getPlayer().getUsername(null) + " : " + client.paddleList.get(i).getScore());
-                            } else if (client.paddleList.get(i).getCPU() != null) {
-                                scoreText = new Text(25, 50 + (i * 20), client.paddleList.get(i).getCPU().getName() + " : " + client.paddleList.get(i).getScore());
+                                scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getPlayer().getUsername(null) + " : " + client.paddlesIngame.get(i).getScore());
+                            } else if (client.paddlesIngame.get(i).getCPU() != null) {
+                                scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getCPU().getName() + " : " + client.paddlesIngame.get(i).getScore());
                             } else {
                                 break;
                             }

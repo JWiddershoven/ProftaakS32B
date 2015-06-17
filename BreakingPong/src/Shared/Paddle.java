@@ -120,16 +120,16 @@ public class Paddle extends GameObject {
         TVector2 newPosition = TVector2.zero;
         switch (direction) {
             case UP:
-                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() + 1);
+                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() + 2);
                 break;
             case DOWN:
-                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() - 1);
+                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() - 2);
                 break;
             case LEFT:
-                newPosition = new TVector2(this.getPosition().getX() - 1, this.getPosition().getY());
+                newPosition = new TVector2(this.getPosition().getX() - 2, this.getPosition().getY());
                 break;
             case RIGHT:
-                newPosition = new TVector2(this.getPosition().getX() + 1, this.getPosition().getY());
+                newPosition = new TVector2(this.getPosition().getX() + 2, this.getPosition().getY());
                 break;
         }
         this.setPosition(newPosition);

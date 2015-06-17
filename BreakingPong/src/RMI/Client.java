@@ -49,6 +49,7 @@ public class Client extends Application implements RemotePropertyListener
     public ArrayList<Block> undestroyableblockList;
     public ArrayList<Ball> ballList;
     public ArrayList<Paddle> paddleList;
+    public ArrayList<Paddle> paddlesIngame;
     public ArrayList<Block> destroyableList;
     private HBox hbox;
     public Text gameTimeLabel;
@@ -106,8 +107,8 @@ public class Client extends Application implements RemotePropertyListener
             @Override
             public void handle(long now)
             {      
-              root.requestLayout();;
-             //   clientRMI.drawGame();                
+              //root.requestLayout();;
+                clientRMI.drawGame();                
                  
             }
         }.start();
