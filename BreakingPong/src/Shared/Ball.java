@@ -21,7 +21,7 @@ public class Ball extends GameObject {
     private Paddle lastPaddleTouched;
     public TVector2 spawnPos;
     Timer timer;
-    public static final float maxSpeed = 1.5f;
+    public static final float maxSpeed = 3f;
     private long lastTimePaddleTouched;
 
     /**
@@ -69,7 +69,7 @@ public class Ball extends GameObject {
     public ArrayList<GameObject> update() {
         ArrayList<GameObject> collidedWith = new ArrayList<>();
         ArrayList<GameObject> returnList = new ArrayList<>();
-        collidedWith.addAll(CollisionChecker.collidesWithMultiple(this));
+        collidedWith.add(CollisionChecker.collidesWithFirst(this));
         boolean hasBounced = false;
         // If ball collides with something that is not a WhiteSpace.
         for (GameObject go : collidedWith) {

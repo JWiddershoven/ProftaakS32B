@@ -50,8 +50,13 @@ public class CollisionCheckerTest
         position = new TVector2(30, 55);
         block1 = new Block(1,10, false, null, position, velocity, blockSize, image);
         position = new TVector2(50, 45);
+<<<<<<< HEAD
         block2 = new Block(2,10, false, null, position, velocity, blockSize, image);
+=======
+        block2 = new Block(1,10, false, null, position, velocity, blockSize, image);
+>>>>>>> origin/working-p2
         position = new TVector2(45,45);
+        ball = new Ball(null,position, new TVector2(0.2f,0.2f), new TVector2(10f,10f),null);
         gameObjects.add(paddle1);
         gameObjects.add(paddle2);
         gameObjects.add(block1);

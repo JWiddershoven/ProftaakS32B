@@ -13,6 +13,9 @@ import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -31,6 +34,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -79,14 +83,22 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     try {
                         connect();
                         System.out.println("Connected!");
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
 
         }, 0, 500);
+        try {
+            this.imageBall = new Image(new FileInputStream("Images/Images/Ball.png"));
+            this.imageDestructable = new Image(new FileInputStream("Images/Images/YellowBlock.png"));
+            this.imageUndestructable = new Image(new FileInputStream("Images/Images/GreyBlock.png"));
+            this.imagePaddle = new Image(new FileInputStream("Images/Images/HorizontalPaddle1.png"));
+            this.ImagePowerup = new Image(new FileInputStream("Images/Images/RedBlock.png"));
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void stop() {
@@ -101,8 +113,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 this.publisher.removeListener(this, "getChanged");
             }
             UnicastRemoteObject.unexportObject(this, true);
-        }
-        catch (RemoteException ex) {
+        } catch (RemoteException ex) {
             Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -118,13 +129,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             this.publisher.addListener(this, "getGameOver");
             this.publisher.addListener(this, "getDestroys");
             this.publisher.addListener(this, "getChanged");
+            this.publisher.addListener(this, "GetCurrentPaddles");
             this.client.connection.joinGame(1, client.Name);
             System.out.println("Game joined");
-        }
-        catch (RemoteException | NotBoundException ex) {
+        } catch (RemoteException | NotBoundException ex) {
             Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        finally {
+        } finally {
             this.timeOut = System.currentTimeMillis();
         }
     }
@@ -142,8 +152,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
             //System.out.println(client.blockList.size() + new Date().toString());
 
-        }
-        else if (evt.getPropertyName().equals("getDestroys")) {
+        } else if (evt.getPropertyName().equals("getDestroys")) {
             if (client.destroyableList == null || client.destroyableList.isEmpty()) {
                 client.destroyableList = new ArrayList<>();
                 Block[] destroyBlocks = (Block[]) evt.getNewValue();
@@ -159,7 +168,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         else if (evt.getPropertyName().equals("getPaddles")) {
             client.paddleList = new ArrayList<>();
             client.paddleList = (ArrayList<Paddle>) evt.getNewValue();
-        } // Get the gametime from server
+        } else if (evt.getPropertyName().equals("GetCurrentPaddles")) {
+            client.paddlesIngame = new ArrayList<>();
+            client.paddlesIngame = (ArrayList<Paddle>) evt.getNewValue();
+        }// Get the gametime from server
         else if (evt.getPropertyName().equals("getTime")) {
             Platform.runLater(new Runnable() {
                 @Override
@@ -167,23 +179,20 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     newGameTime = evt.getNewValue().toString();
                 }
             });
-        }
-        else if (evt.getPropertyName().equals("getGameOver")) {
+        } else if (evt.getPropertyName().equals("getGameOver")) {
             try {
                 System.out.println("GameOver!");
                 stop();
                 client.shutDown();
                 return;
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else if (evt.getPropertyName().equals("getChanged")) {
+        } else if (evt.getPropertyName().equals("getChanged")) {
             int id = (int) evt.getNewValue();
             Block objectToRemove = null;
             try {
-//                System.out.println("Changed");
+                //                System.out.println("Changed");
                 if (client.destroyableList != null) {
                     for (int i = client.destroyableList.size() - 1; i > 0; i--) {
                         if (client.destroyableList.get(i).getID() == id) {
@@ -194,40 +203,19 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         client.destroyableList.remove(objectToRemove);
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        else if (evt.getPropertyName().equals("getChanged")) {
-            int id = (int) evt.getNewValue();
-            Block objectToRemove = null;
-            try {
-//                System.out.println("Changed");
-                if (client.destroyableList != null) {
-                    for (int i = client.destroyableList.size() - 1; i > 0; i--) {
-                        if (client.destroyableList.get(i).getID() == id) {
-                            objectToRemove = client.destroyableList.get(i);
-                        }
-                    }
-                    if (objectToRemove != null) {
-                        client.destroyableList.remove(objectToRemove);
-                    }
-                }
-            }
-            catch (Exception ex) {
-                Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+
         try {
             drawGame();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-  public void drawGame() {
+    public void drawGame() {
 
         Platform.runLater(new Runnable() {
             @Override
@@ -236,12 +224,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
         });
 
-        if (client.paddleList != null) {
+        if (client.paddlesIngame != null) {
 
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
-                    for (Paddle paddle : client.paddleList) {
+                    for (Paddle paddle : client.paddlesIngame) {
                         Rectangle r = new Rectangle(paddle.getPosition().getX(), paddle.getPosition().getY(), paddle.getSize().getX(), paddle.getSize().getY());
                         r.setFill(Color.GREEN);
                         r.setStroke(Color.BLACK);
@@ -308,7 +296,6 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                             } else {
                                 r.setFill(Color.RED);
                                 ImagePattern pattern = new ImagePattern(ImagePowerup);
-                                r.setFill(pattern);
                             }
                         }
                         client.root.getChildren().add(r);
@@ -340,24 +327,25 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     fpsLabel.setFont(Font.font("Verdana", 20));
                     fpsLabel.setFill(Color.WHITE);
                     client.root.getChildren().add(fpsLabel);
-
-                    if (client != null && client.paddleList != null) {
-                        for (int i = 0; i < client.paddleList.size(); i++) {
+                    if (client != null && client.paddlesIngame != null) {
+                        for (int i = 0; i < client.paddlesIngame.size(); i++) {
                             Text scoreText;
                             if (client.paddleList.get(i).getPlayer() != null) {
-                                scoreText = new Text(25, 50 + (i * 20), client.paddleList.get(i).getPlayer().getUsername(null) + " : " + client.paddleList.get(i).getScore());
-                            } else if (client.paddleList.get(i).getCPU() != null) {
-                                scoreText = new Text(25, 50 + (i * 20), client.paddleList.get(i).getCPU().getName() + " : " + client.paddleList.get(i).getScore());
+                                scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getPlayer().getUsername(null) + " : " + client.paddlesIngame.get(i).getScore());
+                            } else if (client.paddlesIngame.get(i).getCPU() != null) {
+                                scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getCPU().getName() + " : " + client.paddlesIngame.get(i).getScore());
                             } else {
                                 break;
                             }
                             scoreText.setFont(Font.font("Verdana", 20));
                             scoreText.setFill(Color.WHITE);
                             client.root.getChildren().add(scoreText);
+
                         }
                     }
                 } catch (RemoteException ex) {
-                    Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ClientRMI.class
+                            .getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

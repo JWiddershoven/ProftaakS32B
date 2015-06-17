@@ -12,9 +12,12 @@ import Shared.Block;
 import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import java.beans.PropertyChangeEvent;
+import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
@@ -46,6 +49,7 @@ public class Client extends Application implements RemotePropertyListener {
     public ArrayList<Block> undestroyableblockList;
     public ArrayList<Ball> ballList;
     public ArrayList<Paddle> paddleList;
+    public ArrayList<Paddle> paddlesIngame;
     public ArrayList<Block> destroyableList;
     private HBox hbox;
     public Text gameTimeLabel;
@@ -78,6 +82,21 @@ public class Client extends Application implements RemotePropertyListener {
         catch (Exception ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+        try
+        {
+            String ip = InetAddress.getLocalHost().getHostAddress();
+            connection = (IServer) Naming.lookup("rmi://localhost:7654/gameServer");
+            if (connection != null)
+            {
+                clientRMI = new ClientRMI(this);
+            }
+            else{
+                System.out.println("NOT CONNECTED TO THE SERVER.");
+            }
+        } catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
         hbox = new HBox();
         gameTimeLabel = new Text(10, 10, "GameTime");
         gameTimeLabel.setFill(Color.BLUE);
@@ -102,8 +121,7 @@ public class Client extends Application implements RemotePropertyListener {
                     clientRMI.drawGame();
                     lastUpdate = now;
                 }
-            }
-        }.start();
+            }}.start();
     }
 
     public static void main(String[] args) {
@@ -117,24 +135,30 @@ public class Client extends Application implements RemotePropertyListener {
 
     public void keyPressed() {
         // Client movement
-        this.stage.getScene().setOnKeyPressed((KeyEvent k) -> {
-            switch (k.getCode()) {
+
+        this.stage.getScene().setOnKeyPressed((KeyEvent k) ->
+        {
+            switch (k.getCode())
+            {
                 case A:
                 case LEFT:
-                case NUMPAD4: {
-                    try {
+                case NUMPAD4:
+                {
+                    try
+                    {
                         connection.moveLeft(1, Name);
-
-                    }
-                    catch (RemoteException ex) {
+                        
+                    } catch (RemoteException ex)
+                    {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
-                break;
+                }break;
                 case D:
                 case RIGHT:
-                case NUMPAD6: {
-                    try {
+                case NUMPAD6:
+                {
+                    try
+                    {
                         connection.moveRight(1, Name);
                     }
                     catch (RemoteException ex) {
@@ -142,8 +166,7 @@ public class Client extends Application implements RemotePropertyListener {
                     }
                 }
                 break;
-            }
-        });
+                }});
     }
 
     public void shutDown() {

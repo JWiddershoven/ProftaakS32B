@@ -135,7 +135,6 @@ public class RMILobby implements ILobby, Serializable
     public boolean addUserToLobby(String username, int lobbyid) throws RemoteException
     {
         boolean Breturn = false;
-        
         if(joinedPlayers == null)
             joinedPlayers = new ArrayList<>();
         
@@ -148,7 +147,6 @@ public class RMILobby implements ILobby, Serializable
 //            }
 //        }
         
-       
         for (IUser user : host.loggedInUsers)
         {
             if (user.getUsername(user).equals(username))

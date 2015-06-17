@@ -68,6 +68,7 @@ public class RMIGame implements IGame, Runnable {
     private final ArrayList<Block> destroyableBlockList;
     private final ArrayList<GameObject> changedObjectsList;
     private final ArrayList<GameObject> removedObjectsList;
+    private final ArrayList<Paddle> paddlesIngame;
 
     private RMIUser player1, player2, player3, player4;
     private CPU cpu1, cpu2, cpu3, cpu4;
@@ -154,8 +155,8 @@ public class RMIGame implements IGame, Runnable {
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException {
         System.out.println("moveLeft received");
-        for (int i = paddleList.size() - 1; i >= 0; i--) {
-            Paddle p = paddleList.get(i);
+        for (int i = paddlesIngame.size() - 1; i >= 0; i--) {
+            Paddle p = paddlesIngame.get(i);
             RMIUser u = (RMIUser) p.getPlayer();
             if (u != null && u.getUsername(u).equals(username)) {
                 p.MoveDirection(Paddle.Direction.LEFT);
@@ -167,8 +168,8 @@ public class RMIGame implements IGame, Runnable {
     @Override
     public void moveRight(int gameId, String username) throws RemoteException {
         System.out.println("moveRight received");
-        for (int i = paddleList.size() - 1; i >= 0; i--) {
-            Paddle p = paddleList.get(i);
+        for (int i = paddlesIngame.size() - 1; i >= 0; i--) {
+            Paddle p = paddlesIngame.get(i);
             RMIUser u = (RMIUser) p.getPlayer();
             if (u != null && u.getUsername(u).equals(username)) {
                 p.MoveDirection(Paddle.Direction.RIGHT);
@@ -211,6 +212,7 @@ public class RMIGame implements IGame, Runnable {
         this.changedObjectsList = new ArrayList<>();
         this.removedObjectsList = new ArrayList<>();
         this.destroyableBlockList = new ArrayList<>();
+        this.paddlesIngame = new ArrayList<>();
         this.windowSize = new TVector2(Block.standardBlockSize.getX() * 40, Block.standardBlockSize.getY() * 40);
 
     }
@@ -435,6 +437,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P1Paddle);
                                         this.userList.add(player1);
                                         this.paddleList.add(P1Paddle);
+                                        this.paddlesIngame.add(P1Paddle);
                                         playerAmount++;
                                         System.out.println("P1 " + P1Paddle.getWindowLocation());
                                         break;
@@ -444,6 +447,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P1Paddle);
                                         this.botList.add(cpu1);
                                         this.paddleList.add(P1Paddle);
+                                        this.paddlesIngame.add(P1Paddle);
                                         playerAmount++;
                                         System.out.println("P1 " + P1Paddle.getWindowLocation());
                                         break;
@@ -459,6 +463,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P4Paddle);
                                         this.userList.add(player4);
                                         this.paddleList.add(P4Paddle);
+                                        this.paddlesIngame.add(P4Paddle);
                                         playerAmount++;
                                         System.out.println("P4 " + P4Paddle.getWindowLocation());
                                         break;
@@ -468,6 +473,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P4Paddle);
                                         this.botList.add(cpu4);
                                         this.paddleList.add(P4Paddle);
+                                        this.paddlesIngame.add(P4Paddle);
                                         playerAmount++;
                                         System.out.println("P4 " + P4Paddle.getWindowLocation());
                                         break;
@@ -491,6 +497,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P2Paddle);
                                         this.userList.add(player2);
                                         this.paddleList.add(P2Paddle);
+                                        this.paddlesIngame.add(P2Paddle);
                                         playerAmount++;
                                         System.out.println("P2 " + P2Paddle.getWindowLocation());
                                         break;
@@ -500,6 +507,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P2Paddle);
                                         this.botList.add(cpu2);
                                         this.paddleList.add(P2Paddle);
+                                        this.paddlesIngame.add(P2Paddle);
                                         playerAmount++;
                                         System.out.println("P2 " + P2Paddle.getWindowLocation());
                                         break;
@@ -513,6 +521,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P3Paddle);
                                         this.userList.add(player3);
                                         this.paddleList.add(P3Paddle);
+                                        this.paddlesIngame.add(P3Paddle);
                                         playerAmount++;
                                         System.out.println("P3 " + P3Paddle.getWindowLocation());
                                         break;
@@ -522,6 +531,7 @@ public class RMIGame implements IGame, Runnable {
                                         this.addObject(P3Paddle);
                                         this.botList.add(cpu3);
                                         this.paddleList.add(P3Paddle);
+                                        this.paddlesIngame.add(P3Paddle);
                                         playerAmount++;
                                         System.out.println("P3 " + P3Paddle.getWindowLocation());
                                         break;
@@ -582,11 +592,12 @@ public class RMIGame implements IGame, Runnable {
                         Block[] destroyedBlocks = new Block[destroyableBlockList.size()];
                         destroyedBlocks = destroyableBlockList.toArray(destroyedBlocks);
                         ServerRMI.publisher.inform(i, "getDestroys", null, destroyedBlocks);
+                        ServerRMI.publisher.inform(i, "getPaddles", null, paddleList);
                         startup++;
                     }
+                    ServerRMI.publisher.inform(i, "GetCurrentPaddles", null, paddlesIngame);
                     ServerRMI.publisher.inform(i, "getTime", null, gameTimeInSecondsRemaining);
                     ServerRMI.publisher.inform(i, "getBalls", null, ballList);
-                    ServerRMI.publisher.inform(i, "getPaddles", null, paddleList);
                 }
             }
         }, 0, 50);
@@ -683,8 +694,8 @@ public class RMIGame implements IGame, Runnable {
                                 TVector2.zero, blockSize, DestroyImage);
                         this.addObject(block);
                         this.blockList.add(block);
-                        this.paddleList.remove(P1Paddle);
-                        ServerRMI.publisher.inform(5, "getPaddles", null, this.paddleList);
+                        this.paddlesIngame.remove(P1Paddle);
+                        ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
                     }
                     break;
                 case 2:
@@ -699,8 +710,8 @@ public class RMIGame implements IGame, Runnable {
                                     TVector2.zero, blockSize, DestroyImage);
                             this.addObject(block);
                             this.blockList.add(block);
-                            this.paddleList.remove(P2Paddle);
-                            ServerRMI.publisher.inform(5, "getPaddles", null, this.paddleList);
+                            this.paddlesIngame.remove(P2Paddle);
+                            ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
                         }
                     } else {
                         // left side
@@ -709,8 +720,8 @@ public class RMIGame implements IGame, Runnable {
                                     TVector2.zero, blockSize, DestroyImage);
                             this.addObject(block);
                             this.blockList.add(block);
-                            this.paddleList.remove(P2Paddle);
-                            ServerRMI.publisher.inform(5, "getPaddles", null, this.paddleList);
+                            this.paddlesIngame.remove(P2Paddle);
+                            ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
                         }
                     }
                     break;
@@ -725,8 +736,8 @@ public class RMIGame implements IGame, Runnable {
                                 TVector2.zero, new TVector2(25, 25), DestroyImage);
                         this.addObject(block);
                         this.blockList.add(block);
-                        this.paddleList.remove(P3Paddle);
-                        ServerRMI.publisher.inform(5, "getPaddles", null, this.paddleList);
+                        this.paddlesIngame.remove(P3Paddle);
+                        ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
                     }
                     break;
                 case 4:
@@ -740,8 +751,8 @@ public class RMIGame implements IGame, Runnable {
                                 TVector2.zero, blockSize, DestroyImage);
                         this.addObject(block);
                         this.blockList.add(block);
-                        this.paddleList.remove(P4Paddle);
-                        ServerRMI.publisher.inform(5, "getPaddles", null, this.paddleList);
+                        this.paddlesIngame.remove(P4Paddle);
+                        ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
                     }
                     break;
                 default:
@@ -845,7 +856,7 @@ public class RMIGame implements IGame, Runnable {
                 gameLoopThread.sleep(10);
                 gameLoopThread.sleep(wait);
             } catch (Exception ex) {
-               Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RMIGame.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         System.out.println("While exited");
