@@ -401,7 +401,6 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      *
      * @param gameid the gameID.
      * @param username the username of the user.
-     * @return the IGame object if successfull, otherwise null.
      * @throws RemoteException
      */
     @Override
@@ -508,9 +507,10 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                 System.out.println(user.getUsername());
                 System.out.println(user.getEmail());
                 System.out.println(user.getRating());
-                System.out.println("Logging in user");
+                System.out.println("Logging in user " + username);
                 return true;
             }
+            System.out.println("Failed to login user " + username);
             return false;
         } catch (IllegalArgumentException exc)
         {

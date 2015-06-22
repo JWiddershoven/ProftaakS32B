@@ -67,6 +67,8 @@ public class SecurityRMI extends UnicastRemoteObject implements IServerSecurity,
             if (server.login(UserName, Password)) {
                 session = new Session(UserName, (IServer) server);
             }
+            else
+                System.out.println("Failed to login");
             //_administration.login(UserName, Password);
 
         } catch (NotBoundException | MalformedURLException ex) {
