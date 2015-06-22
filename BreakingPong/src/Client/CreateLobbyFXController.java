@@ -96,6 +96,7 @@ public class CreateLobbyFXController implements Initializable
             Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
         fillComboboxes();
+        ClientGUI.controller.setCreateController(this);
     }
 
     /**

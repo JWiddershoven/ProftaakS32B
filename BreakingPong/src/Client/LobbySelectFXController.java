@@ -87,7 +87,7 @@ public class LobbySelectFXController implements Initializable {
 //            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         fillListViews();
-
+        ClientGUI.controller.setLobbyController(this);
     }
 
     public void fillListViews() {
