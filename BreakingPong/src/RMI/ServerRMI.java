@@ -21,6 +21,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -44,11 +45,14 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
 
     public ServerRMI() throws RemoteException
     {
-        this.publisher = new BasicPublisher(new String[]
-        {
-            "getPlayers", "getLobbys", "getChat",
-            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys","getChanged"
-        });
+        ArrayList<String> basicPublisherStrings = new ArrayList<String>();
+        String[] array = new String[] { "getPlayers", "getLobbys", "lobbyselectChat",
+            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys","getChanged"};
+        basicPublisherStrings.addAll(Arrays.asList(array));
+        for (int i = 0; i< 100; i++)
+            basicPublisherStrings.add("getChat" + i);
+        
+        this.publisher = new BasicPublisher(basicPublisherStrings.toArray(new String[basicPublisherStrings.size()]));
         this.ID = 1;
         //fillWithTestData();
         Timer timer = new Timer();
@@ -329,13 +333,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @throws RemoteException
      */
     @Override
-    public boolean sendChat(String message) throws RemoteException
+    public boolean sendChat(int lobbyId, String message) throws RemoteException
     {
         if (message == null || message.isEmpty())
         {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
-        publisher.inform(1,"getChat", null, message);
+        publisher.inform(1,"getChat" + lobbyId, null, message);
         return true;
     }
 
@@ -791,5 +795,14 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     public void setNextOwner() throws RemoteException {
        // hoeft niet geimplementeerd te worden.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void sendLobbyChat(String message) throws RemoteException {
+         if (message == null || message.isEmpty())
+        {
+            throw new IllegalArgumentException("Message cannot be null or empty!");
+        }
+        publisher.inform(1,"lobbyselectChat", null, message);
     }
 }

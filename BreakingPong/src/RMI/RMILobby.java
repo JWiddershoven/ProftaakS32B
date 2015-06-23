@@ -106,7 +106,7 @@ public class RMILobby implements ILobby, Serializable
     }
 
     @Override
-    public boolean sendChat(String message) throws RemoteException
+    public boolean sendChat(int lobbyId, String message) throws RemoteException
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

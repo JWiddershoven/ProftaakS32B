@@ -101,7 +101,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements  Initi
 
     public void connect() {
         try {
-            RMIClientController.services.addListener(this, "getChat");
+            RMIClientController.services.addListener(this, "getChat" + ClientGUI.joinedLobby.getLobbyID());
             System.out.println("PropertyListener active for chat.");
         }
         catch (RemoteException ex) {
@@ -198,7 +198,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements  Initi
     private void onSendChatClick() {
         try {
             if (!tfChatInput.getText().trim().isEmpty()) {
-                ClientGUI.CurrentSession.getServer().sendChat(ClientGUI.CurrentSession.getUsername() + ": " + tfChatInput.getText() + "\n");
+                ClientGUI.CurrentSession.getServer().sendChat(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername() + ": " + tfChatInput.getText() + "\n");
                 tfChatInput.setText("");
                 System.out.println("Sent chat");
             }
@@ -281,7 +281,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements  Initi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        if (evt.getPropertyName().equals("getChat")) {
+        if (evt.getPropertyName().equals("getChat" + ClientGUI.joinedLobby.getLobbyID())) {
             Platform.runLater(() -> {
                 taChat.appendText(evt.getNewValue().toString());
             });

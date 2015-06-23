@@ -30,11 +30,12 @@ public interface ILobby{
     
     /**
      * Description: Checks if chat doesn't have illegal words, returns true if message is send.
+     * @param lobbyId
      * @param message The message the player wants to send.
      * @return TRUE if succeeded - FALSE if failed.
      * @throws RemoteException 
      */
-    public boolean sendChat(String message)throws RemoteException;
+    public boolean sendChat(int lobbyId, String message)throws RemoteException;
     
     /**
      * Description: Calls method on server to get all send chats. returns list of received messages.

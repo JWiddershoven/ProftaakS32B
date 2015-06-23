@@ -10,13 +10,17 @@ import Interfaces.ILobby;
 import Interfaces.IUser;
 import RMI.RMILobby;
 import RMI.RMIUser;
+import fontys.observer.RemotePropertyListener;
 import java.awt.TrayIcon;
+import java.beans.PropertyChangeEvent;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -27,6 +31,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
@@ -34,7 +39,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class LobbySelectFXController implements Initializable {
+public class LobbySelectFXController implements Initializable, RemotePropertyListener {
 
     // Textfields
     @FXML
@@ -52,12 +57,14 @@ public class LobbySelectFXController implements Initializable {
 
     // Listviews
     @FXML
-    ListView lvChat;
-    @FXML
     ListView lvLobbies;
     @FXML
     ListView lvOnlineUsers;
 
+    // TextAreas
+    @FXML
+    TextArea taChat;
+    
     // Menuitems
     @FXML
     MenuItem miFile;
@@ -82,6 +89,16 @@ public class LobbySelectFXController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         try
         {
+            RMIClientController.services.addListener(this, "lobbyselectChat");
+            // Autoscroll to bottom
+            taChat.textProperty().addListener(new ChangeListener<Object>() {
+                @Override
+                public void changed(ObservableValue<?> observable, Object oldValue,
+                        Object newValue) {
+                    taChat.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
+                    //use Double.MIN_VALUE to scroll to the top
+                }
+        });
             fillListViews();
             ClientGUI.controller.setLobbyController(this);
         } catch (Exception ex)
@@ -156,7 +173,18 @@ public class LobbySelectFXController implements Initializable {
 
     @FXML
     private void onSendChatClick() {
-        System.out.println("sent chat!");
+        try {
+            if (!tfChatInput.getText().trim().isEmpty()) {
+                ClientGUI.CurrentSession.getServer().sendLobbyChat(ClientGUI.CurrentSession.getUsername() + ": " + tfChatInput.getText() + "\n");
+                tfChatInput.setText("");
+                System.out.println("Sent chat");
+            }
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showConfirmDialog(null, ex.getMessage(), "Sending chat error",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @FXML
@@ -190,4 +218,13 @@ public class LobbySelectFXController implements Initializable {
         lvOnlineUsers.setItems(users);
     }
     // </editor-fold>
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
+        if (evt.getPropertyName().equals("lobbyselectChat")) {
+            Platform.runLater(() -> {
+                 taChat.appendText(evt.getNewValue().toString());
+            });
+        }
+    }
 }
