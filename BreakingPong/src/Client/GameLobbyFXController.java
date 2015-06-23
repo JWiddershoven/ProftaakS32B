@@ -41,7 +41,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class GameLobbyFXController extends UnicastRemoteObject implements Initializable, RemotePropertyListener {
+public class GameLobbyFXController implements Initializable, RemotePropertyListener {
 
     // Textfields
     @FXML
