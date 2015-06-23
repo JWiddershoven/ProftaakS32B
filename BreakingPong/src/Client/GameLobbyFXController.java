@@ -86,11 +86,9 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            
-        //connect();
-        loadUserInterface();
-        ClientGUI.controller.setGameController(this);
-        
+            //connect();
+            loadUserInterface();
+            ClientGUI.controller.setGameController(this);
         }
         catch (Exception ex) {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
@@ -250,7 +248,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         if (ClientGUI.joinedLobby == null) {
             throw new Exception("Lobby kan niet null zijn!");
         }
-        if (lvPlayersInGame.getSelectionModel().getSelectedItem().toString() == null) {
+        if (lvPlayersInLobby.getSelectionModel().getSelectedItem() == null) {
             JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
@@ -280,16 +278,6 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         taChat.appendText(evt.getNewValue().toString());
-    }
-    
-    public void addUserToList()
-    {
-        
-    }
-    
-    public void addLobbyToList()
-    {
-        
     }
 
 // </editor-fold>
