@@ -86,7 +86,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //connect();
-        //loadUserInterface();
+        loadUserInterface();
         ClientGUI.controller.setGameController(this);
     }
     

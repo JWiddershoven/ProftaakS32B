@@ -118,9 +118,7 @@ public class LobbySelectFXController implements Initializable {
         {
             try
             {
-                //selectedLobby.joinLobby(ClientGUI.loggedinUser);
-                selectedLobby.addUserToLobby(ClientGUI.CurrentSession.getUsername(), selectedLobby.getId());
-                // joinLobby throws exceptions, if no exception continue
+                ClientGUI.CurrentSession.getServer().joinLobby(selectedLobby.getId(),ClientGUI.CurrentSession.getUsername());
                 ClientGUI.joinedLobby = selectedLobby;
                 Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
                 Scene scene = new Scene(root);

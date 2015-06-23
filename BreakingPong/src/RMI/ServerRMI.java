@@ -157,8 +157,6 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             System.out.println("DBworked = " + dbActionWorked);
 
             Shared.User newUser = new Shared.User(username, password, email);
-
-            this.loggedInUsers.add((IUser) newUser);
         } catch (SQLException ex)
         {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
@@ -224,7 +222,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                     lobby.setId(currentLobbies.size() + 1);
                     lobby.setMaxPlayers(maxPlayers);
                     lobby.setName(name);
-                    if(Password != null || Password != "")
+                    if(!Password.equals(""))
                     {
                         lobby.setPassword(Password);  
                     }
