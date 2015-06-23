@@ -213,6 +213,7 @@ public class RMILobby implements ILobby, Serializable
             returnString += this.maxPlayers;
         }
         catch (Exception ex) {
+             Logger.getLogger(RMILobby.class.getName()).log(Level.SEVERE, null, ex);
         }
         return returnString;
     }

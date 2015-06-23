@@ -270,33 +270,32 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @throws RemoteException
      */
     @Override
-    public boolean leaveLobby(int lobbyid, String user) throws RemoteException
-    {
+    public boolean leaveLobby(int lobbyid, String user) throws RemoteException {
         ILobby lobbyToRemove = null;
         boolean check = false;
-        for (ILobby lobby : currentLobbies)
-        {
-            if (lobby.getLobbyID() == lobbyid)
-            {
-                lobby.leaveLobby(lobbyid, user);
-                if (lobby.getOwner(0).equals(user) && lobby.getPlayerInformationFromLobby(0).size() > 0)
-                {
-                    // er zijn nog players in de game
-                    lobby.setNextOwner();
-                    System.out.println("New lobby owner "  + lobby.getOwner(0));
+        try {
+            for (ILobby lobby : currentLobbies) {
+                if (lobby.getLobbyID() == lobbyid) {
+                    lobby.leaveLobby(lobbyid, user);
+                    if (lobby.getOwner(0).equals(user) && lobby.getPlayerInformationFromLobby(0).size() > 0) {
+                        // er zijn nog players in de game
+                        lobby.setNextOwner();
+                        System.out.println("New lobby owner " + lobby.getOwner(0));
+                    }
+                    else {
+                        // remove lobby
+                        lobbyToRemove = lobby;
+                    }
+                    check = true;
                 }
-                else
-                {
-                    // remove lobby
-                    lobbyToRemove = lobby;
-                }
-                check = true;
+            }
+            if (lobbyToRemove != null) {
+                System.out.println("No players left in lobby - removing lobby.");
+                currentLobbies.remove(lobbyToRemove);
             }
         }
-        if (lobbyToRemove != null)
-        {
-            System.out.println("No players left in lobby - removing lobby.");
-            currentLobbies.remove(lobbyToRemove);
+        catch (Exception ex) {
+            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
         return check;
     }
@@ -442,18 +441,22 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public boolean leaveGame(int gameid, String username) throws RemoteException
     {
+        IGame gameToRemove = null;
         boolean returnValue = false;
         for (IGame game : currentGames)
         {
             if (game.getID() == gameid)
             {
                 returnValue = game.leaveGame(gameid, username);
-                if (game.getPlayersInformationInGame(gameid).size() == 0)
+                if (game.getPlayersInformationInGame(gameid).isEmpty())
                 {
+                    gameToRemove = game;
                     // remove game
                 }
             }
         }
+        if (gameToRemove != null)
+            currentGames.remove(gameToRemove);
         return returnValue;
     }
 
