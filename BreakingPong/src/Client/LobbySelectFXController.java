@@ -6,10 +6,11 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Interfaces.ILobby;
+import Interfaces.IUser;
 import RMI.RMILobby;
 import RMI.RMIUser;
 import Server.Lobby;
-import Shared.User;
 import java.awt.TrayIcon;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -72,9 +73,9 @@ public class LobbySelectFXController implements Initializable {
     MenuItem miHelpAbout;
 
     //private static Administration administration;
-    private final ObservableList<User> onlineUsersList
+    private final ObservableList<IUser> onlineUsersList
             = FXCollections.observableArrayList();
-    private final ObservableList<Lobby> lobbiesList
+    private final ObservableList<ILobby> lobbiesList
             = FXCollections.observableArrayList();
 
     @Override
@@ -92,19 +93,14 @@ public class LobbySelectFXController implements Initializable {
 
     public void fillListViews() {
 
-        Platform.runLater(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
-                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
-                } catch (Exception ex) {
-                    System.out.println("ERROR in fillListViews : " + ex.getMessage());
-                    Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        Platform.runLater(() -> {
+            try {
+                lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
+                lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
+            } catch (Exception ex) {
+                System.out.println("ERROR in fillListViews : " + ex.getMessage());
+                Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
             }
-
         });
 
     }
