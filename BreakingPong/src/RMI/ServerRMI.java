@@ -710,6 +710,23 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
-        publisher.inform(1,"lobbyselectChat", null, message);
+        try {
+            publisher.inform(1, "lobbyselectChat", null, message);
+        }
+        catch (Exception ex) {
+            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null,ex);
+        }
     }
+
+    @Override
+    public String getLobbyOwnerUsername(int lobbyId) throws RemoteException {
+        for (int i = 0; i < currentLobbies.size(); i++) {
+            if (currentLobbies.get(i).getLobbyID() == lobbyId) {
+                return currentLobbies.get(i).getOwner(lobbyId);
+            }
+        }
+        return "NO LOBBY OWNER.";
+    }
+    
+    
 }

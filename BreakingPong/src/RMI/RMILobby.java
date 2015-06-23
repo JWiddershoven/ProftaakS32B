@@ -74,21 +74,21 @@ public class RMILobby implements ILobby, Serializable
 
     private String password;
 
-    private transient IUser owner;
+    private IUser owner;
 
 
     private byte maxPlayers;
 
-    private transient ServerRMI host;
+    private final transient ServerRMI server;
 
     private transient RMIGame game;
 
     private ArrayList<IUser> joinedPlayers = new ArrayList<>();
   
     
-    public RMILobby(ServerRMI  server)
+    public RMILobby(ServerRMI  pServer)
     {
-        host = server;
+        this.server = pServer;
     }
     
     @Override
@@ -147,7 +147,7 @@ public class RMILobby implements ILobby, Serializable
             }
         }
         
-        for (IUser user : host.loggedInUsers)
+        for (IUser user : server.loggedInUsers)
         {
             if (user.getUsername(user).equals(username))
             {

@@ -9,7 +9,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 
 /**
  *
@@ -18,7 +17,7 @@ import javafx.application.Platform;
 public class StaticConstants {
     
     public static final String SERVER_BIND_NAME = "gameServer";
-    public static String SERVER_IP_ADDRESS = "169.254.175.98";
+    public static String SERVER_IP_ADDRESS = "169.254.175.95";
     public static final int SERVER_PORT = 1098;
     
     /**

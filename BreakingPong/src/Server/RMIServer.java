@@ -244,4 +244,9 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     public boolean sendChat(int lobbyId, String message) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getLobbyOwnerUsername(int lobbyId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

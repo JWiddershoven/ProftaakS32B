@@ -84,4 +84,6 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
     public boolean logout(String username) throws RemoteException;
     
     public void sendLobbySelectChat(String message) throws RemoteException;
+    
+    public String getLobbyOwnerUsername(int lobbyId) throws RemoteException;
 }
