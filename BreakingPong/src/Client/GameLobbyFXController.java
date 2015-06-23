@@ -21,6 +21,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -96,10 +97,9 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public GameLobbyFXController() throws RemoteException
-    {
-        
+
+    public GameLobbyFXController() throws RemoteException {
+
     }
 
     public void connect() {
@@ -280,16 +280,16 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     }
 
     @FXML
-    private void onRefreshClick()
-    {
+    private void onRefreshClick() {
         fillListViews();
     }
-    
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        if (evt.getPropertyName().equals("getChat"))
-        {
-            taChat.appendText(evt.getNewValue().toString());
+        if (evt.getPropertyName().equals("getChat")) {
+            Platform.runLater(() -> {
+                taChat.appendText(evt.getNewValue().toString());
+            });
         }
     }
 
