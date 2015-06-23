@@ -17,6 +17,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -42,12 +43,9 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         this.start();
     }
 
-    
-    
-    
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        
+
 //        if (evt.getPropertyName().equals("getPlayers")) {
 //            lobby.addUserToList((ObservableList<RMILobby>) evt);
 //            lobby.fillListViews();
@@ -70,9 +68,11 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                     try {
                         connect();
                         System.out.println("Connected!");
-                    } catch (MalformedURLException ex) {
+                    }
+                    catch (MalformedURLException ex) {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (NotBoundException ex) {
+                    }
+                    catch (NotBoundException ex) {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -85,10 +85,14 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
             if (this.services != null) {
                 this.services.removeListener(this, "getPlayers");
                 this.services.removeListener(this, "getLobbys");
-                this.services.removeListener(this, "getChat");
+                this.services.removeListener(this, "lobbyselectChat");
+                for (int i = 0; i < 100; i++) {
+                    this.services.removeListener(this, "getChat" + Integer.toString(i));
+                }
             }
             UnicastRemoteObject.unexportObject(this, true);
-        } catch (RemoteException ex) {
+        }
+        catch (RemoteException ex) {
             Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -99,10 +103,16 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
             this.services = (IServer) this.reg.lookup("gameServer");
             this.services.addListener(this, "getPlayers");
             this.services.addListener(this, "getLobbys");
+            this.services.addListener(this, "lobbyselectChat");
+            for (int i = 0; i < 100; i++) {
+                this.services.addListener(this, "getChat" + Integer.toString(i));
+            }
 
-        } catch (RemoteException | NotBoundException ex) {
+        }
+        catch (RemoteException | NotBoundException ex) {
             System.out.println("Could not connect to server");
-        } finally {
+        }
+        finally {
             this.timeOut = System.currentTimeMillis();
         }
     }
