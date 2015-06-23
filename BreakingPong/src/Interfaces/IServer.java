@@ -27,10 +27,10 @@ public interface IServer extends Remote,IGame,ILobby,IUser,RemotePublisher
      * @param Password password of the lobby ( can be left empty )
      * @param username Owner of the lobby / creator
      * @param maxPlayers maximum amount of players that can play.
-     * @return TRUE if succeeded - FALSE if failed.
+     * @return Created Lobby - NULL if failed.
      * @throws RemoteException 
      */
-    public boolean createLobby(String name,String Password,String username,Byte maxPlayers) throws RemoteException;
+    public ILobby createLobby(String name,String Password,String username,Byte maxPlayers) throws RemoteException;
     
     /**
      * Pre-condition: Lobby must exist, must be enough space for a new player and the lobby is not ingame.

@@ -72,7 +72,7 @@ public class RMIServer extends UnicastRemoteObject implements IServer
     }*/
 
     @Override
-    public boolean createLobby(String name, String Password, String username, Byte maxPlayers) throws RemoteException {
+    public ILobby createLobby(String name, String Password, String username, Byte maxPlayers) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

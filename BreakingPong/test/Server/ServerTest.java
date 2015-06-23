@@ -33,7 +33,7 @@ public class ServerTest {
         server = new Server();
         server.loggedInUsers.add(new User("test123", "test123", "test@mail.com"));
         try {
-            if (!server.createLobby("test123", "test123", "username", (byte) 2)) {
+            if (server.createLobby("test123", "test123", "username", (byte) 2) != null) {
                 fail("Failed to create lobby");
             }
         }
@@ -48,7 +48,7 @@ public class ServerTest {
 
         server = new Server();
         try {
-            if (!server.createLobby("test", "test", "username", (byte) 2)) {
+            if (server.createLobby("test", "test", "username", (byte) 2) != null) {
                 fail("Failed to create lobby");
             }
         }

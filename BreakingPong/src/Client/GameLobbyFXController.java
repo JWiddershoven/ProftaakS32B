@@ -85,9 +85,16 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        try {
+            
         //connect();
         loadUserInterface();
         ClientGUI.controller.setGameController(this);
+        
+        }
+        catch (Exception ex) {
+            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public GameLobbyFXController() throws RemoteException

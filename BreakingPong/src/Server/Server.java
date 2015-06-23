@@ -227,20 +227,6 @@ public class Server extends UnicastRemoteObject  implements IServer
     }
 
     @Override
-    public boolean createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException {
-//        if (name != null && Password != null && Owner != null && maxPlayers != null) {
-//            for (IUser user : loggedInUsers) {
-//                if (user.getUsername(user).equals(name)) {
-//                    Lobby lobby = new Lobby(currentLobbies.size() + 1, name, Password, (User) user, maxPlayers);
-//                    currentLobbies.add((ILobby) lobby);
-//                    return true;
-//                }
-//            }
-//        }
-        return true;
-    }
-
-    @Override
     public ILobby joinLobby(int lobbyid, String username) throws RemoteException {
         ILobby returnValue = null;
         for (ILobby lobby : currentLobbies) {
@@ -485,6 +471,11 @@ public class Server extends UnicastRemoteObject  implements IServer
 
     @Override
     public void setNextOwner() throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ILobby createLobby(String name, String Password, String username, Byte maxPlayers) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

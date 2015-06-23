@@ -6,6 +6,7 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Interfaces.ILobby;
 import Server.Administration;
 import java.awt.HeadlessException;
 import java.io.IOException;
@@ -188,9 +189,10 @@ public class CreateLobbyFXController implements Initializable
                 throw new Exception("Dit zou niet mogen gebeuren!");
             }
             //boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
-            ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
+            ILobby newLobby = ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
-            //ClientGUI.joinedLobby = newLobby;
+            
+            ClientGUI.joinedLobby = newLobby;
         }
         catch (Exception ex)
         {

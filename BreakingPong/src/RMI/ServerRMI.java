@@ -210,7 +210,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
      * @throws RemoteException
      */
     @Override
-    public boolean createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException
+    public ILobby createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException
     {
         if (name != null && Password != null && Owner != null && maxPlayers != null)
         {
@@ -230,11 +230,11 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                     currentLobbies.add((ILobby) lobby);
                     // TODO : WERKT NIET MET RMI
                     ClientGUI.joinedLobby = lobby;
-                    return true;
+                    return lobby;
                 }
             }
         }
-        return false;
+        return null;
     }
 
     /**

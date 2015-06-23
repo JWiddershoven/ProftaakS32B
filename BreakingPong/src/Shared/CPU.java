@@ -21,7 +21,7 @@ public class CPU implements Serializable {
 
     private Paddle myPaddle; // CPU PADDLE KOPPLING VIA PADDLE KLASSE
 
-    private Ball closestBall;
+    private transient Ball closestBall;
     private ArrayList<Ball> currentPosBall;
 
     public CPU(String name, Byte difficulty) {

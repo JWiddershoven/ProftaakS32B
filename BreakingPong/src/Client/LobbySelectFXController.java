@@ -10,7 +10,6 @@ import Interfaces.ILobby;
 import Interfaces.IUser;
 import RMI.RMILobby;
 import RMI.RMIUser;
-import Server.Lobby;
 import java.awt.TrayIcon;
 import java.net.URL;
 import java.util.ResourceBundle;

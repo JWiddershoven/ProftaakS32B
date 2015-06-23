@@ -5,13 +5,14 @@
  */
 package Interfaces;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 
 /**
  *
  * @author Mnesymne
  */
-public interface IUser{
+public interface IUser extends Serializable{
     
     /**
      * Description: Returns a string with Username and Ranking
