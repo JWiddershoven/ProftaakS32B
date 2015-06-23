@@ -185,7 +185,7 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     private void onSendChatClick() {
         try {
             if (!tfChatInput.getText().trim().isEmpty()) {
-                ClientGUI.CurrentSession.getServer().sendLobbyChat(ClientGUI.CurrentSession.getUsername() + ": " + tfChatInput.getText() + "\n");
+                ClientGUI.CurrentSession.getServer().sendLobbySelectChat(ClientGUI.CurrentSession.getUsername() + ": " + tfChatInput.getText() + "\n");
                 tfChatInput.setText("");
                 System.out.println("Sent chat");
             }

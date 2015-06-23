@@ -705,8 +705,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     }
 
     @Override
-    public void sendLobbyChat(String message) throws RemoteException {
-         if (message == null || message.isEmpty())
+    public void sendLobbySelectChat(String message) throws RemoteException {
+        if (message == null || message.isEmpty())
         {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
