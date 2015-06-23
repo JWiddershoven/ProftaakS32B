@@ -200,7 +200,7 @@ public class RMILobby implements ILobby, Serializable
             }
             if (this.owner != null) {
                 try {
-                    returnString += this.owner.getUsername(null) + " ";
+                    returnString += " owner: " + this.owner.getUsername(null) + " ";
                 }
                 catch (RemoteException ex) {
                     Logger.getLogger(RMILobby.class.getName()).log(Level.SEVERE, null, ex);

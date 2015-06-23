@@ -13,6 +13,7 @@ import java.rmi.server.UnicastRemoteObject;
  *
  * @author Jordi
  */
+@Deprecated
 public class Client extends UnicastRemoteObject implements IClient
 {
     
