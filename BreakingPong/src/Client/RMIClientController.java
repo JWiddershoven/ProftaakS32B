@@ -8,7 +8,6 @@ package Client;
 import Helpers.StaticConstants;
 import Interfaces.IClient;
 import Interfaces.IServer;
-import RMI.RMILobby;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
@@ -23,7 +22,6 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
 
 /**
  *

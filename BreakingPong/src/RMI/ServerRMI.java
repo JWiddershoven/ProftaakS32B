@@ -49,7 +49,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
             "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys","getChanged"};
         basicPublisherStrings.addAll(Arrays.asList(array));
         for (int i = 0; i< 100; i++)
-            basicPublisherStrings.add("getChat" + i);
+            basicPublisherStrings.add("getChat" +  Integer.toString(i));
         
         this.publisher = new BasicPublisher(basicPublisherStrings.toArray(new String[basicPublisherStrings.size()]));
         this.ID = 1;
@@ -308,7 +308,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
-        publisher.inform(1,"getChat" + lobbyId, null, message);
+        publisher.inform(1,"getChat" + Integer.toString(lobbyId), null, message);
         return true;
     }
 
@@ -656,9 +656,9 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
 
     @Override
     public String getOwner(int lobbyid) throws RemoteException {
-        for (int i = 0; i < currentLobbies.size(); i++) {
-            if (currentLobbies.get(i).getLobbyID() == lobbyid) {
-                return currentLobbies.get(i).getOwner(lobbyid);
+        for (ILobby lobby : currentLobbies) {
+            if (lobby.getLobbyID() == lobbyid) {
+                return lobby.getOwner(lobbyid);
             }
         }
         return null;

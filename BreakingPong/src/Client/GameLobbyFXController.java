@@ -281,7 +281,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements  Initi
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        if (evt.getPropertyName().equals("getChat" + ClientGUI.joinedLobby.getLobbyID())) {
+        if (evt.getPropertyName().equals("getChat" +  Integer.toString(ClientGUI.joinedLobby.getLobbyID()))) {
             Platform.runLater(() -> {
                 taChat.appendText(evt.getNewValue().toString());
             });
