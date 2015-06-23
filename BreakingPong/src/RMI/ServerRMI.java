@@ -208,9 +208,9 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                     }
                     lobby.setOwner(user);
                     currentLobbies.add((ILobby) lobby);
-                    currentLobbies.get(currentLobbies.size() - 1).addUserToLobby(name, lobby.getId());
+                    currentLobbies.get(currentLobbies.size() - 1).addUserToLobby(user.getUsername(user), lobby.getId());
 
-                    joinLobby(lobby.getId(), name);
+                    //joinLobby(lobby.getId(), name);
 
                     return lobby;
                 }
