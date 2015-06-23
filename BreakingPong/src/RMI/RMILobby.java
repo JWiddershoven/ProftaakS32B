@@ -5,7 +5,6 @@
  */
 package RMI;
 
-import Client.ClientGUI;
 import Interfaces.ILobby;
 import Interfaces.IUser;
 import java.io.Serializable;
@@ -190,5 +189,16 @@ public class RMILobby implements ILobby, Serializable
             Logger.getLogger(RMILobby.class.getName()).log(Level.SEVERE, null, ex);
         }
        
+    }
+    
+    @Override
+    public String toString(){
+        try {
+            return this.name + " - owner: "  + this.owner.getUsername(null) + " " + this.joinedPlayers.size() + "/" + this.maxPlayers;
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(RMILobby.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.name + " " + this.joinedPlayers.size() + "/" + this.maxPlayers;
     }
 }

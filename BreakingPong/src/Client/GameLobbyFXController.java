@@ -88,7 +88,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
-            //connect();
+            connect();
             loadUserInterface();
             ClientGUI.controller.setGameController(this);
         }
@@ -287,7 +287,10 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        taChat.appendText(evt.getNewValue().toString());
+        if (evt.getPropertyName().equals("getChat"))
+        {
+            taChat.appendText(evt.getNewValue().toString());
+        }
     }
 
 // </editor-fold>
