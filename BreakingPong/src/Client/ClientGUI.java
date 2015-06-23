@@ -71,6 +71,8 @@ public class ClientGUI extends Application {
                     {
                         try
                         {
+                            if (ClientGUI.joinedLobby != null)
+                                CurrentSession.getServer().leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
                             connection.logout(CurrentSession.getUsername());
                         } catch (RemoteException ex)
                         {

@@ -230,8 +230,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                     }
                     lobby.setOwner(user);
                     currentLobbies.add((ILobby) lobby);
-                    lobby.addUserToLobby(name, lobby.getId());
-                    // TODO : WERKT NIET MET RMI
+                    currentLobbies.get(currentLobbies.size() -1 ).addUserToLobby(name, lobby.getId());
                     return lobby;
                 }
             }
@@ -273,7 +272,6 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public boolean leaveLobby(int lobbyid, String user) throws RemoteException
     {
-
         ILobby lobbyToRemove = null;
         boolean check = false;
         for (ILobby lobby : currentLobbies)
