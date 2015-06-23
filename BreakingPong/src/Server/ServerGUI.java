@@ -120,6 +120,7 @@ public class ServerGUI extends Application {
     private void turnServerOff() throws RemoteException {
         try {
             registry.unbind(StaticConstants.SERVER_BIND_NAME);
+            registry = null;
             Platform.runLater(() -> lblStatus.setText("Offline"));
             serverOnline = false;
         }

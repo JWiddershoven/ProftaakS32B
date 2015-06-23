@@ -259,6 +259,10 @@ public class GameLobbyFXController extends UnicastRemoteObject implements  Initi
 
         try {
             String username = lvPlayersInLobby.getSelectionModel().getSelectedItem().toString();
+            String[] split = username.split("-");
+            username = "";
+            for (int i = 0; i< split.length - 1; i++)
+                username += split[i];
             result = ClientGUI.CurrentSession.getServer().kickPlayer(username, ClientGUI.joinedLobby.getLobbyID());
         }
         catch (IllegalArgumentException ex) {
