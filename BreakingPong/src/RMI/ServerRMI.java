@@ -475,6 +475,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
             if (user.getUsername(null).equals(username))
             {
                 this.loggedInUsers.remove(user);
+                
                 System.out.println("User: " + username + " has logged out.");
                 
                 publisher.inform(this, "getPlayers", null, username);
@@ -485,6 +486,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
         return false;
     }
 
+    
     /**
      * Attempts to login a user using the paramaters.
      *
