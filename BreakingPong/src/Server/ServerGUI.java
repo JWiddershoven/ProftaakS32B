@@ -107,10 +107,8 @@ public class ServerGUI extends Application {
             }
             
             registry.rebind(StaticConstants.SERVER_BIND_NAME, rmiService);
-            StaticConstants.SERVER_IP_ADDRESS = StaticConstants.getLocalIp();
-            StaticConstants.SERVER_IP_PORT = StaticConstants.SERVER_IP_ADDRESS +":"+ StaticConstants.SERVER_PORT;
+            StaticConstants.updateLocalIp();
             Platform.runLater(() -> lblStatus.setText("Online at " + StaticConstants.SERVER_IP_PORT));
-            StaticConstants.SERVER_RMI_STRING = "rmi://" + StaticConstants.SERVER_IP_ADDRESS + ":" + StaticConstants.SERVER_PORT + "/" + StaticConstants.SERVER_BIND_NAME;
             System.out.println("Server online on " + StaticConstants.SERVER_RMI_STRING);
             serverOnline = true;
         }
