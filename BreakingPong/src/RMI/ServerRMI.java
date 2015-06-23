@@ -42,15 +42,16 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
 
     private int nextLobbyId = 0;
 
-    public ServerRMI() throws RemoteException
-    {
+    public ServerRMI() throws RemoteException {
         ArrayList<String> basicPublisherStrings = new ArrayList<String>();
-        String[] array = new String[] { "getPlayers", "getLobbys", "lobbyselectChat",
-            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver","getDestroys","getChanged"};
+        String[] array = new String[]{"getPlayers", "getLobbys", "lobbyselectChat",
+            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver", "getDestroys", "getChanged"};
         basicPublisherStrings.addAll(Arrays.asList(array));
-        for (int i = 0; i< 100; i++)
-            basicPublisherStrings.add("getChat" +  Integer.toString(i));
-        
+        for (int i = 0; i < 100; i++) {
+            basicPublisherStrings.add("getChat" + Integer.toString(i));
+            basicPublisherStrings.add("getLobbyPlayers" + Integer.toString(i));
+        }
+
         this.publisher = new BasicPublisher(basicPublisherStrings.toArray(new String[basicPublisherStrings.size()]));
         this.ID = 1;
         //fillWithTestData();
@@ -61,7 +62,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                 try {
                     checkLoggedInUsers();
                     checkCurrentLobbys();
-                } catch (RemoteException ex) {
+                }
+                catch (RemoteException ex) {
                     Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -101,8 +103,10 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         boolean kick = false;
         for (ILobby lobby : currentLobbies) {
             if (lobby.getLobbyID() == lobbyID) {
-                lobby.leaveLobby(lobbyID, username);
+                this.leaveLobby(lobbyID, username);
+                System.out.println("Kicked "+ username);
                 kick = true;
+                break;
             }
         }
         return kick;
@@ -146,7 +150,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
             System.out.println("DBworked = " + dbActionWorked);
 
             Shared.User newUser = new Shared.User(username, password, email);
-        } catch (SQLException ex) {
+        }
+        catch (SQLException ex) {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
             return "Username is already taken";
         }
@@ -208,10 +213,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                     }
                     lobby.setOwner(user);
                     currentLobbies.add((ILobby) lobby);
-                    currentLobbies.get(currentLobbies.size() - 1).addUserToLobby(user.getUsername(user), lobby.getId());
-
-                    //joinLobby(lobby.getId(), name);
-
+                    //currentLobbies.get(currentLobbies.size() - 1).addUserToLobby(user.getUsername(user), lobby.getId());
+                    joinLobby(lobby.getId(), user.getUsername(null));
                     return lobby;
                 }
             }
@@ -234,6 +237,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
             if (lobby.getLobbyID() == lobbyid) {
                 lobby.addUserToLobby(username, lobbyid);
                 returnValue = lobby;
+                publisher.inform(1, "getLobbyPlayers" + Integer.toString(lobbyid), null, lobby.getPlayerInformationFromLobby(lobbyid));
+                break;
             }
         }
         return returnValue;
@@ -259,18 +264,22 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                         // er zijn nog players in de game
                         lobby.setNextOwner();
                         System.out.println("New lobby owner " + lobby.getOwner(0));
-                    } else {
+                    }
+                    else if (lobby.getPlayerInformationFromLobby(0).isEmpty()) {
                         // remove lobby
                         lobbyToRemove = lobby;
                     }
                     check = true;
+                    publisher.inform(1, "getLobbyPlayers" + Integer.toString(lobbyid), null, lobby.getPlayerInformationFromLobby(lobbyid));
+                    break;
                 }
             }
             if (lobbyToRemove != null) {
                 System.out.println("No players left in lobby - removing lobby.");
                 currentLobbies.remove(lobbyToRemove);
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
         return check;
@@ -302,13 +311,11 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean sendChat(int lobbyId, String message) throws RemoteException
-    {
-        if (message == null || message.isEmpty())
-        {
+    public boolean sendChat(int lobbyId, String message) throws RemoteException {
+        if (message == null || message.isEmpty()) {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
-        publisher.inform(1,"getChat" + Integer.toString(lobbyId), null, message);
+        publisher.inform(1, "getChat" + Integer.toString(lobbyId), null, message);
         return true;
     }
 
@@ -467,7 +474,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
             }
             System.out.println("Failed to login user " + username);
             return false;
-        } catch (IllegalArgumentException exc) {
+        }
+        catch (IllegalArgumentException exc) {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, exc);
             return false;
         }
@@ -706,15 +714,14 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
 
     @Override
     public void sendLobbySelectChat(String message) throws RemoteException {
-        if (message == null || message.isEmpty())
-        {
+        if (message == null || message.isEmpty()) {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
         try {
             publisher.inform(1, "lobbyselectChat", null, message);
         }
         catch (Exception ex) {
-            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null,ex);
+            Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -727,6 +734,5 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         }
         return "NO LOBBY OWNER.";
     }
-    
-    
+
 }

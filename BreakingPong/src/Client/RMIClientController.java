@@ -88,6 +88,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                 this.services.removeListener(this, "lobbyselectChat");
                 for (int i = 0; i < 100; i++) {
                     this.services.removeListener(this, "getChat" + Integer.toString(i));
+                    this.services.removeListener(this,"getLobbyPlayers" + Integer.toString(i));
                 }
             }
             UnicastRemoteObject.unexportObject(this, true);
@@ -106,6 +107,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
             this.services.addListener(this, "lobbyselectChat");
             for (int i = 0; i < 100; i++) {
                 this.services.addListener(this, "getChat" + Integer.toString(i));
+                this.services.addListener(this,"getLobbyPlayers" + Integer.toString(i));
             }
 
         }
