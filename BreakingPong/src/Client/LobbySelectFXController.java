@@ -79,15 +79,14 @@ public class LobbySelectFXController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        try
-//        {
-//            //administration = Administration.getInstance();
-//        } catch (RemoteException ex)
-//        {
-//            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        fillListViews();
-        ClientGUI.controller.setLobbyController(this);
+        try
+        {
+            fillListViews();
+            ClientGUI.controller.setLobbyController(this);
+        } catch (Exception ex)
+        {
+            Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void fillListViews() {

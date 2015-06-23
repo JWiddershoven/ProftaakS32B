@@ -193,12 +193,27 @@ public class RMILobby implements ILobby, Serializable
     
     @Override
     public String toString(){
+        String returnString = id + " - ";
         try {
-            return this.name + " - owner: "  + this.owner.getUsername(null) + " " + this.joinedPlayers.size() + "/" + this.maxPlayers;
+            if (this.name != null) {
+                returnString += this.name + " - ";
+            }
+            if (this.owner != null) {
+                try {
+                    returnString += this.owner.getUsername(null) + " ";
+                }
+                catch (RemoteException ex) {
+                    Logger.getLogger(RMILobby.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            if (this.joinedPlayers != null) {
+                returnString += this.joinedPlayers.size() + "/";
+            }
+            returnString += this.maxPlayers;
         }
-        catch (RemoteException ex) {
-            Logger.getLogger(RMILobby.class.getName()).log(Level.SEVERE, null, ex);
+        catch (Exception ex) {
         }
-        return this.name + " " + this.joinedPlayers.size() + "/" + this.maxPlayers;
+        return returnString;
     }
 }
