@@ -12,6 +12,7 @@ import RMI.RMILobby;
 import RMI.RMIUser;
 import java.awt.TrayIcon;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -165,10 +166,11 @@ public class LobbySelectFXController implements Initializable {
     }
 
     @FXML
-    private void onFileExitClick() {
+    private void onFileExitClick() throws RemoteException {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (dialogResult == JOptionPane.YES_OPTION) {
+            ClientGUI.CurrentSession.getServer().logout(ClientGUI.CurrentSession.getUsername());
             System.exit(0);
         }
     }

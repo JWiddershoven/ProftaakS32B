@@ -186,7 +186,7 @@ public class CreateLobbyFXController implements Initializable
         {
             if (ClientGUI.CurrentSession == null)
             {
-                throw new Exception("Dit zou niet mogen gebeuren!");
+                throw new Exception("Can't create lobby, usersession expired");
             }
             //boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
             ILobby newLobby = ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
