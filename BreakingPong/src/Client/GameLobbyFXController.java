@@ -253,11 +253,13 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         if (lvPlayersInLobby.getSelectionModel().getSelectedItem() == null) {
             JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID()))) {
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            return;
         }
 
         try {
