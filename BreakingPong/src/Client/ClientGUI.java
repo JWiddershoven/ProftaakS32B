@@ -46,8 +46,8 @@ public class ClientGUI extends Application {
         Scene scene = new Scene(root);
         
         try {
-            this.controller = new RMIClientController(this);
-            this.connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
+            ClientGUI.controller = new RMIClientController(this);
+            ClientGUI.connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
         } catch (RemoteException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -59,21 +59,21 @@ public class ClientGUI extends Application {
         
         mainStage.setOnCloseRequest(new EventHandler<WindowEvent>()
         {
-
             @Override
             public void handle(WindowEvent event)
             {
                 Platform.runLater(new Runnable()
                 {
-
                     @Override
                     public void run()
                     {
                         try
                         {
-                            if (ClientGUI.joinedLobby != null)
+                            System.out.println("Closed from ClientGUI.");
+                            if (CurrentSession != null && ClientGUI.joinedLobby != null)
                                 CurrentSession.getServer().leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
-                            connection.logout(CurrentSession.getUsername());
+                            if (connection != null && CurrentSession != null && !CurrentSession.getUsername().isEmpty())
+                                connection.logout(CurrentSession.getUsername());
                         } catch (RemoteException ex)
                         {
                             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,7 +81,6 @@ public class ClientGUI extends Application {
                         CurrentSession = null;
                         controller.stop();
                     }
-                    
                 });
             }
         });
