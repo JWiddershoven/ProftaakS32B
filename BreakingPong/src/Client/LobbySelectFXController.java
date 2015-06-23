@@ -15,6 +15,7 @@ import java.awt.TrayIcon;
 import java.beans.PropertyChangeEvent;
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +40,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class LobbySelectFXController implements Initializable, RemotePropertyListener {
+public class LobbySelectFXController extends UnicastRemoteObject implements Initializable, RemotePropertyListener {
 
     // Textfields
     @FXML
@@ -85,6 +86,15 @@ public class LobbySelectFXController implements Initializable, RemotePropertyLis
     private final ObservableList<ILobby> lobbiesList
             = FXCollections.observableArrayList();
 
+    /**
+     *
+     * @throws java.rmi.RemoteException
+     */
+    public LobbySelectFXController() throws RemoteException {
+    }
+
+    
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try
