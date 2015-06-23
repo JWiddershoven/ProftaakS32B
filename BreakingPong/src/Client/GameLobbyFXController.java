@@ -198,7 +198,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements  Initi
     private void onSendChatClick() {
         try {
             if (!tfChatInput.getText().trim().isEmpty()) {
-                ClientGUI.CurrentSession.getServer().sendChat(tfChatInput.getText());
+                ClientGUI.CurrentSession.getServer().sendChat(ClientGUI.CurrentSession.getUsername() + ": " + tfChatInput.getText() + "\n");
                 tfChatInput.setText("");
                 System.out.println("Sent chat");
             }
