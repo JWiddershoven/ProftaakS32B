@@ -55,6 +55,8 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     Button btnSendChat;
     @FXML
     Button btnKickPlayer;
+    @FXML
+    Button btnRefresh;
 
     // ListViews
     @FXML
@@ -275,6 +277,12 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         }
     }
 
+    @FXML
+    private void onRefreshClick()
+    {
+        fillListViews();
+    }
+    
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         taChat.appendText(evt.getNewValue().toString());

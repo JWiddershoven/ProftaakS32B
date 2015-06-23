@@ -50,12 +50,12 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         
-        if (evt.getPropertyName().equals("getPlayers")) {
-            lobby.addUserToList((ObservableList<RMILobby>) evt);
-            lobby.fillListViews();
-            System.out.println("GETPLAYERS DONE !@#$");
-        }
-        System.out.print(evt.getNewValue().toString());
+//        if (evt.getPropertyName().equals("getPlayers")) {
+//            lobby.addUserToList((ObservableList<RMILobby>) evt);
+//            lobby.fillListViews();
+//            System.out.println("GETPLAYERS DONE !@#$");
+//        }
+        System.out.print("RMIClientController property change: " + evt.getNewValue().toString());
     }
 
     private void start() {
