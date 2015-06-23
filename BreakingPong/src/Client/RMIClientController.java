@@ -31,7 +31,7 @@ import javafx.collections.ObservableList;
  */
 public class RMIClientController extends UnicastRemoteObject implements RemotePropertyListener, IClient {
 
-    private RemotePublisher services;
+    public static RemotePublisher services;
     private Registry reg;
     private ClientGUI client;
     private GameLobbyFXController gamelobby;
@@ -87,6 +87,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
             if (this.services != null) {
                 this.services.removeListener(this, "getPlayers");
                 this.services.removeListener(this, "getLobbys");
+                this.services.removeListener(this, "getChat");
             }
             UnicastRemoteObject.unexportObject(this, true);
         } catch (RemoteException ex) {

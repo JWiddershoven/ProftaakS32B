@@ -83,9 +83,6 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     @FXML
     MenuItem miHelpAbout;
 
-    private RemotePublisher publisher;
-    private Registry reg;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -104,12 +101,10 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 
     public void connect() {
         try {
-            this.reg = LocateRegistry.getRegistry(StaticConstants.SERVER_IP_ADDRESS, StaticConstants.SERVER_PORT);
-            this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
-            this.publisher.addListener(this, "getChat");
+            RMIClientController.services.addListener(this, "getChat");
             System.out.println("PropertyListener active for chat.");
         }
-        catch (RemoteException | NotBoundException ex) {
+        catch (RemoteException ex) {
             System.out.println("Failed to connect to server to listen to chat.");
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
 
@@ -190,8 +185,8 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
                     JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
         }
-        if (this.publisher != null) {
-            this.publisher.removeListener(this, "getChat");
+        if (RMIClientController.services != null) {
+            RMIClientController.services.removeListener(this, "getChat");
         }
         Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
         Scene scene = new Scene(root);
@@ -226,9 +221,9 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (dialogResult == JOptionPane.YES_OPTION) {
-            if (this.publisher != null) {
+            if (RMIClientController.services != null) {
                 try {
-                    this.publisher.removeListener(this, "getChat");
+                    RMIClientController.services.removeListener(this, "getChat");
                 }
                 catch (RemoteException ex) {
                     Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
