@@ -99,14 +99,18 @@ public class ServerGUI extends Application {
 
     private void turnServerOn() {
         try {
+            rmiService = new ServerRMI();
             registry = LocateRegistry.createRegistry(StaticConstants.SERVER_PORT);
             if (registry == null) {
+                System.out.println("Could not create Registry - finding one");
                 registry = LocateRegistry.getRegistry(StaticConstants.SERVER_PORT);
             }
-            rmiService = new ServerRMI();
+            
             registry.rebind(StaticConstants.SERVER_BIND_NAME, rmiService);
             StaticConstants.SERVER_IP_ADDRESS = StaticConstants.getLocalIp();
+            StaticConstants.SERVER_IP_PORT = StaticConstants.SERVER_IP_ADDRESS +":"+ StaticConstants.SERVER_PORT;
             Platform.runLater(() -> lblStatus.setText("Online at " + StaticConstants.SERVER_IP_PORT));
+            StaticConstants.SERVER_RMI_STRING = "rmi://" + StaticConstants.SERVER_IP_ADDRESS + ":" + StaticConstants.SERVER_PORT + "/" + StaticConstants.SERVER_BIND_NAME;
             System.out.println("Server online on " + StaticConstants.SERVER_RMI_STRING);
             serverOnline = true;
         }

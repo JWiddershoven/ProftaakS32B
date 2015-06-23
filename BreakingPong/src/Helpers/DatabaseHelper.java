@@ -122,19 +122,21 @@ public final class DatabaseHelper {
             initConnection();
 
             //database actie
-            PreparedStatement p = connection.prepareStatement("Select * FROM Administration");
-            ResultSet rs = p.executeQuery();
+            if (connection != null) {
+                PreparedStatement p = connection.prepareStatement("Select * FROM Administration");
+                ResultSet rs = p.executeQuery();
 
-            while (rs.next()) {
-                databaseUsername = rs.getString("Username");
-                databasePassword = rs.getString("Password");
-                databaseEmail = rs.getString("Email");
-                databaseRating = rs.getDouble("Rating");
+                while (rs.next()) {
+                    databaseUsername = rs.getString("Username");
+                    databasePassword = rs.getString("Password");
+                    databaseEmail = rs.getString("Email");
+                    databaseRating = rs.getDouble("Rating");
 
-                if (databaseUsername != null || databasePassword != null) {
-                    result = username.trim().equals(databaseUsername) && databasePassword.equals(hashedPassword);
-                    if (result == true) {
-                        break;
+                    if (databaseUsername != null || databasePassword != null) {
+                        result = username.trim().equals(databaseUsername) && databasePassword.equals(hashedPassword);
+                        if (result == true) {
+                            break;
+                        }
                     }
                 }
             }
@@ -241,7 +243,8 @@ public final class DatabaseHelper {
      */
     private static void closeConnection() {
         try {
-            connection.close();
+            if (connection != null)
+                connection.close();
             connection = null;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
