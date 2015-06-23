@@ -122,7 +122,6 @@ public class LoginGUiFXController implements Initializable {
                 try
                 {
                     ClientGUI.CurrentSession = ics.login(username, password);
-                    System.out.println("yay");
                 }
                 catch (Exception ex) 
                 {

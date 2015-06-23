@@ -17,7 +17,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -67,7 +66,8 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                     System.out.println("Attempting to setup a connection");
                     try {
                         connect();
-                        System.out.println("Connected!");
+                        if (reg != null)
+                            System.out.println("Connected!");
                     }
                     catch (MalformedURLException ex) {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
