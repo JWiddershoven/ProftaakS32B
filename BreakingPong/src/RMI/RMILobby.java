@@ -139,14 +139,14 @@ public class RMILobby implements ILobby, Serializable
         if(joinedPlayers == null)
             joinedPlayers = new ArrayList<>();
         
-//        for (IUser user : joinedPlayers)
-//        {
-//            if (user.getUsername(user).equals(username))
-//            {
-//                return false;
-//                //Breturn = false;
-//            }
-//        }
+        for (IUser user : joinedPlayers)
+        {
+            if (user.getUsername(user).equals(username))
+            {
+                return false;
+                //Breturn = false;
+            }
+        }
         
         for (IUser user : host.loggedInUsers)
         {

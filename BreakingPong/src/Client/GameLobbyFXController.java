@@ -132,7 +132,8 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 
     private void fillListViews() {
         try {
-            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
+            lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayersInformationInGame(ClientGUI.joinedLobby.getLobbyID())));
+            lvPlayersInLobby.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
         }
         catch (RemoteException ex) {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);

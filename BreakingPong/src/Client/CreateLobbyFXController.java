@@ -191,8 +191,9 @@ public class CreateLobbyFXController implements Initializable
             //boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
             ILobby newLobby = ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
-            
             ClientGUI.joinedLobby = newLobby;
+            if (newLobby == null)
+                return "Failed to create the lobby";
         }
         catch (Exception ex)
         {

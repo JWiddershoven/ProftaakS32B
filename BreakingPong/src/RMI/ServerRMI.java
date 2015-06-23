@@ -5,7 +5,6 @@
  */
 package RMI;
 
-import Client.ClientGUI;
 import Helpers.DatabaseHelper;
 import Helpers.LoggedinUser;
 import Interfaces.IGame;
@@ -40,6 +39,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     private ArrayList<ILobby> oldLobbies = new ArrayList<>();
     private String[] lobbynames;
     private ArrayList<IGame> currentGames = new ArrayList<>();
+    
+    private int nextLobbyId = 0;
 
     public ServerRMI() throws RemoteException
     {
@@ -219,7 +220,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                 if (user.getUsername(user).equals(Owner))
                 {
                     RMILobby lobby = new RMILobby(this);
-                    lobby.setId(currentLobbies.size() + 1);
+                    lobby.setId(nextLobbyId);
+                    nextLobbyId++;
                     lobby.setMaxPlayers(maxPlayers);
                     lobby.setName(name);
                     if(!Password.equals(""))
@@ -228,8 +230,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
                     }
                     lobby.setOwner(user);
                     currentLobbies.add((ILobby) lobby);
+                    lobby.addUserToLobby(name, lobby.getId());
                     // TODO : WERKT NIET MET RMI
-                    ClientGUI.joinedLobby = lobby;
                     return lobby;
                 }
             }
