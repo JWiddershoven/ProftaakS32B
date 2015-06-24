@@ -10,6 +10,7 @@ import Shared.Paddle.WindowLocation;
 import java.awt.Image;
 import java.util.ArrayList;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javax.swing.Timer;
 
@@ -294,7 +295,8 @@ public class Ball extends GameObject {
     @Override
     public Shape getBounds()
     {
-        return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
+        //return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
+         return new Rectangle(getPosition().getX(),getPosition().getY(),getSize().getX(),getSize().getY());
     }
     
 }
