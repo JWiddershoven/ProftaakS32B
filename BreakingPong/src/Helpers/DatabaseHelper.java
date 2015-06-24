@@ -102,9 +102,10 @@ public final class DatabaseHelper {
         }
 
         // For testing without database
-        if (username.trim().toLowerCase().startsWith("database"))
-            return new LoggedinUser(true,username,password,"database@gmail.com",666);
-        
+        if (username.trim().toLowerCase().startsWith("database")) {
+            return new LoggedinUser(true, username, password, "database@gmail.com", 666);
+        }
+
         String hashedPassword = "";
         String databasePassword = "";
         String databaseUsername = "";
@@ -243,8 +244,8 @@ public final class DatabaseHelper {
      */
     private static void closeConnection() {
         try {
-            if (connection != null)
-                connection.close();
+            //if (connection != null)
+            connection.close();
             connection = null;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHelper.class.getName()).log(Level.SEVERE, null, ex);
