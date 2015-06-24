@@ -102,6 +102,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         try {
             RMIClientController.services.addListener(this, "getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
             RMIClientController.services.addListener(this, "getLobbyPlayers" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
+
             System.out.println("PropertyListeners active.");
         } catch (RemoteException ex) {
             System.out.println("Failed to connect to server to listen to chat.");
@@ -153,6 +154,8 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
                 JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
                         JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
+            
+            RMIClientController.unsubscribeFromLobby(this, ClientGUI.joinedLobby.getLobbyID());
 
             ClientGUI.joinedLobby = null;
             Platform.runLater(() -> {
