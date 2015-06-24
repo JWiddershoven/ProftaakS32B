@@ -32,6 +32,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     public static BasicPublisher publisher;
 
     private int ID;
+    private int gameID;
     public ArrayList<IUser> loggedInUsers = new ArrayList<>();
     private ArrayList<IUser> oldLoggedInUsers = new ArrayList<>();
     private String[] usernames;
@@ -734,5 +735,4 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         }
         return "NO LOBBY OWNER.";
     }
-
 }
