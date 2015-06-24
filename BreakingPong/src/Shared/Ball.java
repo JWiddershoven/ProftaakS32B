@@ -9,6 +9,8 @@ import Server.CollisionChecker;
 import Shared.Paddle.WindowLocation;
 import java.awt.Image;
 import java.util.ArrayList;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javax.swing.Timer;
@@ -83,7 +85,15 @@ public class Ball extends GameObject {
                     Block b = (Block) go;
                     // CHECK UNSTRCUTBALE
                     if (b.isDestructable())
+                    {
+                        Media someSound = new Media(getClass().getResource("sound.mp3").toString());
+                        if(someSound != null)
+                        {
+                            MediaPlayer mp = new MediaPlayer(someSound);
+                            mp.play();
+                        }                        
                         returnList.add(b);
+                    }
                     if (lastPaddleTouched != null) {
                         if (b.getPowerUp() != null) {
                             switch (b.getPowerUp().getType()) {

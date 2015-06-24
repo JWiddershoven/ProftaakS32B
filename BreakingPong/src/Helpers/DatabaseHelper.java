@@ -102,10 +102,16 @@ public final class DatabaseHelper {
         }
 
         // For testing without database
+<<<<<<< HEAD
         if (username.trim().toLowerCase().startsWith("database")) {
             return new LoggedinUser(true, username, password, "database@gmail.com", 666);
         }
 
+=======
+        if (username.trim().toLowerCase().startsWith("database"))
+            return new LoggedinUser(true,username,"password","database@gmail.com",666);
+        
+>>>>>>> origin/master
         String hashedPassword = "";
         String databasePassword = "";
         String databaseUsername = "";
