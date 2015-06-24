@@ -14,6 +14,7 @@ import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -36,6 +37,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
 
 /**
  *
@@ -64,6 +70,11 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     Image imageDestructable;
     Image imageUndestructable;
     Image ImagePowerup;
+    File yourFile = new File("Images/Images/pong2.wav");
+    AudioInputStream stream;
+    AudioFormat format;
+    DataLine.Info info;
+    Clip clip;
 
     public ClientRMI(Client client) throws RemoteException {
         this.client = client;
@@ -202,6 +213,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                         }
                     }
                     if (objectToRemove != null) {
+                        stream = AudioSystem.getAudioInputStream(yourFile);
+                        format = stream.getFormat();
+                        info = new DataLine.Info(Clip.class, format);
+                        clip = (Clip) AudioSystem.getLine(info);
+                        clip.open(stream);
+                        clip.start();
                         client.destroyableList.remove(objectToRemove);
                     }
                 }
