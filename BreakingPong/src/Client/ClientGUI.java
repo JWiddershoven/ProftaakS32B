@@ -81,6 +81,7 @@ public class ClientGUI extends Application {
                             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         CurrentSession = null;
+                        System.exit(0);
                     }
                 });
             }
