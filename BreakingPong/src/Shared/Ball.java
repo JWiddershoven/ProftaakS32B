@@ -86,12 +86,12 @@ public class Ball extends GameObject {
                     // CHECK UNSTRCUTBALE
                     if (b.isDestructable())
                     {
-                        Media someSound = new Media(getClass().getResource("sound.mp3").toString());
-                        if(someSound != null)
-                        {
-                            MediaPlayer mp = new MediaPlayer(someSound);
-                            mp.play();
-                        }                        
+//                        Media someSound = new Media(getClass().getResource("sound.mp3").toString());
+//                        if(someSound != null)
+//                        {
+//                            MediaPlayer mp = new MediaPlayer(someSound);
+//                            mp.play();
+//                        }                        
                         returnList.add(b);
                     }
                     if (lastPaddleTouched != null) {
