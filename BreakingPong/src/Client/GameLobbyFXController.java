@@ -33,7 +33,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
 /**
@@ -143,11 +142,11 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     private void leaveCurrentLobby() throws Exception {
         try {
             if (ClientGUI.joinedLobby == null) {
-                throw new Exception("Wat heb ik gedaan? joinedLobby mag niet null zijn");
+                throw new Exception("joinedLobby is null!");
             }
-            if (RMIClientController.services != null) {
-                RMIClientController.services.removeListener(this, "getChat" + ClientGUI.joinedLobby.getLobbyID());
-            }
+//            if (RMIClientController.services != null) {
+//                RMIClientController.services.removeListener(this, "getChat" + ClientGUI.joinedLobby.getLobbyID());
+//            }
             try {
                 ClientGUI.joinedLobby.leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
             }

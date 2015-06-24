@@ -80,7 +80,8 @@ public class RMILobby implements ILobby, Serializable {
                 while (running) {
                     try {
                         if (joinedPlayers.size() == maxPlayers) {
-                            System.out.println("All players joined, starting game");
+                            System.out.println("All players joined, starting game in 3 seconds");
+                            Thread.sleep(3000);
                             createGame(id, gameTime, true);
                             running = false;
                         }
