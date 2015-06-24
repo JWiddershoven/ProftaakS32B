@@ -44,7 +44,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     private int nextLobbyId = 0;
 
     public ServerRMI() throws RemoteException {
-        String[] array = new String[]{"getPlayers", "getLobbys", "lobbyselectChat",
+        String[] array = new String[]{"getPlayers", "getLobbys", "lobbyselectChat", "GetCurrentPaddles",
             "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver", "getDestroys", "getChanged"};
 
         this.publisher = new BasicPublisher(array);
@@ -99,7 +99,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         for (ILobby lobby : currentLobbies) {
             if (lobby.getLobbyID() == lobbyID) {
                 this.leaveLobby(lobbyID, username);
-                System.out.println("Kicked "+ username);
+                System.out.println("Kicked " + username);
                 kick = true;
                 break;
             }
@@ -210,6 +210,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                     currentLobbies.add((ILobby) lobby);
                     publisher.addProperty("getChat" + Integer.toString(lobby.getId()));
                     publisher.addProperty("getLobbyPlayers" + Integer.toString(lobby.getId()));
+                    publisher.addProperty("getLobbyStarted" + Integer.toString(lobby.getId()));
                     //currentLobbies.get(currentLobbies.size() - 1).addUserToLobby(user.getUsername(user), lobby.getId());
                     joinLobby(lobby.getId(), user.getUsername(null));
                     return lobby;
@@ -731,4 +732,30 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         }
         return "NO LOBBY OWNER.";
     }
+
+    @Override
+    public void startGame(int lobbyId) throws RemoteException {
+        new Thread(() -> {
+            try {
+                sendChat(lobbyId, "Server: Game starting in 5...\n");
+                Thread.sleep(1000);
+                sendChat(lobbyId, "Server: Game starting in 4...\n");
+                Thread.sleep(1000);
+                sendChat(lobbyId, "Server: Game starting in 3...\n");
+                Thread.sleep(1000);
+                sendChat(lobbyId, "Server: Game starting in 2...\n");
+                Thread.sleep(1000);
+                sendChat(lobbyId, "Server: Game starting in 1...\n");
+                Thread.sleep(1000);
+                publisher.inform(1, "getLobbyStarted" + Integer.toString(lobbyId), false, true);
+            }
+            catch (RemoteException ex) {
+                Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            catch (InterruptedException ex) {
+                Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }).start();
+    }
+
 }

@@ -58,6 +58,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
     /**
      * services.addListener(rpl, "getChat" + Integer.toString(lobbyId));
      * services.addListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
+     *
      * @param rpl THIS
      * @param lobbyId
      */
@@ -65,25 +66,32 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         try {
             services.addListener(rpl, "getChat" + Integer.toString(lobbyId));
             services.addListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
-            if (!subscribedGames.contains(lobbyId))
+            services.addListener(rpl, "getLobbyStarted" + Integer.toString(lobbyId));
+            if (!subscribedGames.contains(lobbyId)) {
                 subscribedGames.add(lobbyId);
+            }
         }
         catch (RemoteException ex) {
             Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * services.removeListener(rpl, "getChat" + Integer.toString(lobbyId));
-     * services.removeListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
+     * services.removeListener(rpl, "getLobbyPlayers" +
+     * Integer.toString(lobbyId));
+     *
      * @param rpl THIS
-     * @param lobbyId 
+     * @param lobbyId
      */
-    public static void unsubscribeFromLobby(RemotePropertyListener rpl, int lobbyId){
-         try {
+    public static void unsubscribeFromLobby(RemotePropertyListener rpl, int lobbyId) {
+        try {
             services.removeListener(rpl, "getChat" + Integer.toString(lobbyId));
             services.removeListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
-            if (subscribedGames.contains(lobbyId))
+            services.removeListener(rpl, "getLobbyStarted" + Integer.toString(lobbyId));
+            if (subscribedGames.contains(lobbyId)) {
                 subscribedGames.remove(lobbyId);
+            }
         }
         catch (RemoteException ex) {
             Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +130,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         try {
             this.reg = LocateRegistry.getRegistry(StaticConstants.SERVER_IP_ADDRESS, StaticConstants.SERVER_PORT);
             this.services = (IServer) this.reg.lookup("gameServer");
-            
+
             this.services.addListener(this, "getPlayers");
             this.services.addListener(this, "getLobbys");
             this.services.addListener(this, "lobbyselectChat");
@@ -146,10 +154,10 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                 this.services.removeListener(this, "getPlayers");
                 this.services.removeListener(this, "getLobbys");
                 this.services.removeListener(this, "lobbyselectChat");
-                for (int i : subscribedGames)
-                {
+                for (int i : subscribedGames) {
                     this.services.removeListener(this, "getChat" + Integer.toString(i));
-                    this.services.removeListener(this,"getLobbyPlayers" + Integer.toString(i));
+                    this.services.removeListener(this, "getLobbyPlayers" + Integer.toString(i));
+                    services.removeListener(this, "getLobbyStarted" + Integer.toString(i));
                 }
             }
             UnicastRemoteObject.unexportObject(this, true);

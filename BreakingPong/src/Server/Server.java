@@ -488,4 +488,9 @@ public class Server extends UnicastRemoteObject  implements IServer
     public String getLobbyOwnerUsername(int lobbyId) throws RemoteException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void startGame(int lobbyId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
