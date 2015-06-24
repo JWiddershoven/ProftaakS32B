@@ -168,6 +168,8 @@ public class RMILobby implements ILobby, Serializable {
     public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException {
         RMIGame newGame = new RMIGame(id, gameTime, powerUps);
         this.game = newGame;
+        this.game.loadMap("src/RMI/test4x4.txt");
+        this.game.StartGame();
     }
 
     @Override

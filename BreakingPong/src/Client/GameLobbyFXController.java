@@ -219,28 +219,12 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             else {
                 ClientGUI.CurrentSession.getServer().startGame(ClientGUI.joinedLobby.getLobbyID());
             }
-            // GameClient game = new GameClient(1, 300, true, ClientGUI.joinedLobby.getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID()));
-//            Thread gameLoopThread = game.setupGame();
-//            if (gameLoopThread != null)
-//            {
-//                gameLoopThread.start();
-//            }emoteException ex) {
         }
         catch (RemoteException | HeadlessException ex) {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
-        /*try {
-                
-         Parent root = FXMLLoader.load(getClass().getResource("InGame.fxml"));
-         Scene scene = new Scene(root);
-         mainStage.setScene(scene);
-         mainStage.show();
-            
-         } catch (IOException | HeadlessException ex) {
-         System.out.println("error");
-         }*/
     }
 
     @FXML
@@ -251,8 +235,11 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     @FXML
     private void onSendChatClick() {
         try {
-            if (!taChatInput.getText().trim().isEmpty()) {
-                ClientGUI.CurrentSession.getServer().sendChat(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername() + ": " + taChatInput.getText() + "\n");
+             String text = taChatInput.getText().trim();
+            if (text.endsWith("\n"))
+                text = text.substring(0, text.length() -2);
+            if (!text.isEmpty()) {
+                ClientGUI.CurrentSession.getServer().sendChat(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername() + ": " + text + "\n");
                 taChatInput.setText("");
                 System.out.println("Sent chat");
             }

@@ -97,8 +97,9 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         boolean kick = false;
         for (ILobby lobby : currentLobbies) {
             if (lobby.getLobbyID() == lobbyID) {
-                lobby.leaveLobby(lobbyID, username);
-                System.out.println("Kicked "+ username);
+                sendChat(lobbyID, username + " has been kicked.\n");
+                this.leaveLobby(lobbyID, username);
+                System.out.println("Kicked " + username);
                 kick = true;
                 break;
             }
@@ -265,6 +266,9 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                     else if (lobby.getPlayerInformationFromLobby(0).isEmpty()) {
                         // remove lobby
                         lobbyToRemove = lobby;
+                    }
+                    else {
+                        sendChat(lobbyid, user + " has left the game.\n");
                     }
                     check = true;
                     publisher.inform(1, "getLobbyPlayers" + Integer.toString(lobbyid), null, lobby.getPlayerInformationFromLobby(lobbyid));
@@ -747,6 +751,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                 sendChat(lobbyId, "Server: Game starting in 1...\n");
                 Thread.sleep(1000);
                 publisher.inform(1, "getLobbyStarted" + Integer.toString(lobbyId), false, true);
+                Thread.sleep(2000);
+                for (int i = 0; i < currentLobbies.size(); i++) {
+                    if (currentLobbies.get(i).getLobbyID() == lobbyId) {
+                        currentLobbies.get(i).createGame(lobbyId, 300, true);
+                        break;
+                    }
+                }
             }
             catch (RemoteException ex) {
                 Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
