@@ -44,16 +44,10 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     private int nextLobbyId = 0;
 
     public ServerRMI() throws RemoteException {
-        ArrayList<String> basicPublisherStrings = new ArrayList<String>();
         String[] array = new String[]{"getPlayers", "getLobbys", "lobbyselectChat",
             "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver", "getDestroys", "getChanged"};
-        basicPublisherStrings.addAll(Arrays.asList(array));
-        for (int i = 0; i < 100; i++) {
-            basicPublisherStrings.add("getChat" + Integer.toString(i));
-            basicPublisherStrings.add("getLobbyPlayers" + Integer.toString(i));
-        }
 
-        this.publisher = new BasicPublisher(basicPublisherStrings.toArray(new String[basicPublisherStrings.size()]));
+        this.publisher = new BasicPublisher(array);
         this.ID = 1;
         //fillWithTestData();
         Timer timer = new Timer();
@@ -214,6 +208,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                     }
                     lobby.setOwner(user);
                     currentLobbies.add((ILobby) lobby);
+                    publisher.addProperty("getChat" + Integer.toString(lobby.getId()));
+                    publisher.addProperty("getLobbyPlayers" + Integer.toString(lobby.getId()));
                     //currentLobbies.get(currentLobbies.size() - 1).addUserToLobby(user.getUsername(user), lobby.getId());
                     joinLobby(lobby.getId(), user.getUsername(null));
                     return lobby;

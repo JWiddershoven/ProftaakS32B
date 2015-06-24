@@ -83,7 +83,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     MenuItem miHelp;
     @FXML
     MenuItem miHelpAbout;
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
@@ -95,11 +95,11 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public GameLobbyFXController() throws RemoteException {
-        
+
     }
-    
+
     public void connect() {
         try {
             RMIClientController.services.addListener(this, "getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
@@ -109,10 +109,10 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         catch (RemoteException ex) {
             System.out.println("Failed to connect to server to listen to chat.");
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
-            
+
         }
     }
-    
+
     private void loadUserInterface() {
         lblUsername.setText(ClientGUI.CurrentSession.getUsername());
         fillListViews();
@@ -127,7 +127,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             }
         });
     }
-    
+
     private void fillListViews() {
         Platform.runLater(() -> {
             try {
@@ -139,7 +139,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             }
         });
     }
-    
+
     private void leaveCurrentLobby() throws Exception {
         try {
             if (ClientGUI.joinedLobby == null) {
@@ -158,6 +158,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             }
             RMIClientController.services.removeListener(this, "getLobbyPlayers" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
             RMIClientController.services.removeListener(this, "getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
+            ClientGUI.joinedLobby = null;
             Platform.runLater(() -> {
                 try {
                     Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
@@ -211,12 +212,12 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
          System.out.println("error");
          }*/
     }
-    
+
     @FXML
     private void onLeaveGameClick() throws Exception {
         leaveCurrentLobby();
     }
-    
+
     @FXML
     private void onSendChatClick() {
         try {
@@ -232,13 +233,13 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
                     JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     @FXML
     private void onHelpAboutClick() {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
-    
+
     @FXML
     private void onFileExitClick() {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
@@ -255,16 +256,16 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             System.exit(0);
         }
     }
-    
+
     @FXML
     private void onEditDeleteClick() {
         System.out.println("deleted");
     }
-    
+
     @FXML
     private void onKickPlayerClick() throws RemoteException, Exception {
         boolean result = false;
-        
+
         if (ClientGUI.joinedLobby == null) {
             throw new Exception("joinedLobby kan niet null zijn!");
         }
@@ -273,13 +274,13 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.CurrentSession.getServer().getLobbyOwnerUsername(ClientGUI.joinedLobby.getLobbyID()))) {
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         try {
             String username = lvPlayersInLobby.getSelectionModel().getSelectedItem().toString();
             username = ConverterHelper.getUsernameFromUserToString(username);
@@ -288,7 +289,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         catch (IllegalArgumentException ex) {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if (result) {
             JOptionPane.showConfirmDialog(null, "Succes: The user has been kicked from the lobby.", "Success",
                     JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
@@ -298,12 +299,12 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     @FXML
     private void onRefreshClick() {
         fillListViews();
     }
-    
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         if (evt.getPropertyName().equals("getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()))) {
@@ -321,10 +322,11 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
                 }
             }
             if (kicked) {
+                System.out.println("You have been kicked from the lobby!");
                 Platform.runLater(() -> {
                     try {
                         this.leaveCurrentLobby();
-                        JOptionPane.showConfirmDialog(null, "YOU HAVE BEEN KICKED FROM THE GAME.", "Kicked",
+                        JOptionPane.showConfirmDialog(null, "YOU HAVE BEEN KICKED FROM THE LOBBY.", "Kicked",
                                 JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
                     }
                     catch (IOException ex) {

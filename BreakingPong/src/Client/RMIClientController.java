@@ -8,6 +8,7 @@ package Client;
 import Helpers.StaticConstants;
 import Interfaces.IClient;
 import Interfaces.IServer;
+import fontys.observer.BasicPublisher;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
@@ -30,6 +31,7 @@ import javafx.application.Platform;
 public class RMIClientController extends UnicastRemoteObject implements RemotePropertyListener, IClient {
 
     public static RemotePublisher services;
+    public static BasicPublisher basicPublisher;
     private Registry reg;
     private ClientGUI client;
     private GameLobbyFXController gamelobby;
@@ -80,23 +82,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         }, 0, 2500);
     }
 
-    public void stop() {
-        try {
-            if (this.services != null) {
-                this.services.removeListener(this, "getPlayers");
-                this.services.removeListener(this, "getLobbys");
-                this.services.removeListener(this, "lobbyselectChat");
-                for (int i = 0; i < 100; i++) {
-                    this.services.removeListener(this, "getChat" + Integer.toString(i));
-                    this.services.removeListener(this,"getLobbyPlayers" + Integer.toString(i));
-                }
-            }
-            UnicastRemoteObject.unexportObject(this, true);
-        }
-        catch (RemoteException ex) {
-            Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+    
 
     private void connect() throws MalformedURLException, NotBoundException {
         try {
@@ -116,6 +102,24 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         }
         finally {
             this.timeOut = System.currentTimeMillis();
+        }
+    }
+    
+    public void stop() {
+        try {
+            if (this.services != null) {
+                this.services.removeListener(this, "getPlayers");
+                this.services.removeListener(this, "getLobbys");
+                this.services.removeListener(this, "lobbyselectChat");
+                for (int i = 0; i < 100; i++) {
+                    this.services.removeListener(this, "getChat" + Integer.toString(i));
+                    this.services.removeListener(this,"getLobbyPlayers" + Integer.toString(i));
+                }
+            }
+            UnicastRemoteObject.unexportObject(this, true);
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
