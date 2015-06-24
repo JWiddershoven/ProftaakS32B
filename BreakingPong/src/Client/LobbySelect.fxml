@@ -67,7 +67,4 @@
       </padding>
     </HBox>
   </children>
-  <stylesheets>
-    <URL value="@../../../ComplexApplication/ComplexApplication.css" />
-  </stylesheets>
 </VBox>
