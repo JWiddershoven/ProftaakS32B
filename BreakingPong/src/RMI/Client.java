@@ -63,8 +63,8 @@ public class Client extends Application implements RemotePropertyListener {
     
     
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    
+    public void start(Stage primaryStage, ClientRMI client) throws Exception {
         stage = primaryStage;
         root = new Group();
         scene = new Scene(root, widthWindow, heightWindow);
@@ -79,7 +79,7 @@ public class Client extends Application implements RemotePropertyListener {
             //String ip = InetAddress.getLocalHost().getHostAddress();
             connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
             if (connection != null) {
-                clientRMI = new ClientRMI(this);
+                clientRMI = client;
             }
             else {
                 System.out.println("NOT CONNECTED TO THE SERVER.");
@@ -168,5 +168,11 @@ public class Client extends Application implements RemotePropertyListener {
                 stage.close();
             }
         });
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
