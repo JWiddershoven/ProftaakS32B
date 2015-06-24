@@ -102,7 +102,9 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 
     public void connect() {
         try {
-            RMIClientController.subscribeToLobby(this, ClientGUI.joinedLobby.getLobbyID());
+            RMIClientController.services.addListener(this, "getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
+            RMIClientController.services.addListener(this, "getLobbyPlayers" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
+
             System.out.println("PropertyListeners active.");
         }
         catch (RemoteException ex) {
@@ -144,12 +146,10 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             if (ClientGUI.joinedLobby == null) {
                 throw new Exception("joinedLobby is null!");
             }
-//            if (RMIClientController.services != null) {
-//                RMIClientController.services.removeListener(this, "getChat" + ClientGUI.joinedLobby.getLobbyID());
-//            }
+            if (RMIClientController.services != null) {
+                RMIClientController.unsubscribeFromLobby(this, ClientGUI.joinedLobby.getLobbyID());
+            }
             try {
-                RMIClientController.services.removeListener(this, "getLobbyPlayers" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
-                RMIClientController.services.removeListener(this, "getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()));
                 ClientGUI.joinedLobby.leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
             }
             catch (Exception ex) {
@@ -159,6 +159,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             }
 
             RMIClientController.unsubscribeFromLobby(this, ClientGUI.joinedLobby.getLobbyID());
+
             ClientGUI.joinedLobby = null;
             Platform.runLater(() -> {
                 try {
@@ -193,14 +194,9 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 //            if (gameLoopThread != null)
 //            {
 //                gameLoopThread.start();
-//            }
+//            }emoteException ex) {
         }
-        catch (RemoteException ex) {
-            Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
-                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
-        }
-        catch (HeadlessException ex) {
+        catch (RemoteException | HeadlessException ex) {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -266,6 +262,8 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         System.out.println("deleted");
     }
 
+    boolean resultKick;
+
     @FXML
     private void onKickPlayerClick() throws RemoteException, Exception {
         boolean result = false;
@@ -290,6 +288,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             username = ConverterHelper.getUsernameFromUserToString(username);
             result = ClientGUI.CurrentSession.getServer().kickPlayer(username, ClientGUI.joinedLobby.getLobbyID());
         }
+
         catch (IllegalArgumentException ex) {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -320,7 +319,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             this.checkKickPlayer((ArrayList<String>) evt.getNewValue());
         }
         else if (evt.getPropertyName().equals("getLobbyStarted" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()))) {
-            if ((boolean)evt.getNewValue()) {
+            if ((boolean) evt.getNewValue()) {
                 System.out.println("GAME STARTED!");
                 RMI.Client client = new RMI.Client();
                 ClientRMI game = new ClientRMI(client);

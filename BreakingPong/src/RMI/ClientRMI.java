@@ -130,6 +130,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             this.publisher.addListener(this, "getDestroys");
             this.publisher.addListener(this, "getChanged");
             this.publisher.addListener(this, "GetCurrentPaddles");
+            // CRASHERINO HERE
             this.client.connection.joinGame(1, client.Name);
             System.out.println("Game joined");
         } catch (RemoteException | NotBoundException ex) {
