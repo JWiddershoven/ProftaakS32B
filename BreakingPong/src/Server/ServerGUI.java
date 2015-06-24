@@ -122,6 +122,7 @@ public class ServerGUI extends Application {
             registry.unbind(StaticConstants.SERVER_BIND_NAME);
             registry = null;
             Platform.runLater(() -> lblStatus.setText("Offline"));
+            rmiService = null;
             serverOnline = false;
         }
         catch (NotBoundException | AccessException ex) {

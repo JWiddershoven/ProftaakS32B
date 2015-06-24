@@ -8,7 +8,6 @@ package Client;
 import Helpers.StaticConstants;
 import Interfaces.IClient;
 import Interfaces.IServer;
-import fontys.observer.BasicPublisher;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
 import java.beans.PropertyChangeEvent;
@@ -18,6 +17,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -31,13 +31,13 @@ import javafx.application.Platform;
 public class RMIClientController extends UnicastRemoteObject implements RemotePropertyListener, IClient {
 
     public static RemotePublisher services;
-    public static BasicPublisher basicPublisher;
     private Registry reg;
     private ClientGUI client;
     private GameLobbyFXController gamelobby;
     private CreateLobbyFXController create;
     private LobbySelectFXController lobby;
     private long timeOut;
+    private static final ArrayList<Integer> subscribedGames = new ArrayList<>();
 
     public RMIClientController(ClientGUI client) throws RemoteException {
         this.client = client;
@@ -55,6 +55,41 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         System.out.print("RMIClientController property change: " + evt.getNewValue().toString());
     }
 
+    /**
+     * services.addListener(rpl, "getChat" + Integer.toString(lobbyId));
+     * services.addListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
+     * @param rpl THIS
+     * @param lobbyId
+     */
+    public static void subscribeToLobby(RemotePropertyListener rpl, int lobbyId) {
+        try {
+            services.addListener(rpl, "getChat" + Integer.toString(lobbyId));
+            services.addListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
+            if (!subscribedGames.contains(lobbyId))
+                subscribedGames.add(lobbyId);
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    /**
+     * services.removeListener(rpl, "getChat" + Integer.toString(lobbyId));
+     * services.removeListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
+     * @param rpl THIS
+     * @param lobbyId 
+     */
+    public static void unsubscribeFromLobby(RemotePropertyListener rpl, int lobbyId){
+         try {
+            services.removeListener(rpl, "getChat" + Integer.toString(lobbyId));
+            services.removeListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
+            if (subscribedGames.contains(lobbyId))
+                subscribedGames.remove(lobbyId);
+        }
+        catch (RemoteException ex) {
+            Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     private void start() {
         Timer timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -68,8 +103,9 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                     System.out.println("Attempting to setup a connection");
                     try {
                         connect();
-                        if (reg != null)
+                        if (reg != null) {
                             System.out.println("Connected!");
+                        }
                     }
                     catch (MalformedURLException ex) {
                         Logger.getLogger(RMIClientController.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,19 +118,18 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
         }, 0, 2500);
     }
 
-    
-
     private void connect() throws MalformedURLException, NotBoundException {
         try {
             this.reg = LocateRegistry.getRegistry(StaticConstants.SERVER_IP_ADDRESS, StaticConstants.SERVER_PORT);
             this.services = (IServer) this.reg.lookup("gameServer");
+            
             this.services.addListener(this, "getPlayers");
             this.services.addListener(this, "getLobbys");
             this.services.addListener(this, "lobbyselectChat");
-            for (int i = 0; i < 100; i++) {
-                this.services.addListener(this, "getChat" + Integer.toString(i));
-                this.services.addListener(this,"getLobbyPlayers" + Integer.toString(i));
-            }
+//            for (int i = 0; i < 100; i++) {
+//                this.services.addListener(this, "getChat" + Integer.toString(i));
+//                this.services.addListener(this,"getLobbyPlayers" + Integer.toString(i));
+//            }
 
         }
         catch (RemoteException | NotBoundException ex) {
@@ -104,14 +139,15 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
             this.timeOut = System.currentTimeMillis();
         }
     }
-    
+
     public void stop() {
         try {
             if (this.services != null) {
                 this.services.removeListener(this, "getPlayers");
                 this.services.removeListener(this, "getLobbys");
                 this.services.removeListener(this, "lobbyselectChat");
-                for (int i = 0; i < 100; i++) {
+                for (int i : subscribedGames)
+                {
                     this.services.removeListener(this, "getChat" + Integer.toString(i));
                     this.services.removeListener(this,"getLobbyPlayers" + Integer.toString(i));
                 }
