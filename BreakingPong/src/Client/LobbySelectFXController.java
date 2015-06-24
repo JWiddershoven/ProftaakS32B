@@ -33,7 +33,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
 /**
@@ -41,10 +40,6 @@ import javax.swing.JOptionPane;
  * @author Lorenzo
  */
 public class LobbySelectFXController extends UnicastRemoteObject implements Initializable, RemotePropertyListener {
-
-    // Textfields
-    @FXML
-    TextField tfChatInput;
 
     // Buttons
     @FXML
@@ -65,6 +60,8 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     // TextAreas
     @FXML
     TextArea taChat;
+    @FXML    
+    TextArea taChatInput;
     
     // Menuitems
     @FXML
@@ -184,9 +181,9 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     @FXML
     private void onSendChatClick() {
         try {
-            if (!tfChatInput.getText().trim().isEmpty()) {
-                ClientGUI.CurrentSession.getServer().sendLobbySelectChat(ClientGUI.CurrentSession.getUsername() + ": " + tfChatInput.getText() + "\n");
-                tfChatInput.setText("");
+            if (!taChatInput.getText().trim().isEmpty()) {
+                ClientGUI.CurrentSession.getServer().sendLobbySelectChat(ClientGUI.CurrentSession.getUsername() + ": " + taChatInput.getText() + "\n");
+                taChatInput.setText("");
                 System.out.println("Sent chat");
             }
         }

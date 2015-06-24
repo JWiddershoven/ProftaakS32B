@@ -18,10 +18,9 @@
             <Button fx:id="btnCreateLobby" layoutX="637.0" layoutY="439.0" mnemonicParsing="false" onAction="#onCreateLobbyClick" prefHeight="70.0" prefWidth="231.0" text="Create Lobby" />
             <ListView fx:id="lvLobbies" layoutX="213.0" layoutY="84.0" prefHeight="212.0" prefWidth="655.0" />
             <Button fx:id="btnJoinLobby" layoutX="637.0" layoutY="330.0" mnemonicParsing="false" onAction="#onJoinLobbyClick" prefHeight="70.0" prefWidth="231.0" text="Join Lobby" />
-            <TextField fx:id="tfChatInput" layoutX="212.0" layoutY="519.0" prefWidth="306.0" />
-            <Button fx:id="btnSendChat" layoutX="528.0" layoutY="519.0" mnemonicParsing="false" onAction="#onSendChatClick" prefHeight="25.0" prefWidth="88.0" text="Send" />
+            <Button fx:id="btnSendChat" layoutX="528.0" layoutY="519.0" mnemonicParsing="false" onAction="#onSendChatClick" prefHeight="37.0" prefWidth="88.0" text="Send" />
             <Label layoutX="28.0" layoutY="24.0" text="UserList" />
-            <ListView fx:id="lvOnlineUsers" layoutX="28.0" layoutY="43.0" prefHeight="476.0" prefWidth="163.0" />
+            <ListView fx:id="lvOnlineUsers" layoutX="28.0" layoutY="43.0" prefHeight="514.0" prefWidth="163.0" />
             <Label layoutX="528.0" layoutY="59.0" text="Lobbies" />
             <Label layoutX="393.0" layoutY="309.0" text="Chat" />
             <MenuBar layoutX="0.0" layoutY="-3.0" prefWidth="900.0">
@@ -45,6 +44,7 @@
             </MenuBar>
                   <Button fx:id="btnRefresh" layoutX="213.0" layoutY="43.0" mnemonicParsing="false" onAction="#onRefreshClick" prefHeight="37.0" prefWidth="105.0" text="Refresh" />
                   <TextArea fx:id="taChat" editable="false" layoutX="212.0" layoutY="330.0" prefHeight="179.0" prefWidth="403.0" />
+                  <TextArea fx:id="taChatInput" layoutX="213.0" layoutY="519.0" prefHeight="37.0" prefWidth="301.0" />
           </children>
         </AnchorPane>
       </items>
