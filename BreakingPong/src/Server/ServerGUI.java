@@ -51,18 +51,10 @@ public class ServerGUI extends Application {
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 
             @Override
-            public void handle(WindowEvent t) {
-                try {
-                    if (serverOnline) {
-                        turnServerOff();
-                    }
-                }
-                catch (RemoteException ex) {
-                    Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                Platform.exit();
+            public void handle(WindowEvent event) {
+                System.exit(0);
             }
-
+            
         });
         primaryStage.setScene(scene);
         primaryStage.setTitle("Server Application");
@@ -70,7 +62,7 @@ public class ServerGUI extends Application {
     }
 
     /**
-     * The main() method is ignored in correctly deployed JavaFX application.
+     * The main() method is ignored in correctly deploysed JavaFX application.
      * main() serves only as fallback in case the application can not be
      * launched through deployment artifacts, e.g., in IDEs with limited FX
      * support. NetBeans ignores main().
