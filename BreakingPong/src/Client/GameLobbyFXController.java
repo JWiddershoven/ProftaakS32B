@@ -178,6 +178,38 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
         }
     }
 
+     private void checkKickPlayer(ArrayList<String> newValue) {
+        boolean kicked = true;
+        ArrayList<String> players = newValue;
+        for (int i = 0; i < players.size(); i++) {
+            String username = ConverterHelper.getUsernameFromUserToString(players.get(i));
+            if (username.equals(ClientGUI.CurrentSession.getUsername())) {
+                kicked = false;
+            }
+        }
+        if (kicked) {
+            System.out.println("You have been kicked from the lobby!");
+            Platform.runLater(() -> {
+                try {
+                    this.leaveCurrentLobby();
+                    JOptionPane.showConfirmDialog(null, "YOU HAVE BEEN KICKED FROM THE LOBBY.", "Kicked",
+                            JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                }
+                catch (IOException ex) {
+                    Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                catch (Exception ex) {
+                    Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+        }
+        else {
+            Platform.runLater(() -> {
+                lvPlayersInLobby.setItems(FXCollections.observableArrayList(players));
+            });
+        }
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
     @FXML
     private void onStartGameClick() {
@@ -333,35 +365,5 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     }
 
 // </editor-fold>
-    private void checkKickPlayer(ArrayList<String> newValue) {
-        boolean kicked = true;
-        ArrayList<String> players = newValue;
-        for (int i = 0; i < players.size(); i++) {
-            String username = ConverterHelper.getUsernameFromUserToString(players.get(i));
-            if (username.equals(ClientGUI.CurrentSession.getUsername())) {
-                kicked = false;
-            }
-        }
-        if (kicked) {
-            System.out.println("You have been kicked from the lobby!");
-            Platform.runLater(() -> {
-                try {
-                    this.leaveCurrentLobby();
-                    JOptionPane.showConfirmDialog(null, "YOU HAVE BEEN KICKED FROM THE LOBBY.", "Kicked",
-                            JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                }
-                catch (IOException ex) {
-                    Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (Exception ex) {
-                    Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            });
-        }
-        else {
-            Platform.runLater(() -> {
-                lvPlayersInLobby.setItems(FXCollections.observableArrayList(players));
-            });
-        }
-    }
+   
 }

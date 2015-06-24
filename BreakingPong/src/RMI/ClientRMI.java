@@ -5,6 +5,7 @@
  */
 package RMI;
 
+import Client.ClientGUI;
 import Helpers.StaticConstants;
 import Interfaces.IGame;
 import Shared.Ball;
@@ -131,7 +132,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             this.publisher.addListener(this, "getChanged");
             this.publisher.addListener(this, "GetCurrentPaddles");
             // CRASHERINO HERE
-            this.client.connection.joinGame(1, client.Name);
+            this.client.connection.joinGame(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
             System.out.println("Game joined");
         } catch (RemoteException | NotBoundException ex) {
             Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);

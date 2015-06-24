@@ -5,6 +5,7 @@
  */
 package RMI;
 
+import Client.ClientGUI;
 import Helpers.StaticConstants;
 import Interfaces.IServer;
 import Shared.Ball;
@@ -39,7 +40,6 @@ import javax.swing.JOptionPane;
  * @author Jordi
  */
 public class Client extends Application implements RemotePropertyListener {
-
     private Stage stage;
     Group root;
     private Scene scene;
