@@ -751,7 +751,6 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                 sendChat(lobbyId, "Server: Game starting in 1...\n");
                 Thread.sleep(1000);
                 publisher.inform(1, "getLobbyStarted" + Integer.toString(lobbyId), false, true);
-                Thread.sleep(2000);
                 for (int i = 0; i < currentLobbies.size(); i++) {
                     if (currentLobbies.get(i).getLobbyID() == lobbyId) {
                         currentLobbies.get(i).createGame(lobbyId, 300, true);

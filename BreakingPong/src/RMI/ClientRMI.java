@@ -409,12 +409,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 {
                     gameTimeLabel = new Text(25, 25, "Time Left: " + newGameTime);
                     gameTimeLabel.setFont(Font.font("Verdana", 20));
-                    gameTimeLabel.setFill(Color.BLACK);
+                    gameTimeLabel.setFill(Color.WHITE);
                     client.root.getChildren().add(gameTimeLabel);
 
                     fpsLabel = new Text(25, 140, "FPS " + frameInLastSecond);
                     fpsLabel.setFont(Font.font("Verdana", 20));
-                    fpsLabel.setFill(Color.BLACK);
+                    fpsLabel.setFill(Color.WHITE);
                     client.root.getChildren().add(fpsLabel);
                     if (client != null && client.paddlesIngame != null)
                     {

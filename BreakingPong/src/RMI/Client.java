@@ -71,9 +71,9 @@ public class Client extends Application implements RemotePropertyListener {
 
         gameTime = 0;
         // Input field for username
-        JOptionPane nameInput = new JOptionPane("Input username");
-        Name = JOptionPane.showInputDialog(nameInput, "Enter your username");
-        RMIUser user = new RMIUser(Name, null, null, 0);
+        //JOptionPane nameInput = new JOptionPane("Input username");
+        //Name = JOptionPane.showInputDialog(nameInput, "Enter your username");
+        //RMIUser user = new RMIUser("test", null, null, 0);
         // Connect to server
         try {
             //String ip = InetAddress.getLocalHost().getHostAddress();

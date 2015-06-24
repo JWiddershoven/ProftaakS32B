@@ -76,6 +76,7 @@ public class RMIGame implements IGame, Runnable {
     private int numberOfPLayersLeft = 4;
 
     private final TVector2 windowSize;
+    private boolean draw = false;
 
     public TVector2 getWindowSize() {
         return windowSize;
@@ -843,7 +844,20 @@ public class RMIGame implements IGame, Runnable {
             long start, elapsed, wait;
             start = System.nanoTime();
             // calls update function on all objects
-            tick();
+            Timer t = new Timer();
+            t.schedule(new TimerTask() {
+
+                @Override
+                public void run()
+                {
+                    draw = true;                    
+                }
+            }, 10000);
+            
+            if (draw)
+            {
+                tick();
+            }
 
             elapsed = System.nanoTime() - start;
             wait = targetTime - elapsed / 10000;
