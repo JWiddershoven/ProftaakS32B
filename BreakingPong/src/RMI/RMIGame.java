@@ -863,6 +863,76 @@ public class RMIGame implements IGame, Runnable {
         exitGame();
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public RMIGame(int id, int gameTime, boolean powerUps, Thread gameLoopThread, Map selectedmap, int gameTimeInSecondsRemaining, Timer secondsTimer, ArrayList<IUser> userList, ArrayList<CPU> botList, ArrayList<GameObject> objectList, ArrayList<Ball> ballList, ArrayList<Block> blockList, ArrayList<Paddle> paddleList, ArrayList<Block> destroyableBlockList, ArrayList<GameObject> changedObjectsList, ArrayList<GameObject> removedObjectsList, ArrayList<Paddle> paddlesIngame, RMIUser player1, RMIUser player2, RMIUser player3, RMIUser player4, CPU cpu1, CPU cpu2, CPU cpu3, CPU cpu4, Paddle P1Paddle, Paddle P2Paddle, Paddle P3Paddle, Paddle P4Paddle, TVector2 windowSize, BufferedImage BallImage, BufferedImage DestroyImage, BufferedImage normalBlockImage, BufferedImage PowerUpImage, BufferedImage PaddleImage, BufferedImage WhiteSpaceImage) {
+        this.id = id;
+        this.gameTime = gameTime;
+        this.powerUps = powerUps;
+        this.gameLoopThread = gameLoopThread;
+        this.selectedmap = selectedmap;
+        this.gameTimeInSecondsRemaining = gameTimeInSecondsRemaining;
+        this.secondsTimer = secondsTimer;
+        this.userList = userList;
+        this.botList = botList;
+        this.objectList = objectList;
+        this.ballList = ballList;
+        this.blockList = blockList;
+        this.paddleList = paddleList;
+        this.destroyableBlockList = destroyableBlockList;
+        this.changedObjectsList = changedObjectsList;
+        this.removedObjectsList = removedObjectsList;
+        this.paddlesIngame = paddlesIngame;
+        this.player1 = player1;
+        this.player2 = player2;
+        this.player3 = player3;
+        this.player4 = player4;
+        this.cpu1 = cpu1;
+        this.cpu2 = cpu2;
+        this.cpu3 = cpu3;
+        this.cpu4 = cpu4;
+        this.P1Paddle = P1Paddle;
+        this.P2Paddle = P2Paddle;
+        this.P3Paddle = P3Paddle;
+        this.P4Paddle = P4Paddle;
+        this.windowSize = windowSize;
+        this.BallImage = BallImage;
+        this.DestroyImage = DestroyImage;
+        this.normalBlockImage = normalBlockImage;
+        this.PowerUpImage = PowerUpImage;
+        this.PaddleImage = PaddleImage;
+        this.WhiteSpaceImage = WhiteSpaceImage;
+    }
+
+    public RMIGame(ArrayList<IUser> userList, ArrayList<CPU> botList, ArrayList<Ball> ballList, ArrayList<Block> blockList, ArrayList<Paddle> paddleList, ArrayList<Block> destroyableBlockList, ArrayList<GameObject> changedObjectsList, ArrayList<GameObject> removedObjectsList, ArrayList<Paddle> paddlesIngame, TVector2 windowSize) {
+        this.userList = userList;
+        this.botList = botList;
+        this.ballList = ballList;
+        this.blockList = blockList;
+        this.paddleList = paddleList;
+        this.destroyableBlockList = destroyableBlockList;
+        this.changedObjectsList = changedObjectsList;
+        this.removedObjectsList = removedObjectsList;
+        this.paddlesIngame = paddlesIngame;
+        this.windowSize = windowSize;
+    }
+
+    public RMIGame() {
+        this.userList = null;
+        this.botList = null;
+        this.ballList = null;
+        this.blockList = null;
+        this.paddleList = null;
+        this.destroyableBlockList = null;
+        this.changedObjectsList = null;
+        this.removedObjectsList = null;
+        this.paddlesIngame = null;
+        this.windowSize = null;
+    }
+
     /**
      * Checks the game time!
      *
@@ -909,6 +979,7 @@ public class RMIGame implements IGame, Runnable {
     }
 
     private void exitGame() {
+        gameLoopThread.setDaemon(true);
         gameLoopThread.interrupt();
         gameLoopThread = null;
         this.botList.clear();
