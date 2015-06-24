@@ -57,6 +57,12 @@ public class Client extends Application implements RemotePropertyListener {
     private int heightWindow = 800;
     private int widthWindow = 800;
 
+    public Client(ClientGUI client) {
+        connection = client.connection;
+    }
+    
+    
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;

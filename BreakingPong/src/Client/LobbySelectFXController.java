@@ -60,9 +60,9 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     // TextAreas
     @FXML
     TextArea taChat;
-    @FXML    
+    @FXML
     TextArea taChatInput;
-    
+
     // Menuitems
     @FXML
     MenuItem miFile;
@@ -90,12 +90,9 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     public LobbySelectFXController() throws RemoteException {
     }
 
-    
-    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        try
-        {
+        try {
             RMIClientController.services.addListener(this, "lobbyselectChat");
             // Autoscroll to bottom
             taChat.textProperty().addListener(new ChangeListener<Object>() {
@@ -105,11 +102,11 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
                     taChat.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
                     //use Double.MIN_VALUE to scroll to the top
                 }
-        });
+            });
             fillListViews();
             ClientGUI.controller.setLobbyController(this);
-        } catch (Exception ex)
-        {
+        }
+        catch (Exception ex) {
             Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -118,9 +115,12 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
 
         Platform.runLater(() -> {
             try {
-                lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
-                lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
-            } catch (Exception ex) {
+                if (ClientGUI.CurrentSession != null) {
+                    lvOnlineUsers.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getOnlineUsers()));
+                    lvLobbies.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getAllLobbies()));
+                }
+            }
+            catch (Exception ex) {
                 System.out.println("ERROR in fillListViews : " + ex.getMessage());
                 Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -133,24 +133,22 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     private void onJoinLobbyClick() {
         System.out.println("on lobby join click");
         RMILobby selectedLobby = (RMILobby) lvLobbies.getSelectionModel().getSelectedItem();
-        if (selectedLobby != null)
-        {
-            try
-            {
-                ClientGUI.CurrentSession.getServer().joinLobby(selectedLobby.getId(),ClientGUI.CurrentSession.getUsername());
+        if (selectedLobby != null) {
+            try {
+                ClientGUI.CurrentSession.getServer().joinLobby(selectedLobby.getId(), ClientGUI.CurrentSession.getUsername());
                 ClientGUI.joinedLobby = selectedLobby;
                 Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
                 Scene scene = new Scene(root);
                 mainStage.setScene(scene);
                 mainStage.show();
-            } catch (Exception ex)
-            {
+            }
+            catch (Exception ex) {
                 Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
                         "Join error", TrayIcon.MessageType.INFO.ordinal());
             }
-        } else
-        {
+        }
+        else {
             JOptionPane.showMessageDialog(null, "Please select a lobby first",
                     "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
         }
@@ -165,16 +163,16 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
                     "Create error", TrayIcon.MessageType.INFO.ordinal());
         }
     }
-    
+
     @FXML
-    private void onRefreshClick()
-    {
+    private void onRefreshClick() {
         fillListViews();
     }
 
@@ -214,14 +212,12 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     private void onEditDeleteClick() {
         System.out.println("deleted");
     }
-    
-    public void addUserToList(ObservableList<RMILobby> lobbys)
-    {
+
+    public void addUserToList(ObservableList<RMILobby> lobbys) {
         lvOnlineUsers.setItems(lobbys);
     }
-    
-    public void addLobbyToList(ObservableList<RMIUser> users)
-    {
+
+    public void addLobbyToList(ObservableList<RMIUser> users) {
         lvOnlineUsers.setItems(users);
     }
     // </editor-fold>
@@ -230,7 +226,7 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
         if (evt.getPropertyName().equals("lobbyselectChat")) {
             Platform.runLater(() -> {
-                 taChat.appendText(evt.getNewValue().toString());
+                taChat.appendText(evt.getNewValue().toString());
             });
         }
     }

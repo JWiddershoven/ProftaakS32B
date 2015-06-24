@@ -155,9 +155,9 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
                 this.services.removeListener(this, "getLobbys");
                 this.services.removeListener(this, "lobbyselectChat");
                 for (int i : subscribedGames) {
-                    this.services.removeListener(this, "getChat" + Integer.toString(i));
-                    this.services.removeListener(this, "getLobbyPlayers" + Integer.toString(i));
-                    services.removeListener(this, "getLobbyStarted" + Integer.toString(i));
+                    this.services.removeListener(gamelobby, "getChat" + Integer.toString(i));
+                    this.services.removeListener(gamelobby, "getLobbyPlayers" + Integer.toString(i));
+                    this.services.removeListener(gamelobby, "getLobbyStarted" + Integer.toString(i));
                 }
             }
             UnicastRemoteObject.unexportObject(this, true);

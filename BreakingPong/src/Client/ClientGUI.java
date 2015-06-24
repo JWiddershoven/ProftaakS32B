@@ -31,6 +31,7 @@ import javafx.stage.WindowEvent;
 public class ClientGUI extends Application {
 
     public static Stage mainStage;
+    public static ClientGUI instance;
    /// public static String loggedinUser;
     public static ILobby joinedLobby;
     public static RMIClientController controller;
@@ -44,7 +45,7 @@ public class ClientGUI extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LoginGUi.fxml"));
         Scene scene = new Scene(root);
-        
+        instance = this;
         try {
             ClientGUI.controller = new RMIClientController(this);
             ClientGUI.connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
@@ -69,6 +70,7 @@ public class ClientGUI extends Application {
                     {
                         try
                         {
+                            controller.stop();
                             System.out.println("Closed from ClientGUI.");
                             if (CurrentSession != null && ClientGUI.joinedLobby != null)
                                 CurrentSession.getServer().leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
@@ -79,7 +81,6 @@ public class ClientGUI extends Application {
                             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         CurrentSession = null;
-                        controller.stop();
                     }
                 });
             }
