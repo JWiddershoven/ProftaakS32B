@@ -21,7 +21,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -98,7 +97,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         boolean kick = false;
         for (ILobby lobby : currentLobbies) {
             if (lobby.getLobbyID() == lobbyID) {
-                this.leaveLobby(lobbyID, username);
+                //this.leaveLobby(lobbyID, username);
+                lobby.leaveLobby(lobbyID, username);
                 System.out.println("Kicked "+ username);
                 kick = true;
                 break;
