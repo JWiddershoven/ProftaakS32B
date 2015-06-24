@@ -353,10 +353,22 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
                 System.out.println("GAME STARTED!");
                 RMI.Client client = new RMI.Client(ClientGUI.instance);
                 ClientRMI game = new ClientRMI(client);
+                    Platform.runLater(() ->
+                {
+                    try
+                    {
+                        client.start(ClientGUI.mainStage);
+                    } catch (Exception ex)
+                    {
+                        Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                });
+                    
 //            Thread gameLoopThread = game.setupGame();
 //            if (gameLoopThread != null) {
 //                gameLoopThread.start();
 //            }
+  
             }
         }
     }

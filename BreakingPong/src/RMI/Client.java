@@ -88,21 +88,6 @@ public class Client extends Application implements RemotePropertyListener {
         catch (Exception ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try
-        {
-            String ip = InetAddress.getLocalHost().getHostAddress();
-            connection = (IServer) Naming.lookup("rmi://localhost:7654/gameServer");
-            if (connection != null)
-            {
-                clientRMI = new ClientRMI(this);
-            }
-            else{
-                System.out.println("NOT CONNECTED TO THE SERVER.");
-            }
-        } catch (Exception ex)
-        {
-            System.out.println(ex.getMessage());
-        }
         hbox = new HBox();
         gameTimeLabel = new Text(10, 10, "GameTime");
         gameTimeLabel.setFill(Color.BLUE);
