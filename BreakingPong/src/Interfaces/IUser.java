@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Shared.Paddle;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
@@ -29,5 +30,9 @@ public interface IUser extends Serializable{
      * @throws java.rmi.RemoteException
      */
     public String getUsername(IUser user) throws RemoteException;
+
+    public void setPaddle(Paddle P4Paddle) throws RemoteException;
+    
+    public Paddle getPaddle() throws RemoteException;
     
 }

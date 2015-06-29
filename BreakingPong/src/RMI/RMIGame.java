@@ -70,7 +70,7 @@ public class RMIGame implements IGame, Runnable {
     private final ArrayList<GameObject> removedObjectsList;
     private final ArrayList<Paddle> paddlesIngame;
 
-    private RMIUser player1, player2, player3, player4;
+    private IUser player1, player2, player3, player4;
     private CPU cpu1, cpu2, cpu3, cpu4;
     private Paddle P1Paddle, P2Paddle, P3Paddle, P4Paddle;
     private int numberOfPLayersLeft = 4;
@@ -226,7 +226,7 @@ public class RMIGame implements IGame, Runnable {
 
         try {
             if (userList.get(0) != null) {
-                player1 = (RMIUser) userList.get(0);
+                player1 = (IUser) userList.get(0);
                 System.out.println("Added paddle for user 1");
             }
         } catch (IndexOutOfBoundsException ex) {
@@ -237,7 +237,7 @@ public class RMIGame implements IGame, Runnable {
 
         try {
             if (userList.get(1) != null) {
-                player2 = (RMIUser) userList.get(1);
+                player2 = (IUser) userList.get(1);
                 System.out.println("Added paddle for user 2");
             }
         } catch (IndexOutOfBoundsException ex) {
@@ -248,7 +248,7 @@ public class RMIGame implements IGame, Runnable {
 
         try {
             if (userList.get(2) != null) {
-                player3 = (RMIUser) userList.get(2);
+                player3 = (IUser) userList.get(2);
                 System.out.println("Added paddle for user 3");
             }
         } catch (IndexOutOfBoundsException ex) {
@@ -259,7 +259,7 @@ public class RMIGame implements IGame, Runnable {
 
         try {
             if (userList.get(3) != null) {
-                player4 = (RMIUser) userList.get(3);
+                player4 = (IUser) userList.get(3);
                 System.out.println("Added paddle for user 4");
             }
         } catch (IndexOutOfBoundsException ex) {

@@ -13,6 +13,7 @@ import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
 import Shared.GameObject;
+import Shared.Paddle;
 import Shared.User;
 import fontys.observer.BasicPublisher;
 import fontys.observer.RemotePropertyListener;
@@ -765,6 +766,18 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                 Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }).start();
+    }
+
+    @Override
+    public void setPaddle(Paddle P4Paddle) throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Paddle getPaddle() throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

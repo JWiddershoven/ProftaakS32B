@@ -12,6 +12,7 @@ import Interfaces.IMap;
 import Interfaces.IServer;
 import Interfaces.IUser;
 import Shared.GameObject;
+import Shared.Paddle;
 import Shared.User;
 import fontys.observer.RemotePropertyListener;
 import java.rmi.RemoteException;
@@ -491,6 +492,18 @@ public class Server extends UnicastRemoteObject  implements IServer
 
     @Override
     public void startGame(int lobbyId) throws RemoteException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setPaddle(Paddle P4Paddle) throws RemoteException
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Paddle getPaddle() throws RemoteException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
