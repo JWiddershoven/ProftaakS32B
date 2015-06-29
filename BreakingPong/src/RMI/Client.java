@@ -75,19 +75,19 @@ public class Client extends Application implements RemotePropertyListener {
         //Name = JOptionPane.showInputDialog(nameInput, "Enter your username");
         //RMIUser user = new RMIUser("test", null, null, 0);
         // Connect to server
-        try {
-            //String ip = InetAddress.getLocalHost().getHostAddress();
-            connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
+//        try {
+//            //String ip = InetAddress.getLocalHost().getHostAddress();
+//            connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
             if (connection != null) {
                 clientRMI = client;
             }
             else {
                 System.out.println("NOT CONNECTED TO THE SERVER.");
             }
-        }
-        catch (Exception ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        }
+//        catch (Exception ex) {
+//            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         hbox = new HBox();
         gameTimeLabel = new Text(10, 10, "GameTime");
         gameTimeLabel.setFill(Color.BLUE);
@@ -137,6 +137,7 @@ public class Client extends Application implements RemotePropertyListener {
                 {
                     try
                     {
+                        System.out.println("left");
                         connection.moveLeft(connection.getLobbyID(), Name);
                         
                     } catch (RemoteException ex)
