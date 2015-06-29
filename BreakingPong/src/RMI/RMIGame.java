@@ -156,7 +156,7 @@ public class RMIGame implements IGame, Runnable {
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException {
         System.out.println("moveLeft received");
-        for (int i = paddlesIngame.size() - 1; i >= 0; i--) {
+        for (int i = paddlesIngame.size(); i >= 0; i--) {
             Paddle p = paddlesIngame.get(i);
             RMIUser u = (RMIUser) p.getPlayer();
             if (u != null && u.getUsername(u).equals(username)) {

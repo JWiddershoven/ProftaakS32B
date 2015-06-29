@@ -44,6 +44,7 @@ public class Client extends Application implements RemotePropertyListener {
     Group root;
     private Scene scene;
     public IServer connection;
+    private ClientGUI gui;
     private ClientRMI clientRMI;
     public int gameTime;
     public ArrayList<Block> undestroyableblockList;
@@ -57,8 +58,9 @@ public class Client extends Application implements RemotePropertyListener {
     private int heightWindow = 800;
     private int widthWindow = 800;
 
-    public Client(ClientGUI client) {
+    public Client(ClientGUI client, String playerName) {
         connection = client.connection;
+        this.Name = playerName;
     }
     
     
@@ -138,7 +140,7 @@ public class Client extends Application implements RemotePropertyListener {
                     try
                     {
                         System.out.println("left");
-                        connection.moveLeft(connection.getLobbyID(), Name);
+                        connection.moveLeft(connection.getLobbyID(), this.Name);
                         
                     } catch (RemoteException ex)
                     {

@@ -148,6 +148,7 @@ public class Paddle extends GameObject {
      * @param direction - LEFT or RIGHT.
      */
     public void MoveDirection(Direction direction) {
+        System.out.println("Paddle Moved");
         if (direction == Direction.LEFT) {
             if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH) {
                 this.Move(Direction.LEFT);
