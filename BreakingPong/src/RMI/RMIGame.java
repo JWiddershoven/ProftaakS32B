@@ -59,7 +59,7 @@ public class RMIGame implements IGame, Runnable {
      */
     private Timer secondsTimer;
     //private ArrayList<Map> selectedMaps;
-    private final ArrayList<IUser> userList;
+    private ArrayList<IUser> userList;
     private final ArrayList<CPU> botList;
     public ArrayList<GameObject> objectList;
     private final ArrayList<Ball> ballList;
@@ -218,8 +218,8 @@ public class RMIGame implements IGame, Runnable {
 
     }
 
-    public ArrayList<IUser> getUserList() {
-        return userList;
+    public void settUserList(ArrayList<IUser> userlist) {
+        this.userList = userlist;
     }
 
     private void generatePlayers() {
