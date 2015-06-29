@@ -137,7 +137,7 @@ public class Client extends Application implements RemotePropertyListener {
                 {
                     try
                     {
-                        connection.moveLeft(1, Name);
+                        connection.moveLeft(connection.getLobbyID(), Name);
                         
                     } catch (RemoteException ex)
                     {
@@ -150,7 +150,7 @@ public class Client extends Application implements RemotePropertyListener {
                 {
                     try
                     {
-                        connection.moveRight(1, Name);
+                        connection.moveRight(connection.getLobbyID(), Name);
                     }
                     catch (RemoteException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
