@@ -21,6 +21,7 @@ public class Paddle extends GameObject {
     private IUser humanPlayer;
     private WindowLocation selectedPosition;
     private boolean enabled = true;
+    private final int MOVESPEED = 2;
 
     public boolean isEnabled() {
         return enabled;
@@ -120,16 +121,16 @@ public class Paddle extends GameObject {
         TVector2 newPosition = TVector2.zero;
         switch (direction) {
             case UP:
-                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() + 2);
+                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() + 2 * MOVESPEED);
                 break;
             case DOWN:
-                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() - 2);
+                newPosition = new TVector2(this.getPosition().getX(), this.getPosition().getY() - 2 * MOVESPEED);
                 break;
             case LEFT:
-                newPosition = new TVector2(this.getPosition().getX() - 2, this.getPosition().getY());
+                newPosition = new TVector2(this.getPosition().getX() - 2 * MOVESPEED, this.getPosition().getY());
                 break;
             case RIGHT:
-                newPosition = new TVector2(this.getPosition().getX() + 2, this.getPosition().getY());
+                newPosition = new TVector2(this.getPosition().getX() + 2 * MOVESPEED, this.getPosition().getY());
                 break;
         }
         this.setPosition(newPosition);
