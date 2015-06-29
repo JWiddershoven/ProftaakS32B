@@ -248,20 +248,20 @@ public class Ball extends GameObject {
         float f1, f2;
         TVector2 vel = new TVector2(this.getVelocity().getX(), this.getVelocity().getY());
 
-//        if (go instanceof Paddle) {
-//            Paddle p = (Paddle) go;
-//            if (p.isEnabled()) {
-//                this.lastPaddleTouched = p;
-//                if (p.getWindowLocation() == Paddle.WindowLocation.NORTH || p.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
-//                    vel.setY(bounceFloat(vel.getY()));
-//                }
-//                if (p.getWindowLocation() == Paddle.WindowLocation.WEST || p.getWindowLocation() == Paddle.WindowLocation.EAST) {
-//                    vel.setX(bounceFloat(vel.getX()));
-//                }
-//                this.setVelocity(vel);
-//            }
-//            return;
-//        }
+        if (go instanceof Paddle) {
+            Paddle p = (Paddle) go;
+            if (p.isEnabled()) {
+                this.lastPaddleTouched = p;
+                if (p.getWindowLocation() == Paddle.WindowLocation.NORTH || p.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
+                    vel.setY(bounceFloat(vel.getY()));
+                }
+                if (p.getWindowLocation() == Paddle.WindowLocation.WEST || p.getWindowLocation() == Paddle.WindowLocation.EAST) {
+                    vel.setX(bounceFloat(vel.getX()));
+                }
+                this.setVelocity(vel);
+            }
+            return;
+        }
 
         //Hit was on right
         if (getMiddlePosition().getY() > goPos.getY()) {
