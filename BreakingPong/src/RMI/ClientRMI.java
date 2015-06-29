@@ -420,6 +420,9 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     {
                         for (int i = 0; i < client.paddlesIngame.size(); i++)
                         {
+                            try
+                            {
+                                
                             Text scoreText;
                             if (client.paddleList.get(i).getPlayer() != null)
                             {
@@ -434,7 +437,11 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                             scoreText.setFont(Font.font("Verdana", 20));
                             scoreText.setFill(Color.WHITE);
                             client.root.getChildren().add(scoreText);
-
+                            }
+                            catch(NullPointerException ex)
+                            {
+                                
+                            }
                         }
                     }
                 } catch (RemoteException ex)
