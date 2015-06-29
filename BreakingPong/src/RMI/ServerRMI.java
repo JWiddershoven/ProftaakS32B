@@ -39,7 +39,7 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     private ArrayList<ILobby> currentLobbies = new ArrayList<>();
     private ArrayList<ILobby> oldLobbies = new ArrayList<>();
     private String[] lobbynames;
-    private ArrayList<IGame> currentGames = new ArrayList<>();
+    public ArrayList<IGame> currentGames = new ArrayList<>();
 
     private int nextLobbyId = 0;
 
@@ -465,12 +465,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
             LoggedinUser lUser = DatabaseHelper.loginUser(username, password);
 
             if (lUser.getLoggedIn()) {
-                User user = new User(lUser.getUsername(), lUser.getPassword(), lUser.getEmail());
-                user.setRating(lUser.getRating());
+                RMIUser user = new RMIUser(lUser.getUsername(), lUser.getPassword(), lUser.getEmail(), (int) lUser.getRating());
                 loggedInUsers.add((IUser) user);
-                System.out.println(user.getUsername());
-                System.out.println(user.getEmail());
-                System.out.println(user.getRating());
                 System.out.println("Logging in user " + username);
                 return true;
             }
@@ -539,8 +535,9 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      */
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException {
-        for (int i = currentGames.size() - 1; i >= 0; i--) {
-            if (currentGames.get(i).getID() == gameId) {
+        System.out.println("test moveLeft ServerRMI");
+        for (int i = currentGames.size() -1; i >= 0; i--) {
+            if (currentGames.get(i).getID() +1 == gameId) {
                 currentGames.get(i).moveLeft(gameId, username);
             }
         }

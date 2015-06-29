@@ -169,7 +169,8 @@ public class RMILobby implements ILobby, Serializable {
         RMIGame newGame = new RMIGame(id, gameTime, powerUps);
         newGame.settUserList(joinedPlayers);
         this.game = newGame;
-        this.game.loadMap("src/RMI/test4x4-minder.txt");
+        this.server.currentGames.add(game);
+        this.game.loadMap("src/RMI/test4x4 - minder.txt");
         System.out.println("Loaded map.");
         this.game.StartGame();
         System.out.println("Start game.");
