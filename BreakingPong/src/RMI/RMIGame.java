@@ -843,7 +843,7 @@ public class RMIGame implements IGame, Runnable {
                 inProgress = false;
             }
             
-            if (playerAmount == 1)
+            if (numberOfPLayersLeft < 2)
             {
                 inProgress = false;
             }
