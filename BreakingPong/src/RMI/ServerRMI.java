@@ -609,7 +609,6 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException
     {
-        System.out.println("test moveLeft ServerRMI");
         for (int i = currentGames.size() - 1; i >= 0; i--)
         {
             if (currentGames.get(i).getID() + 1 == gameId)
