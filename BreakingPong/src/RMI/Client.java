@@ -149,7 +149,8 @@ public class Client extends Application implements RemotePropertyListener {
                     try
                     {
                         System.out.println("left");
-                        connection.moveLeft(connection.getLobbyID(), this.Name);
+                        System.out.println(this.gui.joinedLobby.getLobbyID());
+                        connection.moveLeft(this.gui.joinedLobby.getLobbyID()+1, this.Name);
                         
                     } catch (RemoteException ex)
                     {
@@ -163,7 +164,8 @@ public class Client extends Application implements RemotePropertyListener {
                     try
                     {
                         System.out.println("right");
-                        connection.moveRight(connection.getLobbyID(), this.Name);
+                        System.out.println(this.gui.joinedLobby.getLobbyID());
+                        connection.moveRight(this.gui.joinedLobby.getLobbyID()+1, this.Name);
                     }
                     catch (RemoteException ex) {
                         Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
