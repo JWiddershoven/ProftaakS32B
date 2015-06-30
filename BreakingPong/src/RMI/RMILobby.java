@@ -98,8 +98,19 @@ public class RMILobby implements ILobby, Serializable {
 
     @Override
     public boolean leaveLobby(int lobbyid, String username) throws RemoteException {
-        for (IUser user : joinedPlayers) {
-            if (user.getUsername(user).equals(username)) {
+        
+        if (game != null)
+        {
+            if (!game.leaveGame(game.getID(), username))
+            {
+                throw new IllegalArgumentException("ERROR: De speler kan niet worden verwijderd uit de game!");
+            }
+        }
+        
+        for (IUser user : joinedPlayers)
+        {
+            if (user.getUsername(user).equals(username))
+            {
                 joinedPlayers.remove(user);
                 return true;
             }
