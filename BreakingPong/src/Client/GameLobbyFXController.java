@@ -40,7 +40,8 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class GameLobbyFXController extends UnicastRemoteObject implements Initializable, RemotePropertyListener {
+public class GameLobbyFXController extends UnicastRemoteObject implements Initializable, RemotePropertyListener
+{
 
     // Labels
     @FXML
@@ -85,124 +86,150 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     MenuItem miHelpAbout;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        try {
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        try
+        {
             ClientGUI.controller.setGameController(this);
             connect();
             loadUserInterface();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex)
+        {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public GameLobbyFXController() throws RemoteException {
+    public GameLobbyFXController() throws RemoteException
+    {
 
     }
 
-    public void connect() {
-        try {
+    public void connect()
+    {
+        try
+        {
             RMIClientController.subscribeToLobby(this, ClientGUI.joinedLobby.getLobbyID());
             System.out.println("PropertyListeners active.");
-        }
-        catch (RemoteException ex) {
+        } catch (RemoteException ex)
+        {
             System.out.println("Failed to connect to server to listen to chat.");
             Logger.getLogger(Stub.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     }
 
-    private void loadUserInterface() {
+    private void loadUserInterface()
+    {
         lblUsername.setText(ClientGUI.CurrentSession.getUsername());
         fillListViews();
 
         // Autoscroll to bottom
-        taChat.textProperty().addListener(new ChangeListener<Object>() {
+        taChat.textProperty().addListener(new ChangeListener<Object>()
+        {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue,
-                    Object newValue) {
+                    Object newValue)
+            {
                 taChat.setScrollTop(Double.MAX_VALUE); //this will scroll to the bottom
                 //use Double.MIN_VALUE to scroll to the top
             }
         });
     }
 
-    private void fillListViews() {
-        Platform.runLater(() -> {
-            try {
+    private void fillListViews()
+    {
+        Platform.runLater(() ->
+        {
+            try
+            {
                 lvPlayersInGame.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayersInformationInGame(ClientGUI.joinedLobby.getLobbyID())));
                 lvPlayersInLobby.setItems(FXCollections.observableArrayList(ClientGUI.CurrentSession.getServer().getPlayerInformationFromLobby(ClientGUI.joinedLobby.getLobbyID())));
-            }
-            catch (RemoteException ex) {
+            } catch (RemoteException ex)
+            {
                 Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
     }
 
-    private void leaveCurrentLobby() throws Exception {
-        try {
-            if (RMIClientController.services != null) {
+    private void leaveCurrentLobby() throws Exception
+    {
+        try
+        {
+            if (RMIClientController.services != null)
+            {
                 RMIClientController.unsubscribeFromLobby(this, ClientGUI.joinedLobby.getLobbyID());
             }
-            try {
-                if (ClientGUI.CurrentSession != null && ClientGUI.joinedLobby != null) {
+            try
+            {
+                if (ClientGUI.CurrentSession != null && ClientGUI.joinedLobby != null)
+                {
                     ClientGUI.CurrentSession.getServer().leaveLobby(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex)
+            {
                 Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showConfirmDialog(null, ex.getMessage(), "Leaving game error",
                         JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
             }
-            if (ClientGUI.joinedLobby != null) {
+            if (ClientGUI.joinedLobby != null)
+            {
                 RMIClientController.unsubscribeFromLobby(this, ClientGUI.joinedLobby.getLobbyID());
 
                 ClientGUI.joinedLobby = null;
-                Platform.runLater(() -> {
-                    try {
+                Platform.runLater(() ->
+                {
+                    try
+                    {
                         Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
                         Scene scene = new Scene(root);
                         mainStage.setScene(scene);
                         mainStage.show();
-                    }
-                    catch (IOException ex) {
+                    } catch (IOException ex)
+                    {
                         Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
             }
-        }
-        catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void checkKickPlayer(ArrayList<String> newValue) {
+    private void checkKickPlayer(ArrayList<String> newValue)
+    {
         boolean kicked = true;
         ArrayList<String> players = newValue;
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < players.size(); i++)
+        {
             String username = ConverterHelper.getUsernameFromUserToString(players.get(i));
-            if (username.equals(ClientGUI.CurrentSession.getUsername())) {
+            if (username.equals(ClientGUI.CurrentSession.getUsername()))
+            {
                 kicked = false;
             }
         }
-        if (kicked) {
+        if (kicked)
+        {
             System.out.println("You have been kicked from the lobby!");
-            Platform.runLater(() -> {
-                try {
+            Platform.runLater(() ->
+            {
+                try
+                {
                     this.leaveCurrentLobby();
                     JOptionPane.showConfirmDialog(null, "YOU HAVE BEEN KICKED FROM THE LOBBY.", "Kicked",
                             JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
-                }
-                catch (IOException ex) {
+                } catch (IOException ex)
+                {
                     Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex)
+                {
                     Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             });
-        }
-        else {
-            Platform.runLater(() -> {
+        } else
+        {
+            Platform.runLater(() ->
+            {
                 lvPlayersInLobby.setItems(FXCollections.observableArrayList(players));
             });
         }
@@ -210,17 +237,20 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 
     // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandler - - - - - - - - - - -">
     @FXML
-    private void onStartGameClick() {
-        try {
-            if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID()))) {
+    private void onStartGameClick()
+    {
+        try
+        {
+            if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.joinedLobby.getOwner(ClientGUI.joinedLobby.getLobbyID())))
+            {
                 JOptionPane.showConfirmDialog(null, "Error when starting game: Only the host can start the game.", "Error starting game",
                         JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
-            }
-            else {
+            } else
+            {
                 ClientGUI.CurrentSession.getServer().startGame(ClientGUI.joinedLobby.getLobbyID());
             }
-        }
-        catch (RemoteException | HeadlessException ex) {
+        } catch (RemoteException | HeadlessException ex)
+        {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, "Error when starting game:\n" + ex.getMessage(), "Error starting game",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -228,23 +258,29 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     }
 
     @FXML
-    private void onLeaveGameClick() throws Exception {
+    private void onLeaveGameClick() throws Exception
+    {
         leaveCurrentLobby();
     }
 
     @FXML
-    private void onSendChatClick() {
-        try {
-             String text = taChatInput.getText().trim();
+    private void onSendChatClick()
+    {
+        try
+        {
+            String text = taChatInput.getText().trim();
             if (text.endsWith("\n"))
-                text = text.substring(0, text.length() -2);
-            if (!text.isEmpty()) {
+            {
+                text = text.substring(0, text.length() - 2);
+            }
+            if (!text.isEmpty())
+            {
                 ClientGUI.CurrentSession.getServer().sendChat(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername() + ": " + text + "\n");
                 taChatInput.setText("");
                 System.out.println("Sent chat");
             }
-        }
-        catch (RemoteException ex) {
+        } catch (RemoteException ex)
+        {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showConfirmDialog(null, ex.getMessage(), "Sending chat error",
                     JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
@@ -252,21 +288,26 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     }
 
     @FXML
-    private void onHelpAboutClick() {
+    private void onHelpAboutClick()
+    {
         JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
                 JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
     }
 
     @FXML
-    private void onFileExitClick() {
+    private void onFileExitClick()
+    {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION) {
-            if (RMIClientController.services != null) {
-                try {
+        if (dialogResult == JOptionPane.YES_OPTION)
+        {
+            if (RMIClientController.services != null)
+            {
+                try
+                {
                     RMIClientController.services.removeListener(this, "getChat");
-                }
-                catch (RemoteException ex) {
+                } catch (RemoteException ex)
+                {
                     Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -275,68 +316,86 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
     }
 
     @FXML
-    private void onEditDeleteClick() {
+    private void onEditDeleteClick()
+    {
         System.out.println("deleted");
     }
 
     boolean resultKick;
 
     @FXML
-    private void onKickPlayerClick() throws RemoteException, Exception {
+    private void onKickPlayerClick() throws RemoteException, Exception
+    {
         boolean result = false;
 
-        if (ClientGUI.joinedLobby == null) {
+        if (ClientGUI.joinedLobby == null)
+        {
             throw new Exception("joinedLobby kan niet null zijn!");
         }
-        if (lvPlayersInLobby.getSelectionModel().getSelectedItem() == null) {
+        if (lvPlayersInLobby.getSelectionModel().getSelectedItem() == null)
+        {
             JOptionPane.showConfirmDialog(null, "Error: Select a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.CurrentSession.getServer().getLobbyOwnerUsername(ClientGUI.joinedLobby.getLobbyID()))) {
+        if (!ClientGUI.CurrentSession.getUsername().equals(ClientGUI.CurrentSession.getServer().getLobbyOwnerUsername(ClientGUI.joinedLobby.getLobbyID())))
+        {
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        try {
+        if (ClientGUI.CurrentSession.getUsername().equals(lvPlayersInLobby.getSelectionModel().getSelectedItem().toString()))
+        {
+            JOptionPane.showConfirmDialog(null, "Error: You cannot kick yourself out of the lobby", "Error",
+                    JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try
+        {
             String username = lvPlayersInLobby.getSelectionModel().getSelectedItem().toString();
             username = ConverterHelper.getUsernameFromUserToString(username);
             result = ClientGUI.CurrentSession.getServer().kickPlayer(username, ClientGUI.joinedLobby.getLobbyID());
-        }
-
-        catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex)
+        {
             Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (result) {
+        if (result)
+        {
             JOptionPane.showConfirmDialog(null, "Succes: The user has been kicked from the lobby.", "Success",
                     JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE);
-        }
-        else {
+        } else
+        {
             JOptionPane.showConfirmDialog(null, "Error: Something went wrong, unable to kick user.\nTry again.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
         }
     }
 
     @FXML
-    private void onRefreshClick() {
+    private void onRefreshClick()
+    {
         fillListViews();
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent evt) throws RemoteException {
-        if (evt.getPropertyName().equals("getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()))) {
-            Platform.runLater(() -> {
+    public void propertyChange(PropertyChangeEvent evt) throws RemoteException
+    {
+        if (evt.getPropertyName().equals("getChat" + Integer.toString(ClientGUI.joinedLobby.getLobbyID())))
+        {
+            Platform.runLater(() ->
+            {
                 taChat.appendText(evt.getNewValue().toString());
             });
-        }
-        else if (evt.getPropertyName().equals("getLobbyPlayers" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()))) {
+        } else if (evt.getPropertyName().equals("getLobbyPlayers" + Integer.toString(ClientGUI.joinedLobby.getLobbyID())))
+        {
             this.checkKickPlayer((ArrayList<String>) evt.getNewValue());
-        }
-        else if (evt.getPropertyName().equals("getLobbyStarted" + Integer.toString(ClientGUI.joinedLobby.getLobbyID()))) {
-            if ((boolean) evt.getNewValue()) {
+        } else if (evt.getPropertyName().equals("getLobbyStarted" + Integer.toString(ClientGUI.joinedLobby.getLobbyID())))
+        {
+            if ((boolean) evt.getNewValue())
+            {
                 System.out.println("GAME STARTED!");
                 RMI.Client client = new RMI.Client(ClientGUI.instance, ClientGUI.CurrentSession.getUsername());
                 ClientRMI game = new ClientRMI(client);
@@ -350,12 +409,11 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
                         Logger.getLogger(GameLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 });
-                    
+
 //            Thread gameLoopThread = game.setupGame();
 //            if (gameLoopThread != null) {
 //                gameLoopThread.start();
 //            }
-  
             }
         }
     }
