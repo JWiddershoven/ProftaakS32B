@@ -341,9 +341,9 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
             JOptionPane.showConfirmDialog(null, "Error: Only the host can kick a player.", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
             return;
-        }
-
-        if (ClientGUI.CurrentSession.getUsername().equals(lvPlayersInLobby.getSelectionModel().getSelectedItem().toString()))
+        } 
+        
+        if (ClientGUI.CurrentSession.getUsername().equals(ConverterHelper.getUsernameFromUserToString(lvPlayersInLobby.getSelectionModel().getSelectedItem().toString())))
         {
             JOptionPane.showConfirmDialog(null, "Error: You cannot kick yourself out of the lobby", "Error",
                     JOptionPane.OK_OPTION, JOptionPane.ERROR_MESSAGE);
