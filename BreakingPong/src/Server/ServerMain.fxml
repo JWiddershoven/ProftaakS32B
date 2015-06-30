@@ -7,14 +7,17 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="211.0" prefWidth="512.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServerGUI">
+<AnchorPane id="AnchorPane" prefHeight="188.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Server.ServerGUI">
    <children>
       <CheckBox fx:id="chbxServerOn" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onCheckboxChanged" text="Server on" />
-      <Label layoutX="16.0" layoutY="81.0" text="Server status" />
-      <Label fx:id="lblStatus" layoutX="16.0" layoutY="108.0" text="Offline">
+      <Label layoutX="16.0" layoutY="42.0" text="Server status" />
+      <Label fx:id="lblStatus" layoutX="16.0" layoutY="69.0" text="Offline">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
+      <ListView fx:id="lvOnlineUsers" layoutX="306.0" layoutY="32.0" prefHeight="151.0" prefWidth="200.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="32.0" />
+      <Label layoutX="271.0" layoutY="6.0" text="Online users" />
+      <Button fx:id="btnRefresh" layoutX="360.0" layoutY="2.0" mnemonicParsing="false" onAction="#btnRefreshClick" prefHeight="25.0" prefWidth="111.0" text="Refresh" />
    </children>
 </AnchorPane>

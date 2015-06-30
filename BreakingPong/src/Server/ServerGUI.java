@@ -5,6 +5,7 @@
  */
 package Server;
 
+import Client.ClientGUI;
 import Helpers.StaticConstants;
 import Interfaces.IServer;
 import RMI.ServerRMI;
@@ -17,14 +18,17 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -41,7 +45,11 @@ public class ServerGUI extends Application {
     private CheckBox chbxServerOn;
     @FXML
     private Label lblStatus;
-
+    @FXML
+    private ListView lvOnlineUsers;
+    @FXML
+    private Button btnRefresh;
+    
     private boolean serverOnline;
 
     @Override
@@ -120,6 +128,12 @@ public class ServerGUI extends Application {
         catch (NotBoundException | AccessException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    @FXML
+    private void btnRefreshClick() throws RemoteException
+    {
+        lvOnlineUsers.setItems(FXCollections.observableArrayList(rmiService.getOnlineUsers()));
     }
 
 }
