@@ -135,12 +135,19 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
         RMILobby selectedLobby = (RMILobby) lvLobbies.getSelectionModel().getSelectedItem();
         if (selectedLobby != null) {
             try {
-                ClientGUI.CurrentSession.getServer().joinLobby(selectedLobby.getId(), ClientGUI.CurrentSession.getUsername());
-                ClientGUI.joinedLobby = selectedLobby;
-                Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
-                Scene scene = new Scene(root);
-                mainStage.setScene(scene);
-                mainStage.show();
+                if(selectedLobby.getPlayerInformationFromLobby(selectedLobby.getId()).size() < selectedLobby.getMaxPlayers())
+                {
+                    ClientGUI.CurrentSession.getServer().joinLobby(selectedLobby.getId(), ClientGUI.CurrentSession.getUsername());
+                    ClientGUI.joinedLobby = selectedLobby;
+                    Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
+                    Scene scene = new Scene(root);
+                    mainStage.setScene(scene);
+                    mainStage.show(); 
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Selected lobby is full");
+                }
             }
             catch (Exception ex) {
                 Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
