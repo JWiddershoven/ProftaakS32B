@@ -27,7 +27,8 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
+public class ServerRMI extends UnicastRemoteObject implements IServer, Remote
+{
 
     public static BasicPublisher publisher;
 
@@ -43,29 +44,37 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
 
     private int nextLobbyId = 0;
 
-    public ServerRMI() throws RemoteException {
-        String[] array = new String[]{"getPlayers", "getLobbys", "lobbyselectChat", "GetCurrentPaddles",
-            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver", "getDestroys", "getChanged"};
+    public ServerRMI() throws RemoteException
+    {
+        String[] array = new String[]
+        {
+            "getPlayers", "getLobbys", "lobbyselectChat", "GetCurrentPaddles",
+            "getBlocks", "getBalls", "getPaddles", "getTime", "getScore", "getGameOver", "getDestroys", "getChanged"
+        };
 
         this.publisher = new BasicPublisher(array);
         this.ID = 1;
         //fillWithTestData();
         Timer timer = new Timer();
-        timer.schedule(new TimerTask() {
+        timer.schedule(new TimerTask()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     checkLoggedInUsers();
                     checkCurrentLobbys();
-                }
-                catch (RemoteException ex) {
+                } catch (RemoteException ex)
+                {
                     Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }, 0, 1000);
     }
 
-    private void fillWithTestData() {
+    private void fillWithTestData()
+    {
         RMILobby lobby = new RMILobby(this);
         lobby.setId(currentLobbies.size() + 1);
         lobby.setMaxPlayers((byte) 4);
@@ -81,7 +90,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      *
      * @return an ArrayList with ILobbies.
      */
-    public ArrayList<ILobby> getCurrentLobbies() {
+    public ArrayList<ILobby> getCurrentLobbies()
+    {
         return this.currentLobbies;
     }
 
@@ -94,10 +104,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean kickPlayer(String username, int lobbyID) throws RemoteException {
+    public boolean kickPlayer(String username, int lobbyID) throws RemoteException
+    {
         boolean kick = false;
-        for (ILobby lobby : currentLobbies) {
-            if (lobby.getLobbyID() == lobbyID) {
+        for (ILobby lobby : currentLobbies)
+        {
+            if (lobby.getLobbyID() == lobbyID)
+            {
                 sendChat(lobbyID, username + " has been kicked.\n");
                 this.leaveLobby(lobbyID, username);
                 System.out.println("Kicked " + username);
@@ -121,33 +134,41 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public String createUser(String username, String email, String password) throws RemoteException {
-        if (username == null || username.trim().isEmpty()) {
+    public String createUser(String username, String email, String password) throws RemoteException
+    {
+        if (username == null || username.trim().isEmpty())
+        {
             return "Username cannot be empty.";
         }
-        if (password == null || password.isEmpty()) {
+        if (password == null || password.isEmpty())
+        {
             return "Password cannot be empty.";
         }
-        if (email == null || email.trim().isEmpty()) {
+        if (email == null || email.trim().isEmpty())
+        {
             return "Email address cannot be empty.";
         }
-        if (!(email.contains("@") && email.contains("."))) {
+        if (!(email.contains("@") && email.contains(".")))
+        {
             return "Email address is not of correct format.";
         }
-        if (username.length() < 6) {
+        if (username.length() < 6)
+        {
             return "Username must be at least 6 characters";
         }
-        if (password.length() < 6) {
+        if (password.length() < 6)
+        {
             return "Password must be at least 6 characters";
         }
 
-        try {
+        try
+        {
             boolean dbActionWorked = DatabaseHelper.registerUser(username, password, email);
             System.out.println("DBworked = " + dbActionWorked);
 
             Shared.User newUser = new Shared.User(username, password, email);
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
             return "Username is already taken";
         }
@@ -163,10 +184,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<String> getPlayersInformationInGame(int gameid) throws RemoteException {
+    public ArrayList<String> getPlayersInformationInGame(int gameid) throws RemoteException
+    {
         ArrayList<String> returnValue = new ArrayList<>();
-        for (IGame game : currentGames) {
-            if (game.getID() == gameid) {
+        for (IGame game : currentGames)
+        {
+            if (game.getID() == gameid)
+            {
                 returnValue = game.getPlayersInformationInGame(gameid);
             }
         }
@@ -180,7 +204,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public void addMap(IMap map) throws RemoteException {
+    public void addMap(IMap map) throws RemoteException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -195,16 +220,21 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ILobby createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException {
-        if (name != null && Password != null && Owner != null && maxPlayers != null) {
-            for (IUser user : loggedInUsers) {
-                if (user.getUsername(user).equals(Owner)) {
+    public ILobby createLobby(String name, String Password, String Owner, Byte maxPlayers) throws RemoteException
+    {
+        if (name != null && Password != null && Owner != null && maxPlayers != null)
+        {
+            for (IUser user : loggedInUsers)
+            {
+                if (user.getUsername(user).equals(Owner))
+                {
                     RMILobby lobby = new RMILobby(this);
                     lobby.setId(nextLobbyId);
                     nextLobbyId++;
                     lobby.setMaxPlayers(maxPlayers);
                     lobby.setName(name);
-                    if (!Password.equals("")) {
+                    if (!Password.equals(""))
+                    {
                         lobby.setPassword(Password);
                     }
                     lobby.setOwner(user);
@@ -230,10 +260,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ILobby joinLobby(int lobbyid, String username) throws RemoteException {
+    public ILobby joinLobby(int lobbyid, String username) throws RemoteException
+    {
         ILobby returnValue = null;
-        for (ILobby lobby : currentLobbies) {
-            if (lobby.getLobbyID() == lobbyid) {
+        for (ILobby lobby : currentLobbies)
+        {
+            if (lobby.getLobbyID() == lobbyid)
+            {
                 lobby.addUserToLobby(username, lobbyid);
                 returnValue = lobby;
                 publisher.inform(1, "getLobbyPlayers" + Integer.toString(lobbyid), null, lobby.getPlayerInformationFromLobby(lobbyid));
@@ -252,23 +285,28 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean leaveLobby(int lobbyid, String user) throws RemoteException {
+    public boolean leaveLobby(int lobbyid, String user) throws RemoteException
+    {
         ILobby lobbyToRemove = null;
         boolean check = false;
-        try {
-            for (ILobby lobby : currentLobbies) {
-                if (lobby.getLobbyID() == lobbyid) {
+        try
+        {
+            for (ILobby lobby : currentLobbies)
+            {
+                if (lobby.getLobbyID() == lobbyid)
+                {
                     lobby.leaveLobby(lobbyid, user);
-                    if (lobby.getOwner(0).equals(user) && lobby.getPlayerInformationFromLobby(0).size() > 0) {
+                    if (lobby.getOwner(0).equals(user) && lobby.getPlayerInformationFromLobby(0).size() > 0)
+                    {
                         // er zijn nog players in de game
                         lobby.setNextOwner();
                         System.out.println("New lobby owner " + lobby.getOwner(0));
-                    }
-                    else if (lobby.getPlayerInformationFromLobby(0).isEmpty()) {
+                    } else if (lobby.getPlayerInformationFromLobby(0).isEmpty())
+                    {
                         // remove lobby
                         lobbyToRemove = lobby;
-                    }
-                    else {
+                    } else
+                    {
                         sendChat(lobbyid, user + " has left the game.\n");
                     }
                     check = true;
@@ -276,12 +314,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                     break;
                 }
             }
-            if (lobbyToRemove != null) {
+            if (lobbyToRemove != null)
+            {
                 System.out.println("No players left in lobby - removing lobby.");
                 currentLobbies.remove(lobbyToRemove);
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex)
+        {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
         return check;
@@ -295,9 +334,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean removeLobby(int lobbyid) throws RemoteException {
-        for (ILobby lobby : currentLobbies) {
-            if (lobby.getLobbyID() == lobbyid) {
+    public boolean removeLobby(int lobbyid) throws RemoteException
+    {
+        for (ILobby lobby : currentLobbies)
+        {
+            if (lobby.getLobbyID() == lobbyid)
+            {
                 currentLobbies.remove(lobby);
                 return true;
             }
@@ -313,8 +355,10 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean sendChat(int lobbyId, String message) throws RemoteException {
-        if (message == null || message.isEmpty()) {
+    public boolean sendChat(int lobbyId, String message) throws RemoteException
+    {
+        if (message == null || message.isEmpty())
+        {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
         publisher.inform(1, "getChat" + Integer.toString(lobbyId), null, message);
@@ -328,7 +372,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<String> receiveChat() throws RemoteException {
+    public ArrayList<String> receiveChat() throws RemoteException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -341,10 +386,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<String> getPlayerInformationFromLobby(int lobbyid) throws RemoteException {
+    public ArrayList<String> getPlayerInformationFromLobby(int lobbyid) throws RemoteException
+    {
         ArrayList<String> returnValue = null;
-        for (ILobby lobby : currentLobbies) {
-            if (lobby.getLobbyID() == lobbyid) {
+        for (ILobby lobby : currentLobbies)
+        {
+            if (lobby.getLobbyID() == lobbyid)
+            {
                 returnValue = lobby.getPlayerInformationFromLobby(lobbyid);
             }
         }
@@ -359,9 +407,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public String getPlayerInformation(String username) throws RemoteException {
-        for (IUser user : loggedInUsers) {
-            if (user.getUsername(user).equals(username)) {
+    public String getPlayerInformation(String username) throws RemoteException
+    {
+        for (IUser user : loggedInUsers)
+        {
+            if (user.getUsername(user).equals(username))
+            {
                 return user.getPlayerInformation(username);
             }
         }
@@ -376,10 +427,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public void joinGame(int gameid, String username) throws RemoteException {
+    public void joinGame(int gameid, String username) throws RemoteException
+    {
         //IGame returnValue = null;
-        for (IGame game : currentGames) {
-            if (game.getID() == gameid) {
+        for (IGame game : currentGames)
+        {
+            if (game.getID() == gameid)
+            {
                 //returnValue = 
                 //RMIGame newGame = (RMIGame) game;
                 game.joinGame(gameid, username);
@@ -397,7 +451,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public String getUsername(IUser user) throws RemoteException {
+    public String getUsername(IUser user) throws RemoteException
+    {
         return user.getUsername(user);
     }
 
@@ -410,19 +465,24 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean leaveGame(int gameid, String username) throws RemoteException {
+    public boolean leaveGame(int gameid, String username) throws RemoteException
+    {
         IGame gameToRemove = null;
         boolean returnValue = false;
-        for (IGame game : currentGames) {
-            if (game.getID() == gameid) {
+        for (IGame game : currentGames)
+        {
+            if (game.getID() == gameid)
+            {
                 returnValue = game.leaveGame(gameid, username);
-                if (game.getPlayersInformationInGame(gameid).isEmpty()) {
+                if (game.getPlayersInformationInGame(gameid).isEmpty())
+                {
                     gameToRemove = game;
                     // remove game
                 }
             }
         }
-        if (gameToRemove != null) {
+        if (gameToRemove != null)
+        {
             currentGames.remove(gameToRemove);
         }
         return returnValue;
@@ -436,9 +496,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean logout(String username) throws RemoteException {
-        for (IUser user : loggedInUsers) {
-            if (user.getUsername(null).equals(username)) {
+    public boolean logout(String username) throws RemoteException
+    {
+        for (IUser user : loggedInUsers)
+        {
+            if (user.getUsername(null).equals(username))
+            {
                 this.loggedInUsers.remove(user);
 
                 System.out.println("User: " + username + " has logged out.");
@@ -460,11 +523,14 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean login(String username, String password) throws RemoteException {
-        try {
+    public boolean login(String username, String password) throws RemoteException
+    {
+        try
+        {
             LoggedinUser lUser = DatabaseHelper.loginUser(username, password);
 
-            if (lUser.getLoggedIn()) {
+            if (lUser.getLoggedIn())
+            {
                 RMIUser user = new RMIUser(lUser.getUsername(), lUser.getPassword(), lUser.getEmail(), (int) lUser.getRating());
                 loggedInUsers.add((IUser) user);
                 System.out.println("Logging in user " + username);
@@ -472,8 +538,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
             }
             System.out.println("Failed to login user " + username);
             return false;
-        }
-        catch (IllegalArgumentException exc) {
+        } catch (IllegalArgumentException exc)
+        {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, exc);
             return false;
         }
@@ -488,12 +554,17 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public boolean addUserToLobby(String username, int lobbyid) throws RemoteException {
+    public boolean addUserToLobby(String username, int lobbyid) throws RemoteException
+    {
         boolean check = false;
-        for (ILobby lobby : currentLobbies) {
-            if (lobby.getLobbyID() == lobbyid) {
-                for (IUser user : loggedInUsers) {
-                    if (user.getUsername(user).equals(username)) {
+        for (ILobby lobby : currentLobbies)
+        {
+            if (lobby.getLobbyID() == lobbyid)
+            {
+                for (IUser user : loggedInUsers)
+                {
+                    if (user.getUsername(user).equals(username))
+                    {
                         lobby.addUserToLobby(username, lobbyid);
                         check = true;
                         break;
@@ -511,7 +582,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public int getID() throws RemoteException {
+    public int getID() throws RemoteException
+    {
         return ID;
     }
 
@@ -522,7 +594,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public int getLobbyID() throws RemoteException {
+    public int getLobbyID() throws RemoteException
+    {
         return ID;
     }
 
@@ -534,10 +607,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public void moveLeft(int gameId, String username) throws RemoteException {
+    public void moveLeft(int gameId, String username) throws RemoteException
+    {
         System.out.println("test moveLeft ServerRMI");
-        for (int i = currentGames.size() -1; i >= 0; i--) {
-            if (currentGames.get(i).getID() +1 == gameId) {
+        for (int i = currentGames.size() - 1; i >= 0; i--)
+        {
+            if (currentGames.get(i).getID() + 1 == gameId)
+            {
                 currentGames.get(i).moveLeft(gameId, username);
             }
         }
@@ -551,10 +627,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public void moveRight(int gameId, String username) throws RemoteException {
+    public void moveRight(int gameId, String username) throws RemoteException
+    {
         System.out.println("test moveRight ServerRMI");
-        for (int i = currentGames.size() - 1; i >= 0; i--) {
-            if (currentGames.get(i).getID() +1 == gameId) {
+        for (int i = currentGames.size() - 1; i >= 0; i--)
+        {
+            if (currentGames.get(i).getID() + 1 == gameId)
+            {
                 currentGames.get(i).moveRight(gameId, username);
             }
         }
@@ -567,10 +646,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<String> getOnlineUsers() throws RemoteException {
+    public ArrayList<String> getOnlineUsers() throws RemoteException
+    {
         ArrayList<String> onlineUsers = new ArrayList<>();
 
-        for (IUser user : loggedInUsers) {
+        for (IUser user : loggedInUsers)
+        {
             onlineUsers.add(user.getPlayerInformation(user.getUsername(user)));
         }
 
@@ -584,7 +665,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<ILobby> getAllLobbies() throws RemoteException {
+    public ArrayList<ILobby> getAllLobbies() throws RemoteException
+    {
         return this.currentLobbies;
     }
 
@@ -596,9 +678,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException {
-        for (int i = currentGames.size() - 1; i >= 0; i--) {
-            if (currentGames.get(i).getID() == gameId) {
+    public ArrayList<GameObject> getAllGameObjects(int gameId) throws RemoteException
+    {
+        for (int i = currentGames.size() - 1; i >= 0; i--)
+        {
+            if (currentGames.get(i).getID() == gameId)
+            {
                 return currentGames.get(i).getAllGameObjects(gameId);
             }
         }
@@ -612,7 +697,8 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public void getAllBalls(int gameId) throws RemoteException {
+    public void getAllBalls(int gameId) throws RemoteException
+    {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -624,9 +710,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException {
-        for (int i = currentGames.size() - 1; i >= 0; i--) {
-            if (currentGames.get(i).getID() == gameId) {
+    public ArrayList<GameObject> getChangedGameObjects(int gameId) throws RemoteException
+    {
+        for (int i = currentGames.size() - 1; i >= 0; i--)
+        {
+            if (currentGames.get(i).getID() == gameId)
+            {
                 return currentGames.get(i).getChangedGameObjects(gameId);
             }
         }
@@ -641,9 +730,12 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
      * @throws RemoteException
      */
     @Override
-    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException {
-        for (int i = currentGames.size() - 1; i >= 0; i--) {
-            if (currentGames.get(i).getID() == gameId) {
+    public ArrayList<GameObject> getRemovedGamesObjects(int gameId) throws RemoteException
+    {
+        for (int i = currentGames.size() - 1; i >= 0; i--)
+        {
+            if (currentGames.get(i).getID() == gameId)
+            {
                 return currentGames.get(i).getRemovedGamesObjects(gameId);
             }
         }
@@ -651,21 +743,26 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     }
 
     @Override
-    public void addListener(RemotePropertyListener listener, String property) throws RemoteException {
+    public void addListener(RemotePropertyListener listener, String property) throws RemoteException
+    {
         this.publisher.addListener(listener, property);
         System.out.println("Listener addded");
     }
 
     @Override
-    public void removeListener(RemotePropertyListener listener, String property) throws RemoteException {
+    public void removeListener(RemotePropertyListener listener, String property) throws RemoteException
+    {
         this.publisher.removeListener(listener, property);
         System.out.println("Listener removed");
     }
 
     @Override
-    public String getOwner(int lobbyid) throws RemoteException {
-        for (ILobby lobby : currentLobbies) {
-            if (lobby.getLobbyID() == lobbyid) {
+    public String getOwner(int lobbyid) throws RemoteException
+    {
+        for (ILobby lobby : currentLobbies)
+        {
+            if (lobby.getLobbyID() == lobbyid)
+            {
                 return lobby.getOwner(lobbyid);
             }
         }
@@ -673,19 +770,25 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     }
 
     @Override
-    public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException {
-        for (int i = currentLobbies.size() - 1; i >= 0; i--) {
-            if (currentLobbies.get(i).getLobbyID() == id) {
+    public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException
+    {
+        for (int i = currentLobbies.size() - 1; i >= 0; i--)
+        {
+            if (currentLobbies.get(i).getLobbyID() == id)
+            {
                 currentLobbies.get(i).createGame(id, gameTime, powerUps);
                 System.out.println("GameCreated");
             }
         }
     }
 
-    public void checkLoggedInUsers() throws RemoteException {
-        if (this.loggedInUsers != this.oldLoggedInUsers) {
+    public void checkLoggedInUsers() throws RemoteException
+    {
+        if (this.loggedInUsers != this.oldLoggedInUsers)
+        {
             usernames = new String[loggedInUsers.size()];
-            for (int i = 0; i < loggedInUsers.size(); i++) {
+            for (int i = 0; i < loggedInUsers.size(); i++)
+            {
                 usernames[i] = loggedInUsers.get(i).getUsername(null);
             }
             publisher.inform(this, "getPlayers", null, this.loggedInUsers);
@@ -693,10 +796,13 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
         }
     }
 
-    public void checkCurrentLobbys() throws RemoteException {
-        if (this.currentLobbies != this.oldLobbies) {
+    public void checkCurrentLobbys() throws RemoteException
+    {
+        if (this.currentLobbies != this.oldLobbies)
+        {
             lobbynames = new String[currentLobbies.size()];
-            for (int i = 0; i < currentLobbies.size(); i++) {
+            for (int i = 0; i < currentLobbies.size(); i++)
+            {
                 lobbynames[i] = currentLobbies.get(i).getLobbyID() + ": " + currentLobbies.get(i).getOwner(currentLobbies.get(i).getLobbyID());
             }
             // TODO: inform lobbynames?
@@ -706,28 +812,35 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     }
 
     @Override
-    public void setNextOwner() throws RemoteException {
+    public void setNextOwner() throws RemoteException
+    {
         // hoeft niet geimplementeerd te worden.
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void sendLobbySelectChat(String message) throws RemoteException {
-        if (message == null || message.isEmpty()) {
+    public void sendLobbySelectChat(String message) throws RemoteException
+    {
+        if (message == null || message.isEmpty())
+        {
             throw new IllegalArgumentException("Message cannot be null or empty!");
         }
-        try {
+        try
+        {
             publisher.inform(1, "lobbyselectChat", null, message);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex)
+        {
             Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public String getLobbyOwnerUsername(int lobbyId) throws RemoteException {
-        for (int i = 0; i < currentLobbies.size(); i++) {
-            if (currentLobbies.get(i).getLobbyID() == lobbyId) {
+    public String getLobbyOwnerUsername(int lobbyId) throws RemoteException
+    {
+        for (int i = 0; i < currentLobbies.size(); i++)
+        {
+            if (currentLobbies.get(i).getLobbyID() == lobbyId)
+            {
                 return currentLobbies.get(i).getOwner(lobbyId);
             }
         }
@@ -735,39 +848,46 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     }
 
     @Override
-    public void startGame(int lobbyId) throws RemoteException {
-        new Thread(() -> {
-            try {
-                sendChat(lobbyId, "Server: Game starting in 5...\n");
-                Thread.sleep(1000);
-                sendChat(lobbyId, "Server: Game starting in 4...\n");
-                Thread.sleep(1000);
-                sendChat(lobbyId, "Server: Game starting in 3...\n");
-                Thread.sleep(1000);
-                sendChat(lobbyId, "Server: Game starting in 2...\n");
-                Thread.sleep(1000);
-                sendChat(lobbyId, "Server: Game starting in 1...\n");
-                Thread.sleep(1000);
-                publisher.inform(1, "getLobbyStarted" + Integer.toString(lobbyId), false, true);
-                for (int i = 0; i < currentLobbies.size(); i++) {
-                    if (currentLobbies.get(i).getLobbyID() == lobbyId) {
-                       publisher.addProperty("getBlocks" + Integer.toString(lobbyId));
-                       publisher.addProperty("getDestroys" + Integer.toString(lobbyId));
-                       publisher.addProperty("getBalls" + Integer.toString(lobbyId));
-                       publisher.addProperty("getPaddles" + Integer.toString(lobbyId));
-                       publisher.addProperty("GetCurrentPaddles" + Integer.toString(lobbyId));
-                       publisher.addProperty("getTime" + Integer.toString(lobbyId));
-                       publisher.addProperty("getGameOver" + Integer.toString(lobbyId));
-                       publisher.addProperty("getChanged" + Integer.toString(lobbyId));
-                       currentLobbies.get(i).createGame(lobbyId, 300, true);
-                       break;
+    public void startGame(int lobbyId) throws RemoteException
+    {
+        new Thread(() ->
+        {
+            try
+            {
+                for (int i = 0; i < currentLobbies.size(); i++)
+                {
+                    if (currentLobbies.get(i).getLobbyID() == lobbyId)
+                    {
+                        publisher.addProperty("getBlocks" + Integer.toString(lobbyId));
+                        publisher.addProperty("getDestroys" + Integer.toString(lobbyId));
+                        publisher.addProperty("getBalls" + Integer.toString(lobbyId));
+                        publisher.addProperty("getPaddles" + Integer.toString(lobbyId));
+                        publisher.addProperty("GetCurrentPaddles" + Integer.toString(lobbyId));
+                        publisher.addProperty("getTime" + Integer.toString(lobbyId));
+                        publisher.addProperty("getGameOver" + Integer.toString(lobbyId));
+                        publisher.addProperty("getChanged" + Integer.toString(lobbyId));
+                        
+                        sendChat(lobbyId, "Server: Game starting in 5...\n");
+                        Thread.sleep(1000);
+                        sendChat(lobbyId, "Server: Game starting in 4...\n");
+                        Thread.sleep(1000);
+                        sendChat(lobbyId, "Server: Game starting in 3...\n");
+                        Thread.sleep(1000);
+                        sendChat(lobbyId, "Server: Game starting in 2...\n");
+                        Thread.sleep(1000);
+                        sendChat(lobbyId, "Server: Game starting in 1...\n");
+                        Thread.sleep(1000);
+                        currentLobbies.get(i).createGame(lobbyId, 300, true);
+                        publisher.inform(1, "getLobbyStarted" + Integer.toString(lobbyId), false, true);
+                        
+                        break;
                     }
                 }
-            }
-            catch (RemoteException ex) {
+            } catch (RemoteException ex)
+            {
                 Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            catch (InterruptedException ex) {
+            } catch (InterruptedException ex)
+            {
                 Logger.getLogger(ServerRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }).start();
