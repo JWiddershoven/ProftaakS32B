@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GameLobbyFXController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="502.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Client.GameLobbyFXController">
     <children>
         <Label fx:id="lblUsername" layoutX="23.0" layoutY="29.0" text="Username:" />
         <ListView fx:id="lvPlayersInGame" layoutX="14.0" layoutY="76.0" prefHeight="122.0" prefWidth="245.0" />
@@ -15,7 +16,7 @@
         <Button fx:id="btnLeaveGame" layoutX="466.0" layoutY="277.0" mnemonicParsing="false" onAction="#onLeaveGameClick" prefWidth="121.0" text="Leave" />
         <Label layoutX="106.0" layoutY="52.0" text="Players in game:" />
         <Label layoutX="440.0" layoutY="52.0" text="Players in lobby:" />
-        <Button fx:id="btnSendChat" layoutX="358.0" layoutY="377.0" mnemonicParsing="false" onAction="#onSendChatClick" prefHeight="50.0" prefWidth="51.0" text="Send" />
+        <Button fx:id="btnSendChat" layoutX="467.0" layoutY="438.0" mnemonicParsing="false" onAction="#onSendChatClick" prefHeight="50.0" prefWidth="51.0" text="Send" />
         <Label layoutX="15.0" layoutY="217.0" text="Chat" />
         <Button layoutX="277.0" layoutY="91.0" minWidth="16.0" mnemonicParsing="false" prefWidth="46.0" text="&gt;" />
         <Button layoutX="277.0" layoutY="155.0" minWidth="16.0" mnemonicParsing="false" prefWidth="46.0" text="&lt;" />
@@ -38,9 +39,15 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <Button fx:id="btnKickPlayer" layoutX="359.0" layoutY="233.0" mnemonicParsing="false" onAction="#onKickPlayerClick" prefHeight="25.0" prefWidth="51.0" text="Kick" />
-        <TextArea fx:id="taChat" editable="false" layoutX="14.0" layoutY="233.0" prefHeight="137.0" prefWidth="330.0" />
+        <Button fx:id="btnKickPlayer" layoutX="344.0" layoutY="205.0" mnemonicParsing="false" onAction="#onKickPlayerClick" prefHeight="25.0" prefWidth="51.0" text="Kick" />
+        <TextArea fx:id="taChat" editable="false" layoutX="14.0" layoutY="233.0" prefHeight="202.0" prefWidth="442.0">
+         <font>
+            <Font name="Courier New" size="12.0" />
+         </font></TextArea>
       <Button fx:id="btnRefresh" layoutX="344.0" layoutY="43.0" mnemonicParsing="false" onAction="#onRefreshClick" prefHeight="25.0" prefWidth="86.0" text="Refresh" />
-      <TextArea fx:id="taChatInput" layoutX="13.0" layoutY="377.0" prefHeight="50.0" prefWidth="330.0" />
+      <TextArea fx:id="taChatInput" layoutX="14.0" layoutY="438.0" prefHeight="50.0" prefWidth="442.0">
+         <font>
+            <Font name="Courier New" size="12.0" />
+         </font></TextArea>
     </children>
 </AnchorPane>

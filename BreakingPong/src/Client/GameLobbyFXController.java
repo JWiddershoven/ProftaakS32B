@@ -141,7 +141,7 @@ public class GameLobbyFXController extends UnicastRemoteObject implements Initia
 
     private void leaveCurrentLobby() throws Exception {
         try {
-            if (RMIClientController.services != null) {
+            if (RMIClientController.services != null && ClientGUI.joinedLobby != null) {
                 RMIClientController.unsubscribeFromLobby(this, ClientGUI.joinedLobby.getLobbyID());
             }
             try {
