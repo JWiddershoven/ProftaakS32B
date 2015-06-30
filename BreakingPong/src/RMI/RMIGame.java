@@ -681,7 +681,7 @@ public class RMIGame implements IGame, Runnable {
     private void checkBallExitedPlay(Ball b) throws Exception {
         int playerNumber = checkExitedBounds(b.getMiddlePosition());
         int maxWidthSize = Math.round(40 * Block.standardBlockSize.getX());
-        int id = Integer.MAX_VALUE;
+        int blockId = Integer.MAX_VALUE;
         if (playerNumber != 0) {
             TVector2 blockSize = new TVector2(20, 20);
             DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
@@ -692,7 +692,7 @@ public class RMIGame implements IGame, Runnable {
                     P1Paddle.setEnabled(false);
                     // fill top side with indestructable blocks
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
-                        Block block = new Block(id--, 0, false, null, new TVector2(i * blockSize.getX(), 0),
+                        Block block = new Block(blockId--, 0, false, null, new TVector2(i * blockSize.getX(), 0),
                                 TVector2.zero, blockSize, DestroyImage);
                         this.addObject(block);
                         this.blockList.add(block);
@@ -707,7 +707,7 @@ public class RMIGame implements IGame, Runnable {
                     if (playerAmount == 2) {
                         // bottom side
                         for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
-                            Block block = new Block(id--, 0, false, null, new TVector2(i * blockSize.getX(),
+                            Block block = new Block(blockId--, 0, false, null, new TVector2(i * blockSize.getX(),
                                     maxWidthSize - blockSize.getY()),
                                     TVector2.zero, blockSize, DestroyImage);
                             this.addObject(block);
@@ -718,7 +718,7 @@ public class RMIGame implements IGame, Runnable {
                     } else {
                         // left side
                         for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
-                            Block block = new Block(id--, 0, false, null, new TVector2(0, i * blockSize.getY()),
+                            Block block = new Block(blockId--, 0, false, null, new TVector2(0, i * blockSize.getY()),
                                     TVector2.zero, blockSize, DestroyImage);
                             this.addObject(block);
                             this.blockList.add(block);
@@ -733,7 +733,7 @@ public class RMIGame implements IGame, Runnable {
                     P3Paddle.setVelocity(TVector2.zero);
                     P3Paddle.setEnabled(false);
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getY()); i++) {
-                        Block block = new Block(id--, 0, false, null, new TVector2(maxWidthSize - blockSize.getX(),
+                        Block block = new Block(blockId--, 0, false, null, new TVector2(maxWidthSize - blockSize.getX(),
                                 i * blockSize.getY()),
                                 TVector2.zero, new TVector2(25, 25), DestroyImage);
                         this.addObject(block);
@@ -748,7 +748,7 @@ public class RMIGame implements IGame, Runnable {
                     P4Paddle.setEnabled(false);
                     // bottom side
                     for (int i = 0; i < Math.ceil(maxWidthSize / blockSize.getX()); i++) {
-                        Block block = new Block(id--, 0, false, null, new TVector2(i * blockSize.getX(),
+                        Block block = new Block(blockId--, 0, false, null, new TVector2(i * blockSize.getX(),
                                 maxWidthSize - blockSize.getY()),
                                 TVector2.zero, blockSize, DestroyImage);
                         this.addObject(block);
