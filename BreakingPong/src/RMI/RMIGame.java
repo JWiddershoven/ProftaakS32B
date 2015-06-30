@@ -998,7 +998,7 @@ public class RMIGame implements IGame, Runnable {
     }
 
     private void exitGame() {
-        gameLoopThread.setDaemon(true);
+        //gameLoopThread.setDaemon(true);
         gameLoopThread.interrupt();
         gameLoopThread = null;
         this.botList.clear();
