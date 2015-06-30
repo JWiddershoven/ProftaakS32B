@@ -90,6 +90,7 @@ public class RMIClientController extends UnicastRemoteObject implements RemotePr
             services.removeListener(rpl, "getLobbyPlayers" + Integer.toString(lobbyId));
             services.removeListener(rpl, "getLobbyStarted" + Integer.toString(lobbyId));
             if (subscribedGames.contains(lobbyId)) {
+                // Moet object worden, omdat hij anders met een Integer de index gebruikt.
                 Object o = (Integer)lobbyId;
                 subscribedGames.remove(o);
             }
