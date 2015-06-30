@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -35,8 +36,7 @@ import javax.swing.JOptionPane;
  *
  * @author Lorenzo
  */
-public class CreateLobbyFXController implements Initializable
-{
+public class CreateLobbyFXController implements Initializable {
 
     // Textfields
     @FXML
@@ -87,14 +87,10 @@ public class CreateLobbyFXController implements Initializable
     private Administration administration;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources)
-    {
-        try
-        {
-        administration = Administration.getInstance();
-        }
-        catch(RemoteException ex)
-        {
+    public void initialize(URL location, ResourceBundle resources) {
+        try {
+            administration = Administration.getInstance();
+        } catch (RemoteException ex) {
             Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
         fillComboboxes();
@@ -104,8 +100,7 @@ public class CreateLobbyFXController implements Initializable
     /**
      * Fills comboboxes with data.
      */
-    private void fillComboboxes()
-    {
+    private void fillComboboxes() {
 //        ObservableList<String> timeStamps = FXCollections.observableArrayList();
 //        for (Timestamp ts : administration.getDatabase().getGameTimeDurations())
 //        {
@@ -121,26 +116,33 @@ public class CreateLobbyFXController implements Initializable
 
 // <editor-fold defaultstate="collapsed" desc="- - - - - - - - - - - Eventhandlers - - - - - - - - - - -">
     @FXML
-    private void onCreateLobbyClick()
-    {
-        try
-        {
+    private void onCreateLobbyClick() {
+        try {
             String errorMessage = createLobby();
-            if (errorMessage.isEmpty())
-            {
-                Parent root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
-                Scene scene = new Scene(root);
-                mainStage.setScene(scene);
-                mainStage.show();
+            if (errorMessage.isEmpty()) {
+                Platform.runLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        Parent root;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("GameLobby.fxml"));
+
+                            Scene scene = new Scene(root);
+                            mainStage.setScene(scene);
+                            mainStage.show();
+                        } catch (IOException ex) {
+                            Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                });
+            } else {
+                EventQueue.invokeLater(() -> {
+                    JOptionPane.showConfirmDialog(null, errorMessage, "Cannot create lobby",
+                            JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                });
             }
-            else
-            {
-                EventQueue.invokeLater(() -> {JOptionPane.showConfirmDialog(null, errorMessage, "Cannot create lobby",
-                        JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);});
-            }
-        }
-        catch (IOException | HeadlessException ex)
-        {
+        } catch (HeadlessException ex) {
             Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -151,11 +153,9 @@ public class CreateLobbyFXController implements Initializable
      *
      * @return Error message or empty is fields are valid.
      */
-    private String createLobby()
-    {
+    private String createLobby() {
         String lobbyname = tfLobbyName.getText().trim();
-        if (lobbyname.trim().isEmpty())
-        {
+        if (lobbyname.trim().isEmpty()) {
             return "Lobby name cannot be empty";
         }
         //Tijdelijk uitgezet totdat er een lijst met maps is.
@@ -168,36 +168,30 @@ public class CreateLobbyFXController implements Initializable
         // TODO: GET INTEGER FROM USERINTERFACE
         //Integer.getInteger((String) cbGametimes.getSelectionModel().getSelectedItem()),
         //0, 0);
-        if (gameDuration == null)
-        {
+        if (gameDuration == null) {
             return "Please select a Game Time";
         }
         byte maxPlayers = 2;
-        if (rb2Players.isSelected())
-        {
+        if (rb2Players.isSelected()) {
             maxPlayers = 2;
         }
 
-        if (rb4Players.isSelected())
-        {
+        if (rb4Players.isSelected()) {
             maxPlayers = 4;
         }
 
-        try
-        {
-            if (ClientGUI.CurrentSession == null)
-            {
+        try {
+            if (ClientGUI.CurrentSession == null) {
                 throw new Exception("Can't create lobby, usersession expired");
             }
             //boolean newLobby = administration.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.loggedinUser.getUsername(), maxPlayers);
             ILobby newLobby = ClientGUI.CurrentSession.getServer().createLobby(lobbyname, tfPassword.getText(), ClientGUI.CurrentSession.getUsername(), maxPlayers);
             //newLobby.joinLobby(ClientGUI.loggedinUser);
             ClientGUI.joinedLobby = newLobby;
-            if (newLobby == null)
+            if (newLobby == null) {
                 return "Failed to create the lobby";
-        }
-        catch (Exception ex)
-        {
+            }
+        } catch (Exception ex) {
             Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
             return ex.getMessage();
         }
@@ -205,34 +199,32 @@ public class CreateLobbyFXController implements Initializable
     }
 
     @FXML
-    private void onCancelClick()
-    {
+    private void onCancelClick() {
         System.out.println("Cancel click");
-        try
-        {
+        try {
             Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
             Scene scene = new Scene(root);
             mainStage.setScene(scene);
             mainStage.show();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
-            EventQueue.invokeLater(() -> {JOptionPane.showConfirmDialog(null, ex.getMessage(), "Cancel game error",
-                    JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);});
+            EventQueue.invokeLater(() -> {
+                JOptionPane.showConfirmDialog(null, ex.getMessage(), "Cancel game error",
+                        JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            });
         }
     }
 
     @FXML
-    private void onHelpAboutClick()
-    {
-        EventQueue.invokeLater(() -> {JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
-                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);});
+    private void onHelpAboutClick() {
+        EventQueue.invokeLater(() -> {
+            JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        });
     }
 
     @FXML
-    private void onFileExitClick()
-    {
+    private void onFileExitClick() {
         EventQueue.invokeLater(() -> {
             int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
                     JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -243,8 +235,7 @@ public class CreateLobbyFXController implements Initializable
     }
 
     @FXML
-    private void onEditDeleteClick()
-    {
+    private void onEditDeleteClick() {
         System.out.println("deleted");
     }
 
