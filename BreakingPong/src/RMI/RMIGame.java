@@ -347,7 +347,7 @@ public class RMIGame implements IGame, Runnable {
      */
     private void readMap(ArrayList<String> mapLayout) {
         generatePlayers();
-        int id = 0;
+        int blockId = 0;
         try {
             CollisionChecker.gameObjectsList.clear();
             int SpawnNumber = 0;
@@ -396,7 +396,7 @@ public class RMIGame implements IGame, Runnable {
                             // Create undestructable block
                             case "0": {
                                 DestroyImage = ImageIO.read(new FileInputStream("Images/Images/GreyBlock.png"));
-                                Block wall = new Block(id++, 0, false, null, newObjectPosition, velocity, Block.standardBlockSize, DestroyImage);
+                                Block wall = new Block(blockId++, 0, false, null, newObjectPosition, velocity, Block.standardBlockSize, DestroyImage);
                                 this.addObject(wall);
 
                                 this.blockList.add(wall);
@@ -411,7 +411,7 @@ public class RMIGame implements IGame, Runnable {
                             case "2": {
 
                                 normalBlockImage = ImageIO.read(new FileInputStream("Images/Images/YellowBlock.png"));
-                                Block noPower = new Block(id++, 1, true, null, newObjectPosition, velocity, Block.standardBlockSize, normalBlockImage);
+                                Block noPower = new Block(blockId++, 1, true, null, newObjectPosition, velocity, Block.standardBlockSize, normalBlockImage);
                                 this.addObject(noPower);
                                 this.destroyableBlockList.add(noPower);
                                 break;
@@ -421,7 +421,7 @@ public class RMIGame implements IGame, Runnable {
                                 PowerUpImage = ImageIO.read(new FileInputStream("Images/Images/RedBlock.png"));
                                 PowerUp power = new PowerUp(1, null);
                                 power.getRandomPowerUpType();
-                                Block withPower = new Block(id++, 10, true, power, newObjectPosition, velocity, Block.standardBlockSize, PowerUpImage);
+                                Block withPower = new Block(blockId++, 10, true, power, newObjectPosition, velocity, Block.standardBlockSize, PowerUpImage);
                                 this.addObject(withPower);
                                 this.destroyableBlockList.add(withPower);
                                 break;
