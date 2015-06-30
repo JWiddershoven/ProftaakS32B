@@ -60,6 +60,7 @@ public class Client extends Application implements RemotePropertyListener {
 
     public Client(ClientGUI client, String playerName) {
         connection = client.connection;
+        gui = client;
         this.Name = playerName;
     }
     
@@ -101,7 +102,21 @@ public class Client extends Application implements RemotePropertyListener {
         // If client closes window disconnect from server
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                clientRMI.stop();
+                try {
+                    clientRMI.stop();
+                    System.out.println("Closed from Client.java.");
+                    if (connection != null && gui.joinedLobby != null) {
+                        gui.CurrentSession.getServer().leaveLobby(gui.joinedLobby.getLobbyID(), gui.CurrentSession.getUsername());
+                    }
+                    if (connection != null && gui.CurrentSession != null && !gui.CurrentSession.getUsername().isEmpty()) {
+                        connection.logout(gui.CurrentSession.getUsername());
+                    }
+                }
+                catch (RemoteException ex) {
+                    Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                gui.CurrentSession = null;
+                System.exit(0);
             }
         });
         new AnimationTimer() {
