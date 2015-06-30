@@ -6,6 +6,7 @@
 package RMI;
 
 import Client.ClientGUI;
+import static Client.ClientGUI.mainStage;
 import Helpers.StaticConstants;
 import Interfaces.IGame;
 import Shared.Ball;
@@ -13,10 +14,12 @@ import Shared.Block;
 import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import fontys.observer.RemotePublisher;
+import java.awt.EventQueue;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -29,6 +32,9 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
@@ -36,7 +42,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -231,7 +236,20 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             {
                 System.out.println("GameOver!");
                 stop();
-                client.shutDown();
+                EventQueue.invokeLater(() -> {
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
+                        Scene scene = new Scene(root);
+                        mainStage.setScene(scene);
+                        mainStage.show();
+                        //client.shutDown();
+                    }
+                    catch (IOException ex) {
+                        Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+
+                    }
+                });
+
                 return;
             } catch (Exception ex)
             {
