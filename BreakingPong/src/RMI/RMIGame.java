@@ -541,7 +541,8 @@ public class RMIGame implements IGame, Runnable {
                             case "6": {
                                 BallImage = ImageIO.read(new FileInputStream("Images/Images/Ball.png"));
                                 velocity = generateRandomVelocity();
-                                Ball ball = new Ball(null, newObjectPosition, velocity, new TVector2(15f, 15f), BallImage);
+                                //Ball ball = new Ball(null, newObjectPosition, velocity, new TVector2(15f, 15f), BallImage);
+                                Ball ball = new Ball(null, newObjectPosition, velocity, new TVector2(5f, 5f), BallImage);
                                 this.addObject(ball);
                                 this.ballList.add(ball);
                                 break;
