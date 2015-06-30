@@ -842,6 +842,12 @@ public class RMIGame implements IGame, Runnable {
             if (!checkGameTime()) {
                 inProgress = false;
             }
+            
+            if (playerAmount == 1)
+            {
+                inProgress = false;
+            }
+            
             long start, elapsed, wait;
             start = System.nanoTime();
             // calls update function on all objects
