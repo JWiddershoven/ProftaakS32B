@@ -23,57 +23,6 @@ public class Paddle extends GameObject {
     private boolean enabled = true;
     private final int MOVESPEED = 2;
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
-    /**
-     * Enumerator Direction
-     */
-    public enum Direction {
-
-        LEFT, RIGHT, UP, DOWN
-    };
-
-    public enum WindowLocation {
-
-        NORTH, EAST, SOUTH, WEST
-    }
-
-    /**
-     * Getter of score
-     *
-     * @return score as int
-     */
-    public int getScore() {
-        return score;
-    }
-
-    /**
-     * Setter of score
-     *
-     * @param score value of score as int
-     */
-    public void addScore(int score) {
-        this.score = this.score + score;
-    }
-
-    public WindowLocation getWindowLocation() {
-        return selectedPosition;
-    }
-
-    public IUser getPlayer() {
-        return humanPlayer;
-    }
-
-    public CPU getCPU() {
-        return cpuPlayer;
-    }
-
     /**
      * Consturctor for CPU Paddle
      *
@@ -108,6 +57,85 @@ public class Paddle extends GameObject {
         this.score = score;
         this.selectedPosition = selectedLocation;
         this.humanPlayer = user;
+    }
+
+    /**
+     * The value of enabled
+     *
+     * @return the status of the paddle
+     */
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    /**
+     * set the enabled value
+     *
+     * @param enabled The new value of enabled
+     */
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    /**
+     * Enumerator Direction
+     */
+    public enum Direction {
+
+        LEFT, RIGHT, UP, DOWN
+    };
+
+    /**
+     * The windows location
+     */
+    public enum WindowLocation {
+
+        NORTH, EAST, SOUTH, WEST
+    }
+
+    /**
+     * Getter of score
+     *
+     * @return score as int
+     */
+    public int getScore() {
+        return score;
+    }
+
+    /**
+     * Setter of score
+     *
+     * @param score value of score as int
+     */
+    public void addScore(int score) {
+        this.score = this.score + score;
+    }
+
+    /**
+     * Get the windowslocation value
+     *
+     * @return the WindowLocation value
+     */
+    public WindowLocation getWindowLocation() {
+        return selectedPosition;
+    }
+
+    /**
+     * Get the player
+     *
+     * @return The player/IUser
+     */
+    public IUser getPlayer() {
+        return humanPlayer;
+    }
+
+    /**
+     * Get the CPU
+     *
+     * @return The CPUw
+     */
+    public CPU getCPU() {
+        return cpuPlayer;
     }
 
     /**
@@ -153,22 +181,18 @@ public class Paddle extends GameObject {
         if (direction == Direction.LEFT) {
             if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH) {
                 this.Move(Direction.LEFT);
-            }
-            else if (selectedPosition == WindowLocation.WEST) {
+            } else if (selectedPosition == WindowLocation.WEST) {
                 this.Move(Direction.UP);
-            }
-            else if (selectedPosition == WindowLocation.EAST) {
+            } else if (selectedPosition == WindowLocation.EAST) {
                 this.Move(Direction.DOWN);
             }
         }
         if (direction == Direction.RIGHT) {
             if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH) {
                 this.Move(Direction.RIGHT);
-            }
-            else if (selectedPosition == WindowLocation.WEST) {
+            } else if (selectedPosition == WindowLocation.WEST) {
                 this.Move(Direction.DOWN);
-            }
-            else if (selectedPosition == WindowLocation.EAST) {
+            } else if (selectedPosition == WindowLocation.EAST) {
                 this.Move(Direction.UP);
             }
         }

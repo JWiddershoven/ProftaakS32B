@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Shared;
 
 import java.io.Serializable;
@@ -27,9 +26,9 @@ public class PowerUp implements Serializable {
      */
     private int value;
 
-
     /**
      * Constructor for PowerUp
+     *
      * @param value as int. Value can be negative.
      * @param type as PowerUpType.
      */
@@ -37,16 +36,19 @@ public class PowerUp implements Serializable {
         this.value = value;
         this.type = type;
     }
-    
+
     /**
      * The PowerUpType of this PowerUp - see PowerUpType enumeration
+     *
      * @return The PowerUpType of this PowerUp - see PowerUpType enumeration
      */
     public PowerUpType getType() {
         return type;
     }
+
     /**
      * The PowerUpType of this PowerUp - see PowerUpType enumeration
+     *
      * @param type The PowerUpType of this PowerUp - see PowerUpType enumeration
      */
     public void setType(PowerUpType type) {
@@ -55,25 +57,30 @@ public class PowerUp implements Serializable {
 
     /**
      * The value of the PowerUp. Can be negative.
+     *
      * @return The value of the PowerUp. Can be negative.
      */
     public int getValue() {
         return value;
     }
+
     /**
      * The value of the PowerUp. Can be negative.
+     *
      * @param value The value of the PowerUp. Can be negative.
      */
     public void setValue(int value) {
         this.value = value;
     }
-    
-    public void getRandomPowerUpType()
-    {
+
+    /**
+     * Create a random powerup type for a block
+     */
+    public void getRandomPowerUpType() {
         List<PowerUpType> powerUps = Collections.unmodifiableList(Arrays.asList(PowerUpType.values()));
         int size = powerUps.size();
         Random random = new Random();
-        
+
         this.type = powerUps.get(random.nextInt(size));
     }
 }

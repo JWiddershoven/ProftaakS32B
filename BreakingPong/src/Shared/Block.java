@@ -129,12 +129,10 @@ public class Block extends GameObject {
     }
 
     /**
-     * Destroys this object.
+     * Get the id of the block
+     *
+     * @return return ID
      */
-    public void destroyObject() {
-
-    }
-
     public int getID() {
         return this.ID;
     }

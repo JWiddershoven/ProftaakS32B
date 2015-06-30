@@ -11,8 +11,7 @@ import java.io.Serializable;
  *
  * @author Mnesymne
  */
-public class TVector2 implements Serializable
-{
+public class TVector2 implements Serializable {
 
     private float x;
     private float y;
@@ -22,8 +21,7 @@ public class TVector2 implements Serializable
      *
      * @return x as float
      */
-    public float getX()
-    {
+    public float getX() {
         return x;
     }
 
@@ -32,8 +30,7 @@ public class TVector2 implements Serializable
      *
      * @param x value of x as float
      */
-    public void setX(float x)
-    {
+    public void setX(float x) {
         this.x = x;
     }
 
@@ -42,8 +39,7 @@ public class TVector2 implements Serializable
      *
      * @return y as float.
      */
-    public float getY()
-    {
+    public float getY() {
         return y;
     }
 
@@ -52,8 +48,7 @@ public class TVector2 implements Serializable
      *
      * @param y value of y as float.
      */
-    public void setY(float y)
-    {
+    public void setY(float y) {
         this.y = y;
     }
 
@@ -63,8 +58,7 @@ public class TVector2 implements Serializable
      * @param x x value of vector as float.
      * @param y y value of vector as float.
      */
-    public TVector2(float x, float y)
-    {
+    public TVector2(float x, float y) {
         this.x = x;
         this.y = y;
     }
@@ -81,15 +75,12 @@ public class TVector2 implements Serializable
      * @param vector2
      * @return ALWAYS POSITIVE (vector2.x + vector2.y)
      */
-    public static float total(TVector2 vector2)
-    {
+    public static float total(TVector2 vector2) {
         TVector2 newVector2 = new TVector2(vector2.getX(), vector2.getY());
-        if (newVector2.getX() < 0)
-        {
+        if (newVector2.getX() < 0) {
             newVector2.setX(newVector2.getX() * (-1));
         }
-        if (newVector2.getY() < 0)
-        {
+        if (newVector2.getY() < 0) {
             newVector2.setY(newVector2.getY() * (-1));
         }
         return (newVector2.getX() + newVector2.getY());
@@ -99,8 +90,7 @@ public class TVector2 implements Serializable
      * @return "x:" + this.x + " y:" + this.y;
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "x:" + this.x + " y:" + this.y;
     }
 }

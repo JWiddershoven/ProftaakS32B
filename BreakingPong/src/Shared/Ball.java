@@ -9,8 +9,6 @@ import Server.CollisionChecker;
 import Shared.Paddle.WindowLocation;
 import java.awt.Image;
 import java.util.ArrayList;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javax.swing.Timer;
@@ -40,8 +38,7 @@ public class Ball extends GameObject {
         this.spawnPos = position;
         if (position != null && velocity != null && size != null) {
             this.lastPaddleTouched = lastPaddleTouched;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException();
         }
     }
@@ -59,8 +56,7 @@ public class Ball extends GameObject {
     public void setLastPaddleTouched(Paddle lastPaddleTouched) {
         if (lastPaddleTouched != null) {
             this.lastPaddleTouched = lastPaddleTouched;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException();
         }
     }
@@ -84,8 +80,7 @@ public class Ball extends GameObject {
                 if (go.getClass().equals(Block.class)) {
                     Block b = (Block) go;
                     // CHECK UNSTRCUTBALE
-                    if (b.isDestructable())
-                    {
+                    if (b.isDestructable()) {
 //                        Media someSound = new Media(getClass().getResource("sound.mp3").toString());
 //                        if(someSound != null)
 //                        {
@@ -102,8 +97,7 @@ public class Ball extends GameObject {
                                         TVector2 newSize = new TVector2(150f, 20f);
                                         lastPaddleTouched.setSize(newSize);
                                         break;
-                                    }
-                                    else {
+                                    } else {
                                         TVector2 newSize = new TVector2(20f, 150f);
                                         lastPaddleTouched.setSize(newSize);
                                         break;
@@ -114,8 +108,7 @@ public class Ball extends GameObject {
                                         TVector2 newSize = new TVector2(75f, 20f);
                                         lastPaddleTouched.setSize(newSize);
                                         break;
-                                    }
-                                    else {
+                                    } else {
                                         TVector2 newSize = new TVector2(20f, 75f);
                                         lastPaddleTouched.setSize(newSize);
                                         break;
@@ -150,97 +143,16 @@ public class Ball extends GameObject {
         }
         TVector2 newPos = new TVector2(this.getPosition().getX() + this.getVelocity().getX(),
                 this.getPosition().getY() + this.getVelocity().getY());
-        // Increments x/y coordinates with (positive or negative) movement.
-        // Do so in Platform.runLater in order to avoid changing a javaFX object while not on application thread
 
-        /// Platform.runLater(() -> {
         this.setPosition(newPos);
 
-        //});
-//        //Check if the ball is out of the screen bounds
-        
-        // DIT GEBEURD AL IN GAME.java checkBallExited?
-        
-//        if (this.getMiddlePosition().getX() < 0 || this.getMiddlePosition().getY() < 0
-//                || this.getMiddlePosition().getX() > game.getGameSize().getX()
-//                || this.getMiddlePosition().getY() > game.getGameSize().getY()) {
-//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
-//                Paddle p = game.getPaddles().get(i);
-//                if (p.isEnabled() == false) {
-//                    p.setEnabled(false);
-//                    System.out.println("Paddle disabled");
-//                }
-//            }
-//        }
-
-//        if (this.getPosition().getX() < 0) {
-//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
-//                Paddle p = game.getPaddles().get(i);
-//                if (p.getWindowLocation() == WindowLocation.WEST) {
-//                    if (p.getCPU() != null) {
-//                        game.removeBot(p.getCPU().getName());
-//                    }
-//                    else {
-//                        game.removePlayer(p.getPlayer().getUsername());
-//                    }
-//                    game.removePaddle(p);
-//                    System.out.println("Paddle removed");
-//                }
-//            }
-//        }
-//        else if (this.getPosition().getX() > game.getSize().getWidth()) {
-//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
-//                Paddle p = game.getPaddles().get(i);
-//                if (p.getWindowLocation() == WindowLocation.EAST) {
-//                    if (p.getCPU() != null) {
-//                        game.removeBot(p.getCPU().getName());
-//                    }
-//                    else {
-//                        game.removePlayer(p.getPlayer().getUsername());
-//                    }
-//                    game.removeObject(p);
-//                    System.out.println("Paddle removed");
-//                }
-//            }
-//        }
-//        else if (this.getPosition().getY() < 0) {
-//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
-//                Paddle p = game.getPaddles().get(i);
-//                if (p.getWindowLocation() == WindowLocation.NORTH) {
-//                    if (p.getCPU() != null) {
-//                        game.removeBot(p.getCPU().getName());
-//                    }
-//                    else {
-//                        game.removePlayer(p.getPlayer().getUsername());
-//                    }
-//                    game.removeObject(p);
-//                    game.removePaddle(p);
-//                    System.out.println("Paddle removed");
-//                }
-//            }
-//        }
-//        else if (this.getPosition().getY() > this.game.getSize().getHeight()) {
-//            for (int i = game.getPaddles().size() - 1; i > 0; i--) {
-//                Paddle p = game.getPaddles().get(i - 1);
-//                if (p.getWindowLocation() == WindowLocation.SOUTH) {
-//                    if (p.getCPU() != null) {
-//                        game.removeBot(p.getCPU().getName());
-//                    }
-//                    else {
-//                        game.removePlayer(p.getPlayer().getUsername());
-//                    }
-//                    game.removeObject(p);
-//                    game.removePaddle(p);
-//                    System.out.println("Paddle removed");
-//                }
-//            }
-//        }
         return returnList;
     }
 
     /**
+     * Let the ball bounce
      *
-     * @param go
+     * @param go Game object to bounce
      */
     public void bounce(GameObject go) {
         TVector2 position = this.getPosition();
@@ -266,20 +178,17 @@ public class Ball extends GameObject {
         //Hit was on right
         if (getMiddlePosition().getY() > goPos.getY()) {
             f1 = goPos.getY() - getMiddlePosition().getY();
-        }
-        else {
+        } else {
             f1 = getMiddlePosition().getY() - goPos.getY();
         }
         if (getMiddlePosition().getX() > goPos.getX()) {
             f2 = goPos.getX() - getMiddlePosition().getX();
-        }
-        else {
+        } else {
             f2 = getMiddlePosition().getX() - goPos.getX();
         }
         if (f1 < f2) {
             vel.setY(bounceFloat(this.getVelocity().getY()));
-        }
-        else {
+        } else {
             vel.setX(bounceFloat(this.getVelocity().getX()));
         }
 
@@ -298,13 +207,15 @@ public class Ball extends GameObject {
     }
 
     /**
-     *  return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
-     * @return  return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
+     * return new Circle(getMiddlePosition().getX(),
+     * getMiddlePosition().getY(),getSize().getX() /2);
+     *
+     * @return return new Circle(getMiddlePosition().getX(),
+     * getMiddlePosition().getY(),getSize().getX() /2);
      */
     @Override
-    public Shape getBounds()
-    {
-        return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(),getSize().getX() /2);
+    public Shape getBounds() {
+        return new Circle(getMiddlePosition().getX(), getMiddlePosition().getY(), getSize().getX() / 2);
     }
-    
+
 }

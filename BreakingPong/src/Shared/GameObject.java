@@ -15,8 +15,7 @@ import javafx.scene.shape.Shape;
  *
  * @author Mnesymne
  */
-public class GameObject implements Serializable
-{
+public class GameObject implements Serializable {
 
     private TVector2 position;
     private TVector2 velocity;
@@ -26,29 +25,30 @@ public class GameObject implements Serializable
 
     /**
      * JFX Color
-     * @return 
+     *
+     * @return
      */
-    public Color getColor()
-    {
+    public Color getColor() {
         return color;
     }
 
     /**
-     * return new TVector2(position.getX() + (size.getX() / 2), position.getY() + (size.getY() / 2));
-     * @return  new TVector2(position.getX() + (size.getX() / 2), position.getY() + (size.getY() / 2));
+     * return new TVector2(position.getX() + (size.getX() / 2), position.getY()
+     * + (size.getY() / 2));
+     *
+     * @return new TVector2(position.getX() + (size.getX() / 2), position.getY()
+     * + (size.getY() / 2));
      */
-    public TVector2 getMiddlePosition()
-    {
+    public TVector2 getMiddlePosition() {
         return new TVector2(position.getX() + (size.getX() / 2), position.getY() + (size.getY() / 2));
     }
-    
+
     /**
      * Getter of position.
      *
      * @return position as TVector2
      */
-    public TVector2 getPosition()
-    {
+    public TVector2 getPosition() {
         return position;
     }
 
@@ -57,8 +57,7 @@ public class GameObject implements Serializable
      *
      * @param position value of position as TVector2
      */
-    public void setPosition(TVector2 position)
-    {
+    public void setPosition(TVector2 position) {
         this.position = position;
     }
 
@@ -67,8 +66,7 @@ public class GameObject implements Serializable
      *
      * @return velocity as TVector2
      */
-    public TVector2 getVelocity()
-    {
+    public TVector2 getVelocity() {
         return velocity;
     }
 
@@ -77,26 +75,25 @@ public class GameObject implements Serializable
      *
      * @param velocity value of velocity as TVector2
      */
-    public void setVelocity(TVector2 velocity)
-    {
+    public void setVelocity(TVector2 velocity) {
         this.velocity = velocity;
     }
 
     /**
      * returns this.MyImage
+     *
      * @return this.MyImage
      */
-    public Image getImage()
-    {
+    public Image getImage() {
         return this.MyImage;
     }
+
     /**
      * Getter of size.
      *
      * @return size as TVector2
      */
-    public TVector2 getSize()
-    {
+    public TVector2 getSize() {
         return size;
     }
 
@@ -105,8 +102,7 @@ public class GameObject implements Serializable
      *
      * @param size value of size as TVector2
      */
-    public void setSize(TVector2 size)
-    {
+    public void setSize(TVector2 size) {
         this.size = size;
     }
 
@@ -118,8 +114,7 @@ public class GameObject implements Serializable
      * @param size value of size as TVector2.
      * @param image
      */
-    public GameObject(TVector2 position, TVector2 velocity, TVector2 size,Image image)
-    {
+    public GameObject(TVector2 position, TVector2 velocity, TVector2 size, Image image) {
         this.position = position;
         this.velocity = velocity;
         this.size = size;
@@ -127,17 +122,15 @@ public class GameObject implements Serializable
     }
 
     /**
-     * 
+     *
      * @return Rectangle made of Pos.X, Pos.Y with size X and Y
      */
-    public Shape getBounds()
-    {
-        return new Rectangle(position.getX(),position.getY(),size.getX(),size.getY());
+    public Shape getBounds() {
+        return new Rectangle(position.getX(), position.getY(), size.getX(), size.getY());
     }
-    
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Pos: " + this.position.toString() + " Vel: " + this.velocity.toString();
     }
 }

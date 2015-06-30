@@ -12,13 +12,11 @@ import java.rmi.RemoteException;
  *
  * @author Mnesymne
  */
-public class User implements IUser
-{
+public class User implements IUser {
 
     //--------------------------------------------//
     private String username, password, email;
     private Paddle paddle;
-    //private Server selectedServer;
     private int rating;
     //-------------------------------------------//
 
@@ -30,34 +28,27 @@ public class User implements IUser
      * @param email as String , must be a valid email meaning it contains a @
      * and f.ex .com
      */
-    public User(String username, String password, String email)
-    {
-        if (username == null || username.trim().isEmpty())
-        {
+    public User(String username, String password, String email) {
+        if (username == null || username.trim().isEmpty()) {
             throw new IllegalArgumentException("Username cannot be null or empty");
         }
-        if (password == null || password.trim().isEmpty())
-        {
+        if (password == null || password.trim().isEmpty()) {
             throw new IllegalArgumentException("Password cannot be null or empty");
         }
-        if (email == null || email.trim().isEmpty())
-        {
+        if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email cannot be null or empty");
         }
-        if (!(email.contains("@") && email.contains(".")))
-        {
+        if (!(email.contains("@") && email.contains("."))) {
             throw new IllegalArgumentException("Email is not of correct format");
         }
 //        if (selectedServer == null)
 //        {
 //            throw new IllegalArgumentException("Server cannot be null");
 //        }
-        if (username.length() < 6)
-        {
+        if (username.length() < 6) {
             throw new IllegalArgumentException("Username must be at least 6 characters");
         }
-        if (password.length() < 6)
-        {
+        if (password.length() < 6) {
             throw new IllegalArgumentException("Password must be at least 6 characters");
         }
         this.username = username;
@@ -73,19 +64,17 @@ public class User implements IUser
      *
      * @return rating as int.
      */
-    public int getRating()
-    {
+    public int getRating() {
         return rating;
     }
 
     /**
      * Setter of rating If end rating is lower then 0, become 0. Else new rating
- is old rating - rating.
+     * is old rating - rating.
      *
      * @param Change
      */
-    public void setRating(double rating)
-    {
+    public void setRating(double rating) {
         this.rating = (int) Math.round(rating);
     }
 
@@ -94,41 +83,16 @@ public class User implements IUser
      *
      * @return a Paddle
      */
-    public Paddle getPaddle()
-    {
+    public Paddle getPaddle() {
         return paddle;
     }
-
-    /**
-     * Getter of selectedServer
-     *
-     * @return the selectedServer
-     */
-//    public Server getSelectedServer()
-//    {
-//        return selectedServer;
-//    }
-
-    /**
-     * Setter of selectedServer
-     *
-     * @param selectedServer as Server
-     */
-//    public void setSelectedServer(Server selectedServer)
-//    {
-//        if (selectedServer != null && selectedServer != this.selectedServer)
-//        {
-//            this.selectedServer = selectedServer;
-//        }
-//    }
 
     /**
      * Getter of Username
      *
      * @return username as String
      */
-    public String getUsername()
-    {
+    public String getUsername() {
         return username;
     }
 
@@ -138,14 +102,10 @@ public class User implements IUser
      *
      * @param username as String
      */
-    public void setUsername(String username)
-    {
-        if (username != null && !username.isEmpty() && username.length() >= 6)
-        {
+    public void setUsername(String username) {
+        if (username != null && !username.isEmpty() && username.length() >= 6) {
             this.username = username;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("Username cannot be null,empty and has to be longer than 6.");
         }
     }
@@ -155,8 +115,7 @@ public class User implements IUser
      *
      * @return password as String
      */
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
@@ -166,14 +125,10 @@ public class User implements IUser
      *
      * @param password
      */
-    public void setPassword(String password)
-    {
-        if (password != null && !password.isEmpty() && password.length() >= 6)
-        {
+    public void setPassword(String password) {
+        if (password != null && !password.isEmpty() && password.length() >= 6) {
             this.password = password;
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("Password cannot be null,empty and has to be longer than 6.");
         }
     }
@@ -183,15 +138,12 @@ public class User implements IUser
      *
      * @return email as String.
      */
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public void setPaddle(Paddle p)
-    {
-        if (this.paddle == null)
-        {
+    public void setPaddle(Paddle p) {
+        if (this.paddle == null) {
             this.paddle = p;
         }
     }
@@ -201,45 +153,42 @@ public class User implements IUser
      *
      * @param email
      */
-    public void setEmail(String email)
-    {
-        if (email != null && !email.isEmpty() && email.contains("@"))
-        {
-            if (email.substring(0, email.indexOf("@")).length() > 0 && email.substring(email.indexOf("@", email.indexOf(".com"))).length() >= 1)
-            {
+    public void setEmail(String email) {
+        if (email != null && !email.isEmpty() && email.contains("@")) {
+            if (email.substring(0, email.indexOf("@")).length() > 0 && email.substring(email.indexOf("@", email.indexOf(".com"))).length() >= 1) {
                 this.email = email;
             }
-        }
-        else
-        {
+        } else {
             throw new IllegalArgumentException("E-mail cannot be null,empty and has to have use the format : Name@provider.com");
         }
     }
 
     /**
      * Return username
+     *
      * @return username
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return username;
     }
 
     /**
      * Description: Returns a string with Username and Ranking
+     *
      * @param username
      * @return String with Username and Ranking
-     * @throws RemoteException 
+     * @throws RemoteException
      */
     @Override
     public String getPlayerInformation(String username) throws RemoteException {
-       return this.username + " - " + this.rating;
+        return this.username + " - " + this.rating;
     }
 
     /**
      * Description: RMI - Returns a string with the username
-     * @return  String with the Username
+     *
+     * @return String with the Username
      */
     @Override
     public String getUsername(IUser user) {

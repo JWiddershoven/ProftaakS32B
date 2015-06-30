@@ -10,8 +10,7 @@ import Interfaces.IMap;
 /**
  * @author Jelle
  */
-public class Map implements IMap
-{
+public class Map implements IMap {
 
     private String name;
     private int playerAmount;
@@ -25,18 +24,14 @@ public class Map implements IMap
      * be 2 or 4.
      * @param layout The layout of the map. Must contain at least one item.
      */
-    public Map(String name, int playerAmount, int[][] layout)
-    {
-        if (name == null || name.trim().isEmpty())
-        {
+    public Map(String name, int playerAmount, int[][] layout) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Mapname cannot be null or empty");
         }
-        if (layout == null || layout.length < 1)
-        {
+        if (layout == null || layout.length < 1) {
             throw new IllegalArgumentException("Layout cannot be null or empty");
         }
-        if (playerAmount != 2 && playerAmount != 4)
-        {
+        if (playerAmount != 2 && playerAmount != 4) {
             throw new IllegalArgumentException("Player Amount must be 2 or 4");
         }
         this.name = name;
@@ -47,24 +42,21 @@ public class Map implements IMap
     /**
      * @return The name of the map.
      */
-    public String getName()
-    {
+    public String getName() {
         return this.name;
     }
 
     /**
      * @return The amount of players of the map.
      */
-    public int getPlayerAmount()
-    {
+    public int getPlayerAmount() {
         return this.playerAmount;
     }
 
     /**
      * @return The layout of the map.
      */
-    public int[][] getLayout()
-    {
+    public int[][] getLayout() {
         return this.layout;
     }
 
@@ -76,18 +68,14 @@ public class Map implements IMap
      * be 2 or 4.
      * @param layout The layout of the map. Must contain at least one item.
      */
-    public void updateMap(String name, int playerAmount, int[][] layout)
-    {
-        if (name == null || name.trim().isEmpty())
-        {
+    public void updateMap(String name, int playerAmount, int[][] layout) {
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Mapname cannot be null or empty");
         }
-        if (layout == null || layout.length < 1)
-        {
+        if (layout == null || layout.length < 1) {
             throw new IllegalArgumentException("Layout cannot be null or empty");
         }
-        if (playerAmount != 2 && playerAmount != 4)
-        {
+        if (playerAmount != 2 && playerAmount != 4) {
             throw new IllegalArgumentException("Player Amount must be 2 or 4");
         }
         this.name = name;
@@ -96,11 +84,10 @@ public class Map implements IMap
     }
 
     /**
-     * @return getName() + "  max players: " + getPlayerAmount();
+     * @return getName() + " max players: " + getPlayerAmount();
      */
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getName() + "  max players: " + getPlayerAmount();
     }
 
