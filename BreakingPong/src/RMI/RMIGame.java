@@ -155,14 +155,11 @@ public class RMIGame implements IGame, Runnable {
 
     @Override
     public void moveLeft(int gameId, String username) throws RemoteException {
-        System.out.println("moveLeft received");
-        System.out.println(paddlesIngame.size());
         for (int i = paddlesIngame.size(); i > 0; i--) {
             Paddle p = paddlesIngame.get(i -1);
             RMIUser u = (RMIUser) p.getPlayer();
-            System.out.println(username + " " + u.getUsername(u));
             if (u != null && u.getUsername(u).equals(username)) {
-                p.MoveDirection(Paddle.Direction.LEFT);
+                p.MoveDirection(Paddle.Direction.LEFT);     
                 break;
             }
         }
@@ -170,7 +167,6 @@ public class RMIGame implements IGame, Runnable {
 
     @Override
     public void moveRight(int gameId, String username) throws RemoteException {
-        System.out.println("moveRight received");
         for (int i = paddlesIngame.size(); i > 0; i--) {
             Paddle p = paddlesIngame.get(i -1);
             RMIUser u = (RMIUser) p.getPlayer();
