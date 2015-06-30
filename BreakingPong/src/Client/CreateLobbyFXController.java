@@ -8,6 +8,7 @@ package Client;
 import static Client.ClientGUI.mainStage;
 import Interfaces.ILobby;
 import Server.Administration;
+import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.io.IOException;
 import java.net.URL;
@@ -134,8 +135,8 @@ public class CreateLobbyFXController implements Initializable
             }
             else
             {
-                JOptionPane.showConfirmDialog(null, errorMessage, "Cannot create lobby",
-                        JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+                EventQueue.invokeLater(() -> {JOptionPane.showConfirmDialog(null, errorMessage, "Cannot create lobby",
+                        JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);});
             }
         }
         catch (IOException | HeadlessException ex)
@@ -217,27 +218,28 @@ public class CreateLobbyFXController implements Initializable
         catch (Exception ex)
         {
             Logger.getLogger(CreateLobbyFXController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showConfirmDialog(null, ex.getMessage(), "Cancel game error",
-                    JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+            EventQueue.invokeLater(() -> {JOptionPane.showConfirmDialog(null, ex.getMessage(), "Cancel game error",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);});
         }
     }
 
     @FXML
     private void onHelpAboutClick()
     {
-        JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
-                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        EventQueue.invokeLater(() -> {JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
+                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);});
     }
 
     @FXML
     private void onFileExitClick()
     {
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
-                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION)
-        {
-            System.exit(0);
-        }
+        EventQueue.invokeLater(() -> {
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        });
     }
 
     @FXML

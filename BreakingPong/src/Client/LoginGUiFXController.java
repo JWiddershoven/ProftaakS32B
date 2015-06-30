@@ -6,13 +6,18 @@
 package Client;
 
 import static Client.ClientGUI.mainStage;
+import Helpers.StaticConstants;
 import Interfaces.IClientSecurity;
+import Interfaces.IServer;
 import Server.Administration;
 import Shared.SecurityRMI;
 import java.awt.EventQueue;
 import java.awt.TrayIcon;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -78,6 +83,15 @@ public class LoginGUiFXController implements Initializable {
      */
     @FXML
     private void onLoginClick(ActionEvent evt) {
+        if (ClientGUI.controller == null) {
+            try {
+                ClientGUI.controller = new RMIClientController(ClientGUI.instance);
+                ClientGUI.connection = (IServer) Naming.lookup(StaticConstants.SERVER_RMI_STRING);
+            }
+            catch (RemoteException | NotBoundException | MalformedURLException ex) {
+                Logger.getLogger(LoginGUiFXController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         String username = tfLoginUsername.getText();
         String password = tfLoginPassword.getText();
         login(username, password);
@@ -111,8 +125,9 @@ public class LoginGUiFXController implements Initializable {
      */
     private void login(String username, String password) {
         if (username.trim().isEmpty() || password.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill in both fields.",
-                    "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());
+            EventQueue.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null, "Please fill in both fields.",
+                    "Fields cannot be empty", TrayIcon.MessageType.INFO.ordinal());});
 
         }
         else {

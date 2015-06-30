@@ -11,6 +11,7 @@ import Interfaces.IUser;
 import RMI.RMILobby;
 import RMI.RMIUser;
 import fontys.observer.RemotePropertyListener;
+import java.awt.EventQueue;
 import java.awt.TrayIcon;
 import java.beans.PropertyChangeEvent;
 import java.net.URL;
@@ -146,18 +147,18 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null, "Selected lobby is full");
+                   EventQueue.invokeLater(() -> { JOptionPane.showMessageDialog(null, "Selected lobby is full");});
                 }
             }
             catch (Exception ex) {
                 Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
-                        "Join error", TrayIcon.MessageType.INFO.ordinal());
+              EventQueue.invokeLater(() -> {  JOptionPane.showMessageDialog(null, "Lobby join error:\n" + ex.getMessage(),
+                        "Join error", TrayIcon.MessageType.INFO.ordinal());});
             }
         }
         else {
-            JOptionPane.showMessageDialog(null, "Please select a lobby first",
-                    "Select a lobby", TrayIcon.MessageType.INFO.ordinal());
+            EventQueue.invokeLater(() -> {JOptionPane.showMessageDialog(null, "Please select a lobby first",
+                    "Select a lobby", TrayIcon.MessageType.INFO.ordinal());});
         }
     }
 
@@ -173,8 +174,8 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
         }
         catch (Exception ex) {
             Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
-                    "Create error", TrayIcon.MessageType.INFO.ordinal());
+          EventQueue.invokeLater(() -> {  JOptionPane.showMessageDialog(null, "Create lobby error:\n" + ex.getMessage(),
+                    "Create error", TrayIcon.MessageType.INFO.ordinal());});
         }
     }
 
@@ -197,25 +198,32 @@ public class LobbySelectFXController extends UnicastRemoteObject implements Init
         }
         catch (RemoteException ex) {
             Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showConfirmDialog(null, ex.getMessage(), "Sending chat error",
-                    JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);
+          EventQueue.invokeLater(() -> {  JOptionPane.showConfirmDialog(null, ex.getMessage(), "Sending chat error",
+                    JOptionPane.CANCEL_OPTION, JOptionPane.ERROR_MESSAGE);});
         }
     }
 
     @FXML
     private void onHelpAboutClick() {
-        JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
-                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        EventQueue.invokeLater(() -> {JOptionPane.showConfirmDialog(null, "Breaking Pong\nBy Breaking Business", "About",
+                JOptionPane.CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);});
     }
 
     @FXML
     private void onFileExitClick() throws RemoteException {
-        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
-                JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (dialogResult == JOptionPane.YES_OPTION) {
-            ClientGUI.CurrentSession.getServer().logout(ClientGUI.CurrentSession.getUsername());
-            System.exit(0);
-        }
+        EventQueue.invokeLater(() -> {
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to exit?", "Exit?",
+                    JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                try {
+                    ClientGUI.CurrentSession.getServer().logout(ClientGUI.CurrentSession.getUsername());
+                }
+                catch (RemoteException ex) {
+                    Logger.getLogger(LobbySelectFXController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.exit(0);
+            }
+        });
     }
 
     @FXML

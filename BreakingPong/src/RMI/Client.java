@@ -6,19 +6,14 @@
 package RMI;
 
 import Client.ClientGUI;
-import Helpers.StaticConstants;
 import Interfaces.IServer;
 import Shared.Ball;
 import Shared.Block;
 import Shared.Paddle;
 import fontys.observer.RemotePropertyListener;
 import java.beans.PropertyChangeEvent;
-import java.net.InetAddress;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.AnimationTimer;
@@ -33,7 +28,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.swing.JOptionPane;
 
 /**
  *
