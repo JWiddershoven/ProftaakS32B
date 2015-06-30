@@ -563,7 +563,7 @@ public class RMIGame implements IGame, Runnable {
 
         Block[] blocks = new Block[blockList.size()];
         blocks = blockList.toArray(blocks);
-        ServerRMI.publisher.inform(this, "getBlocks", null, blocks);
+        ServerRMI.publisher.inform(this, "getBlocks" + id, null, blocks);
 
     }
 
@@ -590,16 +590,16 @@ public class RMIGame implements IGame, Runnable {
                     if (startup < 50) {
                         Block[] blocks = new Block[blockList.size()];
                         blocks = blockList.toArray(blocks);
-                        ServerRMI.publisher.inform(i, "getBlocks", null, blocks);
+                        ServerRMI.publisher.inform(i, "getBlocks" + id, null, blocks);
                         Block[] destroyedBlocks = new Block[destroyableBlockList.size()];
                         destroyedBlocks = destroyableBlockList.toArray(destroyedBlocks);
-                        ServerRMI.publisher.inform(i, "getDestroys", null, destroyedBlocks);
-                        ServerRMI.publisher.inform(i, "getPaddles", null, paddleList);
+                        ServerRMI.publisher.inform(i, "getDestroys" + id, null, destroyedBlocks);
+                        ServerRMI.publisher.inform(i, "getPaddles" + id, null, paddleList);
                         startup++;
                     }
-                    ServerRMI.publisher.inform(i, "GetCurrentPaddles", null, paddlesIngame);
-                    ServerRMI.publisher.inform(i, "getTime", null, gameTimeInSecondsRemaining);
-                    ServerRMI.publisher.inform(i, "getBalls", null, ballList);
+                    ServerRMI.publisher.inform(i, "GetCurrentPaddles" + id, null, paddlesIngame);
+                    ServerRMI.publisher.inform(i, "getTime" + id, null, gameTimeInSecondsRemaining);
+                    ServerRMI.publisher.inform(i, "getBalls" + id, null, ballList);
                 }
             }
         }, 0, 50);
@@ -633,7 +633,7 @@ public class RMIGame implements IGame, Runnable {
         }
         if (object instanceof Block) {
             Block b = (Block) object;
-            ServerRMI.publisher.inform(this, "getChanged", null, b.getID());
+            ServerRMI.publisher.inform(this, "getChanged" + id, null, b.getID());
         }
     }
 
@@ -697,7 +697,7 @@ public class RMIGame implements IGame, Runnable {
                         this.addObject(block);
                         this.blockList.add(block);
                         this.paddlesIngame.remove(P1Paddle);
-                        ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
+                        ServerRMI.publisher.inform(5, "GetCurrentPaddles" + id, null, this.paddlesIngame);
                     }
                     break;
                 case 2:
@@ -713,7 +713,7 @@ public class RMIGame implements IGame, Runnable {
                             this.addObject(block);
                             this.blockList.add(block);
                             this.paddlesIngame.remove(P2Paddle);
-                            ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
+                            ServerRMI.publisher.inform(5, "GetCurrentPaddles" + id, null, this.paddlesIngame);
                         }
                     } else {
                         // left side
@@ -723,7 +723,7 @@ public class RMIGame implements IGame, Runnable {
                             this.addObject(block);
                             this.blockList.add(block);
                             this.paddlesIngame.remove(P2Paddle);
-                            ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
+                            ServerRMI.publisher.inform(5, "GetCurrentPaddles" + id, null, this.paddlesIngame);
                         }
                     }
                     break;
@@ -739,7 +739,7 @@ public class RMIGame implements IGame, Runnable {
                         this.addObject(block);
                         this.blockList.add(block);
                         this.paddlesIngame.remove(P3Paddle);
-                        ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
+                        ServerRMI.publisher.inform(5, "GetCurrentPaddles" + id, null, this.paddlesIngame);
                     }
                     break;
                 case 4:
@@ -754,7 +754,7 @@ public class RMIGame implements IGame, Runnable {
                         this.addObject(block);
                         this.blockList.add(block);
                         this.paddlesIngame.remove(P4Paddle);
-                        ServerRMI.publisher.inform(5, "GetCurrentPaddles", null, this.paddlesIngame);
+                        ServerRMI.publisher.inform(5, "GetCurrentPaddles" + id, null, this.paddlesIngame);
                     }
                     break;
                 default:
@@ -766,7 +766,7 @@ public class RMIGame implements IGame, Runnable {
             removeObject(b);
             Block[] blocks = new Block[blockList.size()];
             blocks = blockList.toArray(blocks);
-            ServerRMI.publisher.inform(5, "getBlocks", null, blocks);
+            ServerRMI.publisher.inform(5, "getBlocks" + id, null, blocks);
             System.out.println("Ball exited play.");
         }
     }
@@ -1003,7 +1003,7 @@ public class RMIGame implements IGame, Runnable {
         this.paddleList.clear();
         this.ballList.clear();
         gc();
-        ServerRMI.publisher.inform(this, "getGameOver", null, true);
+        ServerRMI.publisher.inform(this, "getGameOver" + id, null, true);
         System.out.println("Exited game");
     }
 }

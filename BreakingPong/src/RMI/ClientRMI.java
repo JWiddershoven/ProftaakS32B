@@ -50,6 +50,7 @@ import javax.sound.sampled.DataLine;
 public class ClientRMI extends UnicastRemoteObject implements RemotePropertyListener
 {
 
+    private int gameId;
     private IGame game;
     private RemotePublisher publisher;
     private Client client;
@@ -77,9 +78,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     DataLine.Info info;
     Clip clip;
 
-    public ClientRMI(Client client) throws RemoteException
+    public ClientRMI(Client client, int gameId) throws RemoteException
     {
         this.client = client;
+        this.gameId = gameId;
         this.start();
     }
 
@@ -130,13 +132,13 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         {
             if (this.publisher != null)
             {
-                this.publisher.removeListener(this, "getBlocks");
-                this.publisher.removeListener(this, "getTime");
-                this.publisher.removeListener(this, "getBalls");
-                this.publisher.removeListener(this, "getPaddles");
-                this.publisher.removeListener(this, "getGameOver");
-                this.publisher.removeListener(this, "getDestroys");
-                this.publisher.removeListener(this, "getChanged");
+                this.publisher.removeListener(this, "getBlocks" + gameId);
+                this.publisher.removeListener(this, "getTime"+ gameId);
+                this.publisher.removeListener(this, "getBalls"+ gameId);
+                this.publisher.removeListener(this, "getPaddles"+ gameId);
+                this.publisher.removeListener(this, "getGameOver"+ gameId);
+                this.publisher.removeListener(this, "getDestroys"+ gameId);
+                this.publisher.removeListener(this, "getChanged"+ gameId);
             }
             UnicastRemoteObject.unexportObject(this, true);
         } catch (RemoteException ex)
@@ -151,14 +153,14 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
         {
             this.reg = LocateRegistry.getRegistry(StaticConstants.SERVER_IP_ADDRESS, StaticConstants.SERVER_PORT);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
-            this.publisher.addListener(this, "getBlocks");
-            this.publisher.addListener(this, "getTime");
-            this.publisher.addListener(this, "getBalls");
-            this.publisher.addListener(this, "getPaddles");
-            this.publisher.addListener(this, "getGameOver");
-            this.publisher.addListener(this, "getDestroys");
-            this.publisher.addListener(this, "getChanged");
-            this.publisher.addListener(this, "GetCurrentPaddles");
+            this.publisher.addListener(this, "getBlocks"+ gameId);
+            this.publisher.addListener(this, "getTime"+ gameId);
+            this.publisher.addListener(this, "getBalls"+ gameId);
+            this.publisher.addListener(this, "getPaddles"+ gameId);
+            this.publisher.addListener(this, "getGameOver"+ gameId);
+            this.publisher.addListener(this, "getDestroys"+ gameId);
+            this.publisher.addListener(this, "getChanged"+ gameId);
+            this.publisher.addListener(this, "GetCurrentPaddles"+ gameId);
             // CRASHERINO HERE
             this.client.connection.joinGame(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
             System.out.println("Game joined");
@@ -176,7 +178,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     {
         //Draw all blocks from server
 
-        if (evt.getPropertyName().equals("getBlocks"))
+        if (evt.getPropertyName().equals("getBlocks"+ gameId))
         {
 
             client.undestroyableblockList = new ArrayList<>();
@@ -187,7 +189,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
             //System.out.println(client.blockList.size() + new Date().toString());
 
-        } else if (evt.getPropertyName().equals("getDestroys"))
+        } else if (evt.getPropertyName().equals("getDestroys"+ gameId))
         {
             if (client.destroyableList == null || client.destroyableList.isEmpty())
             {
@@ -199,21 +201,21 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 }
             }
         } //Draw all balls from server
-        else if (evt.getPropertyName().equals("getBalls"))
+        else if (evt.getPropertyName().equals("getBalls"+ gameId))
         {
             client.ballList = new ArrayList<>();
             client.ballList = (ArrayList<Ball>) evt.getNewValue();
         } //Draw all paddles from server
-        else if (evt.getPropertyName().equals("getPaddles"))
+        else if (evt.getPropertyName().equals("getPaddles"+ gameId))
         {
             client.paddleList = new ArrayList<>();
             client.paddleList = (ArrayList<Paddle>) evt.getNewValue();
-        } else if (evt.getPropertyName().equals("GetCurrentPaddles"))
+        } else if (evt.getPropertyName().equals("GetCurrentPaddles"+ gameId))
         {
             client.paddlesIngame = new ArrayList<>();
             client.paddlesIngame = (ArrayList<Paddle>) evt.getNewValue();
         }// Get the gametime from server
-        else if (evt.getPropertyName().equals("getTime"))
+        else if (evt.getPropertyName().equals("getTime"+ gameId))
         {
             Platform.runLater(new Runnable()
             {
@@ -223,7 +225,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     newGameTime = evt.getNewValue().toString();
                 }
             });
-        } else if (evt.getPropertyName().equals("getGameOver"))
+        } else if (evt.getPropertyName().equals("getGameOver"+ gameId))
         {
             try
             {
@@ -235,7 +237,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             {
                 Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (evt.getPropertyName().equals("getChanged"))
+        } else if (evt.getPropertyName().equals("getChanged"+ gameId))
         {
             int id = (int) evt.getNewValue();
             Block objectToRemove = null;
