@@ -29,7 +29,8 @@ public class CollisionChecker {
         if (gameObjectsList == null || gameObjectsList.isEmpty()) {
             throw new IllegalStateException("gameObjectsList is leeg in ColliderChecker.java");
         }
-        for (GameObject gb : gameObjectsList) {
+        ArrayList<GameObject> listToCheck = new ArrayList<>(gameObjectsList);
+        for (GameObject gb : listToCheck) {
             if (!gb.equals(objectToCheck)) {
                 if (CollisionChecker.checkCollidesWith(objectToCheck, gb)) {
                     return gb;
@@ -47,7 +48,8 @@ public class CollisionChecker {
      * @return GameObject collided with
      */
     public static GameObject collidesWithFirst(GameObject objectToCheck, ArrayList<GameObject> gameObjects) {
-        for (GameObject gb : gameObjects) {
+        ArrayList<GameObject> listToCheck = new ArrayList<>(gameObjects);
+        for (GameObject gb : listToCheck) {
             if (!gb.equals(objectToCheck)) {
                 if (CollisionChecker.checkCollidesWith(objectToCheck, gb)) {
                     return gb;
@@ -62,14 +64,15 @@ public class CollisionChecker {
             throw new IllegalStateException("gameObjectsList is empty ColliderChecker.java");
         }
         ArrayList<GameObject> collidedObjects = new ArrayList<>();
-        for (int i = gameObjectsList.size() - 1; i >= 0; i--) {
+        ArrayList<GameObject> listToCheck = new ArrayList<>(gameObjectsList);
+        for (int i = listToCheck.size() - 1; i >= 0; i--) {
             // Game is closed
             if (gameObjectsList == null) {
                 return new ArrayList<GameObject>();
             }
-            if (!gameObjectsList.get(i).equals(objectToCheck)) {
-                if (CollisionChecker.checkCollidesWith(objectToCheck, gameObjectsList.get(i))) {
-                    collidedObjects.add(gameObjectsList.get(i));
+            if (!listToCheck.get(i).equals(objectToCheck)) {
+                if (CollisionChecker.checkCollidesWith(objectToCheck, listToCheck.get(i))) {
+                    collidedObjects.add(listToCheck.get(i));
                 }
             }
         }
