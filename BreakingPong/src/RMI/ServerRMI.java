@@ -676,19 +676,10 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
     public void createGame(int id, int gameTime, boolean powerUps) throws RemoteException {
         for (int i = currentLobbies.size() - 1; i >= 0; i--) {
             if (currentLobbies.get(i).getLobbyID() == id) {
-                publisher.addProperty("getBlocks" + Integer.toString(id));
-                publisher.addProperty("getDestroys" + Integer.toString(id));
-                publisher.addProperty("getBalls" + Integer.toString(id));
-                publisher.addProperty("getPaddles" + Integer.toString(id));
-                publisher.addProperty("GetCurrentPaddles" + Integer.toString(id));
-                publisher.addProperty("getTime" + Integer.toString(id));
-                publisher.addProperty("getGameOver" + Integer.toString(id));
-                publisher.addProperty("getChanged" + Integer.toString(id));
                 currentLobbies.get(i).createGame(id, gameTime, powerUps);
                 System.out.println("GameCreated");
             }
         }
-
     }
 
     public void checkLoggedInUsers() throws RemoteException {
@@ -760,8 +751,16 @@ public class ServerRMI extends UnicastRemoteObject implements IServer, Remote {
                 publisher.inform(1, "getLobbyStarted" + Integer.toString(lobbyId), false, true);
                 for (int i = 0; i < currentLobbies.size(); i++) {
                     if (currentLobbies.get(i).getLobbyID() == lobbyId) {
-                        currentLobbies.get(i).createGame(lobbyId, 300, true);
-                        break;
+                       publisher.addProperty("getBlocks" + Integer.toString(lobbyId));
+                       publisher.addProperty("getDestroys" + Integer.toString(lobbyId));
+                       publisher.addProperty("getBalls" + Integer.toString(lobbyId));
+                       publisher.addProperty("getPaddles" + Integer.toString(lobbyId));
+                       publisher.addProperty("GetCurrentPaddles" + Integer.toString(lobbyId));
+                       publisher.addProperty("getTime" + Integer.toString(lobbyId));
+                       publisher.addProperty("getGameOver" + Integer.toString(lobbyId));
+                       publisher.addProperty("getChanged" + Integer.toString(lobbyId));
+                       currentLobbies.get(i).createGame(lobbyId, 300, true);
+                       break;
                     }
                 }
             }
