@@ -102,8 +102,8 @@ public class Client extends Application implements RemotePropertyListener {
         // If client closes window disconnect from server
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent we) {
-                try {
                     clientRMI.stop();
+                try {
                     System.out.println("Closed from Client.java.");
                     if (connection != null && gui.joinedLobby != null) {
                         gui.CurrentSession.getServer().leaveLobby(gui.joinedLobby.getLobbyID(), gui.CurrentSession.getUsername());
