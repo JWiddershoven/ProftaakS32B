@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="BreakingPong.jnlp">
+  <information>
+    <title>BreakingPong</title>
+    <vendor>Breaking Business</vendor>
+    <description>Breaking Pong is an awesome game where players go head to head to become champion of the universe.</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <jfx:javafx-runtime version="8.0+" href="http://javadl.sun.com/webapps/download/GetFile/javafx-latest/windows-i586/javafx2.jnlp"/>
+  </resources>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="BreakingPong.jar" size="1091357" download="eager" />
+    <jar href="lib/FontysObserver.jar" size="8000" download="eager" />
+    <jar href="lib/mysql-connector-java-5.1.35-bin.jar" size="1006839" download="eager" />
+  </resources>
+<security>
+  <all-permissions/>
+</security>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="BreakingPong" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="Client.ClientGUI"  name="BreakingPong" />
+  <update check="always"/>
+</jnlp>
