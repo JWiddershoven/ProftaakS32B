@@ -302,7 +302,7 @@ public class Game extends JPanel implements Runnable {
      */
     public void addObject(GameObject object) {
         this.objectList.add(object);
-        CollisionChecker.gameObjectsList.add(object);
+       // CollisionChecker.gameObjectsList.add(object);
     }
 
     /**
@@ -312,9 +312,9 @@ public class Game extends JPanel implements Runnable {
      */
     public void removeObject(GameObject object) {
         this.objectList.remove(object);
-        if (CollisionChecker.gameObjectsList.contains(object)) {
-            CollisionChecker.gameObjectsList.remove(object);
-        }
+//        if (CollisionChecker.gameObjectsList.contains(object)) {
+  //          CollisionChecker.gameObjectsList.remove(object);
+     //   }
         if (object instanceof Ball) {
             ballList.remove((Ball) object);
         }
@@ -392,7 +392,7 @@ public class Game extends JPanel implements Runnable {
      * @return ArrayList of Strings loaded map file as ArrayList.
      */
     public ArrayList<String> loadMap() {
-        CollisionChecker.gameObjectsList.clear();
+        //CollisionChecker.gameObjectsList.clear();
         // Open file dialog
         File file = null;
         JFileChooser chooser = new JFileChooser(new File(System.getProperty("user.home")));
@@ -1001,7 +1001,7 @@ public class Game extends JPanel implements Runnable {
     public void tick() {
         for (int bCounter = ballList.size(); bCounter > 0; bCounter--) {
             Ball b = ballList.get(bCounter - 1);
-            b.update();
+            //b.update();
             checkResetBall(b);
             try {
                 checkBallExitedPlay(b);
@@ -1011,7 +1011,7 @@ public class Game extends JPanel implements Runnable {
             }
         }
         for (CPU c : botList) {
-            c.update(this.ballList);
+            c.update(this.ballList, objectList);
         }
         // TODO: check
 //        for (Paddle p : paddleList) {

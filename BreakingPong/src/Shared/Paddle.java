@@ -144,7 +144,7 @@ public class Paddle extends GameObject {
      *
      * @param direction value of Direction as enum
      */
-    public void Move(Direction direction) {
+    public void Move(Direction direction, ArrayList<GameObject> gameObjects) {
         TVector2 oldPosition = getPosition();
         TVector2 newPosition = TVector2.zero;
         switch (direction) {
@@ -162,7 +162,7 @@ public class Paddle extends GameObject {
                 break;
         }
         this.setPosition(newPosition);
-        ArrayList<GameObject> collidedWith = CollisionChecker.collidesWithMultiple(this);
+        ArrayList<GameObject> collidedWith = CollisionChecker.collidesWithMultiple(this, gameObjects);
         // if paddle collides with something that is not a ball or a whitespace
         for (GameObject g : collidedWith) {
             if (g != null && !g.getClass().equals(Ball.class) && !g.getClass().equals(WhiteSpace.class)) {
@@ -176,24 +176,24 @@ public class Paddle extends GameObject {
      *
      * @param direction - LEFT or RIGHT.
      */
-    public void MoveDirection(Direction direction) {
+    public void MoveDirection(Direction direction, ArrayList<GameObject> gameObjects) {
         System.out.println("Paddle Moved");
         if (direction == Direction.LEFT) {
             if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH) {
-                this.Move(Direction.LEFT);
+                this.Move(Direction.LEFT, gameObjects);
             } else if (selectedPosition == WindowLocation.WEST) {
-                this.Move(Direction.UP);
+                this.Move(Direction.UP, gameObjects);
             } else if (selectedPosition == WindowLocation.EAST) {
-                this.Move(Direction.DOWN);
+                this.Move(Direction.DOWN, gameObjects);
             }
         }
         if (direction == Direction.RIGHT) {
             if (selectedPosition == WindowLocation.NORTH || selectedPosition == WindowLocation.SOUTH) {
-                this.Move(Direction.RIGHT);
+                this.Move(Direction.RIGHT, gameObjects);
             } else if (selectedPosition == WindowLocation.WEST) {
-                this.Move(Direction.DOWN);
+                this.Move(Direction.DOWN, gameObjects);
             } else if (selectedPosition == WindowLocation.EAST) {
-                this.Move(Direction.UP);
+                this.Move(Direction.UP, gameObjects);
             }
         }
     }

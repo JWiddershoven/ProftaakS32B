@@ -159,7 +159,7 @@ public class RMIGame implements IGame, Runnable {
             Paddle p = paddlesIngame.get(i -1);
             RMIUser u = (RMIUser) p.getPlayer();
             if (u != null && u.getUsername(u).equals(username)) {
-                p.MoveDirection(Paddle.Direction.LEFT);     
+                p.MoveDirection(Paddle.Direction.LEFT, new ArrayList<GameObject>(objectList));     
                 break;
             }
         }
@@ -171,7 +171,7 @@ public class RMIGame implements IGame, Runnable {
             Paddle p = paddlesIngame.get(i -1);
             RMIUser u = (RMIUser) p.getPlayer();
             if (u != null && u.getUsername(u).equals(username)) {
-                p.MoveDirection(Paddle.Direction.RIGHT);
+                p.MoveDirection(Paddle.Direction.RIGHT, new ArrayList<GameObject>(objectList));
                 break;
             }
         }
@@ -346,7 +346,7 @@ public class RMIGame implements IGame, Runnable {
         generatePlayers();
         int blockId = 0;
         try {
-            CollisionChecker.gameObjectsList.clear();
+        //    CollisionChecker.gameObjectsList.clear();
             int SpawnNumber = 0;
             Server server = new Server();
             try {
@@ -613,7 +613,7 @@ public class RMIGame implements IGame, Runnable {
      */
     public void addObject(GameObject object) {
         this.objectList.add(object);
-        CollisionChecker.gameObjectsList.add(object);
+//        CollisionChecker.gameObjectsList.add(object);
     }
 
     /**
@@ -623,9 +623,9 @@ public class RMIGame implements IGame, Runnable {
      */
     public void removeObject(GameObject object) {
         this.objectList.remove(object);
-        if (CollisionChecker.gameObjectsList.contains(object)) {
-            CollisionChecker.gameObjectsList.remove(object);
-        }
+//        if (CollisionChecker.gameObjectsList.contains(object)) {
+//            CollisionChecker.gameObjectsList.remove(object);
+//        }
         if (object instanceof Ball) {
             ballList.remove((Ball) object);
         }
@@ -967,7 +967,7 @@ public class RMIGame implements IGame, Runnable {
     public void tick() {
         for (int bCounter = ballList.size(); bCounter > 0; bCounter--) {
             Ball b = ballList.get(bCounter - 1);
-            ArrayList<GameObject> listToRemove = b.update();
+            ArrayList<GameObject> listToRemove = b.update(new ArrayList<GameObject>(objectList));
             for (int i = 0; i < listToRemove.size(); i++) {
                 removeObject(listToRemove.get(i));
             }
@@ -980,7 +980,7 @@ public class RMIGame implements IGame, Runnable {
             }
         }
         for (CPU c : botList) {
-            c.update(this.ballList);
+            c.update(this.ballList, new ArrayList<GameObject>(objectList));
         }
         // TODO: check
 //        for (Paddle p : paddleList) {

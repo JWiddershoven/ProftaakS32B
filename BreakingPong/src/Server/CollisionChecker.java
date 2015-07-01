@@ -17,7 +17,7 @@ import javafx.scene.shape.Shape;
  */
 public class CollisionChecker {
 
-    public static ArrayList<GameObject> gameObjectsList = new ArrayList<>();
+    //public static ArrayList<GameObject> gameObjectsList = new ArrayList<>();
 
     /**
      * Checks if the objectToCheck collides with other GameObjects
@@ -25,20 +25,20 @@ public class CollisionChecker {
      * @param objectToCheck
      * @return GameObject collided with
      */
-    public static GameObject collidesWithFirst(GameObject objectToCheck) {
-        if (gameObjectsList == null || gameObjectsList.isEmpty()) {
-            throw new IllegalStateException("gameObjectsList is leeg in ColliderChecker.java");
-        }
-        ArrayList<GameObject> listToCheck = new ArrayList<>(gameObjectsList);
-        for (GameObject gb : listToCheck) {
-            if (!gb.equals(objectToCheck)) {
-                if (CollisionChecker.checkCollidesWith(objectToCheck, gb)) {
-                    return gb;
-                }
-            }
-        }
-        return null;
-    }
+//    public static GameObject collidesWithFirst(GameObject objectToCheck) {
+//        if (gameObjectsList == null || gameObjectsList.isEmpty()) {
+//            throw new IllegalStateException("gameObjectsList is leeg in ColliderChecker.java");
+//        }
+//        ArrayList<GameObject> listToCheck = new ArrayList<>(gameObjectsList);
+//        for (GameObject gb : listToCheck) {
+//            if (!gb.equals(objectToCheck)) {
+//                if (CollisionChecker.checkCollidesWith(objectToCheck, gb)) {
+//                    return gb;
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * Checks if the objectToCheck collides with other GameObjects
@@ -59,20 +59,19 @@ public class CollisionChecker {
         return null;
     }
 
-    public static ArrayList<GameObject> collidesWithMultiple(GameObject objectToCheck) {
-        if (gameObjectsList == null || gameObjectsList.isEmpty()) {
-            throw new IllegalStateException("gameObjectsList is empty ColliderChecker.java");
-        }
+    public static ArrayList<GameObject> collidesWithMultiple(GameObject objectToCheck, ArrayList<GameObject> gameObjects) {
+//        if (gameObjectsList == null || gameObjectsList.isEmpty()) {
+//            throw new IllegalStateException("gameObjectsList is empty ColliderChecker.java");
+//        }
         ArrayList<GameObject> collidedObjects = new ArrayList<>();
-        ArrayList<GameObject> listToCheck = new ArrayList<>(gameObjectsList);
-        for (int i = listToCheck.size() - 1; i >= 0; i--) {
+        for (int i = gameObjects.size() - 1; i >= 0; i--) {
             // Game is closed
-            if (gameObjectsList == null) {
+            if (gameObjects == null) {
                 return new ArrayList<GameObject>();
             }
-            if (!listToCheck.get(i).equals(objectToCheck)) {
-                if (CollisionChecker.checkCollidesWith(objectToCheck, listToCheck.get(i))) {
-                    collidedObjects.add(listToCheck.get(i));
+            if (!gameObjects.get(i).equals(objectToCheck)) {
+                if (CollisionChecker.checkCollidesWith(objectToCheck, gameObjects.get(i))) {
+                    collidedObjects.add(gameObjects.get(i));
                 }
             }
         }

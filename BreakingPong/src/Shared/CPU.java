@@ -76,12 +76,12 @@ public class CPU implements Serializable {
      *
      * @param balls
      */
-    public void update(ArrayList<Ball> balls) {
+    public void update(ArrayList<Ball> balls, ArrayList<GameObject> gameObjects) {
         currentPosBall = balls;
         setClosestBall();
         if (closestBall != null) {
             try {
-                Move();
+                Move(gameObjects);
             } catch (Exception ex) {
                 Logger.getLogger(CPU.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -147,7 +147,7 @@ public class CPU implements Serializable {
      *
      * @throws java.lang.Exception
      */
-    public void Move() throws Exception {
+    public void Move(ArrayList<GameObject> gameObjects) throws Exception {
         if (this.closestBall == null) {
             throw new Exception("closestBall is null in Move()");
         }
@@ -158,54 +158,54 @@ public class CPU implements Serializable {
         try {
             if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.Direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT, gameObjects);
                 }
             } else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.NORTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.Direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT, gameObjects);
                 }
             } else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.WEST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.Direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN, gameObjects);
                 }
             } else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.EAST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.Direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN, gameObjects);
                 }
             }
         } catch (Exception e) {
             System.out.println("CPU.Move() ERROR ! : " + e.getMessage());
             if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.Direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT, gameObjects);
                 }
             } else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.NORTH) {
                 if (closestBall.getPosition().getX() > this.myPaddle.getPosition().getX() + (this.myPaddle.getSize().getX() / 2)) {
-                    myPaddle.Move(Paddle.Direction.RIGHT);
+                    myPaddle.Move(Paddle.Direction.RIGHT, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.LEFT);
+                    myPaddle.Move(Paddle.Direction.LEFT, gameObjects);
                 }
             } else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.WEST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.Direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN, gameObjects);
                 }
             } else if (this.myPaddle.getWindowLocation() == Paddle.WindowLocation.EAST) {
                 if (closestBall.getPosition().getY() > this.myPaddle.getPosition().getY() + (this.myPaddle.getSize().getY() / 2)) {
-                    myPaddle.Move(Paddle.Direction.UP);
+                    myPaddle.Move(Paddle.Direction.UP, gameObjects);
                 } else {
-                    myPaddle.Move(Paddle.Direction.DOWN);
+                    myPaddle.Move(Paddle.Direction.DOWN, gameObjects);
                 }
             }
         }

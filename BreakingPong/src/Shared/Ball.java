@@ -64,11 +64,13 @@ public class Ball extends GameObject {
 
     /**
      * updates the position of the ball
+     * @param gameObjects
+     * @return 
      */
-    public ArrayList<GameObject> update() {
+    public ArrayList<GameObject> update(ArrayList<GameObject> gameObjects) {
         ArrayList<GameObject> collidedWith = new ArrayList<>();
         ArrayList<GameObject> returnList = new ArrayList<>();
-        collidedWith.add(CollisionChecker.collidesWithFirst(this));
+        collidedWith.add(CollisionChecker.collidesWithFirst(this, gameObjects));
         boolean hasBounced = false;
         // If ball collides with something that is not a WhiteSpace.
         for (GameObject go : collidedWith) {
