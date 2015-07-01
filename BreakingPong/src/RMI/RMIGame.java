@@ -595,9 +595,9 @@ public class RMIGame implements IGame, Runnable {
                         ServerRMI.publisher.inform(i, "getPaddles" + id, null, paddleList);
                         startup++;
                     }
-                    ServerRMI.publisher.inform(i, "GetCurrentPaddles" + id, null, paddlesIngame);
+                    ServerRMI.publisher.inform(i, "GetCurrentPaddles" + id, null, new ArrayList<Paddle>(paddlesIngame));
                     ServerRMI.publisher.inform(i, "getTime" + id, null, gameTimeInSecondsRemaining);
-                    ServerRMI.publisher.inform(i, "getBalls" + id, null, ballList);
+                    ServerRMI.publisher.inform(i, "getBalls" + id, null, new ArrayList<Ball>( ballList));
                 }
             }
         }, 0, 50);
@@ -1007,7 +1007,7 @@ public class RMIGame implements IGame, Runnable {
         this.paddleList.clear();
         this.ballList.clear();
         gc();
-        ServerRMI.publisher.inform(this, "getGameOver" + id, null, true);
+        ServerRMI.publisher.inform(1, "getGameOver" + id, null, true);
         System.out.println("Exited game");
     }
 }

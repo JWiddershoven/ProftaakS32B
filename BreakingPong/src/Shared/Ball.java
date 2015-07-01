@@ -165,15 +165,15 @@ public class Ball extends GameObject {
             Paddle p = (Paddle) go;
             if (p.isEnabled()) {
                 this.lastPaddleTouched = p;
-//                if (p.getWindowLocation() == Paddle.WindowLocation.NORTH || p.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
-//                    vel.setY(bounceFloat(vel.getY()));
-//                }
-//                if (p.getWindowLocation() == Paddle.WindowLocation.WEST || p.getWindowLocation() == Paddle.WindowLocation.EAST) {
-//                    vel.setX(bounceFloat(vel.getX()));
-//                }
-//                this.setVelocity(vel);
-//            
-//            return;
+                if (p.getWindowLocation() == Paddle.WindowLocation.NORTH || p.getWindowLocation() == Paddle.WindowLocation.SOUTH) {
+                    vel.setY(bounceFloat(vel.getY()));
+                }
+                if (p.getWindowLocation() == Paddle.WindowLocation.WEST || p.getWindowLocation() == Paddle.WindowLocation.EAST) {
+                    vel.setX(bounceFloat(vel.getX()));
+                }
+                this.setVelocity(vel);
+            
+            return;
             }
         }
 
