@@ -235,6 +235,8 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             try
             {
                 System.out.println("GameOver!");
+                // Concurent modification exception
+                Thread.sleep(1000);
                 stop();
                 EventQueue.invokeLater(() -> {
                     try {
