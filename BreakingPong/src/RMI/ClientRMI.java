@@ -54,7 +54,7 @@ import javax.sound.sampled.DataLine;
  */
 public class ClientRMI extends UnicastRemoteObject implements RemotePropertyListener
 {
-
+    
     private int gameId;
     private IGame game;
     private RemotePublisher publisher;
@@ -82,14 +82,14 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
     AudioFormat format;
     DataLine.Info info;
     Clip clip;
-
+    
     public ClientRMI(Client client, int gameId) throws RemoteException
     {
         this.client = client;
         this.gameId = gameId;
         this.start();
     }
-
+    
     public void start()
     {
         Timer timer = new Timer();
@@ -102,7 +102,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 {
                     super.cancel();
                 }
-
+                
                 if (System.currentTimeMillis() - timeOut > 10 * 1000 || publisher == null)
                 {
                     System.out.println("Attempting to setup a connection");
@@ -116,7 +116,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     }
                 }
             }
-
+            
         }, 0, 500);
         try
         {
@@ -130,7 +130,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void stop()
     {
         try
@@ -138,12 +138,12 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             if (this.publisher != null)
             {
                 this.publisher.removeListener(this, "getBlocks" + gameId);
-                this.publisher.removeListener(this, "getTime"+ gameId);
-                this.publisher.removeListener(this, "getBalls"+ gameId);
-                this.publisher.removeListener(this, "getPaddles"+ gameId);
-                this.publisher.removeListener(this, "getGameOver"+ gameId);
-                this.publisher.removeListener(this, "getDestroys"+ gameId);
-                this.publisher.removeListener(this, "getChanged"+ gameId);
+                this.publisher.removeListener(this, "getTime" + gameId);
+                this.publisher.removeListener(this, "getBalls" + gameId);
+                this.publisher.removeListener(this, "getPaddles" + gameId);
+                this.publisher.removeListener(this, "getGameOver" + gameId);
+                this.publisher.removeListener(this, "getDestroys" + gameId);
+                this.publisher.removeListener(this, "getChanged" + gameId);
             }
             UnicastRemoteObject.unexportObject(this, true);
         } catch (RemoteException ex)
@@ -151,21 +151,21 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void connect()
     {
         try
         {
             this.reg = LocateRegistry.getRegistry(StaticConstants.SERVER_IP_ADDRESS, StaticConstants.SERVER_PORT);
             this.publisher = (RemotePublisher) this.reg.lookup("gameServer");
-            this.publisher.addListener(this, "getBlocks"+ gameId);
-            this.publisher.addListener(this, "getTime"+ gameId);
-            this.publisher.addListener(this, "getBalls"+ gameId);
-            this.publisher.addListener(this, "getPaddles"+ gameId);
-            this.publisher.addListener(this, "getGameOver"+ gameId);
-            this.publisher.addListener(this, "getDestroys"+ gameId);
-            this.publisher.addListener(this, "getChanged"+ gameId);
-            this.publisher.addListener(this, "GetCurrentPaddles"+ gameId);
+            this.publisher.addListener(this, "getBlocks" + gameId);
+            this.publisher.addListener(this, "getTime" + gameId);
+            this.publisher.addListener(this, "getBalls" + gameId);
+            this.publisher.addListener(this, "getPaddles" + gameId);
+            this.publisher.addListener(this, "getGameOver" + gameId);
+            this.publisher.addListener(this, "getDestroys" + gameId);
+            this.publisher.addListener(this, "getChanged" + gameId);
+            this.publisher.addListener(this, "GetCurrentPaddles" + gameId);
             // CRASHERINO HERE
             this.client.connection.joinGame(ClientGUI.joinedLobby.getLobbyID(), ClientGUI.CurrentSession.getUsername());
             System.out.println("Game joined");
@@ -177,15 +177,15 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             this.timeOut = System.currentTimeMillis();
         }
     }
-
+    
     @Override
     public void propertyChange(PropertyChangeEvent evt) throws RemoteException
     {
         //Draw all blocks from server
 
-        if (evt.getPropertyName().equals("getBlocks"+ gameId))
+        if (evt.getPropertyName().equals("getBlocks" + gameId))
         {
-
+            
             client.undestroyableblockList = new ArrayList<>();
             Block[] blocks = (Block[]) evt.getNewValue();
             for (int i = 0; i < blocks.length; i++)
@@ -194,7 +194,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
             //System.out.println(client.blockList.size() + new Date().toString());
 
-        } else if (evt.getPropertyName().equals("getDestroys"+ gameId))
+        } else if (evt.getPropertyName().equals("getDestroys" + gameId))
         {
             if (client.destroyableList == null || client.destroyableList.isEmpty())
             {
@@ -206,21 +206,21 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 }
             }
         } //Draw all balls from server
-        else if (evt.getPropertyName().equals("getBalls"+ gameId))
+        else if (evt.getPropertyName().equals("getBalls" + gameId))
         {
             client.ballList = new ArrayList<>();
             client.ballList = (ArrayList<Ball>) evt.getNewValue();
         } //Draw all paddles from server
-        else if (evt.getPropertyName().equals("getPaddles"+ gameId))
+        else if (evt.getPropertyName().equals("getPaddles" + gameId))
         {
             client.paddleList = new ArrayList<>();
             client.paddleList = (ArrayList<Paddle>) evt.getNewValue();
-        } else if (evt.getPropertyName().equals("GetCurrentPaddles"+ gameId))
+        } else if (evt.getPropertyName().equals("GetCurrentPaddles" + gameId))
         {
             client.paddlesIngame = new ArrayList<>();
             client.paddlesIngame = (ArrayList<Paddle>) evt.getNewValue();
         }// Get the gametime from server
-        else if (evt.getPropertyName().equals("getTime"+ gameId))
+        else if (evt.getPropertyName().equals("getTime" + gameId))
         {
             Platform.runLater(new Runnable()
             {
@@ -230,7 +230,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     newGameTime = evt.getNewValue().toString();
                 }
             });
-        } else if (evt.getPropertyName().equals("getGameOver"+ gameId))
+        } else if (evt.getPropertyName().equals("getGameOver" + gameId))
         {
             try
             {
@@ -238,26 +238,36 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 // Concurent modification exception
                 Thread.sleep(1000);
                 stop();
-                EventQueue.invokeLater(() -> {
-                    try {
-                        Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
-                        Scene scene = new Scene(root);
-                        mainStage.setScene(scene);
-                        mainStage.show();
-                        //client.shutDown();
-                    }
-                    catch (IOException ex) {
-                        Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
-
+//                EventQueue.invokeLater(() -> {
+//                   
+//                });
+                Platform.runLater(new Runnable()
+                {
+                    
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            Parent root = FXMLLoader.load(getClass().getResource("LobbySelect.fxml"));
+                            Scene scene = new Scene(root);
+                            mainStage.setScene(scene);
+                            mainStage.show();
+                            //client.shutDown();
+                        } catch (IOException ex)
+                        {
+                            Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
+                            
+                        }
                     }
                 });
-
+                
                 return;
             } catch (Exception ex)
             {
                 Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (evt.getPropertyName().equals("getChanged"+ gameId))
+        } else if (evt.getPropertyName().equals("getChanged" + gameId))
         {
             int id = (int) evt.getNewValue();
             Block objectToRemove = null;
@@ -289,7 +299,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-
+        
         try
         {
             drawGame();
@@ -298,10 +308,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             Logger.getLogger(ClientRMI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void drawGame()
     {
-
+        
         Platform.runLater(new Runnable()
         {
             @Override
@@ -310,10 +320,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 client.root.getChildren().clear();
             }
         });
-
+        
         if (client.paddlesIngame != null)
         {
-
+            
             Platform.runLater(new Runnable()
             {
                 @Override
@@ -331,10 +341,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 }
             });
         }
-
+        
         if (client.ballList != null)
         {
-
+            
             Platform.runLater(new Runnable()
             {
                 @Override
@@ -352,10 +362,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                 }
             });
         }
-
+        
         if (client.undestroyableblockList != null)
         {
-
+            
             Platform.runLater(new Runnable()
             {
                 @Override
@@ -375,10 +385,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             }
             );
         }
-
+        
         if (client.destroyableList != null)
         {
-
+            
             Platform.runLater(new Runnable()
             {
                 @Override
@@ -409,9 +419,9 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     }
                 }
             });
-
+            
         }
-
+        
         long currentTime = System.currentTimeMillis();
         if (currentTime > nextSecond)
         {
@@ -420,10 +430,10 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
             framesInCurrentSecond = 0;
         }
         framesInCurrentSecond++;
-
+        
         Platform.runLater(new Runnable()
         {
-
+            
             @Override
             public void run()
             {
@@ -433,7 +443,7 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                     gameTimeLabel.setFont(Font.font("Verdana", 20));
                     gameTimeLabel.setFill(Color.WHITE);
                     client.root.getChildren().add(gameTimeLabel);
-
+                    
                     fpsLabel = new Text(25, 140, "FPS " + frameInLastSecond);
                     fpsLabel.setFont(Font.font("Verdana", 20));
                     fpsLabel.setFill(Color.WHITE);
@@ -445,22 +455,21 @@ public class ClientRMI extends UnicastRemoteObject implements RemotePropertyList
                             try
                             {
                                 
-                            Text scoreText;
-                            if (client.paddleList.get(i).getPlayer() != null)
-                            {
-                                scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getPlayer().getUsername(null) + " : " + client.paddlesIngame.get(i).getScore());
-                            } else if (client.paddlesIngame.get(i).getCPU() != null)
-                            {
-                                scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getCPU().getName() + " : " + client.paddlesIngame.get(i).getScore());
-                            } else
-                            {
-                                break;
-                            }
-                            scoreText.setFont(Font.font("Verdana", 20));
-                            scoreText.setFill(Color.WHITE);
-                            client.root.getChildren().add(scoreText);
-                            }
-                            catch(NullPointerException ex)
+                                Text scoreText;
+                                if (client.paddleList.get(i).getPlayer() != null)
+                                {
+                                    scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getPlayer().getUsername(null) + " : " + client.paddlesIngame.get(i).getScore());
+                                } else if (client.paddlesIngame.get(i).getCPU() != null)
+                                {
+                                    scoreText = new Text(25, 50 + (i * 20), client.paddlesIngame.get(i).getCPU().getName() + " : " + client.paddlesIngame.get(i).getScore());
+                                } else
+                                {
+                                    break;
+                                }
+                                scoreText.setFont(Font.font("Verdana", 20));
+                                scoreText.setFill(Color.WHITE);
+                                client.root.getChildren().add(scoreText);
+                            } catch (NullPointerException ex)
                             {
                                 
                             }
